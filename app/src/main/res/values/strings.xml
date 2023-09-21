@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">OrpheusJetpackCompose</string>
+
+    <string name="stay_with_your_friends">Начните свое путешествие музыканта</string>
+    <string name="get_started">Начать!</string>
+    <string name="add_story">Add Story</string>
+    <string name="online">Онлайн</string>
+    <string name="type_message">Ввести сообщение</string>
+    <string name="welcome_back">"Здравствуй, "</string>
+    <string name="okay">Хорошо</string>
+    <string name="_12_23_pm">12:23</string>
 </resources>
