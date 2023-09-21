@@ -1,4 +1,4 @@
-package ru.potemkin.orpheusjetpackcompose.ui.theme
+package ru.potemkin.orpheusjetpackcompose.presentation
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
