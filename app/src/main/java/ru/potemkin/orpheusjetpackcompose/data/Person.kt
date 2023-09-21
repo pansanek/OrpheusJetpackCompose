@@ -14,52 +14,52 @@ data class Person(
 val personList = listOf(
     Person(
         1,
-        "Pranav",
-        R.drawable.ic_launcher_foreground
+        "Patty",
+        R.drawable.sample1
     ),
     Person(
         2,
-        "Ayesha",
-        R.drawable.ic_launcher_foreground
+        "Arina",
+        R.drawable.sample2
     ),
     Person(
         3,
-        "Roshini",
-        R.drawable.ic_launcher_foreground
+        "Masha",
+        R.drawable.sample3
     ),
     Person(
         4,
-        "Kaushik",
-        R.drawable.ic_launcher_foreground
+        "Lera",
+        R.drawable.sample4
     ),
     Person(
         5,
-        "Dad",
-        R.drawable.ic_launcher_foreground
+        "Wilya",
+        R.drawable.sample4
     ),
     Person(
         6,
-        "Pranav",
-        R.drawable.ic_launcher_foreground
+        "Mom",
+        R.drawable.sample2
     ),
     Person(
         7,
-        "Ayesha",
-        R.drawable.ic_launcher_foreground
+        "Mommy",
+        R.drawable.sample1
     ),
     Person(
         8,
-        "Roshini",
-        R.drawable.ic_launcher_foreground
+        "Lean",
+        R.drawable.sample1
     ),
     Person(
         9,
-        "Kaushik",
-        R.drawable.ic_launcher_foreground
+        "Larry",
+        R.drawable.sample4
     ),
     Person(
         10,
-        "Dad",
-        R.drawable.ic_launcher_foreground
+        "Ariana",
+        R.drawable.sample2
     ),
 )
