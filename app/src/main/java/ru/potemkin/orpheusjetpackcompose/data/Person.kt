@@ -14,52 +14,42 @@ data class Person(
 val personList = listOf(
     Person(
         1,
-        "Patty",
+        "Лиза",
         R.drawable.sample1
     ),
     Person(
         2,
-        "Arina",
+        "Антон",
         R.drawable.sample2
     ),
     Person(
         3,
-        "Masha",
+        "Тамби",
         R.drawable.sample3
     ),
     Person(
         4,
-        "Lera",
+        "Саша",
         R.drawable.sample4
     ),
     Person(
         5,
-        "Wilya",
-        R.drawable.sample4
+        "Макар",
+        R.drawable.sample5
     ),
     Person(
         6,
-        "Mom",
-        R.drawable.sample2
+        "Дима",
+        R.drawable.sample6
     ),
     Person(
         7,
-        "Mommy",
-        R.drawable.sample1
+        "Арс",
+        R.drawable.sample7
     ),
     Person(
         8,
-        "Lean",
-        R.drawable.sample1
-    ),
-    Person(
-        9,
-        "Larry",
-        R.drawable.sample4
-    ),
-    Person(
-        10,
-        "Ariana",
-        R.drawable.sample2
-    ),
+        "Сережа",
+        R.drawable.sample8
+    )
 )

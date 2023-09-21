@@ -26,6 +26,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -35,6 +36,7 @@ import ru.potemkin.orpheusjetpackcompose.data.personList
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerHeight
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.CHAT_SCREEN
+import ru.potemkin.orpheusjetpackcompose.presentation.navigation.MainNavigation
 import ru.potemkin.orpheusjetpackcompose.presentation.theme.*
 
 @Composable
@@ -216,3 +218,4 @@ fun Modifier.noRippleEffect(onClick: () -> Unit) = composed {
         onClick()
     }
 }
+
