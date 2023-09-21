@@ -1,71 +1,71 @@
 package ru.potemkin.orpheusjetpackcompose.data
 
 data class Chat(
-    val id:Int,
-    val message:String,
-    val time:String,
-    val direction:Boolean
+    val id: Int,
+    val message: String,
+    val time: String,
+    val direction: Boolean
 )
 
-val chatList = listOf(
+val chatList= listOf(
     Chat(
         1,
-        "Hey! How have you been?",
+        "Привет! Как ты?",
         "12:15 PM",
         true
     ),
     Chat(
         2,
-        "Wanna catch up for a beer?",
+        "Хочешь встретиться?",
         "12:17 PM",
         true
     ),
     Chat(
         3,
-        "Awesome! Let’s meet up",
+        "Да!",
         "12:19 PM",
         false
     ),
     Chat(
         4,
-        "Can I also get my cousin along? Will that be okay?",
+        "Куда пойдем?",
         "12:20 PM",
         false
     ),
     Chat(
         5,
-        "Yeah sure! get him too.",
+        "Как насчет бара?)",
         "12:21 PM",
         true
     ),
     Chat(
         6,
-        "Hey! How have you been?",
+        "Опа, а давай",
         "12:15 PM",
         false
     ),
     Chat(
         7,
-        "Wanna catch up for a beer?",
+        "Только в какой?",
         "12:17 PM",
-        true
+        false
     ),
     Chat(
         8,
-        "Awesome! Let’s meet up",
+        "В один на Маяковской",
         "12:19 PM",
-        false
+        true
     ),
     Chat(
         9,
-        "Can I also get my cousin along? Will that be okay?",
+        "Очень хорошее место",
         "12:20 PM",
-        false
+        true
     ),
     Chat(
         10,
-        "Yeah sure! get him too.",
+        "Хорошо",
         "12:21 PM",
-        true
-    ),
+        false
+    )
 )

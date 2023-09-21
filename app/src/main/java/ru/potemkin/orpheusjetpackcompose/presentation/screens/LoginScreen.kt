@@ -114,19 +114,6 @@ fun LoginScreen(
                             }
                         }
                     }
-//                    LoginContainer(
-//                        emailValue = { loginViewModel.loginState.emailInput },
-//                        passwordValue = { loginViewModel.loginState.passwordInput },
-//                        buttonEnabled = { loginViewModel.loginState.isInputValid },
-//                        onEmailChanged = loginViewModel::onEmailInputChange,
-//                        onPasswordChanged = loginViewModel::onPasswordInputChange,
-//                        onLoginButtonClick = loginViewModel::onLoginClick,
-//                        isPasswordShown = { loginViewModel.loginState.isPasswordShown },
-//                        onTrailingPasswordIconClick = loginViewModel::onToggleVisualTransformation,
-//                        errorHint = { loginViewModel.loginState.errorMessageInput },
-//                        isLoading = { loginViewModel.loginState.isLoading },
-//                        modifier = Modifier.fillMaxWidth()
-//                    )
                     Column(verticalArrangement = Arrangement.Bottom) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
