@@ -1,5 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.screens
 
+import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,9 +15,11 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
@@ -43,6 +46,8 @@ import ru.potemkin.orpheusjetpackcompose.data.Person
 import ru.potemkin.orpheusjetpackcompose.data.chatList
 import ru.potemkin.orpheusjetpackcompose.presentation.theme.*
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
     navHostController: NavHostController
@@ -60,42 +65,55 @@ fun ChatScreen(
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            UserNameRow(
-                person = data,
-                modifier = Modifier.padding(top = 60.dp, start = 20.dp, end = 20.dp, bottom = 20.dp)
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        Color.White, RoundedCornerShape(
-                            topStart = 30.dp, topEnd = 30.dp
-                        )
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        {
+                            UserNameRow(
+                                person = data,
+                                modifier = Modifier
+                                    .background(Green)
+                            )
+                        }
                     )
-                    .padding(top = 25.dp)
+                },
+                bottomBar = {
+                    CustomTextField(
+                        text = message, onValueChange = { message = it },
+                        modifier = Modifier
+                            .padding(horizontal = 20.dp, vertical = 20.dp)
+                    )
+                }
+                , content = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(
+                                Color.White, RoundedCornerShape(
+                                    topStart = 30.dp, topEnd = 30.dp
+                                )
+                            )
+                            .padding(top = 25.dp)
 
-            ) {
-                LazyColumn(
-                    modifier = Modifier.padding(
-                        start = 15.dp,
-                        top = 25.dp,
-                        end = 15.dp,
-                        bottom = 75.dp
-                    )
-                ) {
-                    items(chatList, key = { it.id }) {
-                        ChatRow(chat = it)
+                    ) {
+                        LazyColumn(
+                            modifier = Modifier.padding(
+                                start = 15.dp,
+                                top = 25.dp,
+                                end = 15.dp,
+                                bottom = 75.dp
+                            )
+                        ) {
+                            items(chatList, key = { it.id }) {
+                                ChatRow(chat = it)
+                            }
+                        }
                     }
                 }
-            }
+            )
         }
 
-        CustomTextField(
-            text = message, onValueChange = { message = it },
-            modifier = Modifier
-                .padding(horizontal = 20.dp, vertical = 20.dp)
-                .align(BottomCenter)
-        )
+
     }
 
 }
