@@ -54,6 +54,9 @@ import ru.potemkin.orpheusjetpackcompose.data.personList
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerHeight
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.CHAT_SCREEN
+import ru.potemkin.orpheusjetpackcompose.presentation.navigation.MAP_SCREEN
+import ru.potemkin.orpheusjetpackcompose.presentation.navigation.NEWS_SCREEN
+import ru.potemkin.orpheusjetpackcompose.presentation.navigation.PROFILE_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,7 +67,9 @@ fun ChatListScreen(
 ) {
     Scaffold(
         bottomBar = {
-            NavigationBar()
+            ru.potemkin.orpheusjetpackcompose.presentation.components.NavigationBar(
+                navHostController = navHostController
+            )
         },
         content = {
             Box(
@@ -245,34 +250,7 @@ fun Modifier.noRippleEffect(onClick: () -> Unit) = composed {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun NavigationBar() {
-    val navController = rememberNavController()
-    val items = listOf(
-        BottomNavItem("Новости", Icons.Default.Newspaper, "news"),
-        BottomNavItem("Карта", Icons.Default.Map, "map"),
-        BottomNavItem("Чаты", Icons.Default.ChatBubble, "chat"),
-        BottomNavItem("Профиль", Icons.Default.Person, "profile")
-    )
-
-    BottomNavigation(
-        backgroundColor = Color.White
-    ) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
-        items.forEach { item ->
-            BottomNavigationItem(
-                icon = { Icon(imageVector = item.icon, contentDescription = item.label) },
-                label = { Text(text = item.label) },
-                selected = currentRoute == item.route,
-                onClick = {
-                    Log.d("NAV", "Clicked ${item.route}")
-                }
-            )
-        }
-    }
 
 
-}
+
 
