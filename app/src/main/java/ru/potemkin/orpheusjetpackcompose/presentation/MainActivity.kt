@@ -21,12 +21,18 @@ import ru.potemkin.orpheusjetpackcompose.presentation.theme.OrpheusJetpackCompos
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        MapKitFactory.setApiKey("YOUR_API_KEY")
         setContent {
             OrpheusJetpackComposeTheme {
                 MainNavigation()
             }
         }
     }
+
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        MapKitFactory.getInstance().onDestroy()
+//    }
 }
 
 
