@@ -41,7 +41,7 @@ fun NewsFeedScreen( navHostController: NavHostController) {
             )
         },
         bottomBar = {
-            ru.potemkin.orpheusjetpackcompose.presentation.components.NavigationBar(
+            ru.potemkin.orpheusjetpackcompose.presentation.components.BottomNavigationBar(
                 navHostController = navHostController
             )
         }
