@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import ru.potemkin.orpheusjetpackcompose.presentation.components.PostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.theme.Green
 import ru.potemkin.orpheusjetpackcompose.presentation.theme.OrpheusJetpackComposeTheme
 
@@ -29,7 +30,7 @@ fun NewsFeedScreen( navHostController: NavHostController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Orpheus") },
+                title = { Text(text = "Новости") },
                 actions = {
                     IconButton(onClick = { /* Handle search click */ }) {
                         Icon(imageVector = Icons.Default.Search, contentDescription = null)
@@ -76,38 +77,11 @@ fun NewsFeedScreen( navHostController: NavHostController) {
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(10) { index ->
-                    NewsFeedItem(index)
+                    PostItem(index)
                 }
             }
         }
     }
 }
 
-@Composable
-fun NewsFeedItem(index: Int) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 6.dp
-        ),
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Text(
-                text = "News Feed Item $index",
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            Text(
-                text = "Description for item $index",
-                style = MaterialTheme.typography.bodySmall,
-                color = Color.Gray
-            )
-        }
-    }
-}
+

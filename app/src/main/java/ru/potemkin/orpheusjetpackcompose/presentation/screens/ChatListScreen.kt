@@ -57,6 +57,7 @@ import ru.potemkin.orpheusjetpackcompose.presentation.navigation.CHAT_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.MAP_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.NEWS_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.PROFILE_SCREEN
+import ru.potemkin.orpheusjetpackcompose.presentation.navigation.USER_PROFILE_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -102,7 +103,7 @@ fun ChatListScreen(
                             modifier = Modifier.padding(bottom = 15.dp, top = 30.dp)
                         ) {
                             items(personList, key = { it.id }) {
-                                UserEachRow(person = it) {
+                                UserEachRow(person = it,navHostController) {
                                     navHostController.currentBackStackEntry?.savedStateHandle?.set(
                                         "data",
                                         it
@@ -154,7 +155,8 @@ fun BottomSheetSwipeUp(
 @Composable
 fun UserEachRow(
     person: Person,
-    onClick: () -> Unit
+    navHostController: NavHostController,
+    onClick: () -> Unit,
 ) {
 
     Box(
@@ -170,6 +172,7 @@ fun UserEachRow(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row {
+
                     Image(
                         painter = painterResource(person.icon),
                         contentDescription = "avatar",
@@ -177,6 +180,9 @@ fun UserEachRow(
                         modifier = Modifier
                             .size(64.dp)
                             .clip(CircleShape)
+                            .clickable {
+                                navHostController.navigate(USER_PROFILE_SCREEN)
+                            }
                     )
                     SpacerWidth()
                     Column {

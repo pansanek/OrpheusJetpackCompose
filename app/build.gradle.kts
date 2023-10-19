@@ -70,6 +70,9 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.6.0")
     implementation("androidx.compose.material:material-icons-extended:1.5.0-alpha04")
     implementation("androidx.compose.material:material:1.5.1")
-    implementation("com.yandex.android:maps:4.0.1")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.23.0")
+    implementation( "com.google.accompanist:accompanist-pager:0.23.0")
+
+    //implementation("com.yandex.android:maps:4.0.1")
 
 }

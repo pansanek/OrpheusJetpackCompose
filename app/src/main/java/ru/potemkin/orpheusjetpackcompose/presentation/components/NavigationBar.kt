@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.potemkin.orpheusjetpackcompose.data.BottomNavItem
+import ru.potemkin.orpheusjetpackcompose.presentation.navigation.CHAT_LIST_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.CHAT_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.MAP_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.NEWS_SCREEN
@@ -27,7 +28,7 @@ fun NavigationBar(navHostController: NavHostController) {
     val items = listOf(
         BottomNavItem("Новости", Icons.Default.Newspaper, NEWS_SCREEN),
         BottomNavItem("Карта", Icons.Default.Map, MAP_SCREEN),
-        BottomNavItem("Чаты", Icons.Default.ChatBubble, CHAT_SCREEN),
+        BottomNavItem("Чаты", Icons.Default.ChatBubble, CHAT_LIST_SCREEN),
         BottomNavItem("Профиль", Icons.Default.Person, PROFILE_SCREEN)
     )
 
@@ -39,7 +40,6 @@ fun NavigationBar(navHostController: NavHostController) {
         items.forEach { item ->
             BottomNavigationItem(
                 icon = { Icon(imageVector = item.icon, contentDescription = item.label) },
-                label = { Text(text = item.label) },
                 selected = currentRoute == item.route,
                 onClick = {
                     Log.d("NAV", "Clicked ${item.route}")

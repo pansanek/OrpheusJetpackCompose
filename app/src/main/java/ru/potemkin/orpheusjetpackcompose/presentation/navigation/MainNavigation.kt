@@ -8,6 +8,7 @@ import ru.potemkin.orpheusjetpackcompose.presentation.screens.ChatListScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.ChatScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.LoginScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.NewsFeedScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.screens.ProfileScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.RegistrationScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.StartScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.UserProfileScreen
@@ -37,6 +38,9 @@ fun MainNavigation() {
             NewsFeedScreen(navHostController)
         }
         composable(PROFILE_SCREEN) {
+            ProfileScreen(navHostController)
+        }
+        composable(USER_PROFILE_SCREEN) {
             UserProfileScreen(navHostController)
         }
     }
@@ -51,3 +55,4 @@ const val REG_SCREEN = "Registration screen"
 const val NEWS_SCREEN = "News screen"
 const val MAP_SCREEN = "Map screen"
 const val PROFILE_SCREEN = "Profile screen"
+const val USER_PROFILE_SCREEN = "User profile screen"
