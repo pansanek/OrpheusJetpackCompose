@@ -45,6 +45,7 @@ fun BottomNavigationBar(navHostController: NavHostController) {
             NavigationDrawerItem(
                 icon = { Icon(imageVector = item.icon, contentDescription = item.label) },
                 selected = currentRoute == item.route,
+                label = { Text(text = item.label) },
                 onClick = {
                     Log.d("NAV", "Clicked ${item.route}")
                     navHostController.navigate(item.route)

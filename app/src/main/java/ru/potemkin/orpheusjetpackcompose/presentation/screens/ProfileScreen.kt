@@ -10,13 +10,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.potemkin.orpheusjetpackcompose.presentation.components.PostItem
+import ru.potemkin.orpheusjetpackcompose.presentation.components.profile_comp.ProfileHeader
+import ru.potemkin.orpheusjetpackcompose.presentation.components.profile_comp.ProfileTopBar
 import ru.potemkin.orpheusjetpackcompose.presentation.components.user_profile_comp.UserProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.user_profile_comp.UserProfileTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun UserProfileScreen(navHostController: NavHostController) {
+fun ProfileScreen(navHostController: NavHostController) {
     var text by remember { mutableStateOf("") }
     val scrollState = rememberLazyListState()
     val topBarHeight = 56.dp // Замените на высоту вашего TopBar
@@ -27,18 +29,19 @@ fun UserProfileScreen(navHostController: NavHostController) {
             )
         },
         topBar = {
-            UserProfileTopBar(
+            ProfileTopBar(
                 navHostController
             )
         }
-    ) {
+    )
+    {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
             // Здесь мы используем Modifier.graphicsLayer для анимации Header
-            UserProfileHeader(
+            ProfileHeader(
                 scrollState = scrollState,
                 topBarHeight = topBarHeight
             )
@@ -53,8 +56,7 @@ fun UserProfileScreen(navHostController: NavHostController) {
                 }
             }
 
-            UserProfileTopBar(navHostController)
-
+            ProfileTopBar(navHostController)
         }
     }
 }
