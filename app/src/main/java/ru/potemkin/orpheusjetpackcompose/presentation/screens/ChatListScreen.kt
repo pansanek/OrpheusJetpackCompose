@@ -1,8 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.screens
 
 import android.annotation.SuppressLint
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,22 +10,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomAppBar
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ChatBubble
-import androidx.compose.material.icons.filled.Map
-import androidx.compose.material.icons.filled.Newspaper
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -44,28 +31,22 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import ru.potemkin.orpheusjetpackcompose.R
-import ru.potemkin.orpheusjetpackcompose.data.BottomNavItem
-import ru.potemkin.orpheusjetpackcompose.data.Person
-import ru.potemkin.orpheusjetpackcompose.data.personList
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerHeight
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.CHAT_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.MAP_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.NEWS_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.PROFILE_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.USER_PROFILE_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.theme.*
+import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.ChatListViewModel
+import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.ChatViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ChatListScreen(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    chatListViewModel: ChatListViewModel
 ) {
     Scaffold(
         bottomBar = {
@@ -103,8 +84,8 @@ fun ChatListScreen(
                         LazyColumn(
                             modifier = Modifier.padding(bottom = 15.dp, top = 30.dp)
                         ) {
-                            items(personList, key = { it.id }) {
-                                UserEachRow(person = it,navHostController) {
+                            items(chatListViewModel.userList, key = { it.id }) {
+                                UserEachRow(user = it,navHostController) {
                                     navHostController.currentBackStackEntry?.savedStateHandle?.set(
                                         "data",
                                         it
@@ -155,7 +136,7 @@ fun BottomSheetSwipeUp(
 
 @Composable
 fun UserEachRow(
-    person: Person,
+    user: UserItem,
     navHostController: NavHostController,
     onClick: () -> Unit,
 ) {
@@ -175,7 +156,7 @@ fun UserEachRow(
                 Row {
 
                     Image(
-                        painter = painterResource(person.icon),
+                        painter = painterResource(user.icon),
                         contentDescription = "avatar",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -188,7 +169,7 @@ fun UserEachRow(
                     SpacerWidth()
                     Column {
                         Text(
-                            text = person.name, style = TextStyle(
+                            text = user.name, style = TextStyle(
                                 color = Color.Black, fontSize = 15.sp, fontWeight = FontWeight.Bold
                             )
                         )

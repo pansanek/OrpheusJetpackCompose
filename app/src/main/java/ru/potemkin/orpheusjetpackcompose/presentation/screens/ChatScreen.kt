@@ -22,7 +22,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,24 +37,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import ru.potemkin.orpheusjetpackcompose.R
-import ru.potemkin.orpheusjetpackcompose.presentation.components.IconComponentDrawable
 import ru.potemkin.orpheusjetpackcompose.presentation.components.IconComponentImageVector
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
-import ru.potemkin.orpheusjetpackcompose.data.Chat
-import ru.potemkin.orpheusjetpackcompose.data.Person
-import ru.potemkin.orpheusjetpackcompose.data.chatList
+import ru.potemkin.orpheusjetpackcompose.domain.entities.MessageItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.theme.*
+import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.ChatViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    chatViewModel: ChatViewModel
 ) {
 
     var message by remember { mutableStateOf("") }
     val data =
-        navHostController.previousBackStackEntry?.savedStateHandle?.get<Person>("data") ?: Person()
+        navHostController.previousBackStackEntry?.savedStateHandle?.get<UserItem>("data") ?: UserItem()
 
     Box(
         modifier = Modifier
@@ -70,7 +69,7 @@ fun ChatScreen(
                     TopAppBar(
                         {
                             UserNameRow(
-                                person = data,
+                                user = data,
                                 modifier = Modifier
                                     .background(Green)
                             )
@@ -104,8 +103,8 @@ fun ChatScreen(
                                 bottom = 75.dp
                             )
                         ) {
-                            items(chatList, key = { it.id }) {
-                                ChatRow(chat = it)
+                            items(chatViewModel.messageList, key = { it.id }) {
+                                ChatRow(message = it)
                             }
                         }
                     }
@@ -120,23 +119,23 @@ fun ChatScreen(
 
 @Composable
 fun ChatRow(
-    chat: Chat
+    message: MessageItem
 ) {
 
     Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = if (chat.direction) Alignment.Start else Alignment.End
+        horizontalAlignment = if (message.direction) Alignment.Start else Alignment.End
     ) {
         Box(
             modifier = Modifier
                 .background(
-                    if (chat.direction) White else LightGreen,
+                    if (message.direction) White else LightGreen,
                     RoundedCornerShape(100.dp)
                 ),
             contentAlignment = Center
         ) {
             Text(
-                text = chat.message, style = TextStyle(
+                text = message.message, style = TextStyle(
                     color = Color.Black,
                     fontSize = 15.sp
                 ),
@@ -145,7 +144,7 @@ fun ChatRow(
             )
         }
         Text(
-            text = chat.time,
+            text = message.time,
             style = TextStyle(
                 color = Black,
                 fontSize = 12.sp
@@ -224,7 +223,7 @@ fun CommonIconButtonDrawable(
 @Composable
 fun UserNameRow(
     modifier: Modifier = Modifier,
-    person: Person
+    user: UserItem
 ) {
 
     Row(
@@ -234,7 +233,7 @@ fun UserNameRow(
         Row {
 
             Image(
-                painter = painterResource(person.icon),
+                painter = painterResource(user.icon),
                 contentDescription = "avatar",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -244,7 +243,7 @@ fun UserNameRow(
             SpacerWidth()
             Column {
                 Text(
-                    text = person.name, style = TextStyle(
+                    text = user.name, style = TextStyle(
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp
