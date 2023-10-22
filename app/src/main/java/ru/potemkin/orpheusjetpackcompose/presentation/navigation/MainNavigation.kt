@@ -12,21 +12,25 @@ import ru.potemkin.orpheusjetpackcompose.presentation.screens.ProfileScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.RegistrationScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.StartScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.UserProfileScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.ChatListViewModel
+import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.ChatViewModel
 
 @Composable
 fun MainNavigation() {
 
     val navHostController = rememberNavController()
+    val chatViewModel = ChatViewModel()
+    val chatListViewModel = ChatListViewModel()
 
     NavHost(navController = navHostController, startDestination = START_SCREEN) {
         composable(START_SCREEN) {
             StartScreen(navHostController)
         }
         composable(CHAT_LIST_SCREEN) {
-            ChatListScreen(navHostController)
+            ChatListScreen(navHostController,chatListViewModel)
         }
         composable(CHAT_SCREEN) {
-            ChatScreen(navHostController)
+            ChatScreen(navHostController,chatViewModel)
         }
         composable(LOG_SCREEN) {
             LoginScreen(navHostController)

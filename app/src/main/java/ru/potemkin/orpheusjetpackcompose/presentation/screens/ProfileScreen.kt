@@ -12,8 +12,6 @@ import androidx.navigation.NavHostController
 import ru.potemkin.orpheusjetpackcompose.presentation.components.PostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.profile_comp.ProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.profile_comp.ProfileTopBar
-import ru.potemkin.orpheusjetpackcompose.presentation.components.user_profile_comp.UserProfileHeader
-import ru.potemkin.orpheusjetpackcompose.presentation.components.user_profile_comp.UserProfileTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

@@ -1,4 +1,4 @@
-package ru.potemkin.orpheusjetpackcompose.data
+package ru.potemkin.orpheusjetpackcompose.domain.entities
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

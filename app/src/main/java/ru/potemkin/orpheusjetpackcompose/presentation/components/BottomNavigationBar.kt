@@ -18,9 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import ru.potemkin.orpheusjetpackcompose.data.BottomNavItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.BottomNavItem
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.CHAT_LIST_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.CHAT_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.MAP_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.NEWS_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.PROFILE_SCREEN

@@ -11,15 +11,11 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.potemkin.orpheusjetpackcompose.presentation.components.PostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.theme.Green
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.OrpheusJetpackComposeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
