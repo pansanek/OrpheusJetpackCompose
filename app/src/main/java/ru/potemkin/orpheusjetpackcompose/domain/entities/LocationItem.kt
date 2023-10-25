@@ -6,12 +6,16 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class LocationItem(
-    val name: String,
-    val description: String,
+    var id: Int = UNDEFINED_ID,
+    var name: String,
+    var description: String,
     val address: String,
     @DrawableRes val photo: Int,
     val type: String,
-    val administratorId: Int
+    var administratorId: Int
 ): Parcelable {
 
+    companion object{
+        const val UNDEFINED_ID = 0
+    }
 }
