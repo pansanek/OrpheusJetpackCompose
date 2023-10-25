@@ -47,57 +47,31 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
+import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.BottomNavigationBar
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.CHAT_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.LOCATION_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.USER_PROFILE_SCREEN
+import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.MapViewModel
 
 //import com.yandex.mapkit.MapKitFactory
 //import com.yandex.mapkit.map.Map
 //import com.yandex.mapkit.mapview.MapView
 
-data class Location(
-    val name: String,
-    val description: String,
-    val address: String,
-    @DrawableRes val photo: Int,
-    val type: String,
-    val administratorId: Int
-)
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MapScreen(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    mapViewModel: MapViewModel
 ) {
 
-    val locations = remember {
-        mutableStateListOf(
-            Location(
-                "Культ",
-                "КУЛЬТ - настоящий храм творчества и оплот музыкальной КУЛЬТуры, созданный музыкантами для музыкантов.",
-                "Электрозаводская улица, 21, Москва",
-                ru.potemkin.orpheusjetpackcompose.R.drawable.location1,
-                "Repbase",
-                1
 
-            )
-        )
-    }
 
 // Create a mutable state for the selected location
-    var selectedLocation by remember { mutableStateOf<Location?>(null) }
+    var selectedLocation by remember { mutableStateOf<LocationItem?>(null) }
 
-    // Create a function to show the details dialog
-    fun showDetailsDialog(location: Location) {
-        selectedLocation = location
-    }
-
-    // Create a function to dismiss the details dialog
-    fun dismissDetailsDialog() {
-        selectedLocation = null
-    }
     Scaffold(
         bottomBar = {
             BottomNavigationBar(
@@ -113,8 +87,8 @@ fun MapScreen(
 
                 // Location List
                 LazyColumn {
-                    items(locations) { location ->
-                        LocationItem(location = location, onClick = { showDetailsDialog(location) })
+                    items(mapViewModel.locationList) { location ->
+                        LocationItem(location = location, onClick = { selectedLocation = location })
                     }
                 }
 
@@ -123,7 +97,7 @@ fun MapScreen(
                     DetailsDialog(
                         navHostController,
                         location = location,
-                        onDismiss = { dismissDetailsDialog() }
+                        onDismiss = { selectedLocation = null }
                     )
                 }
             }
@@ -132,7 +106,7 @@ fun MapScreen(
 
 
 @Composable
-fun LocationItem(location: Location, onClick: () -> Unit) {
+fun LocationItem(location: LocationItem, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -156,7 +130,7 @@ fun LocationItem(location: Location, onClick: () -> Unit) {
 }
 
 @Composable
-fun DetailsDialog(navHostController: NavHostController,location: Location, onDismiss: () -> Unit) {
+fun DetailsDialog(navHostController: NavHostController,location: LocationItem, onDismiss: () -> Unit) {
     val shape = MaterialTheme.shapes.medium
 
     Dialog(
@@ -230,3 +204,7 @@ fun DetailsDialog(navHostController: NavHostController,location: Location, onDis
         }
     }
 }
+
+
+
+
