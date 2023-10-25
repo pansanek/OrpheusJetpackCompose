@@ -6,7 +6,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.ChatListScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.ChatScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.screens.LocationScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.LoginScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.screens.MapScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.NewsFeedScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.ProfileScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.RegistrationScreen
@@ -47,6 +49,12 @@ fun MainNavigation() {
         composable(USER_PROFILE_SCREEN) {
             UserProfileScreen(navHostController)
         }
+        composable(MAP_SCREEN) {
+            MapScreen(navHostController)
+        }
+        composable(LOCATION_SCREEN) {
+            LocationScreen(navHostController)
+        }
     }
 
 }
@@ -60,3 +68,4 @@ const val NEWS_SCREEN = "News screen"
 const val MAP_SCREEN = "Map screen"
 const val PROFILE_SCREEN = "Profile screen"
 const val USER_PROFILE_SCREEN = "User profile screen"
+const val LOCATION_SCREEN = "Location screen"

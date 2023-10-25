@@ -2,6 +2,7 @@ package ru.potemkin.orpheusjetpackcompose.presentation.components
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChatBubble
 import androidx.compose.material.icons.filled.Map
@@ -41,7 +42,7 @@ fun BottomNavigationBar(navHostController: NavHostController) {
         val navBackStackEntry by navHostController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
         items.forEach { item ->
-            NavigationDrawerItem(
+            BottomNavigationItem(
                 icon = { Icon(imageVector = item.icon, contentDescription = item.label) },
                 selected = currentRoute == item.route,
                 label = { Text(text = item.label) },
