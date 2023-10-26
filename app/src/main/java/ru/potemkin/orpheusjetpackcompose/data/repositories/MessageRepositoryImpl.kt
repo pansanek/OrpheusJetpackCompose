@@ -1,4 +1,4 @@
-package ru.potemkin.orpheusjetpackcompose.data
+package ru.potemkin.orpheusjetpackcompose.data.repositories
 
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MessageItem
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.MessageRepository

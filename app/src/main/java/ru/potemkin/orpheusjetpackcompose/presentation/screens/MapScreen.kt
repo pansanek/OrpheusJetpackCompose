@@ -70,7 +70,7 @@ fun MapScreen(
 
 
 // Create a mutable state for the selected location
-    var selectedLocation by remember { mutableStateOf<LocationItem?>(null) }
+    val state by mapViewModel.state
 
     Scaffold(
         bottomBar = {
@@ -88,16 +88,16 @@ fun MapScreen(
                 // Location List
                 LazyColumn {
                     items(mapViewModel.locationList) { location ->
-                        LocationItem(location = location, onClick = { selectedLocation = location })
+                        LocationItem(location = location, onClick = { mapViewModel.selectLocation(location) })
                     }
                 }
 
                 // Details Dialog
-                selectedLocation?.let { location ->
+                state.selectedLocation?.let { location ->
                     DetailsDialog(
                         navHostController,
                         location = location,
-                        onDismiss = { selectedLocation = null }
+                        onDismiss = {mapViewModel.clearSelectedLocation() }
                     )
                 }
             }

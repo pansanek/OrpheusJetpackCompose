@@ -1,7 +1,7 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
-import ru.potemkin.orpheusjetpackcompose.data.UserRepositoryImpl
+import ru.potemkin.orpheusjetpackcompose.data.repositories.UserRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetUserListUseCase
 
 class ChatListViewModel : ViewModel() {

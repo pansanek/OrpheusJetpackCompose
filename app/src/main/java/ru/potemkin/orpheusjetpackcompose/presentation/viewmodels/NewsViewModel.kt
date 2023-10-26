@@ -1,7 +1,7 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
-import ru.potemkin.orpheusjetpackcompose.data.PostRepositoryImpl
+import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetPostListUseCase
 
 class NewsViewModel : ViewModel() {
