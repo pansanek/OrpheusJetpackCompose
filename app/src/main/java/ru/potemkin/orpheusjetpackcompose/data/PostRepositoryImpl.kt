@@ -23,7 +23,9 @@ object PostRepositoryImpl: PostRepository {
                 comments = listOf(
                     CommentItem(1, 201, "commenter1", "Great post!", System.currentTimeMillis()),
                     CommentItem(2, 202, "commenter2", "Nice pic!", System.currentTimeMillis())
-                ),),
+                ),
+                tags= listOf("#tag1")
+                ),
             PostItem(
                 id = 2,
                 userId = 102,
@@ -34,7 +36,8 @@ object PostRepositoryImpl: PostRepository {
                 likes = 15,
                 comments = listOf(
                     CommentItem(3, 203, "commenter3", "Stunning view!", System.currentTimeMillis())
-                )
+                ),
+                tags = listOf()
             ),
             PostItem(
                 id = 3,
@@ -44,7 +47,8 @@ object PostRepositoryImpl: PostRepository {
                 picture = R.drawable.sample3,
                 timestamp = System.currentTimeMillis(),
                 likes = 20,
-                comments = emptyList()
+                comments = emptyList(),
+                tags = listOf()
             ),
             PostItem(
                 id = 4,
@@ -54,7 +58,9 @@ object PostRepositoryImpl: PostRepository {
                 picture = R.drawable.sample5,
                 timestamp = System.currentTimeMillis(),
                 likes = 5,
-                comments = emptyList(),),
+                comments = emptyList(),
+                tags = listOf()
+            ),
             PostItem(
                 id = 5,
                 userId = 105,
@@ -66,6 +72,7 @@ object PostRepositoryImpl: PostRepository {
                 comments = listOf(
                     CommentItem(4, 204, "commenter4", "Keep it up!", System.currentTimeMillis())
                 ),
+                tags = listOf("#tag1","#tag2")
             )
         )
 

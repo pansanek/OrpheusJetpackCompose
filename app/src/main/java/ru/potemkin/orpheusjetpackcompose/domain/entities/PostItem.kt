@@ -11,7 +11,8 @@ data class PostItem(
     @DrawableRes val picture: Int = R.drawable.ic_launcher_foreground,
     val timestamp: Long,
     var likes: Int,
-    var comments: List<CommentItem>
+    var comments: List<CommentItem>,
+    var tags: List<String>
 ){
     companion object{
         const val UNDEFINED_ID = 0

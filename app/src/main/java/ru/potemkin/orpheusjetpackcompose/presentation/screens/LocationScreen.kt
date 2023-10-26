@@ -43,14 +43,14 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 fun LocationScreen(navHostController: NavHostController) {
     var message by remember { mutableStateOf("") }
     val location =
-        Location(
+        LocationItem(
+            1,
             "Культ",
             "КУЛЬТ - настоящий храм творчества и оплот музыкальной КУЛЬТуры, созданный музыкантами для музыкантов.",
             "Электрозаводская улица, 21, Москва",
             ru.potemkin.orpheusjetpackcompose.R.drawable.location1,
             "Repbase",
             1
-
         )
 //        navHostController.previousBackStackEntry?.savedStateHandle?.get<LocationItem>("data") ?: LocationItem()
     Scaffold(

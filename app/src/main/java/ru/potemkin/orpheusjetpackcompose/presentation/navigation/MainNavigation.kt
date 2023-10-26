@@ -16,6 +16,8 @@ import ru.potemkin.orpheusjetpackcompose.presentation.screens.StartScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.UserProfileScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.ChatListViewModel
 import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.ChatViewModel
+import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.MapViewModel
+import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.NewsViewModel
 
 @Composable
 fun MainNavigation() {
@@ -23,6 +25,8 @@ fun MainNavigation() {
     val navHostController = rememberNavController()
     val chatViewModel = ChatViewModel()
     val chatListViewModel = ChatListViewModel()
+    val mapViewModel = MapViewModel()
+    val newsViewModel = NewsViewModel()
 
     NavHost(navController = navHostController, startDestination = START_SCREEN) {
         composable(START_SCREEN) {
@@ -41,16 +45,16 @@ fun MainNavigation() {
             RegistrationScreen(navHostController)
         }
         composable(NEWS_SCREEN) {
-            NewsFeedScreen(navHostController)
+            NewsFeedScreen(navHostController,newsViewModel)
         }
         composable(PROFILE_SCREEN) {
-            ProfileScreen(navHostController)
+            ProfileScreen(navHostController,newsViewModel)
         }
         composable(USER_PROFILE_SCREEN) {
-            UserProfileScreen(navHostController)
+            UserProfileScreen(navHostController,newsViewModel)
         }
         composable(MAP_SCREEN) {
-            MapScreen(navHostController)
+            MapScreen(navHostController,mapViewModel)
         }
         composable(LOCATION_SCREEN) {
             LocationScreen(navHostController)

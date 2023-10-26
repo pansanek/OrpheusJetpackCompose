@@ -1,22 +1,63 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Comment
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavHostController
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 import ru.potemkin.orpheusjetpackcompose.R
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
+import ru.potemkin.orpheusjetpackcompose.presentation.navigation.LOCATION_SCREEN
+import ru.potemkin.orpheusjetpackcompose.presentation.screens.DetailsDialog
+import ru.potemkin.orpheusjetpackcompose.presentation.screens.LocationItem
 
 @Composable
-fun PostItem(index: Int, imageModifier: Modifier = Modifier) {
+fun PostItem(postItem: PostItem, imageModifier: Modifier = Modifier) {
+    val dialogState = remember { mutableStateOf(false) }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -30,23 +71,132 @@ fun PostItem(index: Int, imageModifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            // Добавляем изображение внутри Column
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                // Добавляем аватарку пользователя
+                Image(
+                    painter = painterResource(id = R.drawable.sample4), // Замените на ресурс аватарки пользователя
+                    contentDescription = null, // Установите подходящее описание
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(48.dp) // Размер аватарки
+                        .clip(CircleShape) // Для круглой формы
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(
+                    text = postItem.username,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp)) // Промежуток между аватаркой и контентом
+
+            // Добавляем изображение
             Image(
-                painter = painterResource(id = R.drawable.sample9), // Замените на реальный идентификатор вашего изображения
+                painter = painterResource(id = postItem.picture), // Замените на реальный идентификатор вашего изображения
                 contentDescription = null, // Установите подходящее описание
                 modifier = imageModifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
+                    .align(Alignment.CenterHorizontally)
             )
+            Spacer(modifier = Modifier.height(4.dp)) // Промежуток между изображением и текстом
 
             Text(
-                text = "Item $index",
+                text = postItem.caption,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            Text(
-                text = "Description for item $index",
-                style = MaterialTheme.typography.bodySmall,
                 color = Color.Gray
+            )
+
+            Spacer(modifier = Modifier.height(4.dp)) // Промежуток между текстом и кнопками
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                // Кнопка лайка
+                IconButton(
+                    onClick = { /* Обработчик нажатия на кнопку лайка */ },
+                ) {
+                    Icon(imageVector = Icons.Default.Favorite, contentDescription = "Лайк")
+                }
+                // Кнопка комментария
+                IconButton(
+                    onClick = { dialogState.value = true },
+                ) {
+                    Icon(imageVector = Icons.Default.Comment, contentDescription = "Комментарий")
+                }
+            }
+            Text(
+                text = "Нравится: ${postItem.likes} ",
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(8.dp)
+            )
+
+            CommentDialog(
+                isOpen = dialogState.value,
+                onClose = { dialogState.value = false },
+                comments = postItem.comments // Передайте реальный список комментариев
             )
         }
     }
 }
+
+@Composable
+private fun CommentDialog(
+    comments: List<CommentItem>,
+    isOpen: Boolean,
+    onClose: () -> Unit
+) {
+    if (isOpen) {
+        val shape = MaterialTheme.shapes.medium
+
+        Dialog(
+            onDismissRequest = { onClose() },
+            properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true)
+        ) {
+
+            Box(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.surface, shape = shape)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Комментарии",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                        IconButton(
+                            onClick = { onClose() },
+                            modifier = Modifier
+                                .size(32.dp)
+                        ) {
+                            Icon(imageVector = Icons.Default.Close, contentDescription = "Close")
+                        }
+                    }
+                    LazyColumn {
+                        items(comments) {
+                            CommentItem(
+                                it
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+

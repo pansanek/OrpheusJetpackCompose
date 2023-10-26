@@ -14,13 +14,21 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
+import ru.potemkin.orpheusjetpackcompose.presentation.components.CommentItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.PostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.theme.Green
+import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.NewsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun NewsFeedScreen( navHostController: NavHostController) {
+fun NewsFeedScreen( navHostController: NavHostController, newsViewModel: NewsViewModel) {
     var text by remember { mutableStateOf("") }
 
     Scaffold(
@@ -72,12 +80,14 @@ fun NewsFeedScreen( navHostController: NavHostController) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(10) { index ->
-                    PostItem(index)
+                items(newsViewModel.postList) {post ->
+                    PostItem(post)
                 }
             }
         }
     }
 }
+
+
 
 
