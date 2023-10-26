@@ -1,5 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +31,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,16 +49,19 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 import ru.potemkin.orpheusjetpackcompose.R
+
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.LOCATION_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.DetailsDialog
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.LocationItem
+import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.NewsViewModel
 
 @Composable
-fun PostItem(postItem: PostItem, imageModifier: Modifier = Modifier) {
-    val dialogState = remember { mutableStateOf(false) }
+fun PostItem(postItem: PostItem, viewModel: NewsViewModel) {
+
+    val viewState by viewModel.state
 
     Card(
         modifier = Modifier
@@ -99,7 +104,7 @@ fun PostItem(postItem: PostItem, imageModifier: Modifier = Modifier) {
             Image(
                 painter = painterResource(id = postItem.picture), // Замените на реальный идентификатор вашего изображения
                 contentDescription = null, // Установите подходящее описание
-                modifier = imageModifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
                     .align(Alignment.CenterHorizontally)
@@ -126,7 +131,10 @@ fun PostItem(postItem: PostItem, imageModifier: Modifier = Modifier) {
                 }
                 // Кнопка комментария
                 IconButton(
-                    onClick = { dialogState.value = true },
+                    onClick = {
+                        viewModel.selectPost(postItem)
+                        viewModel.openCommentDialog()
+                    },
                 ) {
                     Icon(imageVector = Icons.Default.Comment, contentDescription = "Комментарий")
                 }
@@ -136,12 +144,16 @@ fun PostItem(postItem: PostItem, imageModifier: Modifier = Modifier) {
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(8.dp)
             )
-
-            CommentDialog(
-                isOpen = dialogState.value,
-                onClose = { dialogState.value = false },
-                comments = postItem.comments // Передайте реальный список комментариев
-            )
+            if (postItem == viewState.selectedPost) {
+                CommentDialog(
+                    onClose = {
+                        viewModel.clearSelectedPost()
+                        viewModel.closeCommentDialog()
+                    },
+                    isOpen = viewState.isCommentDialogOpen,
+                    comments = postItem.comments // Передайте реальный список комментариев
+                )
+            }
         }
     }
 }
@@ -197,6 +209,7 @@ private fun CommentDialog(
             }
         }
     }
+
 }
 
 

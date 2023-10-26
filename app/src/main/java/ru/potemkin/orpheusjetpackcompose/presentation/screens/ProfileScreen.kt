@@ -52,7 +52,7 @@ fun ProfileScreen(navHostController: NavHostController,newsViewModel: NewsViewMo
                 state = scrollState
             ) {
                 items(newsViewModel.postList) {post ->
-                    PostItem(post)
+                    PostItem(post,newsViewModel)
                 }
             }
 

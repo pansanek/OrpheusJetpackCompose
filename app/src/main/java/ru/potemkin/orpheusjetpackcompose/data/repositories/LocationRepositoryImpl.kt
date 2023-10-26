@@ -18,7 +18,17 @@ object LocationRepositoryImpl: LocationRepository {
                 ru.potemkin.orpheusjetpackcompose.R.drawable.location1,
                 "Repbase",
                 1
-            ))
+            ),
+            LocationItem(
+                2,
+                "Культт",
+                "КУЛЬТN ",
+                "Электрозаводская улица, 21, Москва",
+                ru.potemkin.orpheusjetpackcompose.R.drawable.location1,
+                "Repbase",
+                1
+            )
+        )
         for (location in locations){
             addLocationItem(location)
         }

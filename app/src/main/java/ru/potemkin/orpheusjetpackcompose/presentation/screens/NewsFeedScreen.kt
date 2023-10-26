@@ -31,6 +31,7 @@ import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.NewsViewModel
 fun NewsFeedScreen( navHostController: NavHostController, newsViewModel: NewsViewModel) {
     var text by remember { mutableStateOf("") }
 
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -81,7 +82,7 @@ fun NewsFeedScreen( navHostController: NavHostController, newsViewModel: NewsVie
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(newsViewModel.postList) {post ->
-                    PostItem(post)
+                    PostItem(post,newsViewModel)
                 }
             }
         }
