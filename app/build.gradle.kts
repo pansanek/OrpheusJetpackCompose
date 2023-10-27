@@ -72,7 +72,7 @@ dependencies {
     implementation("androidx.compose.material:material:1.5.1")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.23.0")
     implementation( "com.google.accompanist:accompanist-pager:0.23.0")
-
+    implementation ("androidx.compose.runtime:runtime-livedata:1.5.4")
     //implementation("com.yandex.android:maps:4.0.1")
 
 }
