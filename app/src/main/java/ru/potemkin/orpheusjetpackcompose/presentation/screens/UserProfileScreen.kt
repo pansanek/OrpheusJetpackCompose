@@ -37,7 +37,6 @@ fun UserProfileScreen(navHostController: NavHostController,newsViewModel: NewsVi
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
         ) {
             // Здесь мы используем Modifier.graphicsLayer для анимации Header
             UserProfileHeader(

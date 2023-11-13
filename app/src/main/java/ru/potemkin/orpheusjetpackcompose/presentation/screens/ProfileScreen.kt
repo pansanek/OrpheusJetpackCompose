@@ -21,7 +21,7 @@ import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.NewsViewModel
 fun ProfileScreen(navHostController: NavHostController,newsViewModel: NewsViewModel) {
     var text by remember { mutableStateOf("") }
     val scrollState = rememberLazyListState()
-    val topBarHeight = 56.dp // Замените на высоту вашего TopBar
+    val topBarHeight = 48.dp // Замените на высоту вашего TopBar
     Scaffold(
         bottomBar = {
             ru.potemkin.orpheusjetpackcompose.presentation.components.BottomNavigationBar(
@@ -38,7 +38,6 @@ fun ProfileScreen(navHostController: NavHostController,newsViewModel: NewsViewMo
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
         ) {
             // Здесь мы используем Modifier.graphicsLayer для анимации Header
             ProfileHeader(
