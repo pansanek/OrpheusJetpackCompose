@@ -25,7 +25,9 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.filled.VpnKey
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +36,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -55,13 +58,15 @@ import ru.potemkin.orpheusjetpackcompose.presentation.navigation.LOG_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.navigation.REG_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.theme.White
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     navHostController: NavHostController
 ) {
 
     val surfaceVisible = remember { mutableStateOf(false) }
-
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -100,6 +105,23 @@ fun LoginScreen(
                                 color = Green
                             )
                         }
+                        OutlinedTextField(
+                            value = username,
+                            onValueChange = { username = it },
+                            label = { Text("Логин") },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                        )
+                        OutlinedTextField(
+                            value = password,
+                            onValueChange = { password = it },
+                            label = { Text("Пароль") },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            visualTransformation = PasswordVisualTransformation()
+                        )
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                             ButtonComponent(
                                 text = "Войти",
