@@ -49,9 +49,9 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.BottomNavigationBar
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.CHAT_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.LOCATION_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.USER_PROFILE_SCREEN
+import ru.potemkin.orpheusjetpackcompose.navigation.CHAT_SCREEN
+import ru.potemkin.orpheusjetpackcompose.navigation.LOCATION_SCREEN
+import ru.potemkin.orpheusjetpackcompose.navigation.USER_PROFILE_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.MapViewModel
 
 //import com.yandex.mapkit.MapKitFactory

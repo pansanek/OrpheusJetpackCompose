@@ -53,9 +53,9 @@ import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.presentation.components.AuthButton
 import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
 import ru.potemkin.orpheusjetpackcompose.presentation.components.TextEntryModule
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.CHAT_LIST_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.LOG_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.REG_SCREEN
+import ru.potemkin.orpheusjetpackcompose.navigation.CHAT_LIST_SCREEN
+import ru.potemkin.orpheusjetpackcompose.navigation.LOG_SCREEN
+import ru.potemkin.orpheusjetpackcompose.navigation.REG_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)

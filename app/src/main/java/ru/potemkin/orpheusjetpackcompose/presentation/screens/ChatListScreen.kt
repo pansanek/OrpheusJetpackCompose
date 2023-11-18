@@ -35,8 +35,8 @@ import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerHeight
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.CHAT_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.USER_PROFILE_SCREEN
+import ru.potemkin.orpheusjetpackcompose.navigation.CHAT_SCREEN
+import ru.potemkin.orpheusjetpackcompose.navigation.USER_PROFILE_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.theme.*
 import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.ChatListViewModel
 import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.ChatViewModel

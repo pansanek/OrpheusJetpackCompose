@@ -38,12 +38,12 @@ import androidx.navigation.NavHostController
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
 import ru.potemkin.orpheusjetpackcompose.presentation.components.RadioButtonGroup
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.ABOUT_ME_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.ADM_REG_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.CHAT_LIST_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.LOG_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.MUS_REG_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.USER_TYPE_SCREEN
+import ru.potemkin.orpheusjetpackcompose.navigation.ABOUT_ME_SCREEN
+import ru.potemkin.orpheusjetpackcompose.navigation.ADM_REG_SCREEN
+import ru.potemkin.orpheusjetpackcompose.navigation.CHAT_LIST_SCREEN
+import ru.potemkin.orpheusjetpackcompose.navigation.LOG_SCREEN
+import ru.potemkin.orpheusjetpackcompose.navigation.MUS_REG_SCREEN
+import ru.potemkin.orpheusjetpackcompose.navigation.USER_TYPE_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.theme.Green
 import ru.potemkin.orpheusjetpackcompose.presentation.theme.White
 

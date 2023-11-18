@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.MainNavigation
+import ru.potemkin.orpheusjetpackcompose.navigation.MainNavigation
 import ru.potemkin.orpheusjetpackcompose.presentation.theme.OrpheusJetpackComposeTheme
 
 data class Musician(

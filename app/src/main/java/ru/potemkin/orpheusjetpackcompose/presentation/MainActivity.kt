@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.MainNavigation
+import ru.potemkin.orpheusjetpackcompose.navigation.MainNavigation
 import ru.potemkin.orpheusjetpackcompose.presentation.theme.OrpheusJetpackComposeTheme
 
 class MainActivity : ComponentActivity() {

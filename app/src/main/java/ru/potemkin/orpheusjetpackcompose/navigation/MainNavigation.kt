@@ -1,5 +1,6 @@
-package ru.potemkin.orpheusjetpackcompose.presentation.navigation
+package ru.potemkin.orpheusjetpackcompose.navigation
 
+import android.app.Application
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,10 +28,11 @@ import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.NewsViewModel
 fun MainNavigation() {
 
     val navHostController = rememberNavController()
-    val chatViewModel = ChatViewModel()
-    val chatListViewModel = ChatListViewModel()
-    val mapViewModel = MapViewModel()
-    val newsViewModel = NewsViewModel()
+    val application = Application()
+    val chatViewModel = ChatViewModel(application)
+    val chatListViewModel = ChatListViewModel(application)
+    val mapViewModel = MapViewModel(application)
+    val newsViewModel = NewsViewModel(application)
 
     NavHost(navController = navHostController, startDestination = START_SCREEN) {
         composable(START_SCREEN) {

@@ -53,7 +53,7 @@ import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
-import ru.potemkin.orpheusjetpackcompose.presentation.navigation.LOCATION_SCREEN
+import ru.potemkin.orpheusjetpackcompose.navigation.LOCATION_SCREEN
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.DetailsDialog
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.LocationItem
 import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.NewsViewModel
