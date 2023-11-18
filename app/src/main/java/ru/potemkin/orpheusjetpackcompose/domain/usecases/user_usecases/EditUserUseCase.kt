@@ -2,8 +2,9 @@ package ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases
 
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.UserRepository
+import javax.inject.Inject
 
-class EditUserUseCase (private val userRepository: UserRepository) {
+class EditUserUseCase @Inject constructor(private val userRepository: UserRepository) {
     fun editUserItem(userItem: UserItem){
         userRepository.editUserItem(userItem)
     }
