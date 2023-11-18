@@ -1,5 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.viewmodels
 
+import android.app.Application
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -7,10 +8,11 @@ import ru.potemkin.orpheusjetpackcompose.data.repositories.LocationRepositoryImp
 import ru.potemkin.orpheusjetpackcompose.data.states.MapViewState
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.location_usecases.GetLocationListUseCase
+import javax.inject.Inject
 
-class MapViewModel : ViewModel() {
+class MapViewModel @Inject constructor(application: Application): ViewModel() {
 
-    private val repository = LocationRepositoryImpl
+    private val repository = LocationRepositoryImpl(application)
 
     private val getLocationListUseCase = GetLocationListUseCase(repository)
 

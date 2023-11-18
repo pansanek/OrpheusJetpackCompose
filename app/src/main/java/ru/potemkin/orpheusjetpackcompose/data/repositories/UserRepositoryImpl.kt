@@ -1,10 +1,14 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
+import android.app.Application
 import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.UserRepository
+import javax.inject.Inject
 
-object UserRepositoryImpl: UserRepository {
+class UserRepositoryImpl@Inject constructor(
+    application: Application
+): UserRepository {
 
     private val userList= mutableListOf<UserItem>()
 

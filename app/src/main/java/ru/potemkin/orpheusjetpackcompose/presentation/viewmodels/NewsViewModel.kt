@@ -1,5 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.viewmodels
 
+import android.app.Application
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -14,10 +15,11 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetPostListUseCase
+import javax.inject.Inject
 
-class NewsViewModel : ViewModel() {
+class NewsViewModel @Inject constructor(application: Application): ViewModel() {
 
-    private val repository = PostRepositoryImpl
+    private val repository = PostRepositoryImpl(application)
 
     private val getPostListUseCase = GetPostListUseCase(repository)
 

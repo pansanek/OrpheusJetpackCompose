@@ -1,11 +1,15 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
+import android.app.Application
 import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.PostRepository
+import javax.inject.Inject
 
-object PostRepositoryImpl: PostRepository {
+class PostRepositoryImpl@Inject constructor(
+    application: Application
+): PostRepository {
 
     private val postList= mutableListOf<PostItem>()
 

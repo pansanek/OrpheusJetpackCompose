@@ -1,9 +1,13 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
+import android.app.Application
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MessageItem
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.MessageRepository
+import javax.inject.Inject
 
-object MessageRepositoryImpl:MessageRepository {
+class MessageRepositoryImpl @Inject constructor(
+    application: Application
+):MessageRepository {
     private val messageList= mutableListOf<MessageItem>()
 
     private var autoIncrementId =0

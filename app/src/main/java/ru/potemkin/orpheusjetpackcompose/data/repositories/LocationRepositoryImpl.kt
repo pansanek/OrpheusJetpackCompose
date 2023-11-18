@@ -1,9 +1,13 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
+import android.app.Application
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.LocationRepository
+import javax.inject.Inject
 
-object LocationRepositoryImpl: LocationRepository {
+class LocationRepositoryImpl @Inject constructor(
+    application: Application
+): LocationRepository {
 
     private val locationList= mutableListOf<LocationItem>()
 
