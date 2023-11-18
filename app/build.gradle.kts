@@ -76,7 +76,12 @@ dependencies {
     implementation ("androidx.compose.runtime:runtime-livedata:1.5.4")
     //implementation("com.yandex.android:maps:4.0.1")
 
+    //di
     implementation ("com.google.dagger:dagger:2.43.2")
     kapt ("com.google.dagger:dagger-compiler:2.43.2")
+
+    //network
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
 
 }
