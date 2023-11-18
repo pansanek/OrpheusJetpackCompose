@@ -29,9 +29,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.Black
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.Green
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.LightGreen
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
+import ru.potemkin.orpheusjetpackcompose.ui.theme.LightGreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

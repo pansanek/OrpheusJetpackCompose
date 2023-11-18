@@ -20,7 +20,7 @@ import androidx.navigation.NavHostController
 import ru.potemkin.orpheusjetpackcompose.data.states.NewsScreenState
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.PostItem
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.Green
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
 import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.NewsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

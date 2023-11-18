@@ -35,9 +35,9 @@ import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
 import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.navigation.LOG_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.Black
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.Green
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.OrpheusJetpackComposeTheme
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
+import ru.potemkin.orpheusjetpackcompose.ui.theme.OrpheusJetpackComposeTheme
 
 @Composable
 fun StartScreen(

@@ -1,6 +1,5 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.viewmodels
 
-import android.app.Application
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -9,19 +8,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.data.states.CommentsViewState
-import ru.potemkin.orpheusjetpackcompose.data.states.MapViewState
 import ru.potemkin.orpheusjetpackcompose.data.states.NewsScreenState
-import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
-import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetPostListUseCase
 import javax.inject.Inject
 
-class NewsViewModel @Inject constructor(application: Application): ViewModel() {
-
-    private val repository = PostRepositoryImpl(application)
-
-    private val getPostListUseCase = GetPostListUseCase(repository)
+class NewsViewModel @Inject constructor(
+    private val getPostListUseCase: GetPostListUseCase
+) : ViewModel() {
 
     val postList = getPostListUseCase.getPostList()
 
@@ -33,8 +27,8 @@ class NewsViewModel @Inject constructor(application: Application): ViewModel() {
     private val _state = mutableStateOf(CommentsViewState())
     val state: State<CommentsViewState> = _state
 
-    fun selectPost(post:PostItem) {
-        Log.d("SELECTPOST",post.toString())
+    fun selectPost(post: PostItem) {
+        Log.d("SELECTPOST", post.toString())
         _state.value = _state.value.copy(selectedPost = post)
     }
 

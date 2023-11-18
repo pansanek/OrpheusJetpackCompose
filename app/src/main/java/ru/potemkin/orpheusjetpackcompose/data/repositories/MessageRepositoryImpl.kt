@@ -6,7 +6,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.MessageRepository
 import javax.inject.Inject
 
 class MessageRepositoryImpl @Inject constructor(
-    application: Application
+
 ):MessageRepository {
     private val messageList= mutableListOf<MessageItem>()
 

@@ -6,8 +6,8 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.UserRepository
 import javax.inject.Inject
 
-class UserRepositoryImpl@Inject constructor(
-    application: Application
+class UserRepositoryImpl @Inject constructor(
+
 ): UserRepository {
 
     private val userList= mutableListOf<UserItem>()

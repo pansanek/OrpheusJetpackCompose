@@ -37,9 +37,13 @@ import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerHeight
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
 import ru.potemkin.orpheusjetpackcompose.navigation.CHAT_SCREEN
 import ru.potemkin.orpheusjetpackcompose.navigation.USER_PROFILE_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.*
+import ru.potemkin.orpheusjetpackcompose.ui.theme.*
 import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.ChatListViewModel
 import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.ChatViewModel
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Turquoise
+import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

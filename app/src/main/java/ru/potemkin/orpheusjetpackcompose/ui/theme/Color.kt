@@ -1,4 +1,4 @@
-package ru.potemkin.orpheusjetpackcompose.presentation.theme
+package ru.potemkin.orpheusjetpackcompose.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

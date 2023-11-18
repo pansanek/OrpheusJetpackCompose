@@ -16,15 +16,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
 import ru.potemkin.orpheusjetpackcompose.navigation.MainNavigation
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.OrpheusJetpackComposeTheme
+import ru.potemkin.orpheusjetpackcompose.ui.theme.OrpheusJetpackComposeTheme
+import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val component by lazy{
+        (application as MainApplication).component
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
+        component.inject(this)
         super.onCreate(savedInstanceState)
 //        MapKitFactory.setApiKey("YOUR_API_KEY")
         setContent {
             OrpheusJetpackComposeTheme {
-                MainNavigation()
+                MainNavigation(viewModelFactory)
             }
         }
     }
@@ -37,10 +45,3 @@ class MainActivity : ComponentActivity() {
 
 
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    OrpheusJetpackComposeTheme {
-        MainNavigation()
-    }
-}

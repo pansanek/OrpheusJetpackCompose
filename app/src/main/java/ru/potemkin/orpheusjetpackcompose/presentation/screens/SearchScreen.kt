@@ -24,7 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.potemkin.orpheusjetpackcompose.navigation.MainNavigation
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.OrpheusJetpackComposeTheme
+import ru.potemkin.orpheusjetpackcompose.ui.theme.OrpheusJetpackComposeTheme
 
 data class Musician(
     val name: String,

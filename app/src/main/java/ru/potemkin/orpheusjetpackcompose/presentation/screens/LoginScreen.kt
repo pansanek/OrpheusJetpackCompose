@@ -1,7 +1,7 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.screens
 
 import androidx.navigation.NavHostController
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.Green
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
@@ -56,7 +56,7 @@ import ru.potemkin.orpheusjetpackcompose.presentation.components.TextEntryModule
 import ru.potemkin.orpheusjetpackcompose.navigation.CHAT_LIST_SCREEN
 import ru.potemkin.orpheusjetpackcompose.navigation.LOG_SCREEN
 import ru.potemkin.orpheusjetpackcompose.navigation.REG_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.White
+import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

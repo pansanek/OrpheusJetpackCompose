@@ -1,7 +1,7 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.components
 
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.Green
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.LightGreen
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
+import ru.potemkin.orpheusjetpackcompose.ui.theme.LightGreen
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape

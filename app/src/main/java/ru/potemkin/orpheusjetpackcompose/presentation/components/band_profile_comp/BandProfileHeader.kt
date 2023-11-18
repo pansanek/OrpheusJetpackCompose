@@ -27,7 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.potemkin.orpheusjetpackcompose.R
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.White
+import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @Composable
 fun BandProfileHeader(scrollState: LazyListState, topBarHeight: Dp) {

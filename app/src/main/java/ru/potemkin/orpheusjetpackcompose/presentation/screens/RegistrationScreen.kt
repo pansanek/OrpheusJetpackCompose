@@ -44,8 +44,8 @@ import ru.potemkin.orpheusjetpackcompose.navigation.CHAT_LIST_SCREEN
 import ru.potemkin.orpheusjetpackcompose.navigation.LOG_SCREEN
 import ru.potemkin.orpheusjetpackcompose.navigation.MUS_REG_SCREEN
 import ru.potemkin.orpheusjetpackcompose.navigation.USER_TYPE_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.Green
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.White
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
+import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -6,7 +6,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.LocationRepository
 import javax.inject.Inject
 
 class LocationRepositoryImpl @Inject constructor(
-    application: Application
+
 ): LocationRepository {
 
     private val locationList= mutableListOf<LocationItem>()

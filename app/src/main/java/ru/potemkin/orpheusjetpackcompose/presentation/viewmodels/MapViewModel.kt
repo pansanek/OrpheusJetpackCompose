@@ -10,11 +10,9 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.location_usecases.GetLocationListUseCase
 import javax.inject.Inject
 
-class MapViewModel @Inject constructor(application: Application): ViewModel() {
-
-    private val repository = LocationRepositoryImpl(application)
-
-    private val getLocationListUseCase = GetLocationListUseCase(repository)
+class MapViewModel @Inject constructor(
+    private val getLocationListUseCase: GetLocationListUseCase
+): ViewModel() {
 
     val locationList = getLocationListUseCase.getLocationList()
 

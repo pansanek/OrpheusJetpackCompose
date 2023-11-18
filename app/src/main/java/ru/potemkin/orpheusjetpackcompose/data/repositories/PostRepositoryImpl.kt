@@ -7,8 +7,8 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.PostRepository
 import javax.inject.Inject
 
-class PostRepositoryImpl@Inject constructor(
-    application: Application
+class PostRepositoryImpl @Inject constructor(
+
 ): PostRepository {
 
     private val postList= mutableListOf<PostItem>()

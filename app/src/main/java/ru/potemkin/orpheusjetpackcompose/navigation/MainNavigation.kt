@@ -2,9 +2,11 @@ package ru.potemkin.orpheusjetpackcompose.navigation
 
 import android.app.Application
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import ru.potemkin.orpheusjetpackcompose.presentation.ViewModelFactory
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.AboutMeScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.AdminRegScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.screens.ChatListScreen
@@ -25,14 +27,13 @@ import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.MapViewModel
 import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.NewsViewModel
 
 @Composable
-fun MainNavigation() {
+fun MainNavigation(viewModelFactory: ViewModelFactory) {
 
     val navHostController = rememberNavController()
-    val application = Application()
-    val chatViewModel = ChatViewModel(application)
-    val chatListViewModel = ChatListViewModel(application)
-    val mapViewModel = MapViewModel(application)
-    val newsViewModel = NewsViewModel(application)
+    val chatViewModel: ChatViewModel = viewModel(factory = viewModelFactory)
+    val chatListViewModel: ChatListViewModel = viewModel(factory = viewModelFactory)
+    val mapViewModel: MapViewModel = viewModel(factory = viewModelFactory)
+    val newsViewModel: NewsViewModel = viewModel(factory = viewModelFactory)
 
     NavHost(navController = navHostController, startDestination = START_SCREEN) {
         composable(START_SCREEN) {

@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import ru.potemkin.orpheusjetpackcompose.presentation.theme.White
+import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @Composable
 fun ProfileTopBar(navController: NavController) {
@@ -38,7 +38,8 @@ fun ProfileTopBar(navController: NavController) {
             navigationIcon = {
                 IconButton(onClick = { navController.navigateUp() }) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Назад"
-                    , tint = White)
+                    , tint = White
+                    )
                 }
             },
             backgroundColor = androidx.compose.ui.graphics.Color.Black
