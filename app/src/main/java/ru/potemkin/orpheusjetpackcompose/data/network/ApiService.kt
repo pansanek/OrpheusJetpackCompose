@@ -6,5 +6,5 @@ import ru.potemkin.orpheusjetpackcompose.data.model.UserDto
 interface ApiService {
 
     @GET("users/all-users")
-    suspend fun loadAllUsers(): UserDto
+    suspend fun loadAllUsers(): List<UserDto>
 }
