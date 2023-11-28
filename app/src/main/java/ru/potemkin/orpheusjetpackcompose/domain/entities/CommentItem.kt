@@ -1,9 +1,9 @@
 package ru.potemkin.orpheusjetpackcompose.domain.entities
 
+
 data class CommentItem(
-    val commentId: Int,
-    val userId: Int,
-    val username: String,
+    val id: Int,
+    val authorId: Int,
     val text: String,
-    val timestamp: Long
+    val date: String
 )

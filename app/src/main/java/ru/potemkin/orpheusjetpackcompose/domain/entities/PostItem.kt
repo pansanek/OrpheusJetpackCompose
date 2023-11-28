@@ -6,13 +6,19 @@ import ru.potemkin.orpheusjetpackcompose.R
 data class PostItem(
     var id: Int,
     val userId: Int,
-    val username: String,
-    var caption: String,
-    @DrawableRes val picture: Int = R.drawable.ic_launcher_foreground,
-    val timestamp: Long,
+    var text: String,
+    val date: String,
     var likes: Int,
     var comments: List<CommentItem>,
-    var tags: List<String>
+    var attachments: List<String>
+    //                @SerializedName("id") val id: Long,
+//                @SerializedName("source_id") val userId: Long,
+//                @SerializedName("text") val text: String,
+//                @SerializedName("date") val date: Long,
+//                @SerializedName("likes") val likes: LikesDto,
+//                @SerializedName("comments") val comments: CommentsDto,
+//                @SerializedName("attachments") val attachments: List<AttachmentDto>?
+
 ){
     companion object{
         const val UNDEFINED_ID = 0
