@@ -6,6 +6,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import ru.potemkin.orpheusjetpackcompose.data.mappers.PostMapper
+import ru.potemkin.orpheusjetpackcompose.data.mappers.UsersMapper
+import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.data.states.CommentsViewState
 import ru.potemkin.orpheusjetpackcompose.data.states.NewsScreenState
@@ -16,7 +21,11 @@ import javax.inject.Inject
 class NewsViewModel @Inject constructor(
     private val getPostListUseCase: GetPostListUseCase
 ) : ViewModel() {
+    private val mapper = PostMapper()
 
+    init {
+        loadPostItems()
+    }
     val postList = getPostListUseCase.getPostList()
 
     private val initialState = NewsScreenState.Posts(posts = postList)
@@ -42,5 +51,14 @@ class NewsViewModel @Inject constructor(
 
     fun closeCommentDialog() {
         _state.value = _state.value.copy(isCommentDialogOpen = false)
+    }
+
+
+    private fun loadPostItems() {
+        viewModelScope.launch{
+            val posts = ApiFactory.apiService.loadAllPosts()
+            val postItems = mapper.mapPosts(posts)
+            Log.d("POSTS",postItems.toString())
+        }
     }
 }

@@ -28,7 +28,7 @@ fun CommentItem(commentItem: CommentItem) {
     ) {
 
         Text(
-            text = commentItem.username,
+            text = "rofl",
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
         )

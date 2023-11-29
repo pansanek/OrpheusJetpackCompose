@@ -91,7 +91,7 @@ fun PostItem(postItem: PostItem, viewModel: NewsViewModel) {
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
-                    text = postItem.username,
+                    text = "rofl",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
@@ -102,7 +102,7 @@ fun PostItem(postItem: PostItem, viewModel: NewsViewModel) {
 
             // Добавляем изображение
             Image(
-                painter = painterResource(id = postItem.picture), // Замените на реальный идентификатор вашего изображения
+                painter = painterResource(id = R.drawable.sample4), // Замените на реальный идентификатор вашего изображения
                 contentDescription = null, // Установите подходящее описание
                 modifier = Modifier
                     .fillMaxWidth()
@@ -112,7 +112,7 @@ fun PostItem(postItem: PostItem, viewModel: NewsViewModel) {
             Spacer(modifier = Modifier.height(4.dp)) // Промежуток между изображением и текстом
 
             Text(
-                text = postItem.caption,
+                text = "rofl",
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Gray
             )

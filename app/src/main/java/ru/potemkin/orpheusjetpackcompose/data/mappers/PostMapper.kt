@@ -16,7 +16,7 @@ import java.util.Locale
 
 class PostMapper {
     fun mapPosts(listPostDto: List<PostDto>):List<PostItem>{
-        Log.d("USERS",listPostDto.toString())
+        Log.d("POSTS",listPostDto.toString())
         val result = mutableListOf<PostItem>()
 
         for (postDto in listPostDto) {
@@ -64,7 +64,7 @@ class PostMapper {
         if (attachments != null) {
             for (attDto in attachments) {
                 with(attDto) {
-                    result.add(photo?.photoUrls.toString())
+                    result.add(photo.toString())
                 }
             }
         }
