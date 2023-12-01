@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -47,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 import ru.potemkin.orpheusjetpackcompose.R
 
@@ -81,17 +83,16 @@ fun PostItem(postItem: PostItem, viewModel: NewsViewModel) {
                 horizontalArrangement = Arrangement.Start
             ) {
                 // Добавляем аватарку пользователя
-                Image(
-                    painter = painterResource(id = R.drawable.sample4), // Замените на ресурс аватарки пользователя
-                    contentDescription = null, // Установите подходящее описание
-                    contentScale = ContentScale.Crop,
+                AsyncImage(
+                    model = postItem.user.icon,
                     modifier = Modifier
-                        .size(48.dp) // Размер аватарки
-                        .clip(CircleShape) // Для круглой формы
+                        .size(50.dp)
+                        .clip(CircleShape),
+                    contentDescription = null
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
-                    text = "rofl",
+                    text = postItem.user.login,
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
@@ -101,18 +102,18 @@ fun PostItem(postItem: PostItem, viewModel: NewsViewModel) {
             Spacer(modifier = Modifier.height(16.dp)) // Промежуток между аватаркой и контентом
 
             // Добавляем изображение
-            Image(
-                painter = painterResource(id = R.drawable.sample4), // Замените на реальный идентификатор вашего изображения
-                contentDescription = null, // Установите подходящее описание
+            AsyncImage(
+                model = postItem.attachments[0],
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(1f)
-                    .align(Alignment.CenterHorizontally)
+                    .wrapContentHeight(),
+                contentDescription = null,
+                contentScale = ContentScale.FillWidth
             )
             Spacer(modifier = Modifier.height(4.dp)) // Промежуток между изображением и текстом
 
             Text(
-                text = "rofl",
+                text = postItem.text,
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Gray
             )

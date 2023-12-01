@@ -31,8 +31,6 @@ fun NewsFeedScreen(navHostController: NavHostController, newsViewModel: NewsView
 
     val screenState = newsViewModel.screenState.observeAsState(NewsScreenState.Initial)
 
-    Log.d("TAG",screenState.value.toString())
-
 
     Scaffold(
         topBar = {

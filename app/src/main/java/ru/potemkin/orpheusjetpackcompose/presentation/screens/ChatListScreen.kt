@@ -31,6 +31,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerHeight
@@ -159,16 +160,15 @@ fun UserEachRow(
             ) {
                 Row {
 
-                    Image(
-                        painter = painterResource(user.icon),
-                        contentDescription = "avatar",
-                        contentScale = ContentScale.Crop,
+                    AsyncImage(
+                        model = user.icon,
                         modifier = Modifier
                             .size(64.dp)
                             .clip(CircleShape)
                             .clickable {
                                 navHostController.navigate(USER_PROFILE_SCREEN)
-                            }
+                            },
+                        contentDescription = null
                     )
                     SpacerWidth()
                     Column {

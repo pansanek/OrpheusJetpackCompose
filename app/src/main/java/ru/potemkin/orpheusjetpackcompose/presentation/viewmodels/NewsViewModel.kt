@@ -15,11 +15,13 @@ import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.data.states.CommentsViewState
 import ru.potemkin.orpheusjetpackcompose.data.states.NewsScreenState
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.AddPostUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetPostListUseCase
 import javax.inject.Inject
 
 class NewsViewModel @Inject constructor(
-    private val getPostListUseCase: GetPostListUseCase
+    private val getPostListUseCase: GetPostListUseCase,
+    private val addPostUseCase: AddPostUseCase
 ) : ViewModel() {
     private val mapper = PostMapper()
 
@@ -58,7 +60,11 @@ class NewsViewModel @Inject constructor(
         viewModelScope.launch{
             val posts = ApiFactory.apiService.loadAllPosts()
             val postItems = mapper.mapPosts(posts)
-            Log.d("POSTS",postItems.toString())
+            for(postItem in postItems){
+                addPostUseCase.addPostItem(postItem)
+            }
+            _screenState.value = NewsScreenState.Posts(posts = postItems)
+            Log.d("POSTS","LIST: ${postList.toString()}")
         }
     }
 }

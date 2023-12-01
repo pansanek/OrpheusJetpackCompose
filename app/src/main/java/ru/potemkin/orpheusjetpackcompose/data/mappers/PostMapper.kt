@@ -15,15 +15,15 @@ import java.util.Locale
 
 
 class PostMapper {
+    private val usersMapper = UsersMapper()
     fun mapPosts(listPostDto: List<PostDto>): List<PostItem> {
         Log.d("POSTS", listPostDto.toString())
         val result = mutableListOf<PostItem>()
-
         for (postDto in listPostDto) {
             with(postDto) {
                 val post = PostItem(
                     id = id,
-                    userId = userId,
+                    user = usersMapper.mapUser(user),
                     text = text,
                     date = mapTimestampToDate(date),
                     likes = likes.count,
@@ -61,7 +61,7 @@ class PostMapper {
     private fun mapAttachments(attachments: AttachmentDto): List<String> {
         val result = mutableListOf<String>()
         for (attDto in attachments.photo) {
-            result.add(attDto.toString())
+            result.add(attDto.url)
         }
         return result
     }
