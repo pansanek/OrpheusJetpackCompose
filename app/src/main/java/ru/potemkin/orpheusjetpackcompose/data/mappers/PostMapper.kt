@@ -15,8 +15,8 @@ import java.util.Locale
 
 
 class PostMapper {
-    fun mapPosts(listPostDto: List<PostDto>):List<PostItem>{
-        Log.d("POSTS",listPostDto.toString())
+    fun mapPosts(listPostDto: List<PostDto>): List<PostItem> {
+        Log.d("POSTS", listPostDto.toString())
         val result = mutableListOf<PostItem>()
 
         for (postDto in listPostDto) {
@@ -41,16 +41,16 @@ class PostMapper {
         return SimpleDateFormat("d MMMM yyyy, hh:mm", Locale.getDefault()).format(date)
     }
 
-    private fun mapComments(comments:CommentsDto):List<CommentItem>{
+    private fun mapComments(comments: CommentsDto): List<CommentItem> {
         val result = mutableListOf<CommentItem>()
 
         for (commentDto in comments.comments) {
             with(commentDto) {
                 val comment = CommentItem(
                     id = id,
-                    authorId=authorId,
-                    text= text,
-                    date= mapTimestampToDate(date)
+                    authorId = authorId,
+                    text = text,
+                    date = mapTimestampToDate(date)
                 )
                 result.add(comment)
             }
@@ -58,15 +58,10 @@ class PostMapper {
         return result
     }
 
-    private fun mapAttachments(attachments:List<AttachmentDto>?):List<String>{
+    private fun mapAttachments(attachments: AttachmentDto): List<String> {
         val result = mutableListOf<String>()
-
-        if (attachments != null) {
-            for (attDto in attachments) {
-                with(attDto) {
-                    result.add(photo.toString())
-                }
-            }
+        for (attDto in attachments.photo) {
+            result.add(attDto.toString())
         }
         return result
     }
