@@ -1,11 +1,9 @@
 package ru.potemkin.orpheusjetpackcompose.data.mappers
 
 import android.util.Log
-import com.google.gson.annotations.SerializedName
-import ru.potemkin.orpheusjetpackcompose.data.model.AttachmentDto
+import ru.potemkin.orpheusjetpackcompose.data.model.AdministratorDto
 import ru.potemkin.orpheusjetpackcompose.data.model.CommentDto
-import ru.potemkin.orpheusjetpackcompose.data.model.CommentsDto
-import ru.potemkin.orpheusjetpackcompose.data.model.LikesDto
+import ru.potemkin.orpheusjetpackcompose.data.model.PhotoUrlDto
 import ru.potemkin.orpheusjetpackcompose.data.model.PostDto
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
@@ -15,53 +13,50 @@ import java.util.Locale
 
 
 class PostMapper {
-    private val usersMapper = UsersMapper()
-    fun mapPosts(listPostDto: List<PostDto>): List<PostItem> {
-        Log.d("POSTS", listPostDto.toString())
+
+    fun mapPostList(postDtoList: List<PostDto>): List<PostItem> {
         val result = mutableListOf<PostItem>()
-        for (postDto in listPostDto) {
-            with(postDto) {
-                val post = PostItem(
-                    id = id,
-                    user = usersMapper.mapUser(user),
-                    text = text,
-                    date = mapTimestampToDate(date),
-                    likes = likes.count,
-                    comments = mapComments(comments),
-                    attachments = mapAttachments(attachments)
-                )
-                result.add(post)
-            }
+        for (postDto in postDtoList) {
+            val postItem = mapPost(postDto)
+            result.add(postItem)
         }
         return result
     }
 
-    private fun mapTimestampToDate(timestamp: Long): String {
-        val date = Date(timestamp * 1000)
-        return SimpleDateFormat("d MMMM yyyy, hh:mm", Locale.getDefault()).format(date)
+    fun mapPost(postDto: PostDto): PostItem {
+        val postItem = PostItem(
+            id = postDto.postId,
+            userId = postDto.creatorId,
+            text = postDto.caption,
+            date = postDto.timestamp,
+            likes = postDto.likes.size,
+            comments = mapCommentList(postDto.comments),
+            attachments = mapAttachmentList(postDto.attachment),
+            creatorType = postDto.creatorType
+        )
+
+        return postItem
     }
 
-    private fun mapComments(comments: CommentsDto): List<CommentItem> {
+    private fun mapCommentList(commentDtoList: List<CommentDto>): List<CommentItem> {
         val result = mutableListOf<CommentItem>()
-
-        for (commentDto in comments.comments) {
-            with(commentDto) {
-                val comment = CommentItem(
-                    id = id,
-                    authorId = authorId,
-                    text = text,
-                    date = mapTimestampToDate(date)
-                )
-                result.add(comment)
-            }
+        for (commentDto in commentDtoList) {
+            val commentItem = CommentItem(
+                id = commentDto.id,
+                userId = commentDto.userId,
+                postId = commentDto.postId,
+                text = commentDto.text,
+                timestamp = commentDto.timestamp
+            )
+            result.add(commentItem)
         }
         return result
     }
 
-    private fun mapAttachments(attachments: AttachmentDto): List<String> {
+    private fun mapAttachmentList(photoUrlDtoList: List<PhotoUrlDto>): List<String> {
         val result = mutableListOf<String>()
-        for (attDto in attachments.photo) {
-            result.add(attDto.url)
+        for (photoUrlDto in photoUrlDtoList) {
+            result.add(photoUrlDto.url)
         }
         return result
     }
