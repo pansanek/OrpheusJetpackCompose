@@ -4,7 +4,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 
 object ApiFactory {
@@ -17,21 +16,81 @@ object ApiFactory {
     // Замените "10.0.2.2" на IP-адрес вашего Docker-хоста, если вы используете эмулятор Android.
     private val baseUrl = "http://10.0.2.2:"
 
-    val appUserApiService: ApiService = createService(baseUrl, 88)
-    val appPostApiService: ApiService = createService(baseUrl, 87)
-    val appMusicianApiService: ApiService = createService(baseUrl, 86)
-    val appLocationApiService: ApiService = createService(baseUrl, 85)
-    val appCommentApiService: ApiService = createService(baseUrl, 84)
-    val appBandApiService: ApiService = createService(baseUrl, 83)
-    val appAdministratorApiService: ApiService = createService(baseUrl, 80)
+    val appUserApiService: UserApiService = createUserService(baseUrl, 88)
+    val appPostApiService: PostApiService = createPostService(baseUrl, 87)
+    val appMusicianApiService: MusicianApiService = createMusicianService(baseUrl, 86)
+    val appLocationApiService: LocationApiService = createLocationService(baseUrl, 85)
+    val appCommentApiService: CommentApiService = createCommentService(baseUrl, 84)
+    val appBandApiService: BandApiService = createBandService(baseUrl, 83)
+    val appAdministratorApiService: AdministratorApiService = createAdministratorService(baseUrl, 80)
 
-    private fun createService(baseUrl: String, port: Int): ApiService {
+    private fun createUserService(baseUrl: String, port: Int): UserApiService {
         val retrofit = Retrofit.Builder()
             .baseUrl("$baseUrl$port/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
 
-        return retrofit.create(ApiService::class.java)
+        return retrofit.create(UserApiService::class.java)
+    }
+
+    private fun createPostService(baseUrl: String, port: Int): PostApiService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("$baseUrl$port/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+
+        return retrofit.create(PostApiService::class.java)
+    }
+
+    private fun createMusicianService(baseUrl: String, port: Int): MusicianApiService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("$baseUrl$port/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+
+        return retrofit.create(MusicianApiService::class.java)
+    }
+
+    private fun createLocationService(baseUrl: String, port: Int): LocationApiService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("$baseUrl$port/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+
+        return retrofit.create(LocationApiService::class.java)
+    }
+
+    private fun createBandService(baseUrl: String, port: Int): BandApiService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("$baseUrl$port/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+
+        return retrofit.create(BandApiService::class.java)
+    }
+
+    private fun createCommentService(baseUrl: String, port: Int): CommentApiService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("$baseUrl$port/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+
+        return retrofit.create(CommentApiService::class.java)
+    }
+
+    private fun createAdministratorService(baseUrl: String, port: Int): AdministratorApiService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("$baseUrl$port/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+
+        return retrofit.create(AdministratorApiService::class.java)
     }
 }
