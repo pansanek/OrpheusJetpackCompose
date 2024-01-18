@@ -7,5 +7,8 @@ data class UserDto (
     @SerializedName("password") val password: String,
     @SerializedName("name") val name: String,
     @SerializedName("login") val login: String,
-    @SerializedName("usersType") val type: String
+    @SerializedName("usersType") val type: String,
+    @SerializedName("photo") val photo: PhotoUrlDto,
+    @SerializedName("about") val about:String,
+    @SerializedName("email") val email:String,
 )

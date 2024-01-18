@@ -13,52 +13,6 @@ class UserRepositoryImpl @Inject constructor(
     private val userList= mutableListOf<UserItem>()
 
     private var autoIncrementId =0
-    init{
-        val users = listOf(
-            UserItem(
-                1,
-                "Лиза",
-                R.drawable.sample1
-            ),
-            UserItem(
-                2,
-                "Антон",
-                R.drawable.sample2
-            ),
-            UserItem(
-                3,
-                "Тамби",
-                R.drawable.sample3
-            ),
-            UserItem(
-                4,
-                "Саша",
-                R.drawable.sample4
-            ),
-            UserItem(
-                5,
-                "Макар",
-                R.drawable.sample5
-            ),
-            UserItem(
-                6,
-                "Дима",
-                R.drawable.sample6
-            ),
-            UserItem(
-                7,
-                "Арс",
-                R.drawable.sample7
-            ),
-            UserItem(
-                8,
-                "Сережа",
-                R.drawable.sample8
-            ))
-        for (user in users){
-            addUserItem(user)
-        }
-    }
     override fun addUserItem(userItem: UserItem) {
         if(userItem.id == UserItem.UNDEFINED_ID) {
             userItem.id = autoIncrementId++
