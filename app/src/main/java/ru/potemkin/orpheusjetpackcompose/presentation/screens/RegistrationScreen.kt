@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -31,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -45,13 +48,14 @@ import ru.potemkin.orpheusjetpackcompose.navigation.LOG_SCREEN
 import ru.potemkin.orpheusjetpackcompose.navigation.MUS_REG_SCREEN
 import ru.potemkin.orpheusjetpackcompose.navigation.USER_TYPE_SCREEN
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
+import ru.potemkin.orpheusjetpackcompose.ui.theme.OrpheusJetpackComposeTheme
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegistrationScreen(
-    navHostController: NavHostController
+//    navHostController: NavHostController
 ) {
 
     val surfaceVisible = remember { mutableStateOf(false) }
@@ -145,7 +149,7 @@ fun RegistrationScreen(
                                     .height(60.dp)
 
                             ) {
-                                navHostController.navigate(ABOUT_ME_SCREEN)
+//                                navHostController.navigate(ABOUT_ME_SCREEN)
                             }
                         }
                     }
@@ -164,7 +168,7 @@ fun RegistrationScreen(
                                 "Войти!",
                                 modifier = Modifier
                                     .clickable {
-                                        navHostController.navigate(LOG_SCREEN)
+//                                        navHostController.navigate(LOG_SCREEN)
                                     }
                                     .padding(bottom = 15.dp),
                                 style = MaterialTheme.typography.bodyMedium,
@@ -185,12 +189,15 @@ fun RegistrationScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutMeScreen(
-    navHostController: NavHostController
+//    navHostController: NavHostController
 ) {
     var aboutMe by remember { mutableStateOf("") }
 
     Column(Modifier.fillMaxSize()) {
-        Row(Modifier.fillMaxWidth().padding(16.dp), horizontalArrangement = Arrangement.Center) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp), horizontalArrangement = Arrangement.Center) {
             Text(
                 text = "Расскажи о себе",
                 style = MaterialTheme.typography.bodyLarge,
@@ -217,7 +224,7 @@ fun AboutMeScreen(
                 .padding(16.dp)
                 .height(60.dp),
             onClick = {
-                navHostController.navigate(USER_TYPE_SCREEN)
+//                navHostController.navigate(USER_TYPE_SCREEN)
             }
 
         )
@@ -226,13 +233,16 @@ fun AboutMeScreen(
 
 @Composable
 fun UserTypeScreen(
-    navHostController: NavHostController,
+//    navHostController: NavHostController,
 ) {
     var userType by remember { mutableStateOf("") }
 
     Column(Modifier.fillMaxSize()) {
 
-        Row(Modifier.fillMaxWidth().padding(16.dp), horizontalArrangement = Arrangement.Center) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp), horizontalArrangement = Arrangement.Center) {
             Text(
                 text = "Выбери свой тип пользователя:",
                 style = MaterialTheme.typography.bodyLarge,
@@ -260,9 +270,9 @@ fun UserTypeScreen(
                 .height(60.dp),
             onClick = {
                 when (userType) {
-                    "Музыкант" -> navHostController.navigate(MUS_REG_SCREEN)
-                    "Администратор базы" -> navHostController.navigate(ADM_REG_SCREEN)
-                    "Администратор площадки" -> navHostController.navigate(ADM_REG_SCREEN)
+//                    "Музыкант" -> navHostController.navigate(MUS_REG_SCREEN)
+//                    "Администратор базы" -> navHostController.navigate(ADM_REG_SCREEN)
+//                    "Администратор площадки" -> navHostController.navigate(ADM_REG_SCREEN)
                 }
             }
         )
@@ -270,40 +280,84 @@ fun UserTypeScreen(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MusicianRegScreen(
-    navHostController: NavHostController,
-) {
-    Row(Modifier.fillMaxWidth().padding(16.dp), horizontalArrangement = Arrangement.Center) {
+fun MusicianRegScreen() {
+    var selectedInstrument by remember { mutableStateOf("") }
+    var selectedGenre by remember { mutableStateOf("") }
+    var expandedInstrument by remember { mutableStateOf(false) }
+    var expandedGenre by remember { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
         Text(
             text = "Выбери свой жанр и инструмент:",
             style = MaterialTheme.typography.bodyLarge,
             color = Color.Black,
             fontSize = 24.sp,
-            fontWeight = FontWeight.ExtraBold
+            fontWeight = FontWeight.ExtraBold,
+            modifier = Modifier.padding(bottom = 16.dp)
         )
-    }
-    var selectedInstrument by remember { mutableStateOf("") }
-    var selectedGenre by remember { mutableStateOf("") }
 
-    Column(Modifier.fillMaxSize()) {
-        RadioButtonGroup(
-            options = listOf("Гитара", "Фортепиано", "Ударные", "Скрипка", "Другое"),
-            selectedOption = selectedInstrument,
-            onOptionSelected = { selectedInstrument = it },
+        // Выбор инструмента с использованием DropdownMenu
+        DropdownMenu(
+            expanded = expandedInstrument,
+            onDismissRequest = { expandedInstrument = false },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-        )
-
-        // Выбор жанра
-        RadioButtonGroup(
-            options = listOf("Рок", "Джаз", "Классика", "Поп", "Другое"),
-            selectedOption = selectedGenre,
-            onOptionSelected = { selectedGenre = it },
+        ) {
+            listOf("Гитара", "Фортепиано", "Ударные", "Скрипка", "Другое").forEach { instrument ->
+                DropdownMenuItem(
+                    text = { Text(text = instrument) },
+                    onClick = {
+                        selectedInstrument = instrument
+                        expandedInstrument = false
+                    }
+                )
+            }
+        }
+        OutlinedTextField(
+            value = selectedInstrument,
+            onValueChange = {},
+            readOnly = true,
+            label = { Text("Выберите инструмент") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
+                .clickable { expandedInstrument = true }
+        )
+
+        // Выбор жанра с использованием DropdownMenu
+        DropdownMenu(
+            expanded = expandedGenre,
+            onDismissRequest = { expandedGenre = false },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            listOf("Рок", "Джаз", "Классика", "Поп", "Другое").forEach { genre ->
+                DropdownMenuItem(
+                    text = { Text(text = genre) },
+                    onClick = {
+                        selectedGenre = genre
+                        expandedGenre = false
+                    }
+                )
+            }
+        }
+        OutlinedTextField(
+            value = selectedGenre,
+            onValueChange = {},
+            readOnly = true,
+            label = { Text("Выберите жанр") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .clickable { expandedGenre = true }
         )
 
         // Кнопка для завершения регистрации
@@ -315,23 +369,27 @@ fun MusicianRegScreen(
                 .padding(16.dp)
                 .height(60.dp),
             onClick = {
-                navHostController.navigate(CHAT_LIST_SCREEN)
+//                navHostController.navigate(CHAT_LIST_SCREEN)
             }
         )
     }
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdminRegScreen(
-    navHostController: NavHostController,
+//    navHostController: NavHostController,
 ) {
     var address by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
 
     Column(Modifier.fillMaxSize()) {
-        Row(Modifier.fillMaxWidth().padding(16.dp), horizontalArrangement = Arrangement.Center) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp), horizontalArrangement = Arrangement.Center) {
             Text(
                 text = "Расскажи о своем месте",
                 style = MaterialTheme.typography.bodyLarge,
@@ -366,6 +424,7 @@ fun AdminRegScreen(
             label = { Text("Описание") },
             modifier = Modifier
                 .fillMaxWidth()
+                .height(480.dp)
                 .padding(16.dp)
         )
 
@@ -377,7 +436,18 @@ fun AdminRegScreen(
             modifier = Modifier
                 .padding(16.dp)
                 .height(60.dp),
-            onClick = {navHostController.navigate(CHAT_LIST_SCREEN)}
+            onClick = {
+//                navHostController.navigate(CHAT_LIST_SCREEN)
+            }
         )
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun RegScreenPreview() {
+    OrpheusJetpackComposeTheme {
+        UserTypeScreen()
     }
 }
