@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.PostRepository
 import javax.inject.Inject
 
 class GetPostUseCase @Inject constructor(private val postRepository: PostRepository) {
-    fun getPostItem(postItemId: Int): PostItem {
+    fun getPostItem(postItemId: String): PostItem {
         return postRepository.getPostItem(postItemId)
     }
 }
