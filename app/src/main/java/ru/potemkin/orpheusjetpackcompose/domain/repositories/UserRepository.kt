@@ -10,7 +10,7 @@ interface UserRepository {
 
     fun editUserItem(userItem: UserItem)
 
-    fun getUserItem(userId: Int): UserItem
+    fun getUserItem(userId: String): UserItem
 
     fun getUsersList(): List<UserItem>
 }

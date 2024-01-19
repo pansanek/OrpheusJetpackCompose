@@ -9,7 +9,7 @@ interface PostRepository {
 
     fun editPostItem(postItem: PostItem)
 
-    fun getPostItem(postId: Int): PostItem
+    fun getPostItem(postId: String): PostItem
 
     fun getPostsList(): List<PostItem>
 }

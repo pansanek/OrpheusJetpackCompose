@@ -9,7 +9,7 @@ interface LocationRepository {
 
     fun editLocationItem(locationItem: LocationItem)
 
-    fun getLocationItem(locationId: Int): LocationItem
+    fun getLocationItem(locationId: String): LocationItem
 
     fun getLocationsList(): List<LocationItem>
 }
