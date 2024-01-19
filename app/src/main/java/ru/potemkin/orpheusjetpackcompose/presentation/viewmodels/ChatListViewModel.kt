@@ -27,7 +27,7 @@ class ChatListViewModel @Inject constructor(
 
     private fun loadUsers(){
         viewModelScope.launch {
-            val response = ApiFactory.apiService.loadAllUsers()
+            val response = ApiFactory.appUserApiService.getAllUsers()
             val users = mapper.mapUsers(response)
             for(user in users){
                 addUserUseCase.addUserItem(user)

@@ -17,7 +17,7 @@ class AuthViewModel @Inject constructor(): ViewModel() {
 
     private fun loadAuthItems() {
         viewModelScope.launch{
-            val users = ApiFactory.apiService.loadAllUsers()
+            val users = ApiFactory.appUserApiService.getAllUsers()
             val authItems = mapper.mapUsers(users)
         }
     }

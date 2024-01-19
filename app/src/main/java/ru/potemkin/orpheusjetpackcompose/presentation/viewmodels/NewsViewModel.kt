@@ -58,8 +58,8 @@ class NewsViewModel @Inject constructor(
 
     private fun loadPostItems() {
         viewModelScope.launch{
-            val posts = ApiFactory.apiService.loadAllPosts()
-            val postItems = mapper.mapPosts(posts)
+            val posts = ApiFactory.appPostApiService.getAllPosts()
+            val postItems = mapper.mapPostList(posts)
             for(postItem in postItems){
                 addPostUseCase.addPostItem(postItem)
             }
