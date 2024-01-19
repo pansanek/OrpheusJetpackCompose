@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -58,21 +59,28 @@ fun BandProfileHeader(scrollState: LazyListState, topBarHeight: Dp) {
             verticalArrangement = Arrangement.Bottom
         ) {
             // User profile picture
-            Image(
-                painter = painterResource(id = R.drawable.sample4),
-                contentDescription = null,
+            LazyRow(
                 modifier = Modifier
-                    .size(80.dp)
+                    .fillMaxWidth()
                     .padding(4.dp)
-                    .clip(MaterialTheme.shapes.small)
-                    .border(
-                        width = 2.dp,
-                        color = White,
-                        shape = MaterialTheme.shapes.small
-                    ),
-                contentScale = ContentScale.Crop
-            )
-
+            ) {
+                items(4) { index ->
+                    Image(
+                        painter = painterResource(id = R.drawable.sample4),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(80.dp)
+                            .padding(4.dp)
+                            .clip(MaterialTheme.shapes.small)
+                            .border(
+                                width = 2.dp,
+                                color = White,
+                                shape = MaterialTheme.shapes.small
+                            ),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
 

@@ -20,7 +20,9 @@ import androidx.navigation.NavController
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @Composable
-fun BandProfileTopBar(navController: NavController) {
+fun BandProfileTopBar(
+//    navController: NavController
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -34,7 +36,9 @@ fun BandProfileTopBar(navController: NavController) {
             }
             },
             navigationIcon = {
-                IconButton(onClick = { navController.navigateUp() }) {
+                IconButton(onClick = {
+//                    navController.navigateUp()
+                }) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Назад"
                     , tint = White
                     )

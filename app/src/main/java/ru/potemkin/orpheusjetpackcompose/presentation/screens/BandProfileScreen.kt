@@ -15,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.potemkin.orpheusjetpackcompose.presentation.components.BottomNavigationBar
@@ -23,23 +24,26 @@ import ru.potemkin.orpheusjetpackcompose.presentation.components.band_profile_co
 import ru.potemkin.orpheusjetpackcompose.presentation.components.band_profile_comp.BandProfileTopBar
 
 import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.NewsViewModel
+import ru.potemkin.orpheusjetpackcompose.ui.theme.OrpheusJetpackComposeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun BandProfileScreen(navHostController: NavHostController, newsViewModel: NewsViewModel) {
+fun BandProfileScreen(
+//    navHostController: NavHostController, newsViewModel: NewsViewModel
+) {
     var text by remember { mutableStateOf("") }
     val scrollState = rememberLazyListState()
     val topBarHeight = 56.dp // Замените на высоту вашего TopBar
     Scaffold(
-        bottomBar = {
-            BottomNavigationBar(
-                navHostController = navHostController
-            )
-        },
+//        bottomBar = {
+//            BottomNavigationBar(
+////                navHostController = navHostController
+//            )
+//        },
         topBar = {
             BandProfileTopBar(
-                navHostController
+//                navHostController
             )
         }
     ) {
@@ -58,13 +62,24 @@ fun BandProfileScreen(navHostController: NavHostController, newsViewModel: NewsV
                     .padding(top = topBarHeight), // Учитываем высоту TopBar
                 state = scrollState
             ) {
-                items(newsViewModel.postList) {post ->
-                    PostItem(post,newsViewModel)
-                }
+//                items(newsViewModel.postList) {post ->
+//                    PostItem(post,newsViewModel)
+//                }
             }
 
-            BandProfileTopBar(navHostController)
+            BandProfileTopBar(
+//                navHostController
+            )
 
         }
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun BandProfileScreenPreview() {
+    OrpheusJetpackComposeTheme {
+        BandProfileScreen()
     }
 }
