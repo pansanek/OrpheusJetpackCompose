@@ -14,9 +14,6 @@ class UserRepositoryImpl @Inject constructor(
 
     private var autoIncrementId =0
     override fun addUserItem(userItem: UserItem) {
-        if(userItem.id == UserItem.UNDEFINED_ID) {
-            userItem.id = autoIncrementId++
-        }
         userList.add(userItem)
     }
 
@@ -30,7 +27,7 @@ class UserRepositoryImpl @Inject constructor(
         addUserItem(userItem)
     }
 
-    override fun getUserItem(userId: Int): UserItem {
+    override fun getUserItem(userId: String): UserItem {
         return userList.find {
             it.id == userId
         } ?: throw java.lang.RuntimeException("Element with id $userId not found")

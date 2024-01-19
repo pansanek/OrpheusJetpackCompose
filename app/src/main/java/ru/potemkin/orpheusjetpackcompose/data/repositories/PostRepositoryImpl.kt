@@ -17,12 +17,7 @@ class PostRepositoryImpl @Inject constructor(
     private var autoIncrementId =0
 
     override fun addPostItem(postItem: PostItem) {
-        if(postItem.id == PostItem.UNDEFINED_ID) {
-            postItem.id = autoIncrementId++
-        }
-        Log.d("POSTS","Add post item: $postItem")
         postList.add(postItem)
-        Log.d("POSTS","PostList: ${postList.toString()}")
     }
 
     override fun deletePostItem(postItem: PostItem) {
@@ -35,7 +30,7 @@ class PostRepositoryImpl @Inject constructor(
         addPostItem(postItem)
     }
 
-    override fun getPostItem(postId: Int): PostItem {
+    override fun getPostItem(postId: String): PostItem {
         return postList.find {
             it.id == postId
         } ?: throw java.lang.RuntimeException("Element with id $postId not found")
