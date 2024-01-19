@@ -49,7 +49,7 @@ fun MainNavigation(viewModelFactory: ViewModelFactory) {
             LoginScreen(navHostController)
         }
         composable(REG_SCREEN) {
-            RegistrationScreen(navHostController)
+            RegistrationScreen()
         }
         composable(NEWS_SCREEN) {
             NewsFeedScreen(navHostController,newsViewModel)
@@ -64,22 +64,22 @@ fun MainNavigation(viewModelFactory: ViewModelFactory) {
             MapScreen(navHostController,mapViewModel)
         }
         composable(LOCATION_SCREEN) {
-            LocationScreen(navHostController)
+            LocationScreen()
         }
         composable(REG_SCREEN) {
-            RegistrationScreen(navHostController)
+            RegistrationScreen()
         }
         composable(ABOUT_ME_SCREEN) {
-            AboutMeScreen(navHostController)
+            AboutMeScreen()
         }
         composable(USER_TYPE_SCREEN) {
-            UserTypeScreen(navHostController)
+            UserTypeScreen()
         }
         composable(MUS_REG_SCREEN) {
-            MusicianRegScreen(navHostController)
+            MusicianRegScreen()
         }
         composable(ADM_REG_SCREEN) {
-            AdminRegScreen(navHostController)
+            AdminRegScreen()
         }
     }
 

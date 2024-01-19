@@ -19,6 +19,8 @@ sealed class Screen(
     object UserProfileScreen : Screen(ROUTE_USER_PROFILE)
     object BandCreationScreen : Screen(ROUTE_BAND_CREATION)
 
+    object NotificationsScreen : Screen(ROUTE_NOTIFICATIONS)
+    object SettingsScreen : Screen(ROUTE_SETTINGS)
     private companion object {
 
         const val ROUTE_BAND_PROFILE = "band_profile"
@@ -35,5 +37,7 @@ sealed class Screen(
         const val ROUTE_START = "start"
         const val ROUTE_USER_PROFILE = "user_profile"
         const val ROUTE_BAND_CREATION = "band_creation"
+        const val ROUTE_NOTIFICATIONS = "notifications"
+        const val ROUTE_SETTINGS = "settings"
     }
 }

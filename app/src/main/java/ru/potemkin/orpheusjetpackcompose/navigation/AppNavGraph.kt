@@ -18,15 +18,15 @@ fun AppNavGraph(
         navController = navHostController,
         startDestination = Screen.StartScreen.route
     ) {
-        homeScreenNavGraph(
-            newsFeedScreenContent = newsFeedScreenContent,
-            commentsScreenContent = commentsScreenContent
-        )
-        composable(Screen.Favourite.route) {
-            favouriteScreenContent()
-        }
-        composable(Screen.Profile.route) {
-            profileScreenContent()
-        }
+//        homeScreenNavGraph(
+//            newsFeedScreenContent = newsFeedScreenContent,
+//            commentsScreenContent = commentsScreenContent
+//        )
+//        composable(Screen.Favourite.route) {
+//            favouriteScreenContent()
+//        }
+//        composable(Screen.Profile.route) {
+//            profileScreenContent()
+//        }
     }
 }
