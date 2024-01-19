@@ -6,7 +6,7 @@ import ru.potemkin.orpheusjetpackcompose.R
 import kotlinx.parcelize.Parcelize
 
 data class UserItem(
-    var id: String,
+    var id: String = UNDEFINED_ID,
     var login: String,
     var password: String,
     var email: String,
