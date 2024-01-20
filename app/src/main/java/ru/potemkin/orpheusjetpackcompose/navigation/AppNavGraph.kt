@@ -9,24 +9,41 @@ import androidx.navigation.compose.composable
 @Composable
 fun AppNavGraph(
     navHostController: NavHostController,
+    bandProfileScreenContent: @Composable () -> Unit,
+    chatListScreenContent: @Composable () -> Unit,
+    chatScreenContent: @Composable () -> Unit,
+    commentsScreenContent: @Composable () -> Unit,
+    locationScreenContent: @Composable () -> Unit,
+    loginScreenContent: @Composable () -> Unit,
+    mapScreenContent: @Composable () -> Unit,
     newsFeedScreenContent: @Composable () -> Unit,
-    favouriteScreenContent: @Composable () -> Unit,
     profileScreenContent: @Composable () -> Unit,
-    commentsScreenContent: @Composable () -> Unit
+    registrationScreenContent: @Composable () -> Unit,
+    searchScreenContent: @Composable () -> Unit,
+    startScreenContent: @Composable () -> Unit,
+    userProfileScreenContent: @Composable () -> Unit,
+    bandCreationScreenContent: @Composable () -> Unit,
+    notificationsScreenContent: @Composable () -> Unit,
+    settingsScreenContent: @Composable () -> Unit,
 ) {
     NavHost(
         navController = navHostController,
         startDestination = Screen.StartScreen.route
     ) {
-//        homeScreenNavGraph(
-//            newsFeedScreenContent = newsFeedScreenContent,
-//            commentsScreenContent = commentsScreenContent
-//        )
-//        composable(Screen.Favourite.route) {
-//            favouriteScreenContent()
-//        }
-//        composable(Screen.Profile.route) {
-//            profileScreenContent()
-//        }
+        authHomeNavGraph(
+            startScreenContent, loginScreenContent, registrationScreenContent
+        )
+        feedHomeNavGraph(
+            newsFeedScreenContent, commentsScreenContent, userProfileScreenContent, notificationsScreenContent, bandProfileScreenContent,bandCreationScreenContent
+        )
+        chatHomeNavGraph(
+            chatListScreenContent, chatScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent,commentsScreenContent,
+        )
+        profileHomeNavGraph(
+            profileScreenContent, commentsScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent, chatListScreenContent, chatScreenContent,settingsScreenContent,searchScreenContent
+        )
+        mapHomeNavGraph(
+            userProfileScreenContent, commentsScreenContent, chatListScreenContent, chatScreenContent, mapScreenContent, locationScreenContent
+        )
     }
 }
