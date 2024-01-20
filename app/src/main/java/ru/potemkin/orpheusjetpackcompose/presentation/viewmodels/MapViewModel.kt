@@ -5,7 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import ru.potemkin.orpheusjetpackcompose.data.repositories.LocationRepositoryImpl
-import ru.potemkin.orpheusjetpackcompose.data.states.MapViewState
+import ru.potemkin.orpheusjetpackcompose.presentation.screens.states.MapViewState
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.location_usecases.GetLocationListUseCase
 import javax.inject.Inject

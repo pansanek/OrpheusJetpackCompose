@@ -9,11 +9,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.mappers.PostMapper
-import ru.potemkin.orpheusjetpackcompose.data.mappers.UsersMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
-import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
-import ru.potemkin.orpheusjetpackcompose.data.states.CommentsViewState
-import ru.potemkin.orpheusjetpackcompose.data.states.NewsScreenState
+import ru.potemkin.orpheusjetpackcompose.presentation.screens.states.NewsFeedScreenState
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.AddPostUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetPostListUseCase
@@ -30,10 +27,10 @@ class NewsViewModel @Inject constructor(
     }
     val postList = getPostListUseCase.getPostList()
 
-    private val initialState = NewsScreenState.Posts(posts = postList)
+    private val initialState = NewsFeedScreenState.Posts(posts = postList)
 
-    private val _screenState = MutableLiveData<NewsScreenState>(initialState)
-    val screenState: LiveData<NewsScreenState> = _screenState
+    private val _screenState = MutableLiveData<NewsFeedScreenState>(initialState)
+    val screenState: LiveData<NewsFeedScreenState> = _screenState
 
     private val _state = mutableStateOf(CommentsViewState())
     val state: State<CommentsViewState> = _state
@@ -63,7 +60,7 @@ class NewsViewModel @Inject constructor(
             for(postItem in postItems){
                 addPostUseCase.addPostItem(postItem)
             }
-            _screenState.value = NewsScreenState.Posts(posts = postItems)
+            _screenState.value = NewsFeedScreenState.Posts(posts = postItems)
             Log.d("POSTS","LIST: ${postList.toString()}")
         }
     }

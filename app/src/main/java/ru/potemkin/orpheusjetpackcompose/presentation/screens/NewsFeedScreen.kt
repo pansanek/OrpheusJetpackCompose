@@ -1,7 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.screens
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,7 +16,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import ru.potemkin.orpheusjetpackcompose.data.states.NewsScreenState
+import ru.potemkin.orpheusjetpackcompose.presentation.screens.states.NewsFeedScreenState
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.PostItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
@@ -29,7 +28,7 @@ import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.NewsViewModel
 fun NewsFeedScreen(navHostController: NavHostController, newsViewModel: NewsViewModel) {
     var text by remember { mutableStateOf("") }
 
-    val screenState = newsViewModel.screenState.observeAsState(NewsScreenState.Initial)
+    val screenState = newsViewModel.screenState.observeAsState(NewsFeedScreenState.Initial)
 
 
     Scaffold(
@@ -53,7 +52,7 @@ fun NewsFeedScreen(navHostController: NavHostController, newsViewModel: NewsView
         }
     ) {
         when (val currentState = screenState.value) {
-            is NewsScreenState.Posts -> {
+            is NewsFeedScreenState.Posts -> {
                 FeedPosts(
                     text = "",
                     posts = currentState.posts,
@@ -61,7 +60,7 @@ fun NewsFeedScreen(navHostController: NavHostController, newsViewModel: NewsView
                 )
             }
 
-            NewsScreenState.Initial -> {
+            NewsFeedScreenState.Initial -> {
 
             }
         }
