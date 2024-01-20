@@ -3,7 +3,6 @@ package ru.potemkin.orpheusjetpackcompose.navigation
 sealed class Screen(
     val route: String
 ) {
-
     object BandProfileScreen : Screen(ROUTE_BAND_PROFILE)
     object ChatListScreen : Screen(ROUTE_CHAT_LIST)
     object ChatScreen : Screen(ROUTE_CHAT)
@@ -18,20 +17,30 @@ sealed class Screen(
     object StartScreen : Screen(ROUTE_START)
     object UserProfileScreen : Screen(ROUTE_USER_PROFILE)
     object BandCreationScreen : Screen(ROUTE_BAND_CREATION)
-
     object NotificationsScreen : Screen(ROUTE_NOTIFICATIONS)
     object SettingsScreen : Screen(ROUTE_SETTINGS)
-    private companion object {
 
+    object AuthHomeScreen : Screen(ROUTE_AUTH_HOME)
+    object ChatHomeScreen : Screen(ROUTE_CHAT_HOME)
+    object MapHomeScreen : Screen(ROUTE_MAP_HOME)
+    object ProfileHomeScreen : Screen(ROUTE_PROFILE_HOME)
+    object FeedHomeScreen : Screen(ROUTE_FEED_HOME)
+
+    private companion object {
+        const val ROUTE_AUTH_HOME = "auth_home"
         const val ROUTE_BAND_PROFILE = "band_profile"
         const val ROUTE_CHAT_LIST = "chat_list"
         const val ROUTE_CHAT = "chat"
+        const val ROUTE_CHAT_HOME = "chat_home"
         const val ROUTE_COMMENTS = "comments"
+        const val ROUTE_FEED_HOME = "feed_home"
         const val ROUTE_LOCATION = "location"
         const val ROUTE_LOGIN = "login"
         const val ROUTE_MAP = "map"
+        const val ROUTE_MAP_HOME = "map_home"
         const val ROUTE_NEWS_FEED = "news_feed"
         const val ROUTE_PROFILE = "profile"
+        const val ROUTE_PROFILE_HOME = "profile_home"
         const val ROUTE_REGISTRATION = "registration"
         const val ROUTE_SEARCH = "search"
         const val ROUTE_START = "start"
