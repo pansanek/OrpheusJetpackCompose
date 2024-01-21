@@ -23,11 +23,7 @@ fun ProfileScreen(navHostController: NavHostController,newsViewModel: NewsViewMo
     val scrollState = rememberLazyListState()
     val topBarHeight = 48.dp // Замените на высоту вашего TopBar
     Scaffold(
-        bottomBar = {
-            ru.potemkin.orpheusjetpackcompose.presentation.components.BottomNavigationBar(
-                navHostController = navHostController
-            )
-        },
+
         topBar = {
             ProfileTopBar(
                 navHostController
