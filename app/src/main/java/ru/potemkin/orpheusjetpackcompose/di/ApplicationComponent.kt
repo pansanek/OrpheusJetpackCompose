@@ -1,10 +1,9 @@
 package ru.potemkin.orpheusjetpackcompose.di
 
-import android.app.Application
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
-import ru.potemkin.orpheusjetpackcompose.presentation.MainActivity
+import ru.potemkin.orpheusjetpackcompose.presentation.main.MainActivity
 
 @ApplicationScope
 @Component(

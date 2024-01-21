@@ -1,14 +1,11 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.components
 
-import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,9 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Comment
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -32,33 +26,21 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
-import ru.potemkin.orpheusjetpackcompose.R
 
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
-import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
-import ru.potemkin.orpheusjetpackcompose.navigation.LOCATION_SCREEN
-import ru.potemkin.orpheusjetpackcompose.presentation.screens.DetailsDialog
-import ru.potemkin.orpheusjetpackcompose.presentation.screens.LocationItem
-import ru.potemkin.orpheusjetpackcompose.presentation.viewmodels.NewsViewModel
+import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsViewModel
 
 @Composable
 fun PostItem(postItem: PostItem, viewModel: NewsViewModel) {
