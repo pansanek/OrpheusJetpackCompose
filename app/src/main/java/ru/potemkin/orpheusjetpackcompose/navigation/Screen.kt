@@ -1,12 +1,24 @@
 package ru.potemkin.orpheusjetpackcompose.navigation
 
+import com.google.gson.Gson
+import okio.ByteString.Companion.encode
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
+
 sealed class Screen(
     val route: String
 ) {
     object BandProfileScreen : Screen(ROUTE_BAND_PROFILE)
     object ChatListScreen : Screen(ROUTE_CHAT_LIST)
     object ChatScreen : Screen(ROUTE_CHAT)
-    object CommentsScreen : Screen(ROUTE_COMMENTS)
+    object CommentsScreen : Screen(ROUTE_COMMENTS){
+
+        private const val ROUTE_FOR_ARGS = "comments"
+
+        fun getRouteWithArgs(feedPost: PostItem): String {
+            val feedPostJson = Gson().toJson(feedPost)
+            return "$ROUTE_FOR_ARGS/${feedPostJson.encode()}"
+        }
+    }
     object LocationScreen : Screen(ROUTE_LOCATION)
     object LoginScreen : Screen(ROUTE_LOGIN)
     object MapScreen : Screen(ROUTE_MAP)
@@ -26,7 +38,9 @@ sealed class Screen(
     object ProfileHomeScreen : Screen(ROUTE_PROFILE_HOME)
     object FeedHomeScreen : Screen(ROUTE_FEED_HOME)
 
-    private companion object {
+    companion object {
+        const val KEY_FEED_POST = "feed_post"
+
         const val ROUTE_AUTH_HOME = "auth_home"
         const val ROUTE_BAND_PROFILE = "band_profile"
         const val ROUTE_CHAT_LIST = "chat_list"

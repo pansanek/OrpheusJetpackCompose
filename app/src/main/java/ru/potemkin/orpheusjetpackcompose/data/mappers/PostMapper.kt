@@ -7,6 +7,8 @@ import ru.potemkin.orpheusjetpackcompose.data.model.PhotoUrlDto
 import ru.potemkin.orpheusjetpackcompose.data.model.PostDto
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticType
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -32,7 +34,12 @@ class PostMapper {
             likes = postDto.likes.size,
             comments = mapCommentList(postDto.comments),
             attachments = mapAttachmentList(postDto.attachment),
-            creatorType = postDto.creatorType
+            creatorType = postDto.creatorType,
+            isLiked = false,
+            statistics = listOf(
+                StatisticItem(type = StatisticType.LIKES, postDto.likes.size),
+                StatisticItem(type = StatisticType.COMMENTS, postDto.comments.size)
+            ),
         )
 
         return postItem

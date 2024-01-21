@@ -5,13 +5,12 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.DragInteraction
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,21 +26,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
-import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
 import ru.potemkin.orpheusjetpackcompose.R
-import ru.potemkin.orpheusjetpackcompose.navigation.LOG_SCREEN
-import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
+import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
-import ru.potemkin.orpheusjetpackcompose.ui.theme.OrpheusJetpackComposeTheme
 
 @Composable
 fun StartScreen(
-    navHostController: NavHostController
 ) {
     val surfaceVisible = remember { mutableStateOf(false) }
     Box(
@@ -93,7 +85,7 @@ fun StartScreen(
                     .align(Alignment.BottomCenter)
                     .height(60.dp)
             ) {
-                navHostController.navigate(LOG_SCREEN)
+
             }
         }
 

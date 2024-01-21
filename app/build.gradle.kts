@@ -75,7 +75,7 @@ dependencies {
     implementation( "com.google.accompanist:accompanist-pager:0.23.0")
     implementation ("androidx.compose.runtime:runtime-livedata:1.5.4")
     //implementation("com.yandex.android:maps:4.0.1")
-
+    implementation ("io.coil-kt:coil-compose:2.1.0")
     //di
     implementation ("com.google.dagger:dagger:2.43.2")
     kapt ("com.google.dagger:dagger-compiler:2.43.2")

@@ -3,11 +3,13 @@ package ru.potemkin.orpheusjetpackcompose.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 
 fun NavGraphBuilder.feedHomeNavGraph(
     newsFeedScreenContent: @Composable () -> Unit,
-    commentsScreenContent: @Composable () -> Unit,
+    commentsScreenContent: @Composable (PostItem) -> Unit,
     userProfileScreenContent: @Composable () -> Unit,
     notificationsScreenContent: @Composable () -> Unit,
     bandProfileScreenContent: @Composable () -> Unit,
@@ -20,8 +22,17 @@ fun NavGraphBuilder.feedHomeNavGraph(
         composable(Screen.NewsFeedScreen.route) {
             newsFeedScreenContent()
         }
-        composable(Screen.CommentsScreen.route) {
-            commentsScreenContent()
+        composable(
+            route = Screen.CommentsScreen.route,
+            arguments = listOf(
+                navArgument(Screen.KEY_FEED_POST) {
+                    type = PostItem.NavigationType
+                }
+            )
+        ) { //comments/{feed_post_id}
+            val feedPost = it.arguments?.getParcelable<PostItem>(Screen.KEY_FEED_POST)
+                ?: throw RuntimeException("Args is null")
+            commentsScreenContent(feedPost)
         }
         composable(Screen.UserProfileScreen.route) {
             userProfileScreenContent()

@@ -10,7 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import ru.potemkin.orpheusjetpackcompose.presentation.components.PostItem
+import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.PostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.user_profile_comp.UserProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.user_profile_comp.UserProfileTopBar
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsViewModel

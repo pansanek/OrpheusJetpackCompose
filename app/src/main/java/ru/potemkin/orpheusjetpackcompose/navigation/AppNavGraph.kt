@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 
 @Composable
 fun AppNavGraph(
@@ -12,7 +13,7 @@ fun AppNavGraph(
     bandProfileScreenContent: @Composable () -> Unit,
     chatListScreenContent: @Composable () -> Unit,
     chatScreenContent: @Composable () -> Unit,
-    commentsScreenContent: @Composable () -> Unit,
+    commentsScreenContent: @Composable (PostItem) -> Unit,
     locationScreenContent: @Composable () -> Unit,
     loginScreenContent: @Composable () -> Unit,
     mapScreenContent: @Composable () -> Unit,

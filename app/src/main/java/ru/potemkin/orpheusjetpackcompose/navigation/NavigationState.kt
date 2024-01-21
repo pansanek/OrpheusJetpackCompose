@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 
 class NavigationState(
     val navHostController: NavHostController
@@ -17,6 +18,10 @@ class NavigationState(
             launchSingleTop = true
             restoreState = true
         }
+    }
+
+    fun navigateToComments(feedPost: PostItem) {
+        navHostController.navigate(Screen.CommentsScreen.getRouteWithArgs(feedPost)) // comments/15
     }
 }
 
