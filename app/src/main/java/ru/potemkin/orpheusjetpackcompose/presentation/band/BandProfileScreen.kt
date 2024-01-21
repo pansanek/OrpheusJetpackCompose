@@ -1,4 +1,4 @@
-package ru.potemkin.orpheusjetpackcompose.presentation.profile
+package ru.potemkin.orpheusjetpackcompose.presentation.band
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column

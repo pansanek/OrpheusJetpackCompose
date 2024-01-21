@@ -16,7 +16,8 @@ fun NavGraphBuilder.profileHomeNavGraph(
     chatListScreenContent: @Composable () -> Unit,
     chatScreenContent: @Composable () -> Unit,
     searchScreenContent: @Composable () -> Unit,
-    settingsScreenContent: @Composable () -> Unit
+    settingsScreenContent: @Composable () -> Unit,
+    bandListScreenContent: @Composable () -> Unit,
 
 ) {
     navigation(
@@ -28,6 +29,9 @@ fun NavGraphBuilder.profileHomeNavGraph(
         }
         composable(Screen.BandCreationScreen.route) {
             bandCreationScreenContent()
+        }
+        composable(Screen.BandListScreen.route) {
+            bandListScreenContent()
         }
         composable(Screen.UserProfileScreen.route) {
             userProfileScreenContent()
