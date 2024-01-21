@@ -26,6 +26,7 @@ fun AppNavGraph(
     bandCreationScreenContent: @Composable () -> Unit,
     notificationsScreenContent: @Composable () -> Unit,
     settingsScreenContent: @Composable () -> Unit,
+    bandListScreenContent: @Composable () -> Unit,
 ) {
     NavHost(
         navController = navHostController,
@@ -41,7 +42,7 @@ fun AppNavGraph(
             chatListScreenContent, chatScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent,commentsScreenContent,
         )
         profileHomeNavGraph(
-            profileScreenContent, commentsScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent, chatListScreenContent, chatScreenContent,settingsScreenContent,searchScreenContent
+            profileScreenContent, commentsScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent, chatListScreenContent, chatScreenContent,settingsScreenContent,searchScreenContent, bandListScreenContent
         )
         mapHomeNavGraph(
             userProfileScreenContent, commentsScreenContent, chatListScreenContent, chatScreenContent, mapScreenContent, locationScreenContent

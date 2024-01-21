@@ -10,13 +10,15 @@ import ru.potemkin.orpheusjetpackcompose.navigation.rememberNavigationState
 import ru.potemkin.orpheusjetpackcompose.presentation.auth.LoginScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.auth.RegistrationScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.auth.StartScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.band.BandCreationScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.band.BandListScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.chat.ChatListScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.chat.ChatScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.map.LocationScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.map.MapScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.comments.CommentsScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedScreen
-import ru.potemkin.orpheusjetpackcompose.presentation.profile.BandProfileScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.band.BandProfileScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.NotificationScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.ProfileScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.SearchScreen
@@ -88,9 +90,10 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
             searchScreenContent ={ SearchScreen() },
             startScreenContent ={ StartScreen(navHostController = ) },
             userProfileScreenContent ={ UserProfileScreen(navHostController = , newsViewModel = ) },
-            bandCreationScreenContent ={ StartScreen() }, //TODO
+            bandCreationScreenContent ={ BandCreationScreen() },
             notificationsScreenContent ={ NotificationScreen() },
-            settingsScreenContent = { SettingsScreen() }
+            settingsScreenContent = { SettingsScreen() },
+            bandListScreenContent = { BandListScreen()}
 
         )
         /*
@@ -98,6 +101,7 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
         Осталось разобраться с навигацией остальных экранов и вообще с остальными экранами
         Потом доделать все для чата(item,repo и тд)
         И на серваке с чатами разобраться
+        УРОК 35 sumin
         */
     }
 }

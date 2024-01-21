@@ -29,6 +29,7 @@ sealed class Screen(
     object StartScreen : Screen(ROUTE_START)
     object UserProfileScreen : Screen(ROUTE_USER_PROFILE)
     object BandCreationScreen : Screen(ROUTE_BAND_CREATION)
+    object BandListScreen : Screen(ROUTE_BAND_LIST)
     object NotificationsScreen : Screen(ROUTE_NOTIFICATIONS)
     object SettingsScreen : Screen(ROUTE_SETTINGS)
 
@@ -60,6 +61,7 @@ sealed class Screen(
         const val ROUTE_START = "start"
         const val ROUTE_USER_PROFILE = "user_profile"
         const val ROUTE_BAND_CREATION = "band_creation"
+        const val ROUTE_BAND_LIST = "band_list"
         const val ROUTE_NOTIFICATIONS = "notifications"
         const val ROUTE_SETTINGS = "settings"
     }
