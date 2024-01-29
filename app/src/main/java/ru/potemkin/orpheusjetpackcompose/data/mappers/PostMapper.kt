@@ -51,7 +51,7 @@ class PostMapper {
             val commentItem = CommentItem(
                 id = commentDto.id,
                 user = userMapper.mapUser(commentDto.user),
-                post = mapPost(commentDto.post),
+                post_id = commentDto.post_id,
                 text = commentDto.text,
                 timestamp = commentDto.timestamp
             )
