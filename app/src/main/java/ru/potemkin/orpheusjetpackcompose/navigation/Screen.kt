@@ -2,14 +2,34 @@ package ru.potemkin.orpheusjetpackcompose.navigation
 
 import com.google.gson.Gson
 import okio.ByteString.Companion.encode
+import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 
 sealed class Screen(
     val route: String
 ) {
-    object BandProfileScreen : Screen(ROUTE_BAND_PROFILE)
+    object BandProfileScreen : Screen(ROUTE_BAND_PROFILE){
+
+        private const val ROUTE_FOR_ARGS = "band"
+
+        fun getRouteWithArgs(band: BandItem): String {
+            val bandJson = Gson().toJson(band)
+            return "$ROUTE_FOR_ARGS/${bandJson.encode()}"
+        }
+    }
     object ChatListScreen : Screen(ROUTE_CHAT_LIST)
-    object ChatScreen : Screen(ROUTE_CHAT)
+    object ChatScreen : Screen(ROUTE_CHAT){
+
+        private const val ROUTE_FOR_ARGS = "chat"
+
+        fun getRouteWithArgs(chat: ChatItem): String {
+            val chatJson = Gson().toJson(chat)
+            return "$ROUTE_FOR_ARGS/${chatJson.encode()}"
+        }
+    }
     object CommentsScreen : Screen(ROUTE_COMMENTS){
 
         private const val ROUTE_FOR_ARGS = "comments"
@@ -19,7 +39,15 @@ sealed class Screen(
             return "$ROUTE_FOR_ARGS/${feedPostJson.encode()}"
         }
     }
-    object LocationScreen : Screen(ROUTE_LOCATION)
+    object LocationScreen : Screen(ROUTE_LOCATION){
+
+        private const val ROUTE_FOR_ARGS = "location"
+
+        fun getRouteWithArgs(location: LocationItem): String {
+            val locationJson = Gson().toJson(location)
+            return "$ROUTE_FOR_ARGS/${locationJson.encode()}"
+        }
+    }
     object LoginScreen : Screen(ROUTE_LOGIN)
     object MapScreen : Screen(ROUTE_MAP)
     object NewsFeedScreen : Screen(ROUTE_NEWS_FEED)
@@ -27,7 +55,15 @@ sealed class Screen(
     object RegistrationScreen : Screen(ROUTE_REGISTRATION)
     object SearchScreen : Screen(ROUTE_SEARCH)
     object StartScreen : Screen(ROUTE_START)
-    object UserProfileScreen : Screen(ROUTE_USER_PROFILE)
+    object UserProfileScreen : Screen(ROUTE_USER_PROFILE){
+
+        private const val ROUTE_FOR_ARGS = "user"
+
+        fun getRouteWithArgs(user: UserItem): String {
+            val userJson = Gson().toJson(user)
+            return "$ROUTE_FOR_ARGS/${userJson.encode()}"
+        }
+    }
     object BandCreationScreen : Screen(ROUTE_BAND_CREATION)
     object BandListScreen : Screen(ROUTE_BAND_LIST)
     object NotificationsScreen : Screen(ROUTE_NOTIFICATIONS)
@@ -41,6 +77,10 @@ sealed class Screen(
 
     companion object {
         const val KEY_FEED_POST = "feed_post"
+        const val KEY_USER = "user"
+        const val KEY_BAND = "band"
+        const val KEY_CHAT = "chat"
+        const val KEY_LOCATION = "location"
 
         const val ROUTE_AUTH_HOME = "auth_home"
         const val ROUTE_BAND_PROFILE = "band_profile"
