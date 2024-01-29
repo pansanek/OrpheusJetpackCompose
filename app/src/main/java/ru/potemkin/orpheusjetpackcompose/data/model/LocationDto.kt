@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class LocationDto(
     @SerializedName("id") val id: String,
-    @SerializedName("admin_id") val adminId: String,
+    @SerializedName("admin") val admin: AdministratorDto,
     @SerializedName("name") val name: String,
     @SerializedName("address") val address: String,
     @SerializedName("about") val about: String,

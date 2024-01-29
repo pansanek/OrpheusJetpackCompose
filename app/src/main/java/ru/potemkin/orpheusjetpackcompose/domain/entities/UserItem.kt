@@ -5,6 +5,7 @@ import androidx.annotation.DrawableRes
 import ru.potemkin.orpheusjetpackcompose.R
 import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class UserItem(
     var id: String = UNDEFINED_ID,
     var login: String,
@@ -15,7 +16,7 @@ data class UserItem(
     var profile_picture: PhotoUrlItem,
     var background_picture: PhotoUrlItem,
     var settings: UserSettingsItem
-) {
+):Parcelable {
     companion object {
         const val UNDEFINED_ID = "0"
     }

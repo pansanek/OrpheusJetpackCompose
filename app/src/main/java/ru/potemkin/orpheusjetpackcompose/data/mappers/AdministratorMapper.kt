@@ -5,6 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.AdministratorItem
 
 class AdministratorMapper {
 
+    val userMapper = UsersMapper()
     fun mapAdministrators(listAdministratorDto: List<AdministratorDto>): List<AdministratorItem> {
         val result = mutableListOf<AdministratorItem>()
         for (administratorDto in listAdministratorDto) {
@@ -17,7 +18,7 @@ class AdministratorMapper {
     fun mapAdministrator(administratorDto: AdministratorDto): AdministratorItem {
         return AdministratorItem(
             id = administratorDto.id,
-            userId = administratorDto.userId,
+            user = userMapper.mapUser(administratorDto.user),
             locationId = administratorDto.locationId
         )
     }

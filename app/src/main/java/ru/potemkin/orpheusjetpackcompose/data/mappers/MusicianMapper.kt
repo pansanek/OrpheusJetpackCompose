@@ -14,14 +14,14 @@ import java.util.Date
 import java.util.Locale
 
 
-class MusicianMapper{
-
+class MusicianMapper {
+    val userMapper = UsersMapper()
     fun mapMusicians(listMusicianDto: List<MusicianDto>): List<MusicianItem> {
         val result = mutableListOf<MusicianItem>()
         for (musicianDto in listMusicianDto) {
             val musicianItem = MusicianItem(
                 id = musicianDto.id,
-                userId = musicianDto.userId,
+                user = userMapper.mapUser(musicianDto.user),
                 genre = musicianDto.genre,
                 instrument = musicianDto.instrument
             )
@@ -33,7 +33,7 @@ class MusicianMapper{
     fun mapMusician(musicianDto: MusicianDto): MusicianItem {
         return MusicianItem(
             id = musicianDto.id,
-            userId = musicianDto.userId,
+            user = userMapper.mapUser(musicianDto.user),
             genre = musicianDto.genre,
             instrument = musicianDto.instrument
         )

@@ -3,7 +3,7 @@ package ru.potemkin.orpheusjetpackcompose.domain.entities
 
 data class LocationItem(
     var id: String = UNDEFINED_ID,
-    val adminId: String,
+    val admin: AdministratorItem,
     var name: String,
     var address: String,
     var about: String,

@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.R
+import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerHeight
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
@@ -45,15 +47,10 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ChatListScreen(
-    navHostController: NavHostController,
-    chatListViewModel: ChatListViewModel
+    paddingValues: PaddingValues,
+    onChatClickListener: (ChatItem) -> Unit
 ) {
     Scaffold(
-        bottomBar = {
-            ru.potemkin.orpheusjetpackcompose.presentation.components.BottomNavigationBar(
-                navHostController = navHostController
-            )
-        },
         content = {
             Box(
                 modifier = Modifier
@@ -85,12 +82,8 @@ fun ChatListScreen(
                             modifier = Modifier.padding(bottom = 15.dp, top = 30.dp)
                         ) {
                             items(chatListViewModel.userList, key = { it.id }) {
-                                UserEachRow(user = it,navHostController) {
-                                    navHostController.currentBackStackEntry?.savedStateHandle?.set(
-                                        "data",
-                                        it
-                                    )
-                                    navHostController.navigate(CHAT_SCREEN)
+                                UserEachRow(user = it) {
+                                    onChatClickListener(it)
                                 }
                             }
                         }
@@ -137,7 +130,6 @@ fun BottomSheetSwipeUp(
 @Composable
 fun UserEachRow(
     user: UserItem,
-    navHostController: NavHostController,
     onClick: () -> Unit,
 ) {
 

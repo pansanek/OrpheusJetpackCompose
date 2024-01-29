@@ -66,7 +66,12 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
         AppNavGraph(
             navHostController = navigationState.navHostController,
             bandProfileScreenContent = { BandProfileScreen() },
-            chatListScreenContent ={ ChatListScreen(navHostController = , chatListViewModel = ) },
+            chatListScreenContent ={ ChatListScreen(
+                paddingValues = paddingValues,
+                onChatClickListener = {
+                    navigationState.navigateToComments(it)
+                } )}
+            ,
             chatScreenContent ={ ChatScreen(navHostController = , chatViewModel = ) },
             commentsScreenContent ={ feedPost ->
                 CommentsScreen(

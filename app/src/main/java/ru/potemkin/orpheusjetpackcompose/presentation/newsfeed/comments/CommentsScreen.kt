@@ -106,7 +106,7 @@ private fun CommentItem(
         Spacer(modifier = Modifier.width(8.dp))
         Column {
             Text(
-                text = comment.userId,
+                text = comment.user.id,
                 color = MaterialTheme.colors.onPrimary,
                 fontSize = 12.sp
             )

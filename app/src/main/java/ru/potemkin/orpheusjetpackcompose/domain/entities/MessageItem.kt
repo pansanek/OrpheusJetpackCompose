@@ -1,14 +1,12 @@
 package ru.potemkin.orpheusjetpackcompose.domain.entities
 
-data class MessageItem(
-    var id: Int = UNDEFINED_ID,
-    val message: String,
-    val time: String,
-    val direction: Boolean
-){
-    companion object{
-        const val UNDEFINED_ID = 0
-    }
-}
+import com.google.gson.annotations.SerializedName
 
+data class MessageItem(
+    var id: String,
+    var chat: ChatItem,
+    var fromUser: UserItem,
+    var timestamp: String,
+    var content: String,
+)
 

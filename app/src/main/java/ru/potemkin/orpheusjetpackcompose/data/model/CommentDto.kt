@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 data class CommentDto(
     @SerializedName("comment_id") val id: String,
-    @SerializedName("post_id") val postId: String,
-    @SerializedName("user_id") val userId: String,
+    @SerializedName("post") val post: PostDto,
+    @SerializedName("user") val user: UserDto,
     @SerializedName("text") val text: String,
     @SerializedName("timestamp") val timestamp: String
 )

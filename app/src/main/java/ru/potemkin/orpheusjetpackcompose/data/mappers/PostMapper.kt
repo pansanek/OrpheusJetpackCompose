@@ -15,7 +15,7 @@ import java.util.Locale
 
 
 class PostMapper {
-
+    val userMapper = UsersMapper()
     fun mapPostList(postDtoList: List<PostDto>): List<PostItem> {
         val result = mutableListOf<PostItem>()
         for (postDto in postDtoList) {
@@ -28,7 +28,7 @@ class PostMapper {
     fun mapPost(postDto: PostDto): PostItem {
         val postItem = PostItem(
             id = postDto.postId,
-            userId = postDto.creatorId,
+            creatorId = postDto.creatorId,
             text = postDto.caption,
             date = postDto.timestamp,
             likes = postDto.likes.size,
@@ -50,8 +50,8 @@ class PostMapper {
         for (commentDto in commentDtoList) {
             val commentItem = CommentItem(
                 id = commentDto.id,
-                userId = commentDto.userId,
-                postId = commentDto.postId,
+                user = userMapper.mapUser(commentDto.user),
+                post = mapPost(commentDto.post),
                 text = commentDto.text,
                 timestamp = commentDto.timestamp
             )

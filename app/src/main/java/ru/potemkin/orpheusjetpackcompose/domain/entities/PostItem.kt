@@ -10,7 +10,7 @@ import ru.potemkin.orpheusjetpackcompose.R
 @Parcelize
 data class PostItem(
     var id: String = UNDEFINED_ID,
-    val userId: String,
+    val creatorId: String,
     var text: String,
     val date: String,
     var likes: Int,

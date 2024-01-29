@@ -6,13 +6,13 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 
 class LocationMapper {
-
+    val adminMapper = AdministratorMapper()
     fun mapLocations(listLocationDto: List<LocationDto>): List<LocationItem> {
         val result = mutableListOf<LocationItem>()
         for (locationDto in listLocationDto) {
             val locationItem = LocationItem(
                 id = locationDto.id,
-                adminId = locationDto.adminId,
+                admin = adminMapper.mapAdministrator(locationDto.admin),
                 name = locationDto.name,
                 address = locationDto.address,
                 about = locationDto.about,
@@ -26,7 +26,7 @@ class LocationMapper {
     fun mapLocation(locationDto: LocationDto): LocationItem {
         return LocationItem(
             id = locationDto.id,
-            adminId = locationDto.adminId,
+            admin = adminMapper.mapAdministrator(locationDto.admin),
             name = locationDto.name,
             address = locationDto.address,
             about = locationDto.about,

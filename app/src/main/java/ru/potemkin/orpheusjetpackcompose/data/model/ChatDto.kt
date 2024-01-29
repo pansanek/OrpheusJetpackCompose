@@ -2,8 +2,8 @@ package ru.potemkin.orpheusjetpackcompose.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class AdministratorDto(
+data class ChatDto(
     @SerializedName("id") val id: String,
-    @SerializedName("user") val user: UserDto,
-    @SerializedName("location_id") val locationId: String
-)
+    @SerializedName("users") val users: List<UserDto>,
+    @SerializedName("last_message") val lastMessage: String,
+    )
