@@ -4,17 +4,20 @@ package ru.potemkin.orpheusjetpackcompose.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 
 @Composable
 fun AppNavGraph(
     navHostController: NavHostController,
-    bandProfileScreenContent: @Composable () -> Unit,
+    bandProfileScreenContent: @Composable (BandItem) -> Unit,
     chatListScreenContent: @Composable () -> Unit,
-    chatScreenContent: @Composable () -> Unit,
+    chatScreenContent: @Composable (ChatItem) -> Unit,
     commentsScreenContent: @Composable (PostItem) -> Unit,
-    locationScreenContent: @Composable () -> Unit,
+    locationScreenContent: @Composable (LocationItem) -> Unit,
     loginScreenContent: @Composable () -> Unit,
     mapScreenContent: @Composable () -> Unit,
     newsFeedScreenContent: @Composable () -> Unit,
@@ -22,7 +25,7 @@ fun AppNavGraph(
     registrationScreenContent: @Composable () -> Unit,
     searchScreenContent: @Composable () -> Unit,
     startScreenContent: @Composable () -> Unit,
-    userProfileScreenContent: @Composable () -> Unit,
+    userProfileScreenContent: @Composable (UserItem) -> Unit,
     bandCreationScreenContent: @Composable () -> Unit,
     notificationsScreenContent: @Composable () -> Unit,
     settingsScreenContent: @Composable () -> Unit,
