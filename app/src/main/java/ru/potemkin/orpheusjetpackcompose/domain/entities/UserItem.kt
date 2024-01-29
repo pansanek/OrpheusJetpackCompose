@@ -1,7 +1,10 @@
 package ru.potemkin.orpheusjetpackcompose.domain.entities
 
+import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.DrawableRes
+import androidx.navigation.NavType
+import com.google.gson.Gson
 import ru.potemkin.orpheusjetpackcompose.R
 import kotlinx.parcelize.Parcelize
 
@@ -19,6 +22,21 @@ data class UserItem(
 ):Parcelable {
     companion object {
         const val UNDEFINED_ID = "0"
+
+        val NavigationType: NavType<UserItem> = object : NavType<UserItem>(false) {
+
+            override fun get(bundle: Bundle, key: String): UserItem? {
+                return bundle.getParcelable(key)
+            }
+
+            override fun parseValue(value: String): UserItem {
+                return Gson().fromJson(value, UserItem::class.java)
+            }
+
+            override fun put(bundle: Bundle, key: String, value: UserItem) {
+                bundle.putParcelable(key, value)
+            }
+        }
     }
 }
 
