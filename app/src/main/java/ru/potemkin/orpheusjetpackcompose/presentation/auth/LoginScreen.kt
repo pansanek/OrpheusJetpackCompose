@@ -12,6 +12,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -50,6 +51,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.potemkin.orpheusjetpackcompose.R
+import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.AuthButton
 import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
 import ru.potemkin.orpheusjetpackcompose.presentation.components.TextEntryModule
@@ -61,7 +63,8 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    navHostController: NavHostController
+    paddingValues: PaddingValues,
+    onRegistrationClickListener: () -> Unit,
 ) {
 
     val surfaceVisible = remember { mutableStateOf(false) }

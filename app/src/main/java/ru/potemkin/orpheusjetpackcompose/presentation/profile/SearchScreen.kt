@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.OrpheusJetpackComposeTheme
 
 data class Musician(
@@ -28,7 +30,12 @@ data class Musician(
 )
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen() {
+fun SearchScreen(
+    paddingValues: PaddingValues,
+    onUserClickListener: (UserItem) -> Unit,
+    onBandClickListener: (BandItem) -> Unit,
+    onBackPressed: () -> Unit,
+) {
 
     var searchText by remember { mutableStateOf("") }
     var selectedGenre by remember { mutableStateOf("") }

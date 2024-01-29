@@ -10,6 +10,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.PostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.profile_comp.ProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.profile_comp.ProfileTopBar
@@ -18,7 +20,12 @@ import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsViewMode
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun ProfileScreen(navHostController: NavHostController,newsViewModel: NewsViewModel) {
+fun ProfileScreen(
+    paddingValues: PaddingValues,
+    onSettingsClickListener: () -> Unit,
+    onBandListClickListener: () -> Unit,
+    onCommentClickListener: (PostItem) -> Unit,
+) {
     var text by remember { mutableStateOf("") }
     val scrollState = rememberLazyListState()
     val topBarHeight = 48.dp // Замените на высоту вашего TopBar

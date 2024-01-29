@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -51,8 +52,8 @@ import ru.potemkin.orpheusjetpackcompose.navigation.LOCATION_SCREEN
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MapScreen(
-    navHostController: NavHostController,
-    mapViewModel: MapViewModel
+    paddingValues: PaddingValues,
+    onLocationClickListener: (LocationItem) -> Unit,
 ) {
 
 

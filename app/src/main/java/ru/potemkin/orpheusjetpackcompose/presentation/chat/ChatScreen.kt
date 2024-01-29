@@ -36,9 +36,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.R
+import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.IconComponentImageVector
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MessageItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.*
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
@@ -50,8 +52,9 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
-    navHostController: NavHostController,
-    chatViewModel: ChatViewModel
+    onBackPressed: () -> Unit,
+    chatItem: ChatItem,
+    onUserClickListener: (UserItem) -> Unit
 ) {
 
     var message by remember { mutableStateOf("") }

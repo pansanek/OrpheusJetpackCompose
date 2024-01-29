@@ -65,40 +65,168 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
     ) { paddingValues ->
         AppNavGraph(
             navHostController = navigationState.navHostController,
-            bandProfileScreenContent = { BandProfileScreen() },
-            chatListScreenContent ={ ChatListScreen(
-                paddingValues = paddingValues,
-                onChatClickListener = {
-                    navigationState.navigateToComments(it)
-                } )}
-            ,
-            chatScreenContent ={ ChatScreen(navHostController = , chatViewModel = ) },
-            commentsScreenContent ={ feedPost ->
+            bandProfileScreenContent = { bandItem ->
+                BandProfileScreen(
+                    onBackPressed = {
+                        navigationState.navHostController.popBackStack()
+                    },
+                    bandItem = bandItem,
+                    onCommentClickListener = {
+                        navigationState.navigateToComments(it)
+                    },
+                    onUserClickListener = {
+                        navigationState.navigateToUser(it)
+                    }
+                )
+            },
+            chatListScreenContent = {
+                ChatListScreen(
+                    paddingValues = paddingValues,
+                    onChatClickListener = {
+                        navigationState.navigateToChat(it)
+                    },
+                    onUserClickListener = {
+                        navigationState.navigateToUser(it)
+                    })
+            },
+            chatScreenContent = { chatItem ->
+                ChatScreen(
+                    onBackPressed = {
+                        navigationState.navHostController.popBackStack()
+                    },
+                    chatItem = chatItem,
+                    onUserClickListener = {
+                        navigationState.navigateToUser(it)
+                    }
+                )
+            },
+            commentsScreenContent = { feedPost ->
                 CommentsScreen(
                     onBackPressed = {
                         navigationState.navHostController.popBackStack()
                     },
-                    feedPost = feedPost
+                    feedPost = feedPost,
                 )
             },
-            locationScreenContent ={ LocationScreen() },
-            loginScreenContent ={ LoginScreen(navHostController = ) },
-            mapScreenContent ={ MapScreen(navHostController = , mapViewModel = ) },
-            newsFeedScreenContent ={ NewsFeedScreen(
-                paddingValues = paddingValues,
-                onCommentClickListener = {
-                    navigationState.navigateToComments(it)
-                }
-            )},
-            profileScreenContent ={ ProfileScreen(navHostController = , newsViewModel = ) },
-            registrationScreenContent ={ RegistrationScreen() },
-            searchScreenContent ={ SearchScreen() },
-            startScreenContent ={ StartScreen(navHostController = ) },
-            userProfileScreenContent ={ UserProfileScreen(navHostController = , newsViewModel = ) },
-            bandCreationScreenContent ={ BandCreationScreen() },
-            notificationsScreenContent ={ NotificationScreen() },
-            settingsScreenContent = { SettingsScreen() },
-            bandListScreenContent = { BandListScreen()}
+            locationScreenContent = { locationItem ->
+                LocationScreen(
+                    onBackPressed = {
+                        navigationState.navHostController.popBackStack()
+                    },
+                    locationItem = locationItem,
+                    onUserClickListener = {
+                        navigationState.navigateToUser(locationItem.admin.user)
+                    },
+                    onChatClickListener = {
+                        navigationState.navigateToUserChat(it)
+                    }
+                )
+            },
+            loginScreenContent = {
+                LoginScreen(
+                    paddingValues = paddingValues,
+                    onRegistrationClickListener = {
+                        navigationState.navigateToRegistration()
+                    })
+            },
+            mapScreenContent = {
+                MapScreen(
+                    paddingValues = paddingValues,
+                    onLocationClickListener = {
+                        navigationState.navigateToLocation(it)
+                    })
+            },
+            newsFeedScreenContent = {
+                NewsFeedScreen(
+                    paddingValues = paddingValues,
+                    onCommentClickListener = {
+                        navigationState.navigateToComments(it)
+                    }
+                )
+            },
+            profileScreenContent = {
+                ProfileScreen(
+                    paddingValues = paddingValues,
+                    onSettingsClickListener = {
+                        navigationState.navigateToSettings()
+                    },
+                    onCommentClickListener = {
+                        navigationState.navigateToComments(it)
+                    },
+                    onBandListClickListener = {
+                        navigationState.navigateToBandList()
+                    })
+            },
+            registrationScreenContent = {
+                RegistrationScreen(
+                    paddingValues = paddingValues,
+                    onLoginClickListener = {
+                        navigationState.navigateToLogin()
+                    })
+            },
+            searchScreenContent = {
+                SearchScreen(
+                    paddingValues = paddingValues,
+                    onUserClickListener = {
+                        navigationState.navigateToUser(it)
+                    },
+                    onBandClickListener = {
+                        navigationState.navigateToBand(it)
+                    },
+                    onBackPressed = {
+                        navigationState.navHostController.popBackStack()
+                    },
+                )
+            },
+            startScreenContent = {
+                StartScreen(
+                    paddingValues = paddingValues,
+                    onAuthClickListener = {
+                        navigationState.navigateToLogin()
+                    },
+                )
+            },
+            userProfileScreenContent = { userItem ->
+                UserProfileScreen(
+                    onBackPressed = {
+                        navigationState.navHostController.popBackStack()
+                    },
+                    userItem = userItem,
+                    onCommentClickListener = {
+                        navigationState.navigateToComments(it)
+                    }
+                )
+            },
+            bandCreationScreenContent = {
+                BandCreationScreen(
+                    onBackPressed = {
+                        navigationState.navHostController.popBackStack()
+                    },
+                )
+            },
+            notificationsScreenContent = {
+                NotificationScreen(
+                    onBackPressed = {
+                        navigationState.navHostController.popBackStack()
+                    },
+                )
+            },
+            settingsScreenContent = {
+                SettingsScreen(
+                    onBackPressed = {
+                        navigationState.navHostController.popBackStack()
+                    },
+                )
+            },
+            bandListScreenContent = {
+                BandListScreen(
+                    onBackPressed = {
+                    navigationState.navHostController.popBackStack()
+                },
+                    onBandCreationClickListener = {
+                    navigationState.navigateToBandCreation()
+                })
+            }
 
         )
         /*

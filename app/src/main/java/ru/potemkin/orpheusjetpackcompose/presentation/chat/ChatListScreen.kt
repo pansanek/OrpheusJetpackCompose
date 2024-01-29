@@ -48,7 +48,8 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 @Composable
 fun ChatListScreen(
     paddingValues: PaddingValues,
-    onChatClickListener: (ChatItem) -> Unit
+    onChatClickListener: (ChatItem) -> Unit,
+    onUserClickListener: (UserItem) -> Unit
 ) {
     Scaffold(
         content = {

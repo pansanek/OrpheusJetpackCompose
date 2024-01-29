@@ -16,6 +16,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.band_profile_comp.BandProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.band_profile_comp.BandProfileTopBar
 
@@ -25,7 +28,10 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.OrpheusJetpackComposeTheme
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun BandProfileScreen(
-//    navHostController: NavHostController, newsViewModel: NewsViewModel
+    onBackPressed: () -> Unit,
+    bandItem: BandItem,
+    onCommentClickListener: (PostItem) -> Unit,
+    onUserClickListener: (UserItem) -> Unit
 ) {
     var text by remember { mutableStateOf("") }
     val scrollState = rememberLazyListState()

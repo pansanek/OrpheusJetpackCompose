@@ -37,6 +37,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.potemkin.orpheusjetpackcompose.R
+import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.user_profile_comp.InviteButton
 import ru.potemkin.orpheusjetpackcompose.ui.theme.OrpheusJetpackComposeTheme
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
@@ -45,7 +49,10 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LocationScreen(
-//    navHostController: NavHostController
+    onBackPressed: () -> Unit,
+    locationItem: LocationItem,
+    onUserClickListener: (UserItem) -> Unit,
+    onChatClickListener: (ChatItem) -> Unit
 ) {
     var text by remember { mutableStateOf("") }
     val scrollState = rememberLazyListState()

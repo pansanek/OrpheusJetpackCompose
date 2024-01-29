@@ -44,11 +44,16 @@ import androidx.navigation.NavController
 import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun BandListScreen() {
+
+fun BandListScreen(
+    onBackPressed: () -> Unit,
+    onBandCreationClickListener: () -> Unit,
+) {
     // Пример данных о группах
     val groups = listOf(
         BandItem("1", "TSSE", listOf("Pavel", "Ivan"), "Metalcore", PhotoUrlItem(1, "1.jpg"))
@@ -148,7 +153,9 @@ fun GroupListItem(group: BandItem, onItemClick: () -> Unit) {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BandCreationScreen() {
+fun BandCreationScreen(
+    onBackPressed: () -> Unit,
+) {
     var groupName by remember { mutableStateOf("") }
     var groupGenre by remember { mutableStateOf("") }
     var groupAvatar by remember { mutableStateOf("") }

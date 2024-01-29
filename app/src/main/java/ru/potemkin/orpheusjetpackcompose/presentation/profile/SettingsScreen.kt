@@ -23,7 +23,9 @@ import androidx.compose.ui.unit.dp
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(
+    onBackPressed: () -> Unit,
+) {
     var isEditProfileScreenVisible by remember { mutableStateOf(false) }
     var isPrivacyScreenVisible by remember { mutableStateOf(false) }
     var userSettings by remember { mutableStateOf(UserSettingsItem(true, false)) }

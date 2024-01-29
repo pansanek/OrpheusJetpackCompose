@@ -57,7 +57,9 @@ fun NotificationCard(notification: NotificationItem) {
 }
 
 @Composable
-fun NotificationScreen() {
+fun NotificationScreen(
+    onBackPressed: () -> Unit,
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()

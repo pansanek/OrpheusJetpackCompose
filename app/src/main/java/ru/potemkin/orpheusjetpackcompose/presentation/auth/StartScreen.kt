@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -29,11 +30,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.potemkin.orpheusjetpackcompose.R
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
 
 @Composable
 fun StartScreen(
+    paddingValues: PaddingValues,
+    onAuthClickListener: () -> Unit,
 ) {
     val surfaceVisible = remember { mutableStateOf(false) }
     Box(
