@@ -180,7 +180,6 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
             },
             startScreenContent = {
                 StartScreen(
-                    paddingValues = paddingValues,
                     onAuthClickListener = {
                         navigationState.navigateToLogin()
                     },

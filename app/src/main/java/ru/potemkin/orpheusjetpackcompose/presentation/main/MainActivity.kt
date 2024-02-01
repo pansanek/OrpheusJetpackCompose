@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ru.potemkin.orpheusjetpackcompose.navigation.rememberNavigationState
 import ru.potemkin.orpheusjetpackcompose.presentation.auth.StartScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedScreen
 import ru.potemkin.orpheusjetpackcompose.ui.theme.OrpheusJetpackComposeTheme
@@ -26,14 +27,18 @@ class MainActivity : ComponentActivity() {
             OrpheusJetpackComposeTheme {
                 val viewModel: MainViewModel = viewModel(factory = viewModelFactory)
                 val authState = viewModel.authState.observeAsState(AuthState.Initial)
-
+                val navigationState = rememberNavigationState()
                 when (authState.value) {
                     is AuthState.Authorized -> {
                         MainScreen(viewModelFactory)
                     }
 
                     is AuthState.NotAuthorized -> {
-                        StartScreen()
+                        StartScreen(
+                            onAuthClickListener = {
+                                navigationState.navigateToLogin()
+                            },
+                        )
                     }
 
                     else -> {
