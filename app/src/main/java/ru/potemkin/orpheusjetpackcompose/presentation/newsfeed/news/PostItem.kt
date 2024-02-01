@@ -83,7 +83,7 @@ private fun PostHeader(
         verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
-            model = feedPost.userId,
+            model = feedPost.creatorPicture.url,
             modifier = Modifier
                 .size(50.dp)
                 .clip(CircleShape),
@@ -94,7 +94,7 @@ private fun PostHeader(
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = feedPost.userId,
+                text = feedPost.creatorName,
                 color = Color.Black
             )
             Spacer(modifier = Modifier.width(4.dp))
