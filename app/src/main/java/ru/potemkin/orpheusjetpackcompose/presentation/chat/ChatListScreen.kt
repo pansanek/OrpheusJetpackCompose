@@ -9,11 +9,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -27,21 +30,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
-import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerHeight
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
-import ru.potemkin.orpheusjetpackcompose.navigation.CHAT_SCREEN
-import ru.potemkin.orpheusjetpackcompose.navigation.USER_PROFILE_SCREEN
+import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedScreenState
+import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedViewModel
 import ru.potemkin.orpheusjetpackcompose.ui.theme.*
-import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
-import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
-import ru.potemkin.orpheusjetpackcompose.ui.theme.Turquoise
-import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -51,49 +49,66 @@ fun ChatListScreen(
     onChatClickListener: (ChatItem) -> Unit,
     onUserClickListener: (UserItem) -> Unit
 ) {
-    Scaffold(
-        content = {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Green)
-            ) {
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 30.dp)
-                ) {
-                    CustomHeader()
+    val viewModel: NewsFeedViewModel = viewModel()
+    val screenState = viewModel.screenState.observeAsState(ChatListScreenState.Initial)
+    when (val currentState = screenState.value) {
+        is ChatListScreenState.Chats -> {
+            Scaffold(
+                content = {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(
-                                Color.White, RoundedCornerShape(
-                                    topStart = 30.dp, topEnd = 30.dp
-                                )
-                            )
+                            .background(Green)
                     ) {
-                        BottomSheetSwipeUp(
+
+                        Column(
                             modifier = Modifier
-                                .align(TopCenter)
-                                .padding(top = 15.dp)
-                        )
-                        LazyColumn(
-                            modifier = Modifier.padding(bottom = 15.dp, top = 30.dp)
+                                .fillMaxSize()
+                                .padding(top = 30.dp)
                         ) {
-                            items(chatListViewModel.userList, key = { it.id }) {
-                                UserEachRow(user = it) {
-                                    onChatClickListener(it)
+                            CustomHeader()
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(
+                                        Color.White, RoundedCornerShape(
+                                            topStart = 30.dp, topEnd = 30.dp
+                                        )
+                                    )
+                            ) {
+                                BottomSheetSwipeUp(
+                                    modifier = Modifier
+                                        .align(TopCenter)
+                                        .padding(top = 15.dp)
+                                )
+                                LazyColumn(
+                                    modifier = Modifier.padding(bottom = 15.dp, top = 30.dp)
+                                ) {
+                                    items(currentState.chats, key = { it.id }) {
+                                        UserEachRow(
+                                            user = it.users.get(1),
+                                            onChatClick = { onChatClickListener(it) },
+                                            onUserClick= {onUserClickListener(it.users.get(1))}
+                                        )
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
+
+            )
         }
 
-    )
+        NewsFeedScreenState.Initial -> {}
+        NewsFeedScreenState.Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(color = Color.Black)
+            }
+        }
+    }
 
 
 }
@@ -131,14 +146,15 @@ fun BottomSheetSwipeUp(
 @Composable
 fun UserEachRow(
     user: UserItem,
-    onClick: () -> Unit,
+    onChatClick: () -> Unit,
+    onUserClick: () -> Unit,
 ) {
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White)
-            .noRippleEffect { onClick() }
+            .noRippleEffect { onChatClick() }
             .padding(horizontal = 20.dp, vertical = 5.dp),
     ) {
         Column {
@@ -149,12 +165,12 @@ fun UserEachRow(
                 Row {
 
                     AsyncImage(
-                        model = user.icon,
+                        model = user.profile_picture.url,
                         modifier = Modifier
                             .size(64.dp)
                             .clip(CircleShape)
                             .clickable {
-                                navHostController.navigate(USER_PROFILE_SCREEN)
+                                onUserClick()
                             },
                         contentDescription = null
                     )

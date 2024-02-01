@@ -1,11 +1,13 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.chat
 
-import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 
-//sealed class ChatListScreenState {
-//
-//    object Initial : ChatListScreenState()
-//    data class Chats(
-//        val chats: List<ChatItem>
-//    ) : ChatListScreenState()
-//}
+
+sealed class ChatListScreenState {
+
+    object Initial : ChatListScreenState()
+    object Loading : ChatListScreenState()
+    data class Chats(
+        val chats: List<ChatItem>
+    ) : ChatListScreenState()
+}

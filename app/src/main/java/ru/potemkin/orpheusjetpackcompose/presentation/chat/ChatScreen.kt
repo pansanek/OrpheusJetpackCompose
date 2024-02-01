@@ -1,6 +1,7 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.chat
 
 import android.annotation.SuppressLint
+import android.app.Application
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -20,12 +21,14 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -33,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.R
@@ -42,6 +46,9 @@ import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MessageItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.comments.CommentsScreenState
+import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.comments.CommentsViewModel
+import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.comments.CommentsViewModelFactory
 import ru.potemkin.orpheusjetpackcompose.ui.theme.*
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
@@ -57,10 +64,17 @@ fun ChatScreen(
     onUserClickListener: (UserItem) -> Unit
 ) {
 
+    var userId = "ID"
     var message by remember { mutableStateOf("") }
-    val data =
-        navHostController.previousBackStackEntry?.savedStateHandle?.get<UserItem>("data") ?: UserItem()
-
+    val viewModel: ChatViewModel = viewModel(
+        factory = ChatViewModelFactory(
+            chatItem,
+            LocalContext.current.applicationContext as Application
+        )
+    )
+    val screenState = viewModel.screenState.observeAsState(ChatScreenState.Initial)
+    val currentState = screenState.value
+    if (currentState is ChatScreenState.Messages){
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -74,7 +88,7 @@ fun ChatScreen(
                     TopAppBar(
                         {
                             UserNameRow(
-                                user = data,
+                                user = chatItem.users.get(1),
                                 modifier = Modifier
                                     .background(Green)
                             )
@@ -87,8 +101,7 @@ fun ChatScreen(
                         modifier = Modifier
                             .padding(horizontal = 20.dp, vertical = 20.dp)
                     )
-                }
-                , content = {
+                }, content = {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
@@ -108,7 +121,7 @@ fun ChatScreen(
                                 bottom = 75.dp
                             )
                         ) {
-                            items(chatViewModel.messageList, key = { it.id }) {
+                            items(currentState.messages, key = { it.id }) {
                                 ChatRow(message = it)
                             }
                         }
@@ -116,7 +129,7 @@ fun ChatScreen(
                 }
             )
         }
-
+    }
 
     }
 
@@ -126,21 +139,21 @@ fun ChatScreen(
 fun ChatRow(
     message: MessageItem
 ) {
-
+    var userId = "ID"
     Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = if (message.direction) Alignment.Start else Alignment.End
+        horizontalAlignment = if (message.fromUser.id != userId) Alignment.Start else Alignment.End
     ) {
         Box(
             modifier = Modifier
                 .background(
-                    if (message.direction) White else LightGreen,
+                    if (message.fromUser.id != userId ) White else LightGreen,
                     RoundedCornerShape(100.dp)
                 ),
             contentAlignment = Center
         ) {
             Text(
-                text = message.message, style = TextStyle(
+                text = message.content, style = TextStyle(
                     color = Color.Black,
                     fontSize = 15.sp
                 ),
@@ -149,7 +162,7 @@ fun ChatRow(
             )
         }
         Text(
-            text = message.time,
+            text = message.timestamp,
             style = TextStyle(
                 color = Black,
                 fontSize = 12.sp
@@ -238,7 +251,7 @@ fun UserNameRow(
         Row {
 
             AsyncImage(
-                model = user.icon,
+                model = user.profile_picture.url,
                 modifier = Modifier
                     .size(64.dp)
                     .clip(CircleShape),
