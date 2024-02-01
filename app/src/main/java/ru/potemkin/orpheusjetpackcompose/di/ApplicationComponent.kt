@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import ru.potemkin.orpheusjetpackcompose.presentation.main.MainActivity
+import ru.potemkin.orpheusjetpackcompose.presentation.main.ViewModelFactory
 
 @ApplicationScope
 @Component(
@@ -15,7 +16,7 @@ import ru.potemkin.orpheusjetpackcompose.presentation.main.MainActivity
 interface ApplicationComponent {
 
     fun inject(mainActivity: MainActivity)
-
+    fun getViewModelFactory(): ViewModelFactory
     @Component.Factory
     interface Factory {
 

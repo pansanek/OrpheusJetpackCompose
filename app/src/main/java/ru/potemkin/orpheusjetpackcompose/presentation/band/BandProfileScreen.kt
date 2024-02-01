@@ -77,10 +77,10 @@ fun BandProfileScreen(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun BandProfileScreenPreview() {
-    OrpheusJetpackComposeTheme {
-        BandProfileScreen()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun BandProfileScreenPreview() {
+//    OrpheusJetpackComposeTheme {
+//        BandProfileScreen()
+//    }
+//}

@@ -36,7 +36,6 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
 
 @Composable
 fun StartScreen(
-    paddingValues: PaddingValues,
     onAuthClickListener: () -> Unit,
 ) {
     val surfaceVisible = remember { mutableStateOf(false) }

@@ -12,6 +12,7 @@ import kotlinx.parcelize.Parcelize
 data class UserItem(
     var id: String = UNDEFINED_ID,
     var login: String,
+    var name:String,
     var password: String,
     var email: String,
     var about: String,
