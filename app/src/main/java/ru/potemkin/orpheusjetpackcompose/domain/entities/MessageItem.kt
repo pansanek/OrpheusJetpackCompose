@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class MessageItem(
     var id: String,
-    var chat: ChatItem,
+    var chatId: String,
     var fromUser: UserItem,
     var timestamp: String,
     var content: String,
