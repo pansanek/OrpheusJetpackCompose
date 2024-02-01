@@ -17,7 +17,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 fun NewsFeedScreen(
     paddingValues: PaddingValues, onCommentClickListener: (PostItem) -> Unit
 ) {
-    val viewModel: NewsViewModel = viewModel()
+    val viewModel: NewsFeedViewModel = viewModel()
     val screenState = viewModel.screenState.observeAsState(NewsFeedScreenState.Initial)
 
     when (val currentState = screenState.value) {
@@ -44,7 +44,7 @@ fun NewsFeedScreen(
 
 @Composable
 private fun FeedPosts(
-    viewModel: NewsViewModel,
+    viewModel: NewsFeedViewModel,
     paddingValues: PaddingValues,
     posts: List<PostItem>,
     onCommentClickListener: (PostItem) -> Unit,

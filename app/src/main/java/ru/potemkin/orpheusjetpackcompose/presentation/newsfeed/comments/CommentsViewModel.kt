@@ -16,7 +16,7 @@ class CommentsViewModel(
     application: Application
 ) : ViewModel() {
 
-    private val repository = PostRepositoryImpl()
+    private val repository = PostRepositoryImpl(application)
 
     private val _screenState = MutableLiveData<CommentsScreenState>(CommentsScreenState.Initial)
     val screenState: LiveData<CommentsScreenState> = _screenState

@@ -7,7 +7,7 @@ import dagger.multibindings.IntoMap
 import ru.potemkin.orpheusjetpackcompose.presentation.chat.ChatListViewModel
 import ru.potemkin.orpheusjetpackcompose.presentation.chat.ChatViewModel
 import ru.potemkin.orpheusjetpackcompose.presentation.map.MapViewModel
-import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsViewModel
+import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedViewModel
 
 
 @Module
@@ -26,7 +26,7 @@ interface ViewModelModule {
     @Binds
     fun bindMapViewModel(viewModel: MapViewModel): ViewModel
     @IntoMap
-    @ViewModelKey(NewsViewModel::class)
+    @ViewModelKey(NewsFeedViewModel::class)
     @Binds
-    fun bindNewsViewModel(viewModel: NewsViewModel): ViewModel
+    fun bindNewsViewModel(viewModel: NewsFeedViewModel): ViewModel
 }
