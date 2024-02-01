@@ -6,7 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import ru.potemkin.orpheusjetpackcompose.data.model.LocationDto
-import java.util.UUID
 
 interface LocationApiService {
 
@@ -17,5 +16,5 @@ interface LocationApiService {
     suspend fun createLocation(@Body requestBody: RequestBody): LocationDto
 
     @GET("/api/locations/{id}")
-    suspend fun getLocationById(@Path("id") id: UUID): LocationDto
+    suspend fun getLocationById(@Path("id") id: String): LocationDto
 }

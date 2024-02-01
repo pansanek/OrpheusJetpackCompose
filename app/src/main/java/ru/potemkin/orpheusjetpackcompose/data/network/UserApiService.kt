@@ -17,5 +17,5 @@ interface UserApiService {
     suspend fun createUser(@Body requestBody: RequestBody): UserDto
 
     @GET("/api/users/{id}")
-    suspend fun getUserById(@Path("id") id: UUID): UserDto
+    suspend fun getUserById(@Path("id") id: String): UserDto
 }

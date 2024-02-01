@@ -19,6 +19,8 @@ object ApiFactory {
     val appUserApiService: UserApiService = createUserService(baseUrl, 88)
     val appPostApiService: PostApiService = createPostService(baseUrl, 87)
     val appMusicianApiService: MusicianApiService = createMusicianService(baseUrl, 86)
+    val appChatApiService: ChatApiService = createChatService(baseUrl, 82)
+    val appMessageApiService: MessageApiService = createMessageService(baseUrl, 81)
     val appLocationApiService: LocationApiService = createLocationService(baseUrl, 85)
     val appCommentApiService: CommentApiService = createCommentService(baseUrl, 84)
     val appBandApiService: BandApiService = createBandService(baseUrl, 83)
@@ -92,5 +94,24 @@ object ApiFactory {
             .build()
 
         return retrofit.create(AdministratorApiService::class.java)
+    }
+
+    private fun createChatService(baseUrl: String, port: Int): ChatApiService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("$baseUrl$port/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+
+        return retrofit.create(ChatApiService::class.java)
+    }
+    private fun createMessageService(baseUrl: String, port: Int): MessageApiService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("$baseUrl$port/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+
+        return retrofit.create(MessageApiService::class.java)
     }
 }
