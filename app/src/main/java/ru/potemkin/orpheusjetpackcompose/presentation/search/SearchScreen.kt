@@ -1,4 +1,4 @@
-package ru.potemkin.orpheusjetpackcompose.presentation.profile
+package ru.potemkin.orpheusjetpackcompose.presentation.search
 
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.background
@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
@@ -14,20 +15,21 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.*
 
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedViewModel
 import ru.potemkin.orpheusjetpackcompose.ui.theme.OrpheusJetpackComposeTheme
 
-data class Musician(
-    val name: String,
-    val genre: String,
-    val instrument: String
-)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
@@ -42,63 +44,72 @@ fun SearchScreen(
     var selectedInstrument by remember { mutableStateOf("") }
     var isFilterExpanded by remember { mutableStateOf(false) }
 
-    val musicians = listOf(
-        Musician("John Doe", "Rock", "Guitar"),
-        Musician("Jane Smith", "Pop", "Piano"),
-        // Add more musicians as needed
-    )
-
-    Column {
-        TopAppBar(
-            title = {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    IconButton(onClick = { /* Handle back button click */ }) {
-                        Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
-                    }
-                    OutlinedTextField(
-                        value = searchText,
-                        onValueChange = { searchText = it },
-                        modifier = Modifier
-                            .fillMaxWidth(0.8f)
-                            .padding(8.dp),
-                        label = { Text("Search") },
-                        trailingIcon = {
-                            IconButton(onClick = { /* Handle search icon click */ }) {
-                                Icon(Icons.Outlined.Search, contentDescription = "Search")
+    val viewModel: SearchViewModel = viewModel()
+    val screenState = viewModel.screenState.observeAsState(SearchScreenState.Initial)
+    when (val currentState = screenState.value) {
+        is SearchScreenState.Finds -> {
+            Column {
+                TopAppBar(
+                    title = {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            IconButton(onClick = { onBackPressed() }) {
+                                Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
                             }
-                        },
-                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
+                            OutlinedTextField(
+                                value = searchText,
+                                onValueChange = { searchText = it },
+                                modifier = Modifier
+                                    .fillMaxWidth(0.8f)
+                                    .padding(8.dp),
+                                label = { Text("Search") },
+                                trailingIcon = {
+                                    IconButton(onClick = { /* Handle search icon click */ }) {
+                                        Icon(Icons.Outlined.Search, contentDescription = "Search")
+                                    }
+                                },
+                                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
+                            )
+                            IconButton(onClick = { isFilterExpanded = true }) {
+                                Icon(Icons.Outlined.Settings, contentDescription = "Filter")
+                            }
+                        }
+                    }
+                )
+
+                if (isFilterExpanded) {
+                    FilterDialog(
+                        onDismiss = { isFilterExpanded = false },
+                        onGenreSelected = { selectedGenre = it },
+                        onInstrumentSelected = { selectedInstrument = it }
                     )
-                    IconButton(onClick = { isFilterExpanded = true }) {
-                        Icon(Icons.Outlined.Settings, contentDescription = "Filter")
+                }
+
+                LazyColumn {
+                    items(currentState.musicians) { musician ->
+                        MusicianListItem(musician = musician) {
+                            onUserClickListener(musician.user)
+                        }
                     }
                 }
             }
-        )
-
-        if (isFilterExpanded) {
-            FilterDialog(
-                onDismiss = { isFilterExpanded = false },
-                onGenreSelected = { selectedGenre = it },
-                onInstrumentSelected = { selectedInstrument = it }
-            )
         }
 
-        LazyColumn {
-            items(musicians) { musician ->
-                MusicianListItem(musician = musician) {
-                    // Handle item click
-                }
+        SearchScreenState.Initial -> {}
+        SearchScreenState.Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(color = Color.Black)
             }
         }
     }
 }
 
 @Composable
-fun MusicianListItem(musician: Musician, onItemClick: () -> Unit) {
+fun MusicianListItem(musician: MusicianItem, onItemClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -107,7 +118,7 @@ fun MusicianListItem(musician: Musician, onItemClick: () -> Unit) {
             .background(MaterialTheme.colorScheme.surface)
     ) {
         Column {
-            Text(text = musician.name, style = MaterialTheme.typography.titleLarge)
+            Text(text = musician.user.name, style = MaterialTheme.typography.titleLarge)
             Text(text = "Genre: ${musician.genre}", style = MaterialTheme.typography.titleSmall)
             Text(text = "Instrument: ${musician.instrument}", style = MaterialTheme.typography.titleSmall)
         }
@@ -198,10 +209,10 @@ fun FilterDialog(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun SearchPreview() {
-    OrpheusJetpackComposeTheme {
-        SearchScreen()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun SearchPreview() {
+//    OrpheusJetpackComposeTheme {
+//        SearchScreen()
+//    }
+//}
