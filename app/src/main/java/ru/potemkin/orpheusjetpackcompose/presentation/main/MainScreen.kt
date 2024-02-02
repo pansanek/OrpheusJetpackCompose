@@ -12,10 +12,10 @@ import ru.potemkin.orpheusjetpackcompose.presentation.auth.RegistrationScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.auth.StartScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.band.BandCreationScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.band.BandListScreen
-import ru.potemkin.orpheusjetpackcompose.presentation.chat.ChatListScreen
-import ru.potemkin.orpheusjetpackcompose.presentation.chat.ChatScreen
-import ru.potemkin.orpheusjetpackcompose.presentation.map.LocationScreen
-import ru.potemkin.orpheusjetpackcompose.presentation.map.MapScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.chat.chatlist.ChatListScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.chat.chat.ChatScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.map.location.LocationScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.map.map.MapScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.comments.CommentsScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.band.BandProfileScreen

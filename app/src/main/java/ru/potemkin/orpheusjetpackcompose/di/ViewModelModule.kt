@@ -4,9 +4,8 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import ru.potemkin.orpheusjetpackcompose.presentation.chat.ChatListViewModel
-import ru.potemkin.orpheusjetpackcompose.presentation.chat.ChatViewModel
-import ru.potemkin.orpheusjetpackcompose.presentation.map.MapViewModel
+import ru.potemkin.orpheusjetpackcompose.presentation.chat.chatlist.ChatListViewModel
+import ru.potemkin.orpheusjetpackcompose.presentation.map.map.MapViewModel
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedViewModel
 
 

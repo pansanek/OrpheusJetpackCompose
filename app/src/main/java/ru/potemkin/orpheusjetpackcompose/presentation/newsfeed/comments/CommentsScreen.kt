@@ -37,8 +37,7 @@ fun CommentsScreen(
 ) {
     val viewModel: CommentsViewModel = viewModel(
         factory = CommentsViewModelFactory(
-            feedPost,
-            LocalContext.current.applicationContext as Application
+            feedPost
         )
     )
     val screenState = viewModel.screenState.observeAsState(CommentsScreenState.Initial)
