@@ -1,4 +1,4 @@
-package ru.potemkin.orpheusjetpackcompose.presentation.components.user_profile_comp
+package ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -37,11 +37,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.potemkin.orpheusjetpackcompose.R
-import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @Composable
-fun UserProfileHeader(scrollState: LazyListState, topBarHeight: Dp) {
+fun UserProfileHeader(
+    scrollState: LazyListState,
+    topBarHeight: Dp,
+    onBandListClickListener: () -> Unit
+) {
     // При скролле уменьшаем высоту Header и делаем его непрозрачным
     val headerHeight by animateDpAsState(
         targetValue = if (scrollState.firstVisibleItemIndex > 0) 0.dp else 300.dp
@@ -82,7 +85,8 @@ fun UserProfileHeader(scrollState: LazyListState, topBarHeight: Dp) {
                         color = White,
                         shape = MaterialTheme.shapes.small
                     ),
-                contentScale = ContentScale.Crop)
+                contentScale = ContentScale.Crop
+            )
 
 
             Row(
@@ -134,7 +138,6 @@ fun UserProfileHeader(scrollState: LazyListState, topBarHeight: Dp) {
                 color = Color.White
             )
         }
-
 
 
     }

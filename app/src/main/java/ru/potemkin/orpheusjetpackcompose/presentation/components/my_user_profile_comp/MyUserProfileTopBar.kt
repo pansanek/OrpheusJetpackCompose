@@ -1,4 +1,4 @@
-package ru.potemkin.orpheusjetpackcompose.presentation.components.user_profile_comp
+package ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,17 +11,16 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.PersonAdd
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @Composable
-fun UserProfileTopBar(navController: NavController) {
+fun MyUserProfileTopBar(onSettingsClickListener: () -> Unit,) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -33,16 +32,10 @@ fun UserProfileTopBar(navController: NavController) {
             ) {
                 Text(text = "pansanek", color = White)
                 Spacer(modifier = Modifier.weight(1f)) // Занимаем всю доступную ширину
-                InviteButton()
+                InviteButton({ onSettingsClickListener() })
             }
             },
-            navigationIcon = {
-                IconButton(onClick = { navController.navigateUp() }) {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Назад"
-                    , tint = White
-                    )
-                }
-            },
+
             backgroundColor = androidx.compose.ui.graphics.Color.Black
         )
         // Добавьте функциональность для кнопки "Пригласить"
@@ -53,14 +46,14 @@ fun UserProfileTopBar(navController: NavController) {
 
 
 @Composable
-fun InviteButton() {
+fun InviteButton(onSettingsClickListener: () -> Unit,) {
     IconButton(
-        onClick = { /* Добавьте действие по приглашению пользователя */ },
+        onClick = { onSettingsClickListener() },
         modifier = Modifier.size(48.dp)
     ) {
         Icon(
-            imageVector = Icons.Default.PersonAdd,
-            contentDescription = "Пригласить",
+            imageVector = Icons.Default.Settings,
+            contentDescription = "Настройки",
             tint = White
         )
     }
