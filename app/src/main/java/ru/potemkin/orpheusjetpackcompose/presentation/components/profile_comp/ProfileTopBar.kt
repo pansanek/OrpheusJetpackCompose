@@ -21,7 +21,7 @@ import androidx.navigation.NavController
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @Composable
-fun ProfileTopBar(navController: NavController) {
+fun ProfileTopBar(onBackPressed: () -> Unit,) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -36,7 +36,7 @@ fun ProfileTopBar(navController: NavController) {
             }
             },
             navigationIcon = {
-                IconButton(onClick = { navController.navigateUp() }) {
+                IconButton(onClick = { onBackPressed() }) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Назад"
                     , tint = White
                     )
