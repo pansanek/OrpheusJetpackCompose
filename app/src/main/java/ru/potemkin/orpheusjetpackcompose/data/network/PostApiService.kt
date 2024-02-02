@@ -12,6 +12,8 @@ interface PostApiService {
     @GET("/api/posts/")
     suspend fun getAllPosts(): List<PostDto>
 
+    @GET("/api/posts/{id}")
+    suspend fun getCreatorsPosts(@Path("id") id: String): List<PostDto>
     @POST("/api/posts")
     suspend fun createPost(@Body requestBody: RequestBody): PostDto
 

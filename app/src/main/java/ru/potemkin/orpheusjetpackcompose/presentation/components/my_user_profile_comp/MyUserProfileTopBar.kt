@@ -32,7 +32,7 @@ fun MyUserProfileTopBar(onSettingsClickListener: () -> Unit,) {
             ) {
                 Text(text = "pansanek", color = White)
                 Spacer(modifier = Modifier.weight(1f)) // Занимаем всю доступную ширину
-                InviteButton({ onSettingsClickListener() })
+                SettingsButton({ onSettingsClickListener() })
             }
             },
 
@@ -46,7 +46,7 @@ fun MyUserProfileTopBar(onSettingsClickListener: () -> Unit,) {
 
 
 @Composable
-fun InviteButton(onSettingsClickListener: () -> Unit,) {
+fun SettingsButton(onSettingsClickListener: () -> Unit,) {
     IconButton(
         onClick = { onSettingsClickListener() },
         modifier = Modifier.size(48.dp)

@@ -34,11 +34,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerHeight
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedScreenState
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedViewModel
+import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.PostItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
