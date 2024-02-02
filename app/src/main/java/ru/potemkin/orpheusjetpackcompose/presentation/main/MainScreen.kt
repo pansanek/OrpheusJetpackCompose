@@ -19,11 +19,12 @@ import ru.potemkin.orpheusjetpackcompose.presentation.map.map.MapScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.comments.CommentsScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.band.BandProfileScreen
-import ru.potemkin.orpheusjetpackcompose.presentation.profile.NotificationScreen
-import ru.potemkin.orpheusjetpackcompose.presentation.profile.ProfileScreen
-import ru.potemkin.orpheusjetpackcompose.presentation.profile.SearchScreen
-import ru.potemkin.orpheusjetpackcompose.presentation.profile.SettingsScreen
-import ru.potemkin.orpheusjetpackcompose.presentation.profile.UserProfileScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.MyUserProfileScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.NotificationScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.ProfileScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.search.SearchScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.SettingsScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.UserProfileScreen
 
 @Composable
 fun MainScreen(viewModelFactory: ViewModelFactory) {
@@ -145,7 +146,7 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                 )
             },
             profileScreenContent = {
-                ProfileScreen(
+                MyUserProfileScreen(
                     paddingValues = paddingValues,
                     onSettingsClickListener = {
                         navigationState.navigateToSettings()
