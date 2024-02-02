@@ -1,10 +1,8 @@
-package ru.potemkin.orpheusjetpackcompose.presentation.chat
+package ru.potemkin.orpheusjetpackcompose.presentation.chat.chat
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
-import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 
 class ChatViewModelFactory(
     private val chatItem: ChatItem,

@@ -1,4 +1,4 @@
-package ru.potemkin.orpheusjetpackcompose.presentation.chat
+package ru.potemkin.orpheusjetpackcompose.presentation.chat.chatlist
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background

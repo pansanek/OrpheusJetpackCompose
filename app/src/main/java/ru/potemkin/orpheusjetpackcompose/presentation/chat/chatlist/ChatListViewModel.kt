@@ -1,20 +1,11 @@
-package ru.potemkin.orpheusjetpackcompose.presentation.chat
+package ru.potemkin.orpheusjetpackcompose.presentation.chat.chatlist
 
-import android.app.Application
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ru.potemkin.orpheusjetpackcompose.data.mappers.UsersMapper
-import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.data.repositories.ChatRepositoryImpl
-import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
-import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.AddUserUseCase
-import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetUserListUseCase
-import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedScreenState
 import javax.inject.Inject
 
 class ChatListViewModel @Inject constructor() : ViewModel() {

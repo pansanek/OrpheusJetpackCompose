@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import ru.potemkin.orpheusjetpackcompose.presentation.chat.ChatViewModel
+import ru.potemkin.orpheusjetpackcompose.presentation.chat.chat.ChatViewModel
 
 @Module
 interface ChatViewModelModule {

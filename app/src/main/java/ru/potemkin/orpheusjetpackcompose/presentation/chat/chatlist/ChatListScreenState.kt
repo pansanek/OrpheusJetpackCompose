@@ -1,4 +1,4 @@
-package ru.potemkin.orpheusjetpackcompose.presentation.chat
+package ru.potemkin.orpheusjetpackcompose.presentation.chat.chatlist
 
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 

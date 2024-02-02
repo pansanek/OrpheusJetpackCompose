@@ -1,4 +1,4 @@
-package ru.potemkin.orpheusjetpackcompose.presentation.chat
+package ru.potemkin.orpheusjetpackcompose.presentation.chat.chat
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -37,18 +37,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.IconComponentImageVector
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MessageItem
-import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
-import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.comments.CommentsScreenState
-import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.comments.CommentsViewModel
-import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.comments.CommentsViewModelFactory
 import ru.potemkin.orpheusjetpackcompose.ui.theme.*
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
@@ -68,8 +63,7 @@ fun ChatScreen(
     var message by remember { mutableStateOf("") }
     val viewModel: ChatViewModel = viewModel(
         factory = ChatViewModelFactory(
-            chatItem,
-            LocalContext.current.applicationContext as Application
+            chatItem
         )
     )
     val screenState = viewModel.screenState.observeAsState(ChatScreenState.Initial)
