@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class UserDto(
     @SerializedName("id") val id: String,
     @SerializedName("login") val login: String,
+    @SerializedName("name") val name: String,
     @SerializedName("password") val password: String,
     @SerializedName("email") val email: String,
     @SerializedName("about") val about: String,

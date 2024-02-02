@@ -17,6 +17,7 @@ class UsersMapper {
             val user = UserItem(
                 id = userDto.id,
                 login = userDto.login,
+                name = userDto.name,
                 password = userDto.password,
                 email = userDto.email,
                 about = userDto.about,
@@ -34,6 +35,7 @@ class UsersMapper {
         return UserItem(
             id = userDto.id,
             login = userDto.login,
+            name = userDto.name,
             password = userDto.password,
             email = userDto.email,
             about = userDto.about,
