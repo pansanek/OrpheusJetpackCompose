@@ -9,14 +9,14 @@ import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
 
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
+import javax.inject.Inject
 
 
-class CommentsViewModel(
+class CommentsViewModel @Inject constructor(
     feedPost: PostItem,
-    application: Application
 ) : ViewModel() {
 
-    private val repository = PostRepositoryImpl(application)
+    private val repository = PostRepositoryImpl()
 
     private val _screenState = MutableLiveData<CommentsScreenState>(CommentsScreenState.Initial)
     val screenState: LiveData<CommentsScreenState> = _screenState

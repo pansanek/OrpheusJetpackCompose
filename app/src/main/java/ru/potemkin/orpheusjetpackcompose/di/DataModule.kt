@@ -2,6 +2,7 @@ package ru.potemkin.orpheusjetpackcompose.di
 
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import ru.potemkin.orpheusjetpackcompose.data.repositories.LocationRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.data.repositories.MessageRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
@@ -25,5 +26,15 @@ interface DataModule {
     @ApplicationScope
     @Binds
     fun bindUserRepository(userImpl: UserRepositoryImpl): UserRepository
+
+
+//    companion object {
+//
+//        @ApplicationScope
+//        @Provides
+//        fun provideApiService(): ApiService {
+//            return ApiFactory.apiService
+//        }
+//    }
 }
 

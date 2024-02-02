@@ -16,6 +16,11 @@ import ru.potemkin.orpheusjetpackcompose.presentation.main.ViewModelFactory
 interface ApplicationComponent {
 
     fun inject(mainActivity: MainActivity)
+
+    fun getCommentsScreenComponentFactory(): CommentsScreenComponent.Factory
+
+    fun getChatScreenComponentFactory(): ChatScreenComponent.Factory
+
     fun getViewModelFactory(): ViewModelFactory
     @Component.Factory
     interface Factory {

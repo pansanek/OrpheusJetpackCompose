@@ -20,7 +20,7 @@ import ru.potemkin.orpheusjetpackcompose.extentions.mergeWith
 import javax.inject.Inject
 
 class PostRepositoryImpl @Inject constructor(
-    application: Application
+
 ): PostRepository {
 
     private val apiService = ApiFactory.appPostApiService

@@ -7,10 +7,9 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 
 class CommentsViewModelFactory(
     private val feedPost: PostItem,
-    private val application: Application
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return CommentsViewModel(feedPost, application) as T
+        return CommentsViewModel(feedPost) as T
     }
 }

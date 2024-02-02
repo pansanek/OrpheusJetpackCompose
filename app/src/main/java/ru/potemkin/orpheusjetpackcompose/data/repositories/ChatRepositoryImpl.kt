@@ -22,7 +22,7 @@ import ru.potemkin.orpheusjetpackcompose.extentions.mergeWith
 import javax.inject.Inject
 
 class ChatRepositoryImpl @Inject constructor(
-    application: Application
+
 ): ChatRepository {
 
     private val apiService = ApiFactory.appChatApiService

@@ -14,14 +14,14 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.GetMessageListUseCase
 import javax.inject.Inject
 
-class ChatViewModel(chatItem: ChatItem, application: Application) : AndroidViewModel(application) {
+class ChatViewModel @Inject constructor(chatItem: ChatItem) : ViewModel() {
 
     private val initialState = ChatScreenState.Initial
 
     private val _screenState = MutableLiveData<ChatScreenState>(initialState)
     val screenState: LiveData<ChatScreenState> = _screenState
 
-    private val repository = ChatRepositoryImpl(application)
+    private val repository = ChatRepositoryImpl()
     init {
         _screenState.value = ChatScreenState.Loading
         loadMessages(chatItem.id)

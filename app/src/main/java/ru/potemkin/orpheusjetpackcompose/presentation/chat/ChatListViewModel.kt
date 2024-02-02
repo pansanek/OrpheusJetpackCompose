@@ -17,14 +17,14 @@ import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetUserLi
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedScreenState
 import javax.inject.Inject
 
-class ChatListViewModel (application: Application) : AndroidViewModel(application) {
+class ChatListViewModel @Inject constructor() : ViewModel() {
 
     private val initialState = ChatListScreenState.Initial
 
     private val _screenState = MutableLiveData<ChatListScreenState>(initialState)
     val screenState: LiveData<ChatListScreenState> = _screenState
 
-    private val repository = ChatRepositoryImpl(application)
+    private val repository = ChatRepositoryImpl()
 
     init {
         _screenState.value = ChatListScreenState.Loading

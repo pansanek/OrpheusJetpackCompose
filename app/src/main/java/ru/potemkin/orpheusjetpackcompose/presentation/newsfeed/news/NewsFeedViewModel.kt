@@ -21,14 +21,14 @@ import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.LoadNextD
 import ru.potemkin.orpheusjetpackcompose.extentions.mergeWith
 import javax.inject.Inject
 
-class NewsFeedViewModel (application: Application) : AndroidViewModel(application) {
+class NewsFeedViewModel @Inject constructor() : ViewModel() {
 
     private val initialState = NewsFeedScreenState.Initial
 
     private val _screenState = MutableLiveData<NewsFeedScreenState>(initialState)
     val screenState: LiveData<NewsFeedScreenState> = _screenState
 
-    private val repository = PostRepositoryImpl(application)
+    private val repository = PostRepositoryImpl()
 
     init {
         _screenState.value = NewsFeedScreenState.Loading

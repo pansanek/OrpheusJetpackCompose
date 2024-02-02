@@ -18,10 +18,6 @@ interface ViewModelModule {
     @Binds
     fun bindChatListViewModel(viewModel: ChatListViewModel): ViewModel
     @IntoMap
-    @ViewModelKey(ChatViewModel::class)
-    @Binds
-    fun bindChatViewModel(viewModel: ChatViewModel): ViewModel
-    @IntoMap
     @ViewModelKey(MapViewModel::class)
     @Binds
     fun bindMapViewModel(viewModel: MapViewModel): ViewModel
