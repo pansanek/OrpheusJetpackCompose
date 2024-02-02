@@ -1,4 +1,4 @@
-package ru.potemkin.orpheusjetpackcompose.presentation.profile
+package ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -235,11 +235,11 @@ fun PrivacySettingItem(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun SettingsScreenPreview() {
-    SettingsScreen()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun SettingsScreenPreview() {
+//    SettingsScreen()
+//}
 
 @Preview(showBackground = true)
 @Composable

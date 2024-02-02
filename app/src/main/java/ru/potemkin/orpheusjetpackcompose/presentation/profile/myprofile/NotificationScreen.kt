@@ -1,4 +1,4 @@
-package ru.potemkin.orpheusjetpackcompose.presentation.profile
+package ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -94,13 +94,13 @@ fun NotificationIcon(modifier: Modifier = Modifier) {
     )
 }
 
-@Composable
-@Preview(showBackground = true)
-fun NotificationScreenPreview() {
-    OrpheusJetpackComposeTheme {
-        NotificationScreen()
-    }
-}
+//@Composable
+//@Preview(showBackground = true)
+//fun NotificationScreenPreview() {
+//    OrpheusJetpackComposeTheme {
+//        NotificationScreen()
+//    }
+//}
 
 @Preview(showBackground = true)
 @Composable
