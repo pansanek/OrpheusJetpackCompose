@@ -1,4 +1,4 @@
-package ru.potemkin.orpheusjetpackcompose.presentation.map
+package ru.potemkin.orpheusjetpackcompose.presentation.map.location
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateDpAsState
