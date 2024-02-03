@@ -1,9 +1,7 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
-import ru.potemkin.orpheusjetpackcompose.data.mappers.PostMapper
 import ru.potemkin.orpheusjetpackcompose.data.mappers.MusicianMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
-import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.MusicianRepository
 import javax.inject.Inject

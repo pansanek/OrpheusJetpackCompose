@@ -1,6 +1,5 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
-import android.app.Application
 import ru.potemkin.orpheusjetpackcompose.data.mappers.LocationMapper
 import ru.potemkin.orpheusjetpackcompose.data.mappers.MessageMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory

@@ -1,14 +1,11 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.map.map
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.LocationRepositoryImpl
-
 import javax.inject.Inject
 
 class MapViewModel @Inject constructor() : ViewModel() {

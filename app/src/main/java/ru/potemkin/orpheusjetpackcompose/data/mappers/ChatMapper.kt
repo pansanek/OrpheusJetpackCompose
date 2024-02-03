@@ -1,9 +1,7 @@
 package ru.potemkin.orpheusjetpackcompose.data.mappers
 
 import ru.potemkin.orpheusjetpackcompose.data.model.ChatDto
-import ru.potemkin.orpheusjetpackcompose.data.model.PhotoUrlDto
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
-import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 
 class ChatMapper {
     val userMapper = UsersMapper()

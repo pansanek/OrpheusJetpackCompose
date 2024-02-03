@@ -2,10 +2,8 @@ package ru.potemkin.orpheusjetpackcompose.domain.entities
 
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.annotation.DrawableRes
 import androidx.navigation.NavType
 import com.google.gson.Gson
-import ru.potemkin.orpheusjetpackcompose.R
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

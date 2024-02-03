@@ -7,8 +7,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.BandRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.data.repositories.MusicianRepositoryImpl
-import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
-import ru.potemkin.orpheusjetpackcompose.data.repositories.UserRepositoryImpl
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor() : ViewModel() {

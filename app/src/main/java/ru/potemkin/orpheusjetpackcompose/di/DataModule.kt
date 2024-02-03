@@ -6,7 +6,6 @@ import ru.potemkin.orpheusjetpackcompose.data.repositories.LocationRepositoryImp
 import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.data.repositories.UserRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.LocationRepository
-import ru.potemkin.orpheusjetpackcompose.domain.repositories.MessageRepository
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.PostRepository
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.UserRepository
 

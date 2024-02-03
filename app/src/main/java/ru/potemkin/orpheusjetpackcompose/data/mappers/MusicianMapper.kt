@@ -1,17 +1,7 @@
 package ru.potemkin.orpheusjetpackcompose.data.mappers
 
-import android.util.Log
-import ru.potemkin.orpheusjetpackcompose.data.model.AdministratorDto
-import ru.potemkin.orpheusjetpackcompose.data.model.CommentDto
 import ru.potemkin.orpheusjetpackcompose.data.model.MusicianDto
-import ru.potemkin.orpheusjetpackcompose.data.model.PhotoUrlDto
-import ru.potemkin.orpheusjetpackcompose.data.model.PostDto
-import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
-import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 
 class MusicianMapper {

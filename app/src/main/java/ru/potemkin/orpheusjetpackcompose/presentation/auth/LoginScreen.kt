@@ -1,12 +1,8 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.auth
 
-import androidx.navigation.NavHostController
-import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,16 +29,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -50,14 +42,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.potemkin.orpheusjetpackcompose.R
-import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
+
 import ru.potemkin.orpheusjetpackcompose.presentation.components.AuthButton
 import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
 import ru.potemkin.orpheusjetpackcompose.presentation.components.TextEntryModule
-import ru.potemkin.orpheusjetpackcompose.navigation.CHAT_LIST_SCREEN
-import ru.potemkin.orpheusjetpackcompose.navigation.LOG_SCREEN
-import ru.potemkin.orpheusjetpackcompose.navigation.REG_SCREEN
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -135,7 +124,7 @@ fun LoginScreen(
                                     .height(60.dp)
 
                             ) {
-                                navHostController.navigate(CHAT_LIST_SCREEN)
+
                             }
                         }
                     }
@@ -153,7 +142,7 @@ fun LoginScreen(
                                 "Зарегистрироваться!",
                                 modifier = Modifier
                                     .clickable {
-                                        navHostController.navigate(REG_SCREEN)
+
                                     }
                                     .padding(bottom = 15.dp),
                                 style = MaterialTheme.typography.bodyMedium,

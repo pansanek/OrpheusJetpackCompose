@@ -1,6 +1,5 @@
 package ru.potemkin.orpheusjetpackcompose.data.mappers
 
-import android.util.Log
 import ru.potemkin.orpheusjetpackcompose.data.model.PhotoUrlDto
 import ru.potemkin.orpheusjetpackcompose.data.model.UserDto
 import ru.potemkin.orpheusjetpackcompose.data.model.UserSettingsDto

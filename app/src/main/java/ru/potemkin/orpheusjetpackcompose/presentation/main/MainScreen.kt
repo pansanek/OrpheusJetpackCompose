@@ -10,18 +10,18 @@ import ru.potemkin.orpheusjetpackcompose.navigation.rememberNavigationState
 import ru.potemkin.orpheusjetpackcompose.presentation.auth.LoginScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.auth.RegistrationScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.auth.StartScreen
-import ru.potemkin.orpheusjetpackcompose.presentation.band.BandCreationScreen
-import ru.potemkin.orpheusjetpackcompose.presentation.band.BandListScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.band.bandcreation.BandCreationScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.band.bandcreation.BandListScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.chat.chatlist.ChatListScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.chat.chat.ChatScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.map.location.LocationScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.map.map.MapScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.comments.CommentsScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedScreen
-import ru.potemkin.orpheusjetpackcompose.presentation.band.BandProfileScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.band.bandprofile.BandProfileScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.MyUserProfileScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.NotificationScreen
-import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.ProfileScreen
+
 import ru.potemkin.orpheusjetpackcompose.presentation.search.SearchScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.SettingsScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.UserProfileScreen
