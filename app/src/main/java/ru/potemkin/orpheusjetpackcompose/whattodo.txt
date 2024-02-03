@@ -1,0 +1,5 @@
+1)Доделать правильное создание экранов аутентификации (auth)
+2)DI
+2.1)DI repoimpl'ов как в 41 уроке sumin (DataModule)
+2.2)DI вьюмоделей в ViewModelModule
+2.3)
