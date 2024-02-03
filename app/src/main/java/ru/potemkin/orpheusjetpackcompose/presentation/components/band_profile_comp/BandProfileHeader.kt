@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,10 +29,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.potemkin.orpheusjetpackcompose.R
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @Composable
-fun BandProfileHeader(scrollState: LazyListState, topBarHeight: Dp) {
+fun BandProfileHeader(
+    scrollState: LazyListState,
+    topBarHeight: Dp,
+    members: List<UserItem>
+    ) {
     // При скролле уменьшаем высоту Header и делаем его непрозрачным
     val headerHeight by animateDpAsState(
         targetValue = if (scrollState.firstVisibleItemIndex > 0) 0.dp else 300.dp
@@ -64,7 +70,7 @@ fun BandProfileHeader(scrollState: LazyListState, topBarHeight: Dp) {
                     .fillMaxWidth()
                     .padding(4.dp)
             ) {
-                items(4) { index ->
+                items(members) { member ->
                     Image(
                         painter = painterResource(id = R.drawable.sample4),
                         contentDescription = null,

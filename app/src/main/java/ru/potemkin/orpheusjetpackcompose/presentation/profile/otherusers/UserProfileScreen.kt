@@ -33,7 +33,7 @@ fun UserProfileScreen(
             userItem
         )
     )
-    val screenState = viewModel.screenState.observeAsState(CommentsScreenState.Initial)
+    val screenState = viewModel.screenState.observeAsState(UserProfileScreenState.Initial)
     val currentState = screenState.value
     val scrollState = rememberLazyListState()
     val topBarHeight = 56.dp // Замените на высоту вашего TopBar

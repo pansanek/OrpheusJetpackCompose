@@ -17,7 +17,7 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @Composable
 fun BandProfileTopBar(
-//    navController: NavController
+    onBackPressed: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -33,7 +33,7 @@ fun BandProfileTopBar(
             },
             navigationIcon = {
                 IconButton(onClick = {
-//                    navController.navigateUp()
+                    onBackPressed()
                 }) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Назад"
                     , tint = White

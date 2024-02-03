@@ -1,4 +1,4 @@
-package ru.potemkin.orpheusjetpackcompose.presentation.band
+package ru.potemkin.orpheusjetpackcompose.presentation.band.bandcreation
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -40,11 +40,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
-import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -56,7 +57,9 @@ fun BandListScreen(
 ) {
     // Пример данных о группах
     val groups = listOf(
-        BandItem("1", "TSSE", listOf("Pavel", "Ivan"), "Metalcore", PhotoUrlItem(1, "1.jpg"))
+        BandItem("1", "TSSE", listOf(UserItem("3423","abc","Ivan","213","af","faefaae",UserType.MUSICIAN,
+            PhotoUrlItem(1,"1.jpg"),PhotoUrlItem(1,"1.jpg"), UserSettingsItem(true,true)
+        )), "Metalcore", PhotoUrlItem(1, "1.jpg"))
     )
 
     Scaffold(
