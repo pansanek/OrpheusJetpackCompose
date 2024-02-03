@@ -15,11 +15,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,6 +35,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -39,13 +45,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
+import ru.potemkin.orpheusjetpackcompose.presentation.search.FilterDialog
+import ru.potemkin.orpheusjetpackcompose.presentation.search.MusicianListItem
+import ru.potemkin.orpheusjetpackcompose.presentation.search.SearchScreenState
+import ru.potemkin.orpheusjetpackcompose.presentation.search.SearchViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -53,58 +65,59 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 
 fun BandListScreen(
     onBackPressed: () -> Unit,
+    onBandClickListener: (BandItem) -> Unit,
     onBandCreationClickListener: () -> Unit,
 ) {
-    // Пример данных о группах
-    val groups = listOf(
-        BandItem("1", "TSSE", listOf(UserItem("3423","abc","Ivan","213","af","faefaae",UserType.MUSICIAN,
-            PhotoUrlItem(1,"1.jpg"),PhotoUrlItem(1,"1.jpg"), UserSettingsItem(true,true)
-        )), "Metalcore", PhotoUrlItem(1, "1.jpg"))
-    )
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text("My Groups")
-                }
-            )
-        },
-        content = {
-            LazyColumn {
-                items(groups) { group ->
-                    GroupListItem(group = group, onItemClick = {
-                        // TODO: Обработка нажатия на элемент списка
-                    })
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
-                )
-                Text(
-                    text = "Создать группу",
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.clickable {
-                        // TODO: Обработка нажатия
+    val viewModel: BandCreationViewModel = viewModel()
+    val screenState = viewModel.screenState.observeAsState(BandCreationScreenState.Initial)
+    when (val currentState = screenState.value) {
+        is BandCreationScreenState.Bands -> {
+            Column {
+                LazyColumn {
+                    items(currentState.bands) { band ->
+                        GroupListItem(band = band, onItemClick = {
+                            onBandClickListener(band)
+                        })
                     }
-                )
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                    Text(
+                        text = "Создать группу",
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.clickable {
+                            onBandCreationClickListener()
+                        }
+                    )
+                }
             }
         }
-    )
+        BandCreationScreenState.Initial -> {}
+        BandCreationScreenState.Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(color = Color.Black)
+            }
+        }
+    }
+
 }
 
 @Composable
-fun GroupListItem(group: BandItem, onItemClick: () -> Unit) {
+fun GroupListItem(band: BandItem, onItemClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -127,9 +140,9 @@ fun GroupListItem(group: BandItem, onItemClick: () -> Unit) {
                 .padding(start = 16.dp)
                 .weight(1f)
         ) {
-            Text(text = group.name, fontWeight = FontWeight.Bold)
+            Text(text = band.name, fontWeight = FontWeight.Bold)
             Text(
-                text = group.genre,
+                text = band.genre,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
             )
 
@@ -140,7 +153,7 @@ fun GroupListItem(group: BandItem, onItemClick: () -> Unit) {
                     .padding(top = 4.dp),
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                group.members.forEach { member ->
+                band.members.forEach { member ->
                     Image(
                         painter = painterResource(id = R.drawable.ic_like_set), // Замените на ваш ресурс
                         contentDescription = null,

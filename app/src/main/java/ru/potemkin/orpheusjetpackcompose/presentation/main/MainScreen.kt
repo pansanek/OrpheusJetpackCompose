@@ -225,7 +225,11 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                 },
                     onBandCreationClickListener = {
                     navigationState.navigateToBandCreation()
-                })
+                },
+                    onBandClickListener = {
+                        navigationState.navigateToBand(it)
+                    }
+                )
             }
 
         )
