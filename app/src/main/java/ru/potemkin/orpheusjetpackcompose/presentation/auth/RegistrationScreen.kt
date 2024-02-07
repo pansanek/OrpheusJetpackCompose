@@ -37,6 +37,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.AboutMeItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.RegItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.TypeItem
 
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
@@ -51,6 +54,7 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 fun RegistrationScreen(
     paddingValues: PaddingValues,
     onLoginClickListener: () -> Unit,
+    onNextClickListener: (RegItem) -> Unit
 ) {
 
     val surfaceVisible = remember { mutableStateOf(false) }
@@ -59,8 +63,6 @@ fun RegistrationScreen(
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-    var aboutMe by remember { mutableStateOf("") }
-    var userType by remember { mutableStateOf<UserType?>(null) }
 
     Box(
         modifier = Modifier
@@ -184,7 +186,9 @@ fun RegistrationScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutMeScreen(
-//    navHostController: NavHostController
+    regItem: RegItem,
+    onBackPressed: () -> Unit,
+    onNextClickListener:(AboutMeItem) -> Unit
 ) {
     var aboutMe by remember { mutableStateOf("") }
 
@@ -228,7 +232,10 @@ fun AboutMeScreen(
 
 @Composable
 fun UserTypeScreen(
-//    navHostController: NavHostController,
+    aboutMeItem: AboutMeItem,
+    onBackPressed: () -> Unit,
+    onAdminClickListener:(TypeItem) -> Unit,
+    onMusicianClickListener:(TypeItem) -> Unit
 ) {
     var userType by remember { mutableStateOf("") }
 
@@ -277,7 +284,11 @@ fun UserTypeScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MusicianRegScreen() {
+fun MusicianRegScreen(
+    typeItem: TypeItem,
+    onBackPressed: () -> Unit,
+    onNextClickListener:() -> Unit
+) {
     var selectedInstrument by remember { mutableStateOf("") }
     var selectedGenre by remember { mutableStateOf("") }
     var expandedInstrument by remember { mutableStateOf(false) }
@@ -374,7 +385,9 @@ fun MusicianRegScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdminRegScreen(
-//    navHostController: NavHostController,
+    typeItem: TypeItem,
+    onBackPressed: () -> Unit,
+    onNextClickListener:() -> Unit
 ) {
     var address by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("") }
@@ -439,10 +452,3 @@ fun AdminRegScreen(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun RegScreenPreview() {
-    OrpheusJetpackComposeTheme {
-        UserTypeScreen()
-    }
-}

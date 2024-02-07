@@ -54,6 +54,7 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 fun LoginScreen(
     paddingValues: PaddingValues,
     onRegistrationClickListener: () -> Unit,
+    onNextClickListener: () -> Unit,
 ) {
 
     val surfaceVisible = remember { mutableStateOf(false) }
