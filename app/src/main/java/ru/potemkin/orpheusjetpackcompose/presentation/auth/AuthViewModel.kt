@@ -21,4 +21,10 @@ class AuthViewModel @Inject constructor(): ViewModel() {
         }
     }
 
+    private fun checkLogin(username:String,password:String){
+        viewModelScope.launch {
+
+        }
+    }
+
 }
