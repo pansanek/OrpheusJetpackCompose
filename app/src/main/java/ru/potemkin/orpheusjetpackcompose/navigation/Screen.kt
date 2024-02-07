@@ -2,6 +2,9 @@ package ru.potemkin.orpheusjetpackcompose.navigation
 
 import com.google.gson.Gson
 import okio.ByteString.Companion.encode
+import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.AboutMeItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.RegItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.TypeItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
@@ -52,6 +55,42 @@ sealed class Screen(
     object MapScreen : Screen(ROUTE_MAP)
     object NewsFeedScreen : Screen(ROUTE_NEWS_FEED)
     object ProfileScreen : Screen(ROUTE_PROFILE)
+    object RegistrationAboutMeScreen : Screen(ROUTE_REGISTRATION_ABOUT_ME){
+
+        private const val ROUTE_FOR_ARGS = "reg_about_me"
+
+        fun getRouteWithArgs(regItem: RegItem): String {
+            val argsJson = Gson().toJson(regItem)
+            return "$ROUTE_FOR_ARGS/${argsJson.encode()}"
+        }
+    }
+    object RegistrationUserTypeScreen : Screen(ROUTE_REGISTRATION_USER_TYPE){
+
+        private const val ROUTE_FOR_ARGS = "reg_user_type"
+
+        fun getRouteWithArgs(aboutMeItem: AboutMeItem): String {
+            val argsJson = Gson().toJson(aboutMeItem)
+            return "$ROUTE_FOR_ARGS/${argsJson.encode()}"
+        }
+    }
+    object RegistrationMusicianTypeScreen : Screen(ROUTE_REGISTRATION_MUS){
+
+        private const val ROUTE_FOR_ARGS = "reg_mus_type"
+
+        fun getRouteWithArgs(typeItem: TypeItem): String {
+            val argsJson = Gson().toJson(typeItem)
+            return "$ROUTE_FOR_ARGS/${argsJson.encode()}"
+        }
+    }
+    object RegistrationAdministratorTypeScreen : Screen(ROUTE_REGISTRATION_ADMN){
+
+        private const val ROUTE_FOR_ARGS = "reg_admin_type"
+
+        fun getRouteWithArgs(typeItem: TypeItem): String {
+            val argsJson = Gson().toJson(typeItem)
+            return "$ROUTE_FOR_ARGS/${argsJson.encode()}"
+        }
+    }
     object RegistrationScreen : Screen(ROUTE_REGISTRATION)
     object SearchScreen : Screen(ROUTE_SEARCH)
     object StartScreen : Screen(ROUTE_START)
@@ -81,6 +120,10 @@ sealed class Screen(
         const val KEY_BAND = "band"
         const val KEY_CHAT = "chat"
         const val KEY_LOCATION = "location"
+        const val KEY_REG_ABOUT_ME = "reg_about_me"
+        const val KEY_REG_ADMN = "reg_admn"
+        const val KEY_REG_MUS = "reg_mus"
+        const val KEY_REG_TYPE = "reg_type"
 
         const val ROUTE_AUTH_HOME = "auth_home"
         const val ROUTE_BAND_PROFILE = "band_profile"
@@ -97,6 +140,10 @@ sealed class Screen(
         const val ROUTE_PROFILE = "profile"
         const val ROUTE_PROFILE_HOME = "profile_home"
         const val ROUTE_REGISTRATION = "registration"
+        const val ROUTE_REGISTRATION_ABOUT_ME = "registration_about_me"
+        const val ROUTE_REGISTRATION_USER_TYPE = "registration_user_type"
+        const val ROUTE_REGISTRATION_MUS = "registration_mus"
+        const val ROUTE_REGISTRATION_ADMN = "registration_admn"
         const val ROUTE_SEARCH = "search"
         const val ROUTE_START = "start"
         const val ROUTE_USER_PROFILE = "user_profile"
