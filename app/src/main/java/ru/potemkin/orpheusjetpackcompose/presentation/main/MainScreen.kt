@@ -7,9 +7,13 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.potemkin.orpheusjetpackcompose.navigation.AppNavGraph
 import ru.potemkin.orpheusjetpackcompose.navigation.rememberNavigationState
+import ru.potemkin.orpheusjetpackcompose.presentation.auth.AboutMeScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.auth.AdminRegScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.auth.LoginScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.auth.MusicianRegScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.auth.RegistrationScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.auth.StartScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.auth.UserTypeScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.band.bandcreation.BandCreationScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.band.bandcreation.BandListScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.chat.chatlist.ChatListScreen
@@ -128,6 +132,9 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                     paddingValues = paddingValues,
                     onRegistrationClickListener = {
                         navigationState.navigateToRegistration()
+                    },
+                    onNextClickListener = {
+                        navigationState.navigateToNewsFeed()
                     })
             },
             mapScreenContent = {
@@ -163,7 +170,11 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                     paddingValues = paddingValues,
                     onLoginClickListener = {
                         navigationState.navigateToLogin()
-                    })
+                    },
+                    onNextClickListener ={
+                        navigationState.navigateToAboutMeScreen(it)
+                    }
+                    )
             },
             searchScreenContent = {
                 SearchScreen(
@@ -221,13 +232,60 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
             bandListScreenContent = {
                 BandListScreen(
                     onBackPressed = {
-                    navigationState.navHostController.popBackStack()
-                },
+                        navigationState.navHostController.popBackStack()
+                    },
                     onBandCreationClickListener = {
-                    navigationState.navigateToBandCreation()
-                },
+                        navigationState.navigateToBandCreation()
+                    },
                     onBandClickListener = {
                         navigationState.navigateToBand(it)
+                    }
+                )
+            },
+            registrationAboutMeScreenContent = { regItem ->
+                AboutMeScreen(
+                    regItem = regItem,
+                    onBackPressed = {
+                        navigationState.navHostController.popBackStack()
+                    },
+                    onNextClickListener = {
+                        navigationState.navigateToUserTypeScreen(it)
+                    }
+                )
+            },
+            registrationUserTypeScreenContent = { aboutMeItem ->
+                UserTypeScreen(
+                    aboutMeItem =aboutMeItem,
+                    onBackPressed = {
+                        navigationState.navHostController.popBackStack()
+                    },
+                    onAdminClickListener = {
+                        navigationState.navigateToAdministratorTypeScreen(it)
+                    },
+                    onMusicianClickListener = {
+                        navigationState.navigateToMusicianTypeScreen(it)
+                    }
+                )
+            },
+            registrationAdministratorTypeScreenContent = { typeItem ->
+                AdminRegScreen(
+                    typeItem = typeItem,
+                    onBackPressed = {
+                        navigationState.navHostController.popBackStack()
+                    },
+                    onNextClickListener = {
+                        navigationState.navigateToNewsFeed()
+                    }
+                )
+            },
+            registrationMusicianTypeScreenContent = { typeItem ->
+                MusicianRegScreen(
+                    typeItem = typeItem,
+                    onBackPressed = {
+                        navigationState.navHostController.popBackStack()
+                    },
+                    onNextClickListener = {
+                        navigationState.navigateToNewsFeed()
                     }
                 )
             }
