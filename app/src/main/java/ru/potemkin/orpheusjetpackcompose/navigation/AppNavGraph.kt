@@ -4,6 +4,9 @@ package ru.potemkin.orpheusjetpackcompose.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.AboutMeItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.RegItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.TypeItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
@@ -23,6 +26,10 @@ fun AppNavGraph(
     newsFeedScreenContent: @Composable () -> Unit,
     profileScreenContent: @Composable () -> Unit,
     registrationScreenContent: @Composable () -> Unit,
+    registrationAboutMeScreenContent: @Composable (RegItem) -> Unit,
+    registrationUserTypeScreenContent: @Composable (AboutMeItem) -> Unit,
+    registrationMusicianTypeScreenContent: @Composable (TypeItem) -> Unit,
+    registrationAdministratorTypeScreenContent: @Composable (TypeItem) -> Unit,
     searchScreenContent: @Composable () -> Unit,
     startScreenContent: @Composable () -> Unit,
     userProfileScreenContent: @Composable (UserItem) -> Unit,
@@ -36,7 +43,7 @@ fun AppNavGraph(
         startDestination = Screen.StartScreen.route
     ) {
         authHomeNavGraph(
-            startScreenContent, loginScreenContent, registrationScreenContent
+            startScreenContent, loginScreenContent, registrationScreenContent,registrationAboutMeScreenContent, registrationUserTypeScreenContent, registrationMusicianTypeScreenContent, registrationAdministratorTypeScreenContent
         )
         feedHomeNavGraph(
             newsFeedScreenContent, commentsScreenContent, userProfileScreenContent, notificationsScreenContent, bandProfileScreenContent,bandCreationScreenContent
