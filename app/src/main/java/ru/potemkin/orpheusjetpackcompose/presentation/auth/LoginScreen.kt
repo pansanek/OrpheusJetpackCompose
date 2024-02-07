@@ -66,7 +66,7 @@ fun LoginScreen(
             .background(Green)
     ) {
         Column(Modifier.fillMaxSize()) {
-            Row(Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.Center) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 Text(
                     text = "Orpheus",
                     style = MaterialTheme.typography.bodyLarge,
@@ -125,7 +125,7 @@ fun LoginScreen(
                                     .height(60.dp)
 
                             ) {
-
+                                onNextClickListener()
                             }
                         }
                     }
@@ -143,7 +143,7 @@ fun LoginScreen(
                                 "Зарегистрироваться!",
                                 modifier = Modifier
                                     .clickable {
-
+                                        onRegistrationClickListener()
                                     }
                                     .padding(bottom = 15.dp),
                                 style = MaterialTheme.typography.bodyMedium,
@@ -215,7 +215,7 @@ fun LoginContainer(
                 textColor = Green,
                 cursorColor = Green,
                 onValueChanged = onPasswordChanged,
-                trailingIcon = if(isPasswordShown()) Icons.Default.RemoveRedEye else Icons.Default.VisibilityOff,
+                trailingIcon = if (isPasswordShown()) Icons.Default.RemoveRedEye else Icons.Default.VisibilityOff,
                 onTrailingIconClick = onTrailingPasswordIconClick,
                 leadingIcon = Icons.Default.VpnKey,
                 visualTransformation = if (isPasswordShown()) {

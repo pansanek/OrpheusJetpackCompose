@@ -146,7 +146,7 @@ fun RegistrationScreen(
                                     .height(60.dp)
 
                             ) {
-//                                navHostController.navigate(ABOUT_ME_SCREEN)
+                                onNextClickListener(RegItem(email, username, password))
                             }
                         }
                     }
@@ -165,7 +165,7 @@ fun RegistrationScreen(
                                 "Войти!",
                                 modifier = Modifier
                                     .clickable {
-//                                        navHostController.navigate(LOG_SCREEN)
+                                        onLoginClickListener()
                                     }
                                     .padding(bottom = 15.dp),
                                 style = MaterialTheme.typography.bodyMedium,
@@ -223,7 +223,7 @@ fun AboutMeScreen(
                 .padding(16.dp)
                 .height(60.dp),
             onClick = {
-//                navHostController.navigate(USER_TYPE_SCREEN)
+                onNextClickListener(AboutMeItem(regItem,aboutMe))
             }
 
         )
@@ -253,7 +253,7 @@ fun UserTypeScreen(
                 fontWeight = FontWeight.ExtraBold
             )
         }
-        val radioOptions = listOf("Музыкант", "Администратор базы", "Администратор площадки")
+        val radioOptions = listOf("Музыкант", "Администратор музыкального учреждения")
         RadioButtonGroup(
             options = radioOptions,
             selectedOption = userType,
@@ -272,9 +272,10 @@ fun UserTypeScreen(
                 .height(60.dp),
             onClick = {
                 when (userType) {
-//                    "Музыкант" -> navHostController.navigate(MUS_REG_SCREEN)
-//                    "Администратор базы" -> navHostController.navigate(ADM_REG_SCREEN)
-//                    "Администратор площадки" -> navHostController.navigate(ADM_REG_SCREEN)
+                    "Музыкант" -> {onMusicianClickListener(TypeItem(aboutMeItem,UserType.MUSICIAN))}
+                    "Администратор музыкального учреждения" -> {
+                        onAdminClickListener(TypeItem(aboutMeItem,UserType.ADMINISTRATOR))
+                    }
                 }
             }
         )
@@ -375,7 +376,7 @@ fun MusicianRegScreen(
                 .padding(16.dp)
                 .height(60.dp),
             onClick = {
-//                navHostController.navigate(CHAT_LIST_SCREEN)
+                onNextClickListener()
             }
         )
     }
@@ -445,7 +446,7 @@ fun AdminRegScreen(
                 .padding(16.dp)
                 .height(60.dp),
             onClick = {
-//                navHostController.navigate(CHAT_LIST_SCREEN)
+                onNextClickListener()
             }
         )
     }
