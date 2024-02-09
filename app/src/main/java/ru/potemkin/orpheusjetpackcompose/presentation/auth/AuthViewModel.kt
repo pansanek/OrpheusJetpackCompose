@@ -1,5 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.auth
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,6 +18,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.AdministratorItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import ru.potemkin.orpheusjetpackcompose.presentation.main.SharedPreferences
 import ru.potemkin.orpheusjetpackcompose.presentation.search.SearchScreenState
 import javax.inject.Inject
 
@@ -31,15 +33,31 @@ class AuthViewModel @Inject constructor() : ViewModel() {
     private val _authState = MutableLiveData<AuthState>(initialState)
     val authState: LiveData<AuthState> = _authState
 
+    private val PREFERENCES_USER_ID = "user_id"
+
+    private var userId: String? = null
+    fun isUserIdAvailable(context: Context): Boolean {
+        val sharedPreferences = SharedPreferences.getSecurePreferences(context)
+        return sharedPreferences.getString(PREFERENCES_USER_ID, null) != null
+    }
+    fun setUserId(context: Context) {
+        val sharedPreferences = SharedPreferences.getSecurePreferences(context)
+        with (sharedPreferences.edit()) {
+            if (userId == null)
+                remove(PREFERENCES_USER_ID)
+            else
+                putString(PREFERENCES_USER_ID, userId)
+            apply()
+        }
+    }
     init {
         _authState.value = AuthState.NotAuthorized
-        checkLogin()
     }
 
-    private fun checkLogin() {
-        TODO()
+    private fun checkLogin(context: Context):Boolean {
+        if(isUserIdAvailable(context)) return false
         _authState.value = AuthState.Authorized
-
+        return true
     }
 
     fun authorize(login: String, password: String) {
@@ -50,9 +68,11 @@ class AuthViewModel @Inject constructor() : ViewModel() {
             val jsonObjectString = jsonObject.toString()
             val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
             val response = ApiFactory.appUserApiService.authorize(requestBody)
-            if (response == "OK") {
+            if (response != "NOT OK") {
+                userId = response
                 _authState.value = AuthState.Authorized
             }
+
         }
     }
 

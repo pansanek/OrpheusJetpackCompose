@@ -120,7 +120,7 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                     },
                     locationItem = locationItem,
                     onUserClickListener = {
-                        navigationState.navigateToUser(locationItem.admin.user)
+                        navigationState.navigateToUser(locationItem.admin)
                     },
                     onChatClickListener = {
                         navigationState.navigateToUserChat(it)

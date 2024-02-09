@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -28,6 +29,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
@@ -37,6 +39,7 @@ fun StartScreen(
     onAuthClickListener: () -> Unit,
 ) {
     val surfaceVisible = remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()

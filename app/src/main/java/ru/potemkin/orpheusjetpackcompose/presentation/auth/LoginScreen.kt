@@ -36,6 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -66,6 +67,9 @@ fun LoginScreen(
     var password by remember { mutableStateOf("") }
     val viewModel: AuthViewModel = viewModel()
     val authState = viewModel.authState.observeAsState(AuthState.Initial)
+
+    val context = LocalContext.current
+    var isPasscodeAvailable by remember { mutableStateOf(viewModel.isUserIdAvailable(context)) }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -134,6 +138,7 @@ fun LoginScreen(
                                 viewModel.authorize(username, password)
                                 when (authState.value) {
                                     is AuthState.Authorized -> {
+                                        viewModel.setUserId(context)
                                         onNextClickListener()
                                     }
 
