@@ -40,7 +40,7 @@ fun AppNavGraph(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.StartScreen.route
+        startDestination = Screen.FeedHomeScreen.route
     ) {
         authHomeNavGraph(
             startScreenContent, loginScreenContent, registrationScreenContent,registrationAboutMeScreenContent, registrationUserTypeScreenContent, registrationMusicianTypeScreenContent, registrationAdministratorTypeScreenContent

@@ -51,7 +51,7 @@ class AuthViewModel @Inject constructor() : ViewModel() {
         }
     }
     init {
-        _authState.value = AuthState.NotAuthorized
+        _authState.value = AuthState.Authorized
     }
 
     private fun checkLogin(context: Context):Boolean {

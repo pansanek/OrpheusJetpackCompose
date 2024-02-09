@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
                         StartScreen(
                             onAuthClickListener = {
                                 navigationState.navigateToLogin()
-                            },
+                            }
                         )
                     }
 
