@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.potemkin.orpheusjetpackcompose.navigation.rememberNavigationState
+import ru.potemkin.orpheusjetpackcompose.presentation.auth.AuthState
+import ru.potemkin.orpheusjetpackcompose.presentation.auth.AuthViewModel
 import ru.potemkin.orpheusjetpackcompose.presentation.auth.StartScreen
 import ru.potemkin.orpheusjetpackcompose.ui.theme.OrpheusJetpackComposeTheme
 import javax.inject.Inject
@@ -24,7 +26,7 @@ class MainActivity : ComponentActivity() {
 //        MapKitFactory.setApiKey("YOUR_API_KEY")
         setContent {
             OrpheusJetpackComposeTheme {
-                val viewModel: MainViewModel = viewModel(factory = viewModelFactory)
+                val viewModel: AuthViewModel = viewModel(factory = viewModelFactory)
                 val authState = viewModel.authState.observeAsState(AuthState.Initial)
                 val navigationState = rememberNavigationState()
                 when (authState.value) {

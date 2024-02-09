@@ -17,4 +17,7 @@ interface UserApiService {
 
     @GET("/api/users/{id}")
     suspend fun getUserById(@Path("id") id: String): UserDto
+
+    @POST("/api/users/auth")
+    suspend fun authorize(@Body requestBody: RequestBody): String
 }

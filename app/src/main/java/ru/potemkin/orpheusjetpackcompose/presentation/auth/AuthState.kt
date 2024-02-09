@@ -1,4 +1,4 @@
-package ru.potemkin.orpheusjetpackcompose.presentation.main
+package ru.potemkin.orpheusjetpackcompose.presentation.auth
 
 sealed class AuthState {
 

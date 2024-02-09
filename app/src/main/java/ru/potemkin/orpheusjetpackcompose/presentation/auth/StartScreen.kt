@@ -86,7 +86,7 @@ fun StartScreen(
                     .align(Alignment.BottomCenter)
                     .height(60.dp)
             ) {
-
+                onAuthClickListener()
             }
         }
 
