@@ -9,7 +9,7 @@ interface MessageRepository {
 
     fun editMessageItem(messageItem: MessageItem)
 
-    fun getMessageItem(messageId: Int): MessageItem
+    fun getMessageItem(messageId: String): MessageItem
 
     fun getMessagesList(): List<MessageItem>
 }

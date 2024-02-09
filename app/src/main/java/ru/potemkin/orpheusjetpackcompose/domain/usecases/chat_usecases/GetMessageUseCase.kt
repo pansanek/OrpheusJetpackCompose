@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.MessageRepository
 import javax.inject.Inject
 
 class GetMessageUseCase @Inject constructor(private val messageRepository: MessageRepository) {
-    fun getMessageItem(messageItemId: Int): MessageItem {
+    fun getMessageItem(messageItemId: String): MessageItem {
         return messageRepository.getMessageItem(messageItemId)
     }
 }

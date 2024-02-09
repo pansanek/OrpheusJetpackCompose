@@ -18,8 +18,11 @@ interface ApplicationComponent {
     fun inject(mainActivity: MainActivity)
 
     fun getCommentsScreenComponentFactory(): CommentsScreenComponent.Factory
-
     fun getChatScreenComponentFactory(): ChatScreenComponent.Factory
+    fun getBandProfileScreenComponentFactory(): BandProfileScreenComponent.Factory
+    fun getLocationScreenComponentFactory(): LocationScreenComponent.Factory
+    fun getUserProfileScreenComponentFactory(): UserProfileScreenComponent.Factory
+
 
     fun getViewModelFactory(): ViewModelFactory
     @Component.Factory
