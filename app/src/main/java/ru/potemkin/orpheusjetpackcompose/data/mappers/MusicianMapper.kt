@@ -23,11 +23,14 @@ class MusicianMapper {
         return result
     }
 
-    fun mapMusicianToRequest(musicianItem: MusicianItem): CreateMusicianRequest {
+    fun mapMusicianToRequest(userItem: UserItem,
+                             genre:String,
+                             instrument:String,
+                             ): CreateMusicianRequest {
         return CreateMusicianRequest(
-            user = userMapper.mapUserDto(musicianItem.user),
-            genre = musicianItem.genre,
-            instrument = musicianItem.instrument
+            user = userMapper.mapUserDto(userItem),
+            genre = genre,
+            instrument = instrument
         )
     }
 

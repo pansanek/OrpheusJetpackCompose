@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.data.model.AdministratorDto
 import ru.potemkin.orpheusjetpackcompose.data.model.UserDto
 
 data class CreateLocationRequest(
-    val admin: AdministratorDto,
+    val user: UserDto,
     val name: String,
     val address: String,
     val about: String,

@@ -8,5 +8,5 @@ data class CreateUserRequest(
     val password: String,
     val email: String,
     val about: String,
-    val user_type: String,
+    val userType: String,
 )

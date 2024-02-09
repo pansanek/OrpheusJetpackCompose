@@ -7,5 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class RegItem (
     val email: String,
     val username: String,
+    val name:String,
     val password:String
 ):Parcelable

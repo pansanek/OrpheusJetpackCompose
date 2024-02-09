@@ -45,27 +45,36 @@ class UsersMapper {
             settings = mapUserSettingsDtoToItem(userDto.settings)
         )
     }
-    fun mapUserToRequest(userItem: UserItem): CreateUserRequest {
+
+    fun mapUserToRequest(
+        about: String,
+        email: String,
+        login: String,
+        name: String,
+        password: String,
+        userType: String
+    ): CreateUserRequest {
         return CreateUserRequest(
-            about = userItem.about,
-            email = userItem.email,
-            login = userItem.login,
-            name = userItem.name,
-            password = userItem.password,
-            user_type = userItem.user_type.toString()
+            about = about,
+            email = email,
+            login = login,
+            name = name,
+            password = password,
+            userType = userType
         )
     }
+
     fun mapUserDto(userItem: UserItem): UserDto {
         return UserDto(
             id = userItem.id,
             about = userItem.about,
-            email =userItem.email,
-            background_picture =mapPhotoUrlItemToDto(userItem.background_picture),
-            login =userItem.login,
-            name =userItem.name,
-            password =userItem.password,
+            email = userItem.email,
+            background_picture = mapPhotoUrlItemToDto(userItem.background_picture),
+            login = userItem.login,
+            name = userItem.name,
+            password = userItem.password,
             profile_picture = mapPhotoUrlItemToDto(userItem.profile_picture),
-            user_type =userItem.user_type.toString(),
+            user_type = userItem.user_type.toString(),
             settings = mapUserSettingsItemToDto(userItem.settings)
         )
     }
@@ -79,7 +88,7 @@ class UsersMapper {
 
     private fun mapUserSettingsItemToDto(userSettingsItem: UserSettingsItem): UserSettingsDto {
         return UserSettingsDto(
-            can_receive_messages_for_new_chats=userSettingsItem.canReceiveMessagesForNewChats,
+            can_receive_messages_for_new_chats = userSettingsItem.canReceiveMessagesForNewChats,
             can_receive_band_invitations = userSettingsItem.canReceiveBandInvitations
 
         )
