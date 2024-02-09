@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class LocationItem(
     var id: String = UNDEFINED_ID,
-    val admin: AdministratorItem,
+    val admin: UserItem,
     var name: String,
     var address: String,
     var about: String,

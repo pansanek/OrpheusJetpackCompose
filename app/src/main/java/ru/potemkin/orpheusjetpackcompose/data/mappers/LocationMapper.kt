@@ -3,18 +3,19 @@ package ru.potemkin.orpheusjetpackcompose.data.mappers
 import ru.potemkin.orpheusjetpackcompose.data.model.LocationDto
 import ru.potemkin.orpheusjetpackcompose.data.model.PhotoUrlDto
 import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateLocationRequest
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 
 class LocationMapper {
-    val adminMapper = AdministratorMapper()
+    val adminMapper = UsersMapper()
     fun mapLocations(listLocationDto: List<LocationDto>): List<LocationItem> {
         val result = mutableListOf<LocationItem>()
         for (locationDto in listLocationDto) {
             val locationItem = LocationItem(
                 id = locationDto.id,
-                admin = adminMapper.mapAdministrator(locationDto.admin),
+                admin = adminMapper.mapUser(locationDto.admin),
                 name = locationDto.name,
                 address = locationDto.address,
                 about = locationDto.about,
@@ -24,18 +25,25 @@ class LocationMapper {
         }
         return result
     }
-    fun mapLocationToRequest(locationItem: LocationItem): CreateLocationRequest {
+
+    fun mapLocationToRequest(
+        userItem: UserItem,
+        name: String,
+        address: String,
+        about: String
+    ): CreateLocationRequest {
         return CreateLocationRequest(
-            admin = adminMapper.mapAdministratorDto(locationItem.admin),
-            name = locationItem.name,
-            address = locationItem.address,
-            about = locationItem.about
+            user = adminMapper.mapUserDto(userItem),
+            name = name,
+            address = address,
+            about = about
         )
     }
+
     fun mapLocation(locationDto: LocationDto): LocationItem {
         return LocationItem(
             id = locationDto.id,
-            admin = adminMapper.mapAdministrator(locationDto.admin),
+            admin = adminMapper.mapUser(locationDto.admin),
             name = locationDto.name,
             address = locationDto.address,
             about = locationDto.about,
