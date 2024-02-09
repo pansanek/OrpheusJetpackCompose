@@ -3,6 +3,8 @@ package ru.potemkin.orpheusjetpackcompose.data.mappers
 import ru.potemkin.orpheusjetpackcompose.data.model.CommentDto
 import ru.potemkin.orpheusjetpackcompose.data.model.PhotoUrlDto
 import ru.potemkin.orpheusjetpackcompose.data.model.PostDto
+import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreatePostRequest
+import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateUserRequest
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
@@ -26,6 +28,13 @@ class PostMapper {
         return result
     }
 
+    fun mapPostToRequest(creatorId: String,creatorType:String,caption:String): CreatePostRequest {
+        return CreatePostRequest(
+            creator_id = creatorId,
+            creator_type = creatorType,
+            caption = caption,
+        )
+    }
     suspend fun mapPost(postDto: PostDto): PostItem {
         if(postDto.creatorType == "User"){
             val postItem = PostItem(

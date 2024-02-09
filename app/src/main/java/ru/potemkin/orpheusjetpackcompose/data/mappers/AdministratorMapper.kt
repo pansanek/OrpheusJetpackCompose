@@ -1,7 +1,12 @@
 package ru.potemkin.orpheusjetpackcompose.data.mappers
 
 import ru.potemkin.orpheusjetpackcompose.data.model.AdministratorDto
+import ru.potemkin.orpheusjetpackcompose.data.model.UserDto
+import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateAdministratorRequest
+import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateMusicianRequest
 import ru.potemkin.orpheusjetpackcompose.domain.entities.AdministratorItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 
 class AdministratorMapper {
 
@@ -13,6 +18,21 @@ class AdministratorMapper {
             result.add(administrator)
         }
         return result
+    }
+
+    fun mapAdministratorToRequest(administratorItem: AdministratorItem): CreateAdministratorRequest {
+        return CreateAdministratorRequest(
+            user = userMapper.mapUserDto(administratorItem.user),
+            locationId = administratorItem.locationId
+        )
+    }
+
+    fun mapAdministratorDto(adminItem:AdministratorItem): AdministratorDto {
+        return AdministratorDto(
+            id = adminItem.id,
+            user = userMapper.mapUserDto(adminItem.user),
+            locationId = adminItem.locationId,
+        )
     }
 
     fun mapAdministrator(administratorDto: AdministratorDto): AdministratorItem {

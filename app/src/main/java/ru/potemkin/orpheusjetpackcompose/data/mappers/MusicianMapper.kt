@@ -1,7 +1,10 @@
 package ru.potemkin.orpheusjetpackcompose.data.mappers
 
 import ru.potemkin.orpheusjetpackcompose.data.model.MusicianDto
+import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateMusicianRequest
+import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateUserRequest
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 
 
 class MusicianMapper {
@@ -18,6 +21,14 @@ class MusicianMapper {
             result.add(musicianItem)
         }
         return result
+    }
+
+    fun mapMusicianToRequest(musicianItem: MusicianItem): CreateMusicianRequest {
+        return CreateMusicianRequest(
+            user = userMapper.mapUserDto(musicianItem.user),
+            genre = musicianItem.genre,
+            instrument = musicianItem.instrument
+        )
     }
 
     fun mapMusician(musicianDto: MusicianDto): MusicianItem {

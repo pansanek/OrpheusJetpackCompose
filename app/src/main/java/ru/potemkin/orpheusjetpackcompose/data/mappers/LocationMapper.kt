@@ -2,7 +2,9 @@ package ru.potemkin.orpheusjetpackcompose.data.mappers
 
 import ru.potemkin.orpheusjetpackcompose.data.model.LocationDto
 import ru.potemkin.orpheusjetpackcompose.data.model.PhotoUrlDto
+import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateLocationRequest
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 
 class LocationMapper {
@@ -22,7 +24,14 @@ class LocationMapper {
         }
         return result
     }
-
+    fun mapLocationToRequest(locationItem: LocationItem): CreateLocationRequest {
+        return CreateLocationRequest(
+            admin = adminMapper.mapAdministratorDto(locationItem.admin),
+            name = locationItem.name,
+            address = locationItem.address,
+            about = locationItem.about
+        )
+    }
     fun mapLocation(locationDto: LocationDto): LocationItem {
         return LocationItem(
             id = locationDto.id,

@@ -1,7 +1,10 @@
 package ru.potemkin.orpheusjetpackcompose.data.mappers
 
 import ru.potemkin.orpheusjetpackcompose.data.model.MessageDto
+import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateMessageRequest
+import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateUserRequest
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MessageItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 
 class MessageMapper {
     val userMapper = UsersMapper()
@@ -19,7 +22,13 @@ class MessageMapper {
         }
         return result
     }
-
+    fun mapMessageToRequest(messageItem: MessageItem): CreateMessageRequest {
+        return CreateMessageRequest(
+            chat_id= messageItem.chatId,
+            from_user= userMapper.mapUserDto(messageItem.fromUser),
+            content = messageItem.content
+        )
+    }
     fun mapMessage(chatDto: MessageDto): MessageItem {
         return MessageItem(
             id = chatDto.id,
