@@ -30,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -42,10 +43,13 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 import ru.potemkin.orpheusjetpackcompose.presentation.components.AuthButton
 import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
 import ru.potemkin.orpheusjetpackcompose.presentation.components.TextEntryModule
+import ru.potemkin.orpheusjetpackcompose.presentation.search.SearchScreenState
+import ru.potemkin.orpheusjetpackcompose.presentation.search.SearchViewModel
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
@@ -60,6 +64,8 @@ fun LoginScreen(
     val surfaceVisible = remember { mutableStateOf(false) }
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val viewModel: AuthViewModel = viewModel()
+    val authState = viewModel.authState.observeAsState(AuthState.Initial)
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -125,118 +131,126 @@ fun LoginScreen(
                                     .height(60.dp)
 
                             ) {
-                                onNextClickListener()
+                                viewModel.authorize(username, password)
+                                when (authState.value) {
+                                    is AuthState.Authorized -> {
+                                        onNextClickListener()
+                                    }
+
+                                    else -> {
+                                        TODO()
+                                    }
+                                }
                             }
                         }
-                    }
-                    Column(verticalArrangement = Arrangement.Bottom) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Text(
-                                "Нет аккаунта?",
-                                style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.padding(bottom = 15.dp)
-                            )
-                            Text(
-                                "Зарегистрироваться!",
-                                modifier = Modifier
-                                    .clickable {
-                                        onRegistrationClickListener()
-                                    }
-                                    .padding(bottom = 15.dp),
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = Green,
-                                fontWeight = FontWeight.Bold
-                            )
+                        Column(verticalArrangement = Arrangement.Bottom) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    "Нет аккаунта?",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    modifier = Modifier.padding(bottom = 15.dp)
+                                )
+                                Text(
+                                    "Зарегистрироваться!",
+                                    modifier = Modifier
+                                        .clickable {
+                                            onRegistrationClickListener()
+                                        }
+                                        .padding(bottom = 15.dp),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = Green,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
                         }
                     }
                 }
             }
         }
+
+        LaunchedEffect(Unit) {
+            surfaceVisible.value = true
+        }
+
     }
 
-    LaunchedEffect(Unit) {
-        surfaceVisible.value = true
-    }
-
-}
-
-@Composable
-fun LoginContainer(
-    emailValue: () -> String,
-    passwordValue: () -> String,
-    buttonEnabled: () -> Boolean,
-    onEmailChanged: (String) -> Unit,
-    onPasswordChanged: (String) -> Unit,
-    onLoginButtonClick: () -> Unit,
-    isPasswordShown: () -> Boolean,
-    onTrailingPasswordIconClick: () -> Unit,
-    errorHint: () -> String?,
-    isLoading: () -> Boolean,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = Modifier.fillMaxSize(),
-        horizontalArrangement = Arrangement.Center
+    @Composable
+    fun LoginContainer(
+        emailValue: () -> String,
+        passwordValue: () -> String,
+        buttonEnabled: () -> Boolean,
+        onEmailChanged: (String) -> Unit,
+        onPasswordChanged: (String) -> Unit,
+        onLoginButtonClick: () -> Unit,
+        isPasswordShown: () -> Boolean,
+        onTrailingPasswordIconClick: () -> Unit,
+        errorHint: () -> String?,
+        isLoading: () -> Boolean,
+        modifier: Modifier = Modifier
     ) {
-        Column(
-            modifier = Modifier.fillMaxHeight(),
-            verticalArrangement = Arrangement.Center
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.Center
         ) {
+            Column(
+                modifier = Modifier.fillMaxHeight(),
+                verticalArrangement = Arrangement.Center
+            ) {
 
-            Text(
-                errorHint() ?: "",
-                style = MaterialTheme.typography.bodySmall,
-                fontWeight = FontWeight.Bold,
-                color = Color.Red,
-                textAlign = TextAlign.Center
-            )
+                Text(
+                    errorHint() ?: "",
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Red,
+                    textAlign = TextAlign.Center
+                )
 
-            TextEntryModule(
-                description = "Введите почту",
-                modifier = Modifier.fillMaxWidth(0.8f),
-                hint = "xd@xd.xd",
-                textValue = emailValue(),
-                textColor = Green,
-                cursorColor = Green,
-                onValueChanged = onEmailChanged,
-                trailingIcon = null,
-                onTrailingIconClick = null,
-                leadingIcon = Icons.Default.Email
-            )
+                TextEntryModule(
+                    description = "Введите почту",
+                    modifier = Modifier.fillMaxWidth(0.8f),
+                    hint = "xd@xd.xd",
+                    textValue = emailValue(),
+                    textColor = Green,
+                    cursorColor = Green,
+                    onValueChanged = onEmailChanged,
+                    trailingIcon = null,
+                    onTrailingIconClick = null,
+                    leadingIcon = Icons.Default.Email
+                )
 
-            TextEntryModule(
-                description = "Введите пароль",
-                modifier = Modifier.fillMaxWidth(0.8f),
-                hint = "qwerqwer",
-                textValue = passwordValue(),
-                textColor = Green,
-                cursorColor = Green,
-                onValueChanged = onPasswordChanged,
-                trailingIcon = if (isPasswordShown()) Icons.Default.RemoveRedEye else Icons.Default.VisibilityOff,
-                onTrailingIconClick = onTrailingPasswordIconClick,
-                leadingIcon = Icons.Default.VpnKey,
-                visualTransformation = if (isPasswordShown()) {
-                    VisualTransformation.None
-                } else PasswordVisualTransformation(),
-                keyboardType = KeyboardType.Password
-            )
-            AuthButton(
-                text = "Войти",
-                backgroundColor = Green,
-                contentColor = Color.White,
-                enabled = true,
-                modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .padding(10.dp)
-                    .height(45.dp),
-                isLoading = isLoading(),
-                onButtonClick = onLoginButtonClick
-            )
+                TextEntryModule(
+                    description = "Введите пароль",
+                    modifier = Modifier.fillMaxWidth(0.8f),
+                    hint = "qwerqwer",
+                    textValue = passwordValue(),
+                    textColor = Green,
+                    cursorColor = Green,
+                    onValueChanged = onPasswordChanged,
+                    trailingIcon = if (isPasswordShown()) Icons.Default.RemoveRedEye else Icons.Default.VisibilityOff,
+                    onTrailingIconClick = onTrailingPasswordIconClick,
+                    leadingIcon = Icons.Default.VpnKey,
+                    visualTransformation = if (isPasswordShown()) {
+                        VisualTransformation.None
+                    } else PasswordVisualTransformation(),
+                    keyboardType = KeyboardType.Password
+                )
+                AuthButton(
+                    text = "Войти",
+                    backgroundColor = Green,
+                    contentColor = Color.White,
+                    enabled = true,
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .padding(10.dp)
+                        .height(45.dp),
+                    isLoading = isLoading(),
+                    onButtonClick = onLoginButtonClick
+                )
+            }
         }
     }
 }
-
 

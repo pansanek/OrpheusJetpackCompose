@@ -26,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -37,9 +38,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.AboutMeItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.RegItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.TypeItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
@@ -60,9 +63,11 @@ fun RegistrationScreen(
     val surfaceVisible = remember { mutableStateOf(false) }
 
     var email by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+
 
     Box(
         modifier = Modifier
@@ -111,6 +116,14 @@ fun RegistrationScreen(
                                 .padding(16.dp)
                         )
                         OutlinedTextField(
+                            value = name,
+                            onValueChange = { name = it },
+                            label = { Text("Ваше имя") },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                        )
+                        OutlinedTextField(
                             value = username,
                             onValueChange = { username = it },
                             label = { Text("Логин") },
@@ -146,7 +159,7 @@ fun RegistrationScreen(
                                     .height(60.dp)
 
                             ) {
-                                onNextClickListener(RegItem(email, username, password))
+                                onNextClickListener(RegItem(email, username,name, password))
                             }
                         }
                     }
@@ -295,6 +308,8 @@ fun MusicianRegScreen(
     var expandedInstrument by remember { mutableStateOf(false) }
     var expandedGenre by remember { mutableStateOf(false) }
 
+    val viewModel: AuthViewModel = viewModel()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -376,6 +391,16 @@ fun MusicianRegScreen(
                 .padding(16.dp)
                 .height(60.dp),
             onClick = {
+                viewModel.createMusician(
+                    about = typeItem.aboutMeItem.aboutMe,
+                    email = typeItem.aboutMeItem.regItem.email,
+                    login = typeItem.aboutMeItem.regItem.username,
+                    password = typeItem.aboutMeItem.regItem.password,
+                    name = typeItem.aboutMeItem.regItem.name,
+                    userType = typeItem.userType.toString(),
+                    genre = selectedGenre,
+                    instrument = selectedInstrument
+                )
                 onNextClickListener()
             }
         )
@@ -390,9 +415,11 @@ fun AdminRegScreen(
     onBackPressed: () -> Unit,
     onNextClickListener:() -> Unit
 ) {
-    var address by remember { mutableStateOf("") }
-    var name by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
+    var locationAddress by remember { mutableStateOf("") }
+    var locationName by remember { mutableStateOf("") }
+    var locationAbout by remember { mutableStateOf("") }
+
+    val viewModel: AuthViewModel = viewModel()
 
     Column(Modifier.fillMaxSize()) {
         Row(
@@ -408,8 +435,8 @@ fun AdminRegScreen(
             )
         }
         OutlinedTextField(
-            value = address,
-            onValueChange = { address = it },
+            value = locationAddress,
+            onValueChange = { locationAddress = it },
             label = { Text("Адрес") },
             modifier = Modifier
                 .fillMaxWidth()
@@ -418,8 +445,8 @@ fun AdminRegScreen(
 
         // Ввод названия
         OutlinedTextField(
-            value = name,
-            onValueChange = { name = it },
+            value = locationName,
+            onValueChange = { locationName = it },
             label = { Text("Название") },
             modifier = Modifier
                 .fillMaxWidth()
@@ -428,8 +455,8 @@ fun AdminRegScreen(
 
         // Ввод описания
         OutlinedTextField(
-            value = description,
-            onValueChange = { description = it },
+            value = locationAbout,
+            onValueChange = { locationAbout = it },
             label = { Text("Описание") },
             modifier = Modifier
                 .fillMaxWidth()
@@ -446,6 +473,17 @@ fun AdminRegScreen(
                 .padding(16.dp)
                 .height(60.dp),
             onClick = {
+                viewModel.createAdminAndLocation(
+                    about = typeItem.aboutMeItem.aboutMe,
+                    email = typeItem.aboutMeItem.regItem.email,
+                    login = typeItem.aboutMeItem.regItem.username,
+                    password = typeItem.aboutMeItem.regItem.password,
+                    name = typeItem.aboutMeItem.regItem.name,
+                    userType = typeItem.userType.toString(),
+                    locationName = locationName,
+                    locationAbout = locationAbout,
+                    locationAddress =locationAddress
+                )
                 onNextClickListener()
             }
         )

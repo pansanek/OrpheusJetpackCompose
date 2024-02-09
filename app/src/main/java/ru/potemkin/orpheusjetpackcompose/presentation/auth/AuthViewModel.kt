@@ -41,7 +41,8 @@ class AuthViewModel @Inject constructor() : ViewModel() {
         _authState.value = AuthState.Authorized
 
     }
-    private fun authorize(login: String, password: String) {
+
+    fun authorize(login: String, password: String) {
         viewModelScope.launch {
             val jsonObject = JSONObject()
             jsonObject.put("login", login)
@@ -49,45 +50,72 @@ class AuthViewModel @Inject constructor() : ViewModel() {
             val jsonObjectString = jsonObject.toString()
             val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
             val response = ApiFactory.appUserApiService.authorize(requestBody)
-            if (response == "OK"){
+            if (response == "OK") {
                 _authState.value = AuthState.Authorized
             }
         }
     }
 
-    private fun createUser(userItem: UserItem) {
+
+    fun createMusician(about: String,
+                       email: String,
+                       login: String,
+                       name: String,
+                       password: String,
+                       userType: String,
+                       genre: String,
+                       instrument: String,
+                       ) {
         viewModelScope.launch {
-            val user = mapper.mapUserToRequest(userItem)
+            val user = mapper.mapUserToRequest(about,email,login,name,password,userType)
             val jsonObjectString = user.toString()
             val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
-            ApiFactory.appUserApiService.createUser(requestBody)
+            val userResponse = ApiFactory.appUserApiService.createUser(requestBody)
+
+            val musician = musicianMapper.mapMusicianToRequest(mapper.mapUser(userResponse),
+                genre, instrument)
+            val musicianJsonObjectString = musician.toString()
+            val musicianRequestBody =
+                musicianJsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
+            ApiFactory.appMusicianApiService.createMusician(musicianRequestBody)
+
+            _authState.value = AuthState.Authorized
         }
     }
 
-    private fun createAdministrator(administratorItem: AdministratorItem) {
+    fun createAdminAndLocation(about: String,
+                               email: String,
+                               login: String,
+                               name: String,
+                               password: String,
+                               userType: String,
+                               locationName: String,
+                               locationAddress: String,
+                               locationAbout: String
+                               ) {
         viewModelScope.launch {
-            val admin = adminMapper.mapAdministratorToRequest(administratorItem)
-            val jsonObjectString = admin.toString()
+            val user = mapper.mapUserToRequest(about,email,login,name,password,userType)
+            val jsonObjectString = user.toString()
             val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
-            ApiFactory.appAdministratorApiService.createAdministrator(requestBody)
-        }
-    }
+            val userResponse = ApiFactory.appUserApiService.createUser(requestBody)
 
-    private fun createMusician(musicianItem: MusicianItem) {
-        viewModelScope.launch {
-            val musician = musicianMapper.mapMusicianToRequest(musicianItem)
-            val jsonObjectString = musician.toString()
-            val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
-            ApiFactory.appMusicianApiService.createMusician(requestBody)
-        }
-    }
 
-    private fun createLocation(locationItem: LocationItem) {
-        viewModelScope.launch {
-            val location = locationMapper.mapLocationToRequest(locationItem)
-            val jsonObjectString = location.toString()
-            val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
-            ApiFactory.appLocationApiService.createLocation(requestBody)
+            val location = locationMapper.mapLocationToRequest(
+                mapper.mapUser(userResponse),
+                locationName,
+                locationAddress,
+                locationAbout,
+            )
+            val locationJsonObjectString = location.toString()
+            val locationRequestBody =
+                locationJsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
+            val locationResponse =
+                ApiFactory.appLocationApiService.createLocation(locationRequestBody)
+
+
+
+
+            _authState.value = AuthState.Authorized
         }
     }
 }
