@@ -28,7 +28,7 @@ fun MyUserProfileScreen(
     onBandListClickListener: () -> Unit,
     onCommentClickListener: (PostItem) -> Unit,
 ) {
-    val viewModel: NewsFeedViewModel = viewModel()
+    val viewModel: MyUserProfileViewModel = viewModel()
     val screenState = viewModel.screenState.observeAsState(MyUserProfileScreenState.Initial)
     val scrollState = rememberLazyListState()
     val topBarHeight = 48.dp // Замените на высоту вашего TopBar
@@ -44,6 +44,7 @@ fun MyUserProfileScreen(
                 ) {
                     // Здесь мы используем Modifier.graphicsLayer для анимации Header
                     UserProfileHeader(
+                        currentState.user,
                         scrollState = scrollState,
                         topBarHeight = topBarHeight,
                         { onBandListClickListener() }

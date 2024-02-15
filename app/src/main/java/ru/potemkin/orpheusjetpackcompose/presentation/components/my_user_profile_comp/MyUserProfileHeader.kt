@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -36,11 +37,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.R
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @Composable
 fun UserProfileHeader(
+    user:UserItem,
     scrollState: LazyListState,
     topBarHeight: Dp,
     onBandListClickListener: () -> Unit
@@ -58,11 +62,11 @@ fun UserProfileHeader(
             .height(headerHeight)
             .graphicsLayer(alpha = headerAlpha)
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.sample2),
+        AsyncImage(
+            model = user.background_picture.url,
+            modifier = Modifier.fillMaxSize(),
             contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
+            contentScale = ContentScale.Crop
         )
 
         Column(
@@ -73,8 +77,8 @@ fun UserProfileHeader(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // User profile picture
-            Image(
-                painter = painterResource(id = R.drawable.sample2),
+            AsyncImage(
+                model = user.profile_picture.url,
                 contentDescription = null,
                 modifier = Modifier
                     .size(80.dp)
@@ -125,7 +129,7 @@ fun UserProfileHeader(
             }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Антон",
+                text = user.name,
                 style = MaterialTheme.typography.labelLarge,
                 color = Color.White
             )
@@ -133,7 +137,7 @@ fun UserProfileHeader(
             Spacer(modifier = Modifier.height(4.dp))
             // User bio
             Text(
-                text = "Просто крутой парень",
+                text = user.about,
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.White
             )

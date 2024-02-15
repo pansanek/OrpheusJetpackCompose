@@ -49,7 +49,7 @@ fun ChatListScreen(
     onChatClickListener: (ChatItem) -> Unit,
     onUserClickListener: (UserItem) -> Unit
 ) {
-    val viewModel: NewsFeedViewModel = viewModel()
+    val viewModel: ChatListViewModel = viewModel()
     val screenState = viewModel.screenState.observeAsState(ChatListScreenState.Initial)
     when (val currentState = screenState.value) {
         is ChatListScreenState.Chats -> {
@@ -100,8 +100,8 @@ fun ChatListScreen(
             )
         }
 
-        NewsFeedScreenState.Initial -> {}
-        NewsFeedScreenState.Loading -> {
+        ChatListScreenState.Initial -> {}
+        ChatListScreenState.Loading -> {
             Box(
                 modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
             ) {
