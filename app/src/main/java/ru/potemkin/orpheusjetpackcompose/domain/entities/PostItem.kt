@@ -15,7 +15,7 @@ data class PostItem(
     val date: String,
     var likes: Int,
     var comments: List<CommentItem>,
-    var attachments: List<String>,
+    var attachment: PhotoUrlItem,
     var creatorType: String,
     var isLiked: Boolean,
     val statistics: List<StatisticItem>,

@@ -5,6 +5,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PhotoUrlItem(
-    var id: Int,
+    var id: String,
     var url: String
 ):Parcelable

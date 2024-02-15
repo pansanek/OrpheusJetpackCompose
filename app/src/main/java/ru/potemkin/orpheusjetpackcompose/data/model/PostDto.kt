@@ -10,6 +10,6 @@ data class PostDto(
     @SerializedName("likes") val likes: List<String>,
     @SerializedName("views") val views: Int,
     @SerializedName("comments") val comments: List<CommentDto>,
-    @SerializedName("attachment") val attachment: List<PhotoUrlDto>,
+    @SerializedName("attachment") val attachment: PhotoUrlDto,
     @SerializedName("creator_type") val creatorType: String
 )
