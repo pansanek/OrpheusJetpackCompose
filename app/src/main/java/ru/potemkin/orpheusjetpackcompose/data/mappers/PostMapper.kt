@@ -9,6 +9,7 @@ import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticType
@@ -45,7 +46,7 @@ class PostMapper {
                 date = postDto.timestamp,
                 likes = postDto.likes.size,
                 comments = mapCommentList(postDto.comments),
-                attachments = mapAttachmentList(postDto.attachment),
+                attachment = mapAttachment(postDto.attachment),
                 creatorType = postDto.creatorType,
                 isLiked = false,
                 statistics = listOf(
@@ -64,7 +65,7 @@ class PostMapper {
                 date = postDto.timestamp,
                 likes = postDto.likes.size,
                 comments = mapCommentList(postDto.comments),
-                attachments = mapAttachmentList(postDto.attachment),
+                attachment = mapAttachment(postDto.attachment),
                 creatorType = postDto.creatorType,
                 isLiked = false,
                 statistics = listOf(
@@ -83,7 +84,7 @@ class PostMapper {
                 date = postDto.timestamp,
                 likes = postDto.likes.size,
                 comments = mapCommentList(postDto.comments),
-                attachments = mapAttachmentList(postDto.attachment),
+                attachment = mapAttachment(postDto.attachment),
                 creatorType = postDto.creatorType,
                 isLiked = false,
                 statistics = listOf(
@@ -123,11 +124,7 @@ class PostMapper {
         return locationMapper.mapLocation(ApiFactory.appLocationApiService.getLocationById(creatorId))
     }
 
-    private fun mapAttachmentList(photoUrlDtoList: List<PhotoUrlDto>): List<String> {
-        val result = mutableListOf<String>()
-        for (photoUrlDto in photoUrlDtoList) {
-            result.add(photoUrlDto.url)
-        }
-        return result
+    private fun mapAttachment(photoUrlDto: PhotoUrlDto): PhotoUrlItem {
+        return PhotoUrlItem(photoUrlDto.id,photoUrlDto.url)
     }
 }

@@ -3,7 +3,13 @@ package ru.potemkin.orpheusjetpackcompose.data.repositories
 import ru.potemkin.orpheusjetpackcompose.data.mappers.PostMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticType
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.PostRepository
 import javax.inject.Inject
 
@@ -65,6 +71,8 @@ class PostRepositoryImpl @Inject constructor(
     override suspend fun loadNextData() {
         TODO("Not yet implemented")
     }
+
+
 
 
 }
