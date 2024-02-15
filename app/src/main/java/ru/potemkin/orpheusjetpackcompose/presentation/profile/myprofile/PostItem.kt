@@ -49,7 +49,7 @@ fun PostItem(
             Text(text = feedPost.text)
             Spacer(modifier = Modifier.height(8.dp))
             AsyncImage(
-                model = feedPost.attachments[0],
+                model = feedPost.attachment.url,
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight(),
