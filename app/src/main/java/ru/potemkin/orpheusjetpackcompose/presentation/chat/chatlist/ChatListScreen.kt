@@ -86,6 +86,7 @@ fun ChatListScreen(
                                 ) {
                                     items(currentState.chats, key = { it.id }) {
                                         UserEachRow(
+                                            lastMessage = it.lastMessage,
                                             user = it.users.get(1),
                                             onChatClick = { onChatClickListener(it) },
                                             onUserClick= {onUserClickListener(it.users.get(1))}
@@ -145,6 +146,7 @@ fun BottomSheetSwipeUp(
 
 @Composable
 fun UserEachRow(
+    lastMessage: String,
     user: UserItem,
     onChatClick: () -> Unit,
     onUserClick: () -> Unit,
@@ -183,18 +185,13 @@ fun UserEachRow(
                         )
                         SpacerHeight(5.dp)
                         Text(
-                            text = stringResource(R.string.okay), style = TextStyle(
+                            text = lastMessage, style = TextStyle(
                                 color = Black, fontSize = 14.sp
                             )
                         )
                     }
 
                 }
-                Text(
-                    text = stringResource(R.string._12_23_pm), style = TextStyle(
-                        color = Black, fontSize = 12.sp
-                    )
-                )
             }
             SpacerHeight(15.dp)
             Divider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp, color = White)

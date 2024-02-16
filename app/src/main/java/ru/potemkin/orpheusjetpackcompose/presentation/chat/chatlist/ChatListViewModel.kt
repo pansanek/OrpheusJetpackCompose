@@ -53,7 +53,7 @@ class ChatListViewModel @Inject constructor() : ViewModel() {
                 ),UserItem(
                     "51bdc118-e76b-4372-8678-6822658cefeh",
                     "sanpanek",
-                    "Sasha",
+                    "Pasha",
                     "12341234",
                     "email@gmail.com",
                     "Hehe",

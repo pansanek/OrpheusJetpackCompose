@@ -29,7 +29,6 @@ class NavigationState(
     }
 
     fun navigateToComments(feedPost: PostItem) {
-        Log.d("COMEMNTS","NAVSTATE "+feedPost.toString())
         navHostController.navigate(Screen.CommentsScreen.getRouteWithArgs(feedPost))
     }
 
@@ -66,6 +65,7 @@ class NavigationState(
         navHostController.navigate(Screen.BandListScreen.route)
     }
     fun navigateToUserChat(chatItem: ChatItem) {
+        Log.d("CHAT","NAVSTATE "+chatItem.toString())
         navHostController.navigate(Screen.ChatScreen.getRouteWithArgs(chatItem))
     }
     fun navigateToAboutMeScreen(regItem: RegItem) {

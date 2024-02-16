@@ -104,7 +104,7 @@ fun ChatScreen(
                         LazyColumn(
                             modifier = Modifier.padding(
                                 start = 15.dp,
-                                top = 25.dp,
+                                top = 45.dp,
                                 end = 15.dp,
                                 bottom = 75.dp
                             )
@@ -127,7 +127,7 @@ fun ChatScreen(
 fun ChatRow(
     message: MessageItem
 ) {
-    var userId = "ID"
+    var userId = "51bdc118-e76b-4372-8678-6822658cefed"
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = if (message.fromUser.id != userId) Alignment.Start else Alignment.End
@@ -237,7 +237,6 @@ fun UserNameRow(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Row {
-
             AsyncImage(
                 model = user.profile_picture.url,
                 modifier = Modifier
