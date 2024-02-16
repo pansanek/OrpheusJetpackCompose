@@ -1,5 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
@@ -28,6 +29,7 @@ class NavigationState(
     }
 
     fun navigateToComments(feedPost: PostItem) {
+        Log.d("COMEMNTS","NAVSTATE "+feedPost.toString())
         navHostController.navigate(Screen.CommentsScreen.getRouteWithArgs(feedPost))
     }
 

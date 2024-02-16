@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -22,9 +24,12 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 
@@ -92,25 +97,25 @@ private fun CommentItem(
                 vertical = 4.dp
             )
     ) {
-//        AsyncImage(
-//            modifier = Modifier
-//                .size(48.dp)
-//                .clip(CircleShape)
-//            ,
-//            model = comment.authorAvatarUrl,
-//            contentDescription = null
-//        )
+        AsyncImage(
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape)
+            ,
+            model = comment.user.profile_picture.url,
+            contentDescription = null
+        )
         Spacer(modifier = Modifier.width(8.dp))
         Column {
             Text(
-                text = comment.user.id,
-                color = MaterialTheme.colors.onPrimary,
+                text = comment.user.name,
+                color = Color.Black,
                 fontSize = 12.sp
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = comment.text,
-                color = MaterialTheme.colors.onPrimary,
+                color = Color.Black,
                 fontSize = 14.sp
             )
             Spacer(modifier = Modifier.height(4.dp))

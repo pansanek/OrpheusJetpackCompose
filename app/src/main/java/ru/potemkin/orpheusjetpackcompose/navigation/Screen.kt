@@ -1,7 +1,8 @@
 package ru.potemkin.orpheusjetpackcompose.navigation
 
+import android.net.Uri
+import android.util.Log
 import com.google.gson.Gson
-import okio.ByteString.Companion.encode
 import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.AboutMeItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.RegItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.TypeItem
@@ -128,9 +129,9 @@ sealed class Screen(
         const val ROUTE_AUTH_HOME = "auth_home"
         const val ROUTE_BAND_PROFILE = "band_profile"
         const val ROUTE_CHAT_LIST = "chat_list"
-        const val ROUTE_CHAT = "chat"
+        const val ROUTE_CHAT = "chat/{$KEY_CHAT}"
         const val ROUTE_CHAT_HOME = "chat_home"
-        const val ROUTE_COMMENTS = "comments"
+        const val ROUTE_COMMENTS = "comments/{$KEY_FEED_POST}"
         const val ROUTE_FEED_HOME = "feed_home"
         const val ROUTE_LOCATION = "location"
         const val ROUTE_LOGIN = "login"
@@ -152,4 +153,7 @@ sealed class Screen(
         const val ROUTE_NOTIFICATIONS = "notifications"
         const val ROUTE_SETTINGS = "settings"
     }
+}
+fun String.encode(): String {
+    return Uri.encode(this)
 }
