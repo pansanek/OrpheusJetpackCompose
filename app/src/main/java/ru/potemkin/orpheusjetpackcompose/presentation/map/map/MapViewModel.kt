@@ -60,6 +60,8 @@ class MapViewModel @Inject constructor() : ViewModel() {
                 name = "KVLT",
                 address = "УЛИЦА 2",
                 profilePicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fc5325235234","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
+                latitude = 1.35,
+                longitude = 103.87
             )
         )
         return mockData

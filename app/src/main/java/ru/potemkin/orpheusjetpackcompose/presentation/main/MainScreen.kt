@@ -142,7 +142,8 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                     paddingValues = paddingValues,
                     onLocationClickListener = {
                         navigationState.navigateToLocation(it)
-                    })
+                    }
+                )
             },
             newsFeedScreenContent = {
                 NewsFeedScreen(
@@ -291,13 +292,7 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
             }
 
         )
-        /*
-        Вроде бы сделал навигацию постов и комментариев (переделал конструкторы но без DI)
-        Осталось разобраться с навигацией остальных экранов и вообще с остальными экранами
-        Потом доделать все для чата(item,repo и тд)
-        И на серваке с чатами разобраться
-        УРОК 35 sumin
-        */
+
     }
 }
 
