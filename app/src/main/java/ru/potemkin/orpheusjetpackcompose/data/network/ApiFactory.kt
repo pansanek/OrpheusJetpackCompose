@@ -36,6 +36,13 @@ object ApiFactory {
         return retrofit.create(UserApiService::class.java)
     }
 
+    fun createGeocodingService(): GeocodingService {
+        return Retrofit.Builder()
+            .baseUrl("https://maps.googleapis.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(GeocodingService::class.java)
+    }
     private fun createPostService(baseUrl: String, port: Int): PostApiService {
         val retrofit = Retrofit.Builder()
             .baseUrl("$baseUrl$port/")

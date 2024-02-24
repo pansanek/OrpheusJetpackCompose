@@ -13,7 +13,9 @@ data class LocationItem(
     var name: String,
     var address: String,
     var about: String,
-    var profilePicture: PhotoUrlItem
+    var profilePicture: PhotoUrlItem,
+    var latitude: Double = 0.0, // Добавлено
+    var longitude: Double = 0.0 // Добавлено
 ):Parcelable{
     companion object {
         const val UNDEFINED_ID = "0"
