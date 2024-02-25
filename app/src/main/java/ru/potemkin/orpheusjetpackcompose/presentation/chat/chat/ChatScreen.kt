@@ -48,6 +48,7 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
+    paddingValues:PaddingValues,
     onBackPressed: () -> Unit,
     chatItem: ChatItem,
     onUserClickListener: (UserItem) -> Unit
@@ -65,8 +66,8 @@ fun ChatScreen(
     if (currentState is ChatScreenState.Messages){
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Green)
+            .padding(paddingValues)
+            .background(Color.Black)
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
@@ -231,7 +232,6 @@ fun UserNameRow(
     modifier: Modifier = Modifier,
     user: UserItem
 ) {
-
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween

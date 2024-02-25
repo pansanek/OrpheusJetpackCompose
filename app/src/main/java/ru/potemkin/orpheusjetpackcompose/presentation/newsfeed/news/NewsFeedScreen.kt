@@ -23,7 +23,6 @@ fun NewsFeedScreen(
     when (val currentState = screenState.value) {
         is NewsFeedScreenState.Posts -> {
             FeedPosts(
-                viewModel = viewModel,
                 paddingValues = paddingValues,
                 posts = currentState.posts,
                 onCommentClickListener = onCommentClickListener,
@@ -44,7 +43,6 @@ fun NewsFeedScreen(
 
 @Composable
 private fun FeedPosts(
-    viewModel: NewsFeedViewModel,
     paddingValues: PaddingValues,
     posts: List<PostItem>,
     onCommentClickListener: (PostItem) -> Unit,

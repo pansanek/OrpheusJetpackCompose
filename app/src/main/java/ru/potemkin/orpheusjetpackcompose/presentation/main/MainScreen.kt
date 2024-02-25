@@ -1,8 +1,11 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.main
 
+import androidx.compose.foundation.background
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.potemkin.orpheusjetpackcompose.navigation.AppNavGraph
@@ -61,8 +64,9 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                         icon = {
                             Icon(item.icon, contentDescription = null)
                         },
-                        selectedContentColor = MaterialTheme.colors.onPrimary,
-                        unselectedContentColor = MaterialTheme.colors.onSecondary
+                        selectedContentColor = Color.White,
+                        unselectedContentColor = Color.Gray,
+                        modifier = Modifier.background(color = Color.Black)
                     )
                 }
             }
@@ -96,6 +100,7 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
             },
             chatScreenContent = { chatItem ->
                 ChatScreen(
+                    paddingValues = paddingValues,
                     onBackPressed = {
                         navigationState.navHostController.popBackStack()
                     },

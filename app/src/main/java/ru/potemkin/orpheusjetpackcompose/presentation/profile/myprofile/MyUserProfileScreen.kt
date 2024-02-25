@@ -36,7 +36,7 @@ fun MyUserProfileScreen(
         is MyUserProfileScreenState.User -> {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .padding(paddingValues)
             ) {
                 Column(
                     modifier = Modifier
