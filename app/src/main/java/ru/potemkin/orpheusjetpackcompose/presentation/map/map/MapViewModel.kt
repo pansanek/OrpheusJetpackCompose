@@ -51,7 +51,7 @@ class MapViewModel @Inject constructor() : ViewModel() {
                     "12341234",
                     "email@gmail.com",
                     "Hehe",
-                    UserType.MUSICIAN,
+                    UserType.ADMINISTRATOR,
                     PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
                     PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
                     UserSettingsItem(true,true)
@@ -62,7 +62,29 @@ class MapViewModel @Inject constructor() : ViewModel() {
                 profilePicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fc5325235234","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
                 latitude = 1.35,
                 longitude = 103.87
+            ),
+            LocationItem(
+                id= "a9d28f2a-5eae-48bf-85f7-7c8dde3ec22c",
+                admin = UserItem(
+                    "51bdc118-e76b-4372-8678-6822658cefed",
+                    "pansanek",
+                    "Sasha",
+                    "12341234",
+                    "email@gmail.com",
+                    "Hehe",
+                    UserType.ADMINISTRATOR,
+                    PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
+                    PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
+                    UserSettingsItem(true,true)
+                ),
+                about = "Repbase",
+                name = "KVLT",
+                address = "УЛИЦА 3",
+                profilePicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fc5325235234","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
+                latitude = 1.46,
+                longitude = 103.87
             )
+
         )
         return mockData
     }

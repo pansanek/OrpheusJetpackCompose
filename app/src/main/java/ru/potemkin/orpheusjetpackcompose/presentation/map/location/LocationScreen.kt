@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
@@ -73,7 +74,7 @@ fun LocationScreen(
                     },
                     navigationIcon = {
                         androidx.compose.material.IconButton(onClick = {
-//                            navController.navigateUp()
+                            onBackPressed()
                         }) {
                             androidx.compose.material.Icon(
                                 imageVector = Icons.Default.ArrowBack,
@@ -107,8 +108,8 @@ fun LocationScreen(
                     .height(headerHeight)
                     .graphicsLayer(alpha = headerAlpha)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.location1),
+                AsyncImage(
+                    model = locationItem.profilePicture.url,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -125,7 +126,7 @@ fun LocationScreen(
                         .align(Alignment.BottomStart)
                 ) {
                     Text(
-                        text = "РЕПЕТИЦИОННАЯ БАЗА ДЛЯ КРУТЫХ РЕБЯТ",
+                        text = locationItem.name,
                         style = MaterialTheme.typography.labelLarge,
                         color = Color.White
                     )
@@ -134,15 +135,15 @@ fun LocationScreen(
 
 
                     Text(
-                        text = "УЛИЦА 3 ДОМ 4",
+                        text = locationItem.address,
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.White
                     )
                 }
 
                 // Картинка в правом нижнем углу
-                Image(
-                    painter = painterResource(id = R.drawable.sample2),
+                AsyncImage(
+                    model = locationItem.admin.profile_picture.url,
                     contentDescription = null,
                     modifier = Modifier
                         .size(80.dp)
