@@ -52,19 +52,19 @@ class MapViewModel @Inject constructor() : ViewModel() {
                     "email@gmail.com",
                     "Hehe",
                     UserType.ADMINISTRATOR,
-                    PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
+                    PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://img-fotki.yandex.ru/get/5803/12042645.1d/0_965fd_fcd89bb9_orig.jpg"),
                     PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
                     UserSettingsItem(true,true)
                 ),
-                about = "Repbase",
-                name = "KVLT",
-                address = "УЛИЦА 2",
-                profilePicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fc5325235234","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                latitude = 1.35,
-                longitude = 103.87
+                about = "Настоящий храм творчества и оплот музыкальной КУЛЬТуры, созданный музыкантами для музыкантов.",
+                name = "КУЛЬТ",
+                address = "Электрозаводская улица, 21, Москва",
+                profilePicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fc5325235234","https://avatars.mds.yandex.net/i?id=150e8ad466d96a519c0372d21be120ebcd4beaef-5329555-images-thumbs&n=13"),
+                latitude = 55.786505,
+                longitude = 37.704143
             ),
             LocationItem(
-                id= "a9d28f2a-5eae-48bf-85f7-7c8dde3ec22c",
+                id= "a9d28f2a-5eae-48bf-85f7-7c8dde3ec22d",
                 admin = UserItem(
                     "51bdc118-e76b-4372-8678-6822658cefed",
                     "pansanek",
@@ -73,16 +73,16 @@ class MapViewModel @Inject constructor() : ViewModel() {
                     "email@gmail.com",
                     "Hehe",
                     UserType.ADMINISTRATOR,
-                    PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
+                    PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://gl.weburg.net/00/galleries/925/big/123397.jpg"),
                     PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
                     UserSettingsItem(true,true)
                 ),
                 about = "Repbase",
-                name = "KVLT",
-                address = "УЛИЦА 3",
-                profilePicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fc5325235234","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                latitude = 1.46,
-                longitude = 103.87
+                name = "Under the Ground",
+                address = "ул. Правды, 24, стр. 3",
+                profilePicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fc5325235234","https://bogatyr.club/uploads/posts/2023-03/1678283967_bogatyr-club-p-repetitsionnaya-studiya-foni-vkontakte-37.jpg"),
+                latitude = 55.788085,
+                longitude = 37.583625
             )
 
         )
