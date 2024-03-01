@@ -136,7 +136,7 @@ fun ChatRow(
         Box(
             modifier = Modifier
                 .background(
-                    if (message.fromUser.id != userId ) White else LightGreen,
+                    if (message.fromUser.id != userId ) White else Black,
                     RoundedCornerShape(100.dp)
                 ),
             contentAlignment = Center
@@ -201,7 +201,7 @@ fun CommonIconButton(
 
     Box(
         modifier = Modifier
-            .background(LightGreen, CircleShape)
+            .background(Black, CircleShape)
             .size(33.dp), contentAlignment = Center
     ) {
         IconComponentImageVector(icon = imageVector, size = 15.dp, tint = Color.Black)
@@ -215,7 +215,7 @@ fun CommonIconButtonDrawable(
 ) {
     Box(
         modifier = Modifier
-            .background(LightGreen, CircleShape)
+            .background(Black, CircleShape)
             .size(33.dp), contentAlignment = Center
     ) {
         Icon(

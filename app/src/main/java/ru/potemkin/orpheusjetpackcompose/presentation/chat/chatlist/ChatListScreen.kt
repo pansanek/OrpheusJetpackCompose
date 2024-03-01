@@ -134,7 +134,7 @@ fun BottomSheetSwipeUp(
     Box(
         modifier = modifier
             .background(
-                Turquoise,
+                Black,
                 RoundedCornerShape(90.dp)
             )
             .width(90.dp)
