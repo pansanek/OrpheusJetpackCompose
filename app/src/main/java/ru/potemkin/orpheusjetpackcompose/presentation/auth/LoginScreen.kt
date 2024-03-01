@@ -19,6 +19,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Login
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.filled.VpnKey
@@ -42,17 +45,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-
+import androidx.navigation.compose.currentBackStackEntryAsState
+import ru.potemkin.orpheusjetpackcompose.navigation.rememberNavigationState
 import ru.potemkin.orpheusjetpackcompose.presentation.components.AuthButton
 import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
+import ru.potemkin.orpheusjetpackcompose.presentation.components.PasswordEntryModule
 import ru.potemkin.orpheusjetpackcompose.presentation.components.TextEntryModule
-import ru.potemkin.orpheusjetpackcompose.presentation.search.SearchScreenState
-import ru.potemkin.orpheusjetpackcompose.presentation.search.SearchViewModel
-import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
-import ru.potemkin.orpheusjetpackcompose.ui.theme.White
+import ru.potemkin.orpheusjetpackcompose.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,14 +76,14 @@ fun LoginScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Green)
+            .background(Black)
     ) {
         Column(Modifier.fillMaxSize()) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 Text(
                     text = "Orpheus",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color.White,
+                    color = Green,
                     fontSize = 48.sp,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -94,7 +97,7 @@ fun LoginScreen(
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     shape = RoundedCornerShape(10, 10),
-                    color = Color.White
+                    color = White
                 ) {
                     Column() {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
@@ -105,35 +108,46 @@ fun LoginScreen(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 32.sp,
                                 textAlign = TextAlign.Center,
-                                color = Green
+                                color = Black
                             )
                         }
-                        OutlinedTextField(
-                            value = username,
-                            onValueChange = { username = it },
-                            label = { Text("Логин") },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp)
-                        )
-                        OutlinedTextField(
-                            value = password,
-                            onValueChange = { password = it },
-                            label = { Text("Пароль") },
+                        TextEntryModule(
+                            textValue = username,
+                            onValueChanged = { username = it },
+                            hint =  ("Логин") ,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp),
-                            visualTransformation = PasswordVisualTransformation()
+                            cursorColor = Black,
+                            description = "Логин",
+                            leadingIcon = Icons.Default.Person,
+                            trailingIcon = null,
+                            onTrailingIconClick = null,
+                            textColor = Black
+                        )
+                        PasswordEntryModule(
+                            textValue = password,
+                            onValueChanged = { password = it },
+                            hint = ("Пароль"),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            cursorColor = Black,
+                            description = "Пароль",
+                            leadingIcon = Icons.Default.Lock,
+                            trailingIcon = Icons.Default.RemoveRedEye,
+                            onTrailingIconClick = null,
+                            textColor = Black
                         )
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                             ButtonComponent(
                                 text = "Войти",
-                                backgroundColor = Green,
+                                backgroundColor = Black,
                                 foregroundColor = White,
                                 modifier = Modifier
                                     .padding(40.dp)
-                                    .height(60.dp)
-
+                                    .height(60.dp),
+                                fontSize = 16.sp
                             ) {
                                 viewModel.authorize(username, password)
                                 when (authState.value) {
@@ -159,14 +173,14 @@ fun LoginScreen(
                                     modifier = Modifier.padding(bottom = 15.dp)
                                 )
                                 Text(
-                                    "Зарегистрироваться!",
+                                    " Зарегистрироваться!",
                                     modifier = Modifier
                                         .clickable {
                                             onRegistrationClickListener()
                                         }
                                         .padding(bottom = 15.dp),
                                     style = MaterialTheme.typography.bodyMedium,
-                                    color = Green,
+                                    color = Black,
                                     fontWeight = FontWeight.Bold
                                 )
                             }
@@ -209,7 +223,7 @@ fun LoginScreen(
                     errorHint() ?: "",
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Red,
+                    color = Red,
                     textAlign = TextAlign.Center
                 )
 
@@ -218,8 +232,8 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth(0.8f),
                     hint = "xd@xd.xd",
                     textValue = emailValue(),
-                    textColor = Green,
-                    cursorColor = Green,
+                    textColor = White,
+                    cursorColor = Black,
                     onValueChanged = onEmailChanged,
                     trailingIcon = null,
                     onTrailingIconClick = null,
@@ -231,8 +245,8 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth(0.8f),
                     hint = "qwerqwer",
                     textValue = passwordValue(),
-                    textColor = Green,
-                    cursorColor = Green,
+                    textColor = White,
+                    cursorColor = Black,
                     onValueChanged = onPasswordChanged,
                     trailingIcon = if (isPasswordShown()) Icons.Default.RemoveRedEye else Icons.Default.VisibilityOff,
                     onTrailingIconClick = onTrailingPasswordIconClick,
@@ -244,8 +258,8 @@ fun LoginScreen(
                 )
                 AuthButton(
                     text = "Войти",
-                    backgroundColor = Green,
-                    contentColor = Color.White,
+                    backgroundColor = White,
+                    contentColor = Black,
                     enabled = true,
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
@@ -259,3 +273,14 @@ fun LoginScreen(
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun PreviewLoginScreen() {
+    val navigationState = rememberNavigationState()
+    val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
+    LoginScreen(
+        paddingValues = PaddingValues(),
+        onRegistrationClickListener = { navigationState.navigateToRegistration() },
+        onNextClickListener = { navigationState.navigateToNewsFeed() }
+    )
+}
