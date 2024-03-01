@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.potemkin.orpheusjetpackcompose.R
@@ -21,14 +22,15 @@ import ru.potemkin.orpheusjetpackcompose.R
 @Composable
 fun ButtonComponent(
     modifier: Modifier = Modifier,
-    text: String = stringResource(id = R.string.get_started),
+    text: String,
     backgroundColor: Color = Color.White,
     foregroundColor: Color = Color.Black,
     elevation: ButtonElevation = ButtonDefaults.elevatedButtonElevation(0.dp),
     colors: ButtonColors = ButtonDefaults.buttonColors(
         containerColor = backgroundColor
     ),
-    onClick: () -> Unit
+    fontSize: TextUnit,
+    onClick: () -> Unit,
 ) {
 
     Button(
@@ -41,7 +43,7 @@ fun ButtonComponent(
         Text(
             text = text, style = TextStyle(
                 color = foregroundColor,
-                fontSize = 16.sp,
+                fontSize = fontSize,
                 fontWeight = FontWeight.Bold
             )
         )

@@ -1,7 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.components
 
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
-import ru.potemkin.orpheusjetpackcompose.ui.theme.LightGreen
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ru.potemkin.orpheusjetpackcompose.ui.theme.*
 
 
 @Composable
@@ -60,8 +60,8 @@ fun AuthButton(
 fun AuthButtonPreview() {
     AuthButton(
         text = "Войти",
-        backgroundColor = Green,
-        contentColor = LightGreen,
+        backgroundColor = Black,
+        contentColor = White,
         onButtonClick = { /*TODO*/ },
         isLoading = false,
         modifier = Modifier.fillMaxWidth()

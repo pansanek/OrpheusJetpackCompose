@@ -18,15 +18,20 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
-import ru.potemkin.orpheusjetpackcompose.ui.theme.LightGreen
+import ru.potemkin.orpheusjetpackcompose.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,12 +39,14 @@ fun TextEntryModule(
     description: String,
     modifier: Modifier = Modifier,
     hint: String,
-    leadingIcon: ImageVector,
+    leadingIcon: ImageVector?,
     textValue: String,
     keyboardType: KeyboardType = KeyboardType.Ascii,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     textColor: Color,
     cursorColor: Color,
+    height: Dp = 60.dp,
+    singleLine:Boolean = true,
     onValueChanged: (String) -> Unit,
     trailingIcon: ImageVector? = null,
     onTrailingIconClick: (() -> Unit)?
@@ -52,24 +59,25 @@ fun TextEntryModule(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 3.dp)
-                .height(60.dp),
-            label = { Text(text = description, color = LightGreen) },
+                .height(height),
+            label = { Text(text = description, color = Black) },
             value = textValue,
             colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.White,
+                containerColor = White,
                 cursorColor = cursorColor,
-                focusedIndicatorColor = Color.Green,
-                unfocusedIndicatorColor = LightGreen
+                focusedIndicatorColor = Black,
+                unfocusedIndicatorColor = Black
             ),
             onValueChange = onValueChanged,
             shape = RoundedCornerShape(25.dp),
-            singleLine = true,
+            singleLine =  singleLine,
             leadingIcon = {
+                if(leadingIcon != null){
                 Icon(
                     imageVector = leadingIcon,
                     contentDescription = null,
                     tint = cursorColor
-                )
+                )}
             },
             trailingIcon = {
                 if(trailingIcon != null){
@@ -96,7 +104,67 @@ fun TextEntryModule(
         )
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PasswordEntryModule(
+    description: String,
+    modifier: Modifier = Modifier,
+    hint: String,
+    leadingIcon: ImageVector,
+    textValue: String,
+    keyboardType: KeyboardType = KeyboardType.Ascii,
+    textColor: Color,
+    cursorColor: Color,
+    onValueChanged: (String) -> Unit,
+    trailingIcon: ImageVector? = null,
+    onTrailingIconClick: (() -> Unit)? = null
+) {
+    val isPasswordVisible = remember { mutableStateOf(false) }
 
+    Column(modifier = modifier) {
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 3.dp)
+                .height(60.dp),
+            label = { Text(text = description, color = Black) },
+            value = textValue,
+            onValueChange = onValueChanged,
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = White,
+                cursorColor = cursorColor,
+                focusedIndicatorColor = Black, // Пример цвета, замените на ваш
+                unfocusedIndicatorColor = Black
+            ),
+            shape = RoundedCornerShape(25.dp),
+            singleLine = true,
+            leadingIcon = {
+                Icon(
+                    imageVector = leadingIcon,
+                    contentDescription = null,
+                    tint = cursorColor
+                )
+            },
+            trailingIcon = {
+                if (trailingIcon != null) {
+                    Icon(
+                        imageVector = trailingIcon,
+                        contentDescription = null,
+                        tint = cursorColor,
+                        modifier = Modifier.clickable {
+                            isPasswordVisible.value = !isPasswordVisible.value
+                            onTrailingIconClick?.invoke()
+                        }
+                    )
+                }
+            },
+            placeholder = { Text(hint, style = MaterialTheme.typography.bodyMedium) },
+            textStyle = MaterialTheme.typography.bodyMedium.copy(color = textColor),
+            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+            visualTransformation = if (isPasswordVisible.value) VisualTransformation.None else PasswordVisualTransformation()
+        )
+    }
+}
 @Preview(showBackground = true)
 @Composable
 fun TextEntryModulePreview() {
@@ -108,7 +176,7 @@ fun TextEntryModulePreview() {
         hint = "xd@xd.xd",
         leadingIcon = Icons.Default.Email,
         textValue = "",
-        textColor = Color.Gray,
+        textColor = Black,
         cursorColor = Green,
         onValueChanged = {},
         trailingIcon = Icons.Default.RemoveRedEye,
