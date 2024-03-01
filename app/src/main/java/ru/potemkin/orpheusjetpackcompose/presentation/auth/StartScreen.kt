@@ -7,6 +7,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,6 +16,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,12 +30,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.potemkin.orpheusjetpackcompose.R
+import ru.potemkin.orpheusjetpackcompose.navigation.rememberNavigationState
 import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
-import ru.potemkin.orpheusjetpackcompose.ui.theme.Green
 
 @Composable
 fun StartScreen(
@@ -43,54 +48,35 @@ fun StartScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Green)
+            .background(Color.Black) ,
+        contentAlignment = Alignment.Center
     ) {
         AnimatedVisibility(
             visible = surfaceVisible.value,
             enter = slideInVertically(initialOffsetY = { it }),
             exit = slideOutVertically(targetOffsetY = { it })
         ) {
+
             Image(
-                painter = painterResource(id = R.drawable.harp), contentDescription = "",
+                painter = painterResource(id = R.drawable.harp),
+                contentDescription = "",
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .clip(CircleShape)
                     .scale(0.5F)
-
-
             )
 
-            Box(
-                modifier = Modifier
-                    .padding(top = 300.dp)
-                    .align(Alignment.Center)
-
-            ) {
-                Column(
-                    modifier = Modifier
-                        .padding(horizontal = 20.dp, vertical = 40.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.stay_with_your_friends),
-                        style = TextStyle(
-                            fontSize = 36.sp,
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold
-                        )
-                    )
-                }
-            }
-
+            Spacer(modifier = Modifier.height(32.dp)) // Вы можете настроить размер пространства
             ButtonComponent(
                 modifier = Modifier
-                    .padding(top = 500.dp)
-                    .padding(20.dp)
+                    .padding(top = 400.dp, start = 40.dp,end = 40.dp)
                     .align(Alignment.BottomCenter)
-                    .height(60.dp)
-            ) {
-                onAuthClickListener()
-            }
+                    .height(60.dp),
+                onClick = { onAuthClickListener() },
+                text = "Начать!",
+                fontSize = 32.sp
+            )
         }
 
         LaunchedEffect(Unit) {
@@ -99,5 +85,15 @@ fun StartScreen(
     }
 }
 
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewStartScreen() {
+    val navigationState = rememberNavigationState()
+    val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
+    StartScreen(
+        onAuthClickListener = { navigationState.navigateToNewsFeed() }
+    )
+}
 
 
