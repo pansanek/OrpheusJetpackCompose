@@ -54,8 +54,8 @@ class MyUserProfileViewModel @Inject constructor() : ViewModel() {
                 "email@gmail.com",
                 "Hehe",
                 UserType.MUSICIAN,
-                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
+                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"),
+                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://i.pinimg.com/originals/06/67/9c/06679c2e2ae5aee8cf25eedc4bb41b98.jpg"),
                 UserSettingsItem(true,true)
             )
         return mockData
@@ -65,11 +65,10 @@ class MyUserProfileViewModel @Inject constructor() : ViewModel() {
             PostItem(
                 id= "a9d28f2a-5eae-48bf-85f7-7c8dde3ec22c",
                 creatorName = "pansanek" ,
-                creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
+                creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"),
                 creatorType = "MUSICIAN",
                 text = "Test post",
                 date = "01-07-21",
-                likes = 21,
                 comments = mutableListOf<CommentItem>(
                     CommentItem(
                         "5600434b-7627-45fc-af8b-9f92e838c2e7",
@@ -82,15 +81,15 @@ class MyUserProfileViewModel @Inject constructor() : ViewModel() {
                             "email@gmail.com",
                             "Hehe",
                             UserType.MUSICIAN,
-                            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
+                            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"),
+                            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://i.pinimg.com/originals/06/67/9c/06679c2e2ae5aee8cf25eedc4bb41b98.jpg"),
                             UserSettingsItem(true,true)
                         ),
                         "Nice",
                         "01-07-21"
                     )
                 ),
-                attachment =  PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de5","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
+                attachment =  PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de5","https://cdn42.zvuk.com/pic?type=release&id=12958867&ext=jpg&size=1920x1920"),
                 isLiked = true,
                 statistics = mutableListOf(
                     StatisticItem(StatisticType.LIKES,21), StatisticItem(StatisticType.COMMENTS,1)
@@ -98,12 +97,11 @@ class MyUserProfileViewModel @Inject constructor() : ViewModel() {
             ),
             PostItem(
                 id= "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23c",
-                creatorName = "Dealer" ,
-                creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","http://www.depthmag.com/wp-content/uploads/2020/04/Dealer-2020a.jpg"),
-                creatorType = "BAND",
-                text = "RED TEETH OUT NOW!!!",
+                creatorName = "pansanek" ,
+                creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"),
+                creatorType = "MUSICIAN",
+                text = "AMO OUT NOW!!!",
                 date = "01-02-24",
-                likes = 12,
                 comments = mutableListOf<CommentItem>(
                     CommentItem(
                         "5600434b-7627-45fc-af8b-9f92e838c2e7",
@@ -116,7 +114,7 @@ class MyUserProfileViewModel @Inject constructor() : ViewModel() {
                             "email@gmail.com",
                             "Hehe",
                             UserType.MUSICIAN,
-                            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
+                            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"),
                             PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
                             UserSettingsItem(true,true)
                         ),
@@ -124,10 +122,43 @@ class MyUserProfileViewModel @Inject constructor() : ViewModel() {
                         "01-02-24"
                     )
                 ),
-                attachment =  PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de5","https://thenewfury.com/wp-content/uploads/2020/06/71892285_2515240622043667_2289500113191567360_o-e1592843931224.jpg"),
+                attachment =  PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de5","https://cdn1.ozone.ru/multimedia/1026885091.jpg"),
                 isLiked = true,
                 statistics = mutableListOf(
                     StatisticItem(StatisticType.LIKES,21), StatisticItem(StatisticType.COMMENTS,1)
+                ),
+            ),
+            PostItem(
+                id= "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23g",
+                creatorName = "pansanek" ,
+                creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"),
+                creatorType = "MUSICIAN",
+                text = "gang",
+                date = "01-02-24",
+                comments = mutableListOf<CommentItem>(
+                    CommentItem(
+                        "5600434b-7627-45fc-af8b-9f92e838c2e7",
+                        "a9d28f2a-5eae-48bf-85f7-7c8dde3ec22c",
+                        UserItem(
+                            "51bdc118-e76b-4372-8678-6822658cefed",
+                            "pansanek",
+                            "Sasha",
+                            "12341234",
+                            "email@gmail.com",
+                            "Hehe",
+                            UserType.MUSICIAN,
+                            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"),
+                            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
+                            UserSettingsItem(true,true)
+                        ),
+                        "Nice",
+                        "01-02-24"
+                    )
+                ),
+                attachment =  PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de5","https://cms.kerrang.com/images/Bring-Me-The-Horizon-December-2021-promo.jpg"),
+                isLiked = true,
+                statistics = mutableListOf(
+                    StatisticItem(StatisticType.LIKES,14), StatisticItem(StatisticType.COMMENTS,1)
                 ),
             )
         )

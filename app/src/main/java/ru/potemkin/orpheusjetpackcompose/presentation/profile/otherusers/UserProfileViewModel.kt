@@ -64,7 +64,6 @@ class UserProfileViewModel @Inject constructor(userItem: UserItem) : ViewModel()
                 creatorType = "MUSICIAN",
                 text = "Test post",
                 date = "01-07-21",
-                likes = 21,
                 comments = mutableListOf<CommentItem>(
                     CommentItem(
                         "5600434b-7627-45fc-af8b-9f92e838c2e7",

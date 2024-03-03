@@ -48,7 +48,6 @@ class NewsFeedViewModel @Inject constructor() : ViewModel() {
                 creatorType = "MUSICIAN",
                 text = "Test post",
                 date = "01-07-21",
-                likes = 21,
                 comments = mutableListOf<CommentItem>(
                     CommentItem(
                     "5600434b-7627-45fc-af8b-9f92e838c2e7",
@@ -82,7 +81,6 @@ class NewsFeedViewModel @Inject constructor() : ViewModel() {
                 creatorType = "BAND",
                 text = "RED TEETH OUT NOW!!!",
                 date = "01-02-24",
-                likes = 12,
                 comments = mutableListOf<CommentItem>(
                     CommentItem(
                         "5600434b-7627-45fc-af8b-9f92e838c2e7",
