@@ -13,7 +13,6 @@ data class PostItem(
     val creatorPicture: PhotoUrlItem,
     var text: String,
     val date: String,
-    var likes: Int,
     var comments: List<CommentItem>,
     var attachment: PhotoUrlItem,
     var creatorType: String,
