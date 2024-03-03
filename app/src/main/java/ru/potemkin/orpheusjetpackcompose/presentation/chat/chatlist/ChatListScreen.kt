@@ -58,7 +58,7 @@ fun ChatListScreen(
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(Green)
+                            .background(Black)
                     ) {
 
                         Column(
