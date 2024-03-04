@@ -1,5 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.rounded.MoreVert
@@ -26,11 +28,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @Composable
-fun MyUserProfileTopBar(onSettingsClickListener: () -> Unit) {
+fun MyUserProfileTopBar(user: UserItem,
+                        onDrawerClickListener: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -41,27 +45,27 @@ fun MyUserProfileTopBar(onSettingsClickListener: () -> Unit) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "pansanek", color = White)
+                    Text(text = user.name, color = White)
                     Spacer(modifier = Modifier.weight(1f)) // Занимаем всю доступную ширину
-                    SettingsButton(onSettingsClickListener)
+                    DrawerButton(onDrawerClickListener)
                 }
             },
             backgroundColor = Black
         )
-        // Добавьте функциональность для кнопки "Пригласить"
+
 
     }
 }
 
 
 @Composable
-fun SettingsButton(onSettingsClickListener: () -> Unit) {
+fun DrawerButton(onDrawerClickListener: () -> Unit) {
     IconButton(
-        onClick = onSettingsClickListener,
+        onClick = onDrawerClickListener,
         modifier = Modifier.size(48.dp)
     ) {
         Icon(
-            imageVector = Icons.Default.MoreVert,
+            imageVector = Icons.Default.Menu,
             contentDescription = "Настройки",
             tint = White
         )
@@ -69,14 +73,14 @@ fun SettingsButton(onSettingsClickListener: () -> Unit) {
 }
 
 @Composable
-fun DrawerHeader() {
+fun DrawerHeader(user:UserItem) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 64.dp),
+            .padding(vertical = 32.dp, horizontal = 32.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Header", fontSize = 60.sp)
+        Text(text = "Привет ${user.name}!", fontSize = 60.sp)
     }
 }
 
@@ -99,13 +103,13 @@ fun DrawerBody(
             ) {
                 Icon(
                     imageVector = item.icon,
-                    contentDescription = item.contentDescription
+                    contentDescription = item.contentDescription,
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = item.title,
                     style = itemTextStyle,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 )
             }
         }

@@ -1,6 +1,8 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile
 
 import android.annotation.SuppressLint
+import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,6 +18,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -43,7 +46,6 @@ fun MyUserProfileScreen(
     val viewModel: MyUserProfileViewModel = viewModel()
     val screenState = viewModel.screenState.observeAsState(MyUserProfileScreenState.Initial)
     val scrollState = rememberLazyListState()
-
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     val topBarHeight = 0.dp
@@ -51,8 +53,9 @@ fun MyUserProfileScreen(
     when (val currentState = screenState.value) {
         is MyUserProfileScreenState.User -> {
             androidx.compose.material.Scaffold(
+                scaffoldState = scaffoldState,
                 topBar = {
-                    MyUserProfileTopBar(onSettingsClickListener = {
+                    MyUserProfileTopBar(user = currentState.user, onDrawerClickListener = {
                         scope.launch {
                             scaffoldState.drawerState.open()
                         }
@@ -60,7 +63,7 @@ fun MyUserProfileScreen(
                 },
                 drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
                 drawerContent = {
-                    DrawerHeader()
+                    DrawerHeader(currentState.user)
                     DrawerBody(
                         items = listOf(
                             MenuItem(
@@ -83,16 +86,18 @@ fun MyUserProfileScreen(
                             ),
                         ),
                         onItemClick = {
-                           when(it.title){
-                               "mybands" -> {onBandListClickListener()}
-                               "settings" -> {onSettingsClickListener()}
-                               else ->{ println("Clicked on ${it.title}")}
-                           }
+                            when (it.id) {
+                                "mybands" -> onBandListClickListener()
+                                "settings" -> onSettingsClickListener()
+                                else -> {
+                                    println("Clicked on ${it.title}")
+                                }
+                            }
                         }
                     )
                 },
                 content = {
-                    Box(modifier = Modifier.fillMaxSize()) {
+                    Box(modifier = Modifier.padding(paddingValues)) {
                         Column(
                             modifier = Modifier
                                 .padding(it)
