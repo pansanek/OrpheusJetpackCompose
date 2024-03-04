@@ -32,6 +32,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
+import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @Composable
 fun CommentsScreen(
@@ -51,16 +53,18 @@ fun CommentsScreen(
             topBar = {
                 TopAppBar(
                     title = {
-                        Text(text = "Комментарии")
+                        Text(text = "Комментарии",color = White)
                     },
                     navigationIcon = {
                         IconButton(onClick = { onBackPressed() }) {
                             Icon(
                                 imageVector = Icons.Filled.ArrowBack,
-                                contentDescription = null
+                                contentDescription = null,
+                                tint = White
                             )
                         }
-                    }
+                    },
+                    backgroundColor = Black
                 )
             }
         ) { paddingValues ->
