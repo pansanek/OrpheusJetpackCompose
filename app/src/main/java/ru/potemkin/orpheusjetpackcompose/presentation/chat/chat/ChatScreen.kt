@@ -79,7 +79,7 @@ fun ChatScreen(
                             UserNameRow(
                                 user = chatItem.users.get(1),
                                 modifier = Modifier
-                                    .background(Green)
+                                    .background(Black)
                             )
                         }
                     )
@@ -100,7 +100,6 @@ fun ChatScreen(
                                 )
                             )
                             .padding(top = 25.dp)
-
                     ) {
                         LazyColumn(
                             modifier = Modifier.padding(
@@ -136,14 +135,14 @@ fun ChatRow(
         Box(
             modifier = Modifier
                 .background(
-                    if (message.fromUser.id != userId ) White else Black,
+                    if (message.fromUser.id != userId ) Grey else Black,
                     RoundedCornerShape(100.dp)
                 ),
             contentAlignment = Center
         ) {
             Text(
                 text = message.content, style = TextStyle(
-                    color = Color.Black,
+                    color = if (message.fromUser.id != userId ) Black else White,
                     fontSize = 15.sp
                 ),
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 15.dp),
@@ -176,18 +175,22 @@ fun CustomTextField(
                 text = stringResource(R.string.type_message),
                 style = TextStyle(
                     fontSize = 14.sp,
-                    color = Color.Black
+                    color = White
                 ),
                 textAlign = TextAlign.Center
             )
         },
         colors = TextFieldDefaults.textFieldColors(
-            containerColor = Green,
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent
+            containerColor = Black,
+            unfocusedIndicatorColor = White,
+            focusedIndicatorColor = White,
+            focusedTextColor = White,
+            cursorColor = White,
+
+
         ),
         leadingIcon = { CommonIconButton(imageVector = Icons.Default.Add) },
-        trailingIcon = { CommonIconButtonDrawable(R.drawable.mic) },
+        trailingIcon = {  },
         modifier = modifier.fillMaxWidth(),
         shape = CircleShape
     )
@@ -198,34 +201,34 @@ fun CustomTextField(
 fun CommonIconButton(
     imageVector: ImageVector
 ) {
-
     Box(
         modifier = Modifier
-            .background(Black, CircleShape)
+            .background(White, CircleShape)
             .size(33.dp), contentAlignment = Center
     ) {
-        IconComponentImageVector(icon = imageVector, size = 15.dp, tint = Color.Black)
+        IconComponentImageVector(icon = imageVector, size = 15.dp, tint = Black)
     }
 
 }
 
-@Composable
-fun CommonIconButtonDrawable(
-    @DrawableRes icon: Int
-) {
-    Box(
-        modifier = Modifier
-            .background(Black, CircleShape)
-            .size(33.dp), contentAlignment = Center
-    ) {
-        Icon(
-            painter = painterResource(id = icon), contentDescription = "",
-            tint = Color.Black,
-            modifier = Modifier.size(15.dp)
-        )
-    }
-
-}
+//@Composable
+//fun CommonIconButtonDrawable(
+//    @DrawableRes icon: Int
+//) {
+//    Box(
+//        modifier = Modifier
+//            .background(White, CircleShape)
+//            .size(33.dp),
+//        contentAlignment = Center
+//    ) {
+//        Icon(
+//            painter = painterResource(id = icon), contentDescription = "",
+//            tint = Black,
+//            modifier = Modifier.size(15.dp)
+//        )
+//    }
+//
+//}
 
 @Composable
 fun UserNameRow(
@@ -234,7 +237,8 @@ fun UserNameRow(
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+
     ) {
         Row {
             AsyncImage(
@@ -248,20 +252,13 @@ fun UserNameRow(
             Column {
                 Text(
                     text = user.name, style = TextStyle(
-                        color = Color.White,
+                        color = White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp
                     )
                 )
-                Text(
-                    text = stringResource(R.string.online), style = TextStyle(
-                        color = Color.White,
-                        fontSize = 14.sp
-                    )
-                )
             }
         }
-        IconComponentImageVector(icon = Icons.Default.MoreVert, size = 24.dp, tint = Color.White)
     }
 
 }
