@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -42,19 +44,19 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.MessageItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.IconComponentImageVector
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
+import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.DrawerButton
 import ru.potemkin.orpheusjetpackcompose.ui.theme.*
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
-    paddingValues:PaddingValues,
+    paddingValues: PaddingValues,
     onBackPressed: () -> Unit,
     chatItem: ChatItem,
     onUserClickListener: (UserItem) -> Unit
 ) {
 
-    var userId = "ID"
     var message by remember { mutableStateOf("") }
     val viewModel: ChatViewModel = viewModel(
         factory = ChatViewModelFactory(
@@ -63,63 +65,90 @@ fun ChatScreen(
     )
     val screenState = viewModel.screenState.observeAsState(ChatScreenState.Initial)
     val currentState = screenState.value
-    if (currentState is ChatScreenState.Messages){
-    Box(
-        modifier = Modifier
-            .padding(paddingValues)
-            .background(Color.Black)
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
+    if (currentState is ChatScreenState.Messages) {
+        Box(
+            modifier = Modifier
+                .padding(paddingValues)
+                .background(Black)
         ) {
-            Scaffold(
-                topBar = {
-                    TopAppBar(
-                        {
-                            UserNameRow(
-                                user = chatItem.users.get(1),
-                                modifier = Modifier
-                                    .background(Black)
-                            )
-                        }
-                    )
-                },
-                bottomBar = {
-                    CustomTextField(
-                        text = message, onValueChange = { message = it },
-                        modifier = Modifier
-                            .padding(horizontal = 20.dp, vertical = 20.dp)
-                    )
-                }, content = {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(
-                                Color.White, RoundedCornerShape(
-                                    topStart = 30.dp, topEnd = 30.dp
+                Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            navigationIcon = {
+                                IconButton(onClick = {
+                                    onBackPressed()
+                                },
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.ArrowBack,
+                                        contentDescription = "Назад",
+                                        tint = White
+                                    )
+                                }
+                            },
+                            title = {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    AsyncImage(
+                                        model = chatItem.users.get(1).profile_picture.url,
+                                        modifier = Modifier
+                                            .size(48.dp)
+                                            .clip(CircleShape),
+                                        contentDescription = null,
+                                        contentScale = ContentScale.Crop,
+                                    )
+                                    SpacerWidth(width = 24.dp)
+                                    Column {
+                                        Text(
+                                            text = chatItem.users.get(1).name,
+                                            style = TextStyle(
+                                                color = White,
+                                                fontWeight = FontWeight.Bold,
+                                                fontSize = 16.sp
+                                            )
+                                        )
+                                    }
+                                }
+                            },
+                            backgroundColor = Black
+                        )
+
+                    },
+                    bottomBar = {
+                        CustomTextField(
+                            text = message, onValueChange = { message = it },
+                            modifier = Modifier
+                                .padding(horizontal = 20.dp, vertical = 20.dp)
+                        )
+                    }, content = {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(
+                                    Color.White, RoundedCornerShape(
+                                        topStart = 30.dp, topEnd = 30.dp
+                                    )
                                 )
-                            )
-                            .padding(top = 25.dp)
-                    ) {
-                        LazyColumn(
-                            modifier = Modifier.padding(
-                                start = 15.dp,
-                                top = 45.dp,
-                                end = 15.dp,
-                                bottom = 75.dp
-                            )
+                                .padding(top = 25.dp)
                         ) {
-                            items(currentState.messages, key = { it.id }) {
-                                ChatRow(message = it)
+                            LazyColumn(
+                                modifier = Modifier.padding(
+                                    start = 15.dp,
+                                    top = 45.dp,
+                                    end = 15.dp,
+                                    bottom = 75.dp
+                                )
+                            ) {
+                                items(currentState.messages, key = { it.id }) {
+                                    ChatRow(message = it)
+                                }
                             }
                         }
                     }
-                }
-            )
+                )
+            }
         }
-    }
-
-    }
 
 }
 
@@ -135,14 +164,14 @@ fun ChatRow(
         Box(
             modifier = Modifier
                 .background(
-                    if (message.fromUser.id != userId ) Grey else Black,
+                    if (message.fromUser.id != userId) Grey else Black,
                     RoundedCornerShape(100.dp)
                 ),
             contentAlignment = Center
         ) {
             Text(
                 text = message.content, style = TextStyle(
-                    color = if (message.fromUser.id != userId ) Black else White,
+                    color = if (message.fromUser.id != userId) Black else White,
                     fontSize = 15.sp
                 ),
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 15.dp),
@@ -188,9 +217,9 @@ fun CustomTextField(
             cursorColor = White,
 
 
-        ),
+            ),
         leadingIcon = { CommonIconButton(imageVector = Icons.Default.Add) },
-        trailingIcon = {  },
+        trailingIcon = { },
         modifier = modifier.fillMaxWidth(),
         shape = CircleShape
     )
@@ -239,7 +268,7 @@ fun UserNameRow(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
 
-    ) {
+        ) {
         Row {
             AsyncImage(
                 model = user.profile_picture.url,

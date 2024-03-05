@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -165,7 +167,6 @@ fun UserEachRow(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row {
-
                     AsyncImage(
                         model = user.profile_picture.url,
                         modifier = Modifier
@@ -174,7 +175,8 @@ fun UserEachRow(
                             .clickable {
                                 onUserClick()
                             },
-                        contentDescription = null
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
                     )
                     SpacerWidth()
                     Column {
@@ -194,7 +196,7 @@ fun UserEachRow(
                 }
             }
             SpacerHeight(15.dp)
-            Divider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp, color = White)
+            HorizontalDivider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp, color = Grey)
         }
     }
 
