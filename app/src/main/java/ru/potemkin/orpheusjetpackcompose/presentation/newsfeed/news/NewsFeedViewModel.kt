@@ -99,12 +99,30 @@ class NewsFeedViewModel @Inject constructor() : ViewModel() {
                         ),
                         "Nice",
                         "01-02-24"
+                    ),
+                    CommentItem(
+                        "5600434b-7627-45fc-af8b-9f92e838c2e8",
+                        "a9d28f2a-5eae-48bf-85f7-7c8dde3ec22c",
+                        UserItem(
+                            "51bdc118-e76b-4372-8678-6822658ceffe",
+                            "pansanekk",
+                            "Sasha",
+                            "12341234",
+                            "email@gmail.com",
+                            "Hehe",
+                            UserType.MUSICIAN,
+                            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"),
+                            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
+                            UserSettingsItem(true,true)
+                        ),
+                        "Nice",
+                        "01-02-24"
                     )
                 ),
                 attachment =  PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de5","https://thenewfury.com/wp-content/uploads/2020/06/71892285_2515240622043667_2289500113191567360_o-e1592843931224.jpg"),
                 isLiked = true,
                 statistics = mutableListOf(
-                    StatisticItem(StatisticType.LIKES,21), StatisticItem(StatisticType.COMMENTS,1)
+                    StatisticItem(StatisticType.LIKES,21), StatisticItem(StatisticType.COMMENTS,2)
                 ),
             )
         )

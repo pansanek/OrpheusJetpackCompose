@@ -18,9 +18,12 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DriveFileRenameOutline
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.PostAdd
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.runtime.Composable
@@ -36,7 +39,8 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @Composable
 fun NewsFeedTopBar(
-                        onDrawerClickListener: () -> Unit) {
+    onDrawerClickListener: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -49,7 +53,15 @@ fun NewsFeedTopBar(
                 ) {
                     Text(text = "Новости", color = White)
                     Spacer(modifier = Modifier.weight(1f)) // Занимаем всю доступную ширину
-                    DrawerButton(onDrawerClickListener)
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        PostCreationButton()
+                        SpacerWidth()
+                        DrawerButton(onDrawerClickListener)
+                    }
+
                 }
             },
             backgroundColor = Black
@@ -59,7 +71,19 @@ fun NewsFeedTopBar(
     }
 }
 
-
+@Composable
+fun PostCreationButton() {
+    IconButton(
+        onClick = {  },
+        modifier = Modifier.size(48.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Default.Edit,
+            contentDescription = "Создать пост",
+            tint = White
+        )
+    }
+}
 @Composable
 fun DrawerButton(onDrawerClickListener: () -> Unit) {
     IconButton(
