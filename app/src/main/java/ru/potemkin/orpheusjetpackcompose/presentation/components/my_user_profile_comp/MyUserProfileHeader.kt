@@ -53,7 +53,7 @@ fun UserProfileHeader(
 ) {
     // При скролле уменьшаем высоту Header и делаем его непрозрачным
     val headerHeight by animateDpAsState(
-        targetValue = if (scrollState.firstVisibleItemIndex > 0) 0.dp else 250.dp
+        targetValue = if (scrollState.firstVisibleItemIndex > 0) 0.dp else 200.dp
     )
     val headerAlpha by animateFloatAsState(
         targetValue = if (scrollState.firstVisibleItemIndex > 0) 0f else 1f
@@ -94,8 +94,6 @@ fun UserProfileHeader(
                         .clip(CircleShape),
                     contentScale = ContentScale.Crop
                 )
-
-                Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = user.name,
                     style = MaterialTheme.typography.labelLarge,
@@ -103,7 +101,6 @@ fun UserProfileHeader(
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
-                // User bio
                 Text(
                     text = user.about,
                     style = MaterialTheme.typography.bodySmall,
