@@ -21,11 +21,13 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -33,6 +35,7 @@ import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Grey
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @Composable
@@ -97,7 +100,6 @@ private fun CommentItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                horizontal = 16.dp,
                 vertical = 4.dp
             )
     ) {
@@ -107,7 +109,8 @@ private fun CommentItem(
                 .clip(CircleShape)
             ,
             model = comment.user.profile_picture.url,
-            contentDescription = null
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
         )
         Spacer(modifier = Modifier.width(8.dp))
         Column {
@@ -130,4 +133,5 @@ private fun CommentItem(
             )
         }
     }
+    HorizontalDivider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp, color = Grey)
 }
