@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,15 +16,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -35,12 +41,21 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import ru.potemkin.orpheusjetpackcompose.presentation.components.location_profile_comp.LocationProfileHeader
+import ru.potemkin.orpheusjetpackcompose.presentation.components.location_profile_comp.LocationProfileTopBar
+
 import ru.potemkin.orpheusjetpackcompose.presentation.components.profile_comp.InviteButton
+import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.PostItem
+import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.ChatButton
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,129 +64,98 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 fun LocationScreen(
     onBackPressed: () -> Unit,
     locationItem: LocationItem,
+    paddingValues: PaddingValues,
     onUserClickListener: (UserItem) -> Unit,
+    onCommentClickListener: (PostItem) -> Unit,
     onChatClickListener: (ChatItem) -> Unit
 ) {
+    val viewModel: LocationViewModel = viewModel(
+        factory = LocationViewModelFactory(
+            locationItem
+        )
+    )
+    val screenState = viewModel.screenState.observeAsState(LocationScreenState.Initial)
     var text by remember { mutableStateOf("") }
     val scrollState = rememberLazyListState()
-    val topBarHeight = 56.dp // Замените на высоту вашего TopBar
-    Scaffold(
-        topBar = {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-
+    val scaffoldState = rememberScaffoldState()
+    val topBarHeight = 0.dp
+    val currentUserIsAdmin = false
+    when (val currentState = screenState.value) {
+        is LocationScreenState.Location -> {
+            androidx.compose.material.Scaffold(
+                scaffoldState = scaffoldState,
+                topBar = {
+                    LocationProfileTopBar(locationItem = currentState.location,
+                        onBackPressed = onBackPressed,
+                        currentUserIsAdmin = currentUserIsAdmin)
+                }
             ) {
-                androidx.compose.material.TopAppBar(
-                    title = {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            androidx.compose.material.Text(text = "pansanek", color = White)
-                            Spacer(modifier = Modifier.weight(1f)) // Занимаем всю доступную ширину
-                            InviteButton()
-                        }
-                    },
-                    navigationIcon = {
-                        androidx.compose.material.IconButton(onClick = {
-                            onBackPressed()
-                        }) {
-                            androidx.compose.material.Icon(
-                                imageVector = Icons.Default.ArrowBack,
-                                contentDescription = "Назад",
-                                tint = White
+                Box(modifier = Modifier.padding(paddingValues)) {
+                    Column(
+                        modifier = Modifier
+                            .padding(it)
+                    ) {
+                        LocationProfileHeader(
+                            topBarHeight = topBarHeight,
+                            locationItem = currentState.location,
+                            scrollState = scrollState,
+                            onUserClickListener = onUserClickListener
+                        )
+                        if (!currentUserIsAdmin) {
+                            ChatButton(
+                                modifier = Modifier
+                                    .padding(
+                                        top = 4.dp,
+                                        start = 40.dp,
+                                        end = 40.dp,
+                                        bottom = 4.dp
+                                    )
+                                    .height(40.dp),
+                                onClick = { },
+                                text = "Написать",
+                                fontSize = 16.sp,
+                                scrollState = scrollState
                             )
                         }
-                    },
-                    backgroundColor = Color.Black
-                )
-                // Добавьте функциональность для кнопки "Пригласить"
-
-            }
-
-        }
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            // Здесь мы используем Modifier.graphicsLayer для анимации Header
-            val headerHeight by animateDpAsState(
-                targetValue = if (scrollState.firstVisibleItemIndex > 0) 0.dp else 300.dp
-            )
-            val headerAlpha by animateFloatAsState(
-                targetValue = if (scrollState.firstVisibleItemIndex > 0) 0f else 1f
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(headerHeight)
-                    .graphicsLayer(alpha = headerAlpha)
-            ) {
-                AsyncImage(
-                    model = locationItem.profilePicture.url,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(MaterialTheme.shapes.medium)
-                )
-
-                // Текст в левом нижнем углу
-                Column(
-                    modifier = Modifier
-                        .height(80.dp)
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                        .align(Alignment.BottomStart)
-                ) {
-                    Text(
-                        text = locationItem.name,
-                        style = MaterialTheme.typography.labelLarge,
-                        color = Color.White
-                    )
-
-                    Spacer(modifier = Modifier.height(4.dp))
-
-
-                    Text(
-                        text = locationItem.address,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.White
-                    )
+                        Surface(
+                            modifier = Modifier.fillMaxSize(),
+                            color = Black
+                        ) {
+                            Column {
+                                LazyColumn(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(top = topBarHeight),
+                                    state = scrollState
+                                ) {
+                                    items(currentState.posts, key = { it.id }) { post ->
+                                        PostItem(
+                                            feedPost = post,
+                                            onCommentClickListener = {
+                                                onCommentClickListener(
+                                                    post
+                                                )
+                                            },
+                                            onLikeClickListener = { _ ->
+                                                // viewModel.changeLikeStatus(feedPost)
+                                            },
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-
-                // Картинка в правом нижнем углу
-                AsyncImage(
-                    model = locationItem.admin.profile_picture.url,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(80.dp)
-                        .padding(16.dp)
-                        .clip(MaterialTheme.shapes.small)
-                        .border(
-                            width = 2.dp,
-                            color = Color.White,
-                            shape = MaterialTheme.shapes.small
-                        )
-                        .align(Alignment.BottomEnd),
-                    contentScale = ContentScale.Crop
-                )
             }
+        }
 
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = topBarHeight), // Учитываем высоту TopBar
-                state = scrollState
+        LocationScreenState.Initial -> {}
+        LocationScreenState.Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
             ) {
-//                items(newsViewModel.postList) {post ->
-//                    PostItem(post,newsViewModel)
-//                }
+                CircularProgressIndicator(color = Color.Black)
             }
-
-//            UserProfileTopBar(navHostController)
-
         }
     }
 }
