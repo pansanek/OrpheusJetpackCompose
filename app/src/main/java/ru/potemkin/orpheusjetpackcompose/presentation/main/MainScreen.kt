@@ -205,6 +205,7 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
             },
             userProfileScreenContent = { userItem ->
                 UserProfileScreen(
+                    paddingValues = paddingValues,
                     onBackPressed = {
                         navigationState.navHostController.popBackStack()
                     },

@@ -45,7 +45,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.*
 
 @Composable
-fun UserProfileHeader(
+fun MyUserProfileHeader(
     user:UserItem,
     scrollState: LazyListState,
     topBarHeight: Dp,

@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.PostAdd
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.*
@@ -44,8 +45,9 @@ import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.DrawerBody
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.DrawerHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.MenuItem
+import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.MyUserProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.MyUserProfileTopBar
-import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.UserProfileHeader
+
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.PostItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.LightBlack
@@ -66,7 +68,6 @@ fun MyUserProfileScreen(
     var menuItemIcon = Icons.Default.Mic
     if (userType == UserType.MUSICIAN) {
         menuItem.put("mybands", "Мои группы")
-
     } else {
         menuItem.put("mylocations", "Мои учреждения")
         menuItemIcon = Icons.Default.LocationOn
@@ -104,6 +105,12 @@ fun MyUserProfileScreen(
                                 icon = menuItemIcon
                             ),
                             MenuItem(
+                                id = "search",
+                                title = "Search",
+                                contentDescription = "Go to search screen",
+                                icon = Icons.Default.Search
+                            ),
+                            MenuItem(
                                 id = "settings",
                                 title = "Settings",
                                 contentDescription = "Go to settings screen",
@@ -132,9 +139,8 @@ fun MyUserProfileScreen(
                         Column(
                             modifier = Modifier
                                 .padding(it)
-
                         ) {
-                            UserProfileHeader(
+                            MyUserProfileHeader(
                                 currentState.user,
                                 scrollState = scrollState,
                                 topBarHeight = topBarHeight,

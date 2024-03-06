@@ -1,29 +1,53 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Chat
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.launch
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
+import ru.potemkin.orpheusjetpackcompose.navigation.rememberNavigationState
+import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
+import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.MyUserProfileTopBar
 import ru.potemkin.orpheusjetpackcompose.presentation.components.profile_comp.ProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.profile_comp.ProfileTopBar
-import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.comments.CommentsScreenState
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.PostItem
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
+import ru.potemkin.orpheusjetpackcompose.ui.theme.LightBlack
+import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun UserProfileScreen(
+    paddingValues: PaddingValues,
     onBackPressed: () -> Unit,
     userItem: UserItem,
     onCommentClickListener: (PostItem) -> Unit,
@@ -34,35 +58,71 @@ fun UserProfileScreen(
         )
     )
     val screenState = viewModel.screenState.observeAsState(UserProfileScreenState.Initial)
-    val currentState = screenState.value
     val scrollState = rememberLazyListState()
-    val topBarHeight = 56.dp // Замените на высоту вашего TopBar
+    val topBarHeight = 0.dp
+    val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
     when (val currentState = screenState.value) {
         is UserProfileScreenState.User -> {
-            ProfileHeader(
-                scrollState = scrollState,
-                topBarHeight = topBarHeight
-            )
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = topBarHeight), // Учитываем высоту TopBar
-                state = scrollState
+            androidx.compose.material.Scaffold(
+                scaffoldState = scaffoldState,
+                topBar = {
+                    ProfileTopBar(userItem = currentState.user, onBackPressed = onBackPressed)
+                }
             ) {
-                items(currentState.posts, key = { it.id }) { post ->
-                    PostItem(
-                        feedPost = post,
-                        onCommentClickListener = {
-                            onCommentClickListener(post)
-                        },
-                        onLikeClickListener = { _ ->
-//                    viewModel.changeLikeStatus(feedPost)
-                        },
-                    )
+                Box(modifier = Modifier.padding(paddingValues)) {
+                    Column(
+                        modifier = Modifier
+                            .padding(it)
+                    ) {
+                        ProfileHeader(
+                            currentState.user,
+                            scrollState = scrollState
+                        )
+                        ChatButton(
+                            modifier = Modifier
+                                .padding(
+                                    top = 4.dp,
+                                    start = 40.dp,
+                                    end = 40.dp,
+                                    bottom = 4.dp
+                                )
+                                .height(40.dp),
+                            onClick = { },
+                            text = "Написать",
+                            fontSize = 16.sp,
+                            scrollState = scrollState
+                        )
+                        Surface(
+                            modifier = Modifier.fillMaxSize(),
+                            color = Black
+                        ) {
+                            Column {
+                                LazyColumn(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(top = topBarHeight),
+                                    state = scrollState
+                                ) {
+                                    items(currentState.posts, key = { it.id }) { post ->
+                                        PostItem(
+                                            feedPost = post,
+                                            onCommentClickListener = {
+                                                onCommentClickListener(
+                                                    post
+                                                )
+                                            },
+                                            onLikeClickListener = { _ ->
+                                                // viewModel.changeLikeStatus(feedPost)
+                                            },
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
-
-            ProfileTopBar({onBackPressed()})
         }
 
         UserProfileScreenState.Initial -> {}
@@ -70,7 +130,7 @@ fun UserProfileScreen(
             Box(
                 modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator(color = Color.Black)
+                CircularProgressIndicator(color = Black)
             }
         }
     }
@@ -79,7 +139,85 @@ fun UserProfileScreen(
 }
 
 
+@Composable
+fun ChatButton(
+    modifier: Modifier = Modifier,
+    text: String,
+    backgroundColor: Color = LightBlack,
+    foregroundColor: Color = White,
+    elevation: ButtonElevation = ButtonDefaults.elevatedButtonElevation(0.dp),
+    colors: ButtonColors = ButtonDefaults.buttonColors(
+        containerColor = backgroundColor
+    ),
+    fontSize: TextUnit,
+    onClick: () -> Unit,
+    scrollState: LazyListState,
+) {
+    val headerHeight by animateDpAsState(
+        targetValue = if (scrollState.firstVisibleItemIndex > 0) 0.dp else 50.dp
+    )
+    val headerAlpha by animateFloatAsState(
+        targetValue = if (scrollState.firstVisibleItemIndex > 0) 0f else 1f
+    )
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(headerHeight)
+            .graphicsLayer(alpha = headerAlpha)
+            .background(Black),
+        contentAlignment = Alignment.Center
+    ) {
+        Button(
+            onClick = { },
+            modifier = modifier
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(100.dp),
+            elevation = elevation,
+            colors = colors,
+        ) {
+            Icon(
+                imageVector = Icons.Default.Chat,
+                contentDescription = "написать",
+                tint = foregroundColor
+            )
+            SpacerWidth()
+            Text(
+                text = text, style = TextStyle(
+                    color = foregroundColor,
+                    fontSize = fontSize,
+                    fontWeight = FontWeight.Bold
+                )
+            )
+        }
+    }
+}
 
-
-
+@Preview(showBackground = true)
+@Composable
+fun PreviewProfileScreen() {
+    val navigationState = rememberNavigationState()
+    UserProfileScreen(
+        paddingValues = PaddingValues(),
+        onBackPressed = {},
+        userItem = UserItem(
+            "51bdc118-e76b-4372-8678-6822658cefed",
+            "noahbadomens",
+            "Noah Sebastian",
+            "12341234",
+            "email@gmail.com",
+            "Vocalist for Bad Omens",
+            UserType.MUSICIAN,
+            PhotoUrlItem(
+                "b59ae42e-8859-441a-9a3a-2fca1b784de3",
+                "https://i.pinimg.com/originals/7a/bd/00/7abd00f199dff4ec1364663ce0b45ea3.jpg"
+            ),
+            PhotoUrlItem(
+                "b59ae42e-8859-441a-9a3a-2fca1b784de4",
+                "https://chaoszine.net/wp-content/uploads/2023/11/bad-omens-2023.jpg"
+            ),
+            UserSettingsItem(true, true)
+        ),
+        onCommentClickListener = {}
+    )
+}
 

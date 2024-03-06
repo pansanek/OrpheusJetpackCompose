@@ -45,7 +45,7 @@ fun MyUserProfileTopBar(user: UserItem,
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = user.name, color = White)
+                    Text(text = user.login, color = White)
                     Spacer(modifier = Modifier.weight(1f)) // Занимаем всю доступную ширину
                     DrawerButton(onDrawerClickListener)
                 }

@@ -97,7 +97,7 @@ sealed class Screen(
     object StartScreen : Screen(ROUTE_START)
     object UserProfileScreen : Screen(ROUTE_USER_PROFILE){
 
-        private const val ROUTE_FOR_ARGS = "user"
+        private const val ROUTE_FOR_ARGS = "user_profile"
 
         fun getRouteWithArgs(user: UserItem): String {
             val userJson = Gson().toJson(user)

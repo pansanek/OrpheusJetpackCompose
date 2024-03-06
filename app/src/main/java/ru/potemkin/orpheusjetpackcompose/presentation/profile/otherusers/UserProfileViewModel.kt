@@ -38,21 +38,20 @@ class UserProfileViewModel @Inject constructor(userItem: UserItem) : ViewModel()
         }
     }
 
-    fun addUserMockData():List<UserItem>{
-        val mockData = mutableListOf<UserItem>(
+    fun addUserMockData():UserItem{
+        val mockData =
             UserItem(
                 "51bdc118-e76b-4372-8678-6822658cefed",
-                "pansanek",
-                "Sasha",
+                "noahbadomens",
+                "Noah Sebastian",
                 "12341234",
                 "email@gmail.com",
-                "Hehe",
+                "Vocalist for Bad Omens",
                 UserType.MUSICIAN,
-                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
+                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://i.pinimg.com/originals/7a/bd/00/7abd00f199dff4ec1364663ce0b45ea3.jpg"),
+                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://chaoszine.net/wp-content/uploads/2023/11/bad-omens-2023.jpg"),
                 UserSettingsItem(true,true)
             )
-        )
         return mockData
     }
     fun addPostMockData():List<PostItem>{
