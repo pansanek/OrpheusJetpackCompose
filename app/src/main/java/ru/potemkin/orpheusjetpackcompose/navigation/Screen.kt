@@ -17,7 +17,7 @@ sealed class Screen(
 ) {
     object BandProfileScreen : Screen(ROUTE_BAND_PROFILE){
 
-        private const val ROUTE_FOR_ARGS = "band"
+        private const val ROUTE_FOR_ARGS = "band_profile"
 
         fun getRouteWithArgs(band: BandItem): String {
             val bandJson = Gson().toJson(band)

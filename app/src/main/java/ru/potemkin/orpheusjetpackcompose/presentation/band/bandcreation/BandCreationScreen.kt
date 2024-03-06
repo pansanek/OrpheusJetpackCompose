@@ -76,7 +76,7 @@ fun BandListScreen(
             Column {
                 LazyColumn {
                     items(currentState.bands) { band ->
-                        GroupListItem(band = band, onItemClick = {
+                        BandListItem(band = band, onItemClick = {
                             onBandClickListener(band)
                         })
                     }
@@ -117,7 +117,7 @@ fun BandListScreen(
 }
 
 @Composable
-fun GroupListItem(band: BandItem, onItemClick: () -> Unit) {
+fun BandListItem(band: BandItem, onItemClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
