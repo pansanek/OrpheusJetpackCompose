@@ -48,24 +48,24 @@ fun NewsFeedScreen(
                 },
                 drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
                 drawerContent = {
-                    NewsFeedDrawerHeader()
-                    NewsFeedDrawerBody(
-                        items = listOf(
-                            MenuItem(
-                                id = "help",
-                                title = "Help",
-                                contentDescription = "Get help",
-                                icon = Icons.Default.Info
-                            ),
-                        ),
-                        onItemClick = {
-
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Black)
+                            .padding(paddingValues),
+                    ) {
+                        Column{
+                        NewsFeedDrawerBody(
+                            items = currentState.notifications
+                        )
                         }
-                    )
+                    }
                 },
                 content = {
                     Box(
-                        modifier = Modifier.fillMaxSize().background(Black),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Black),
                         contentAlignment = Alignment.Center
                     ) {
                         FeedPosts(

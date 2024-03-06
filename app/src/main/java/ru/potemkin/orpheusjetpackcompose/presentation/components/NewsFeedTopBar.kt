@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -26,15 +27,25 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PostAdd
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.MenuItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Grey
+import ru.potemkin.orpheusjetpackcompose.ui.theme.LightBlack
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @Composable
@@ -56,7 +67,7 @@ fun NewsFeedTopBar(
 
                     Row(
                         verticalAlignment = Alignment.CenterVertically
-                    ){
+                    ) {
                         PostCreationButton()
                         SpacerWidth()
                         DrawerButton(onDrawerClickListener)
@@ -74,7 +85,7 @@ fun NewsFeedTopBar(
 @Composable
 fun PostCreationButton() {
     IconButton(
-        onClick = {  },
+        onClick = { },
         modifier = Modifier.size(48.dp)
     ) {
         Icon(
@@ -84,6 +95,7 @@ fun PostCreationButton() {
         )
     }
 }
+
 @Composable
 fun DrawerButton(onDrawerClickListener: () -> Unit) {
     IconButton(
@@ -106,36 +118,67 @@ fun NewsFeedDrawerHeader() {
             .padding(vertical = 32.dp, horizontal = 32.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Ваши уведомления", fontSize = 32.sp)
+        Text(text = "Уведомления", fontSize = 24.sp, color = White,fontWeight = FontWeight.Bold)
     }
 }
 
 @Composable
 fun NewsFeedDrawerBody(
-    items: List<MenuItem>,
+    items: List<NotificationItem>,
     modifier: Modifier = Modifier,
-    itemTextStyle: TextStyle = TextStyle(fontSize = 18.sp),
-    onItemClick: (MenuItem) -> Unit
+//    onUserClick: () -> Unit,
 ) {
     LazyColumn(modifier) {
         items(items) { item ->
-            Row(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable {
-                        onItemClick(item)
-                    }
                     .padding(16.dp)
             ) {
-                Icon(
-                    imageVector = item.icon,
-                    contentDescription = item.contentDescription,
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(
-                    text = item.title,
-                    style = itemTextStyle,
-                    modifier = Modifier.weight(1f),
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    AsyncImage(
+                        model = item.fromUser.profile_picture.url,
+                        modifier = Modifier
+                            .size(50.dp)
+                            .clip(CircleShape),
+//                            .clickable {
+//                                onUserClick()
+//                            }
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Column(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        androidx.compose.material3.Text(
+                            text = item.title,
+                            color = White,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        androidx.compose.material3.Text(
+                            text =
+                            if(
+                                item.type == NotificationType.LIKE
+                                ) item.fromUser.login
+                                    +item.contentDescription
+                                    + (item.postItem?.date ?:" ")
+                            else item.fromUser.login
+                                    +item.contentDescription
+                            + (item.bandItem?.name ?: ""),
+                            color = White
+                        )
+                    }
+                }
+                HorizontalDivider(
+                    modifier = Modifier.fillMaxWidth(),
+                    thickness = 3.dp,
+                    color = LightBlack
                 )
             }
         }
