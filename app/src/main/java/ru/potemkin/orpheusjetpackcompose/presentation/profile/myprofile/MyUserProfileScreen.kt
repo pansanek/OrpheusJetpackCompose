@@ -41,6 +41,7 @@ import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.navigation.rememberNavigationState
+import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerHeight
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.DrawerBody
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.DrawerHeader
@@ -93,46 +94,54 @@ fun MyUserProfileScreen(
                 },
                 drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
                 drawerContent = {
-                    DrawerHeader(currentState.user)
-                    DrawerBody(
-                        items = listOf(
-                            MenuItem(
-                                id = menuItem.keys.elementAt(0),
-                                title = menuItem.getValue(menuItem.keys.elementAt(0)),
-                                contentDescription =
-                                "Переход к экрану " +
-                                        "${menuItem.getValue(menuItem.keys.elementAt(0))}",
-                                icon = menuItemIcon
-                            ),
-                            MenuItem(
-                                id = "search",
-                                title = "Search",
-                                contentDescription = "Go to search screen",
-                                icon = Icons.Default.Search
-                            ),
-                            MenuItem(
-                                id = "settings",
-                                title = "Settings",
-                                contentDescription = "Go to settings screen",
-                                icon = Icons.Default.Settings
-                            ),
-                            MenuItem(
-                                id = "help",
-                                title = "Help",
-                                contentDescription = "Get help",
-                                icon = Icons.Default.Info
-                            ),
-                        ),
-                        onItemClick = {
-                            when (it.id) {
-                                "mybands" -> onBandListClickListener()
-                                "settings" -> onSettingsClickListener()
-                                else -> {
-                                    println("Clicked on ${it.title}")
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Black)
+                            .padding(paddingValues),
+                    ) {
+                        Column {
+                            DrawerBody(
+                                items = listOf(
+                                    MenuItem(
+                                        id = menuItem.keys.elementAt(0),
+                                        title = menuItem.getValue(menuItem.keys.elementAt(0)),
+                                        contentDescription =
+                                        "Переход к экрану " +
+                                                "${menuItem.getValue(menuItem.keys.elementAt(0))}",
+                                        icon = menuItemIcon
+                                    ),
+                                    MenuItem(
+                                        id = "search",
+                                        title = "Search",
+                                        contentDescription = "Go to search screen",
+                                        icon = Icons.Default.Search
+                                    ),
+                                    MenuItem(
+                                        id = "settings",
+                                        title = "Settings",
+                                        contentDescription = "Go to settings screen",
+                                        icon = Icons.Default.Settings
+                                    ),
+                                    MenuItem(
+                                        id = "help",
+                                        title = "Help",
+                                        contentDescription = "Get help",
+                                        icon = Icons.Default.Info
+                                    ),
+                                ),
+                                onItemClick = {
+                                    when (it.id) {
+                                        "mybands" -> onBandListClickListener()
+                                        "settings" -> onSettingsClickListener()
+                                        else -> {
+                                            println("Clicked on ${it.title}")
+                                        }
+                                    }
                                 }
-                            }
+                            )
                         }
-                    )
+                    }
                 },
                 content = {
                     Box(modifier = Modifier.padding(paddingValues)) {

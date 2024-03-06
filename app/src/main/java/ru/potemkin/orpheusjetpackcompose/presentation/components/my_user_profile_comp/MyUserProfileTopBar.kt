@@ -80,7 +80,7 @@ fun DrawerHeader(user:UserItem) {
             .padding(vertical = 32.dp, horizontal = 32.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Привет ${user.name}!", fontSize = 60.sp)
+        Text(text = "Привет ${user.name}!", fontSize = 60.sp,color = White)
     }
 }
 
@@ -104,12 +104,14 @@ fun DrawerBody(
                 Icon(
                     imageVector = item.icon,
                     contentDescription = item.contentDescription,
+                    tint = White
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = item.title,
                     style = itemTextStyle,
                     modifier = Modifier.weight(1f),
+                    color = White
                 )
             }
         }

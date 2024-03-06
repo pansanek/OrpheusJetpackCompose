@@ -32,7 +32,6 @@ import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.comments.Comments
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.band.bandprofile.BandProfileScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.MyUserProfileScreen
-import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.NotificationScreen
 
 import ru.potemkin.orpheusjetpackcompose.presentation.search.SearchScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.SettingsScreen
@@ -275,13 +274,6 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
             },
             bandCreationScreenContent = {
                 BandCreationScreen(
-                    onBackPressed = {
-                        navigationState.navHostController.popBackStack()
-                    },
-                )
-            },
-            notificationsScreenContent = {
-                NotificationScreen(
                     onBackPressed = {
                         navigationState.navHostController.popBackStack()
                     },

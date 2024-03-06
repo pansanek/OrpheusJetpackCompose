@@ -13,7 +13,6 @@ fun NavGraphBuilder.feedHomeNavGraph(
     newsFeedScreenContent: @Composable () -> Unit,
     commentsScreenContent: @Composable (PostItem) -> Unit,
     userProfileScreenContent: @Composable (UserItem) -> Unit,
-    notificationsScreenContent: @Composable () -> Unit,
     bandProfileScreenContent: @Composable (BandItem) -> Unit,
     bandCreationScreenContent: @Composable () -> Unit,
 ) {
@@ -47,9 +46,6 @@ fun NavGraphBuilder.feedHomeNavGraph(
             val user = it.arguments?.getParcelable<UserItem>(Screen.KEY_USER)
                 ?: throw RuntimeException("Args is null")
             userProfileScreenContent(user)
-        }
-        composable(Screen.NotificationsScreen.route) {
-            notificationsScreenContent()
         }
         composable(
             route = Screen.BandProfileScreen.route,

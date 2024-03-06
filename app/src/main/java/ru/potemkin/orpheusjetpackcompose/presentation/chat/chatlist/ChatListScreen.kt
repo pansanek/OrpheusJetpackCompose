@@ -205,7 +205,6 @@ fun UserEachRow(
 
 @Composable
 fun Header() {
-
     val annotatedString = buildAnnotatedString {
         withStyle(
             style = SpanStyle(
@@ -235,7 +234,7 @@ fun Header() {
 
 }
 
-@SuppressLint("UnnecessaryComposedModifier")
+@SuppressLint("UnnecessaryComposedModifier", "UnrememberedMutableInteractionSource")
 fun Modifier.noRippleEffect(onClick: () -> Unit) = composed {
     clickable(
         interactionSource = MutableInteractionSource(),

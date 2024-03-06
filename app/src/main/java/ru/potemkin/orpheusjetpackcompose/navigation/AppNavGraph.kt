@@ -34,7 +34,6 @@ fun AppNavGraph(
     startScreenContent: @Composable () -> Unit,
     userProfileScreenContent: @Composable (UserItem) -> Unit,
     bandCreationScreenContent: @Composable () -> Unit,
-    notificationsScreenContent: @Composable () -> Unit,
     settingsScreenContent: @Composable () -> Unit,
     bandListScreenContent: @Composable () -> Unit,
 ) {
@@ -46,7 +45,7 @@ fun AppNavGraph(
             startScreenContent, loginScreenContent, registrationScreenContent,registrationAboutMeScreenContent, registrationUserTypeScreenContent, registrationMusicianTypeScreenContent, registrationAdministratorTypeScreenContent
         )
         feedHomeNavGraph(
-            newsFeedScreenContent, commentsScreenContent, userProfileScreenContent, notificationsScreenContent, bandProfileScreenContent,bandCreationScreenContent
+            newsFeedScreenContent, commentsScreenContent, userProfileScreenContent, bandProfileScreenContent,bandCreationScreenContent
         )
         chatHomeNavGraph(
             chatListScreenContent, chatScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent,commentsScreenContent,
