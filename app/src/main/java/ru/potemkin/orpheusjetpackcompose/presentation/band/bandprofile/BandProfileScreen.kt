@@ -51,7 +51,8 @@ fun BandProfileScreen(
     paddingValues: PaddingValues,
     bandItem: BandItem,
     onCommentClickListener: (PostItem) -> Unit,
-    onUserClickListener: (UserItem) -> Unit
+    onUserClickListener: (UserItem) -> Unit,
+    onChangeProfileClick: (BandItem)->Unit
 ) {
     val viewModel: BandProfileViewModel = viewModel(
         factory = BandProfileViewModelFactory(
@@ -70,9 +71,12 @@ fun BandProfileScreen(
             androidx.compose.material.Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    BandProfileTopBar(bandItem = currentState.band,
+                    BandProfileTopBar(
+                        bandItem = currentState.band,
                         onBackPressed = onBackPressed,
-                        currentUserInBand=currentUserInBand)
+                        currentUserInBand=currentUserInBand,
+                        onChangeProfileClick = {onChangeProfileClick(bandItem)}
+                    )
                 }
             ) {
                 Box(modifier = Modifier.padding(paddingValues)) {

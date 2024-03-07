@@ -24,7 +24,8 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 fun LocationProfileTopBar(
     onBackPressed: () -> Unit,
     locationItem: LocationItem,
-    currentUserIsAdmin: Boolean
+    currentUserIsAdmin: Boolean,
+    onChangeProfileClick: (LocationItem)->Unit
 ) {
     Column(
         modifier = Modifier
@@ -38,7 +39,7 @@ fun LocationProfileTopBar(
                 ) {
                     Text(text = locationItem.name, color = White)
                     Spacer(modifier = Modifier.weight(1f)) // Занимаем всю доступную ширину
-                    if(currentUserIsAdmin) EditButton()
+                    if(currentUserIsAdmin) EditButton(locationItem,{onChangeProfileClick(locationItem)})
                 }
             },
             navigationIcon = {
@@ -55,9 +56,9 @@ fun LocationProfileTopBar(
 
 
 @Composable
-fun EditButton() {
+fun EditButton(locationItem: LocationItem,onChangeProfileClick: (LocationItem)->Unit) {
     IconButton(
-        onClick = {  },
+        onClick = { onChangeProfileClick(locationItem) },
         modifier = Modifier.size(48.dp)
     ) {
         Icon(

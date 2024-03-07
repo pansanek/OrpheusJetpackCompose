@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.R
+import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
@@ -67,7 +68,8 @@ fun LocationScreen(
     paddingValues: PaddingValues,
     onUserClickListener: (UserItem) -> Unit,
     onCommentClickListener: (PostItem) -> Unit,
-    onChatClickListener: (ChatItem) -> Unit
+    onChatClickListener: (ChatItem) -> Unit,
+    onChangeProfileClick: (LocationItem)->Unit
 ) {
     val viewModel: LocationViewModel = viewModel(
         factory = LocationViewModelFactory(
@@ -79,7 +81,7 @@ fun LocationScreen(
     val scrollState = rememberLazyListState()
     val scaffoldState = rememberScaffoldState()
     val topBarHeight = 0.dp
-    val currentUserIsAdmin = false
+    val currentUserIsAdmin = true
     when (val currentState = screenState.value) {
         is LocationScreenState.Location -> {
             androidx.compose.material.Scaffold(
@@ -87,7 +89,9 @@ fun LocationScreen(
                 topBar = {
                     LocationProfileTopBar(locationItem = currentState.location,
                         onBackPressed = onBackPressed,
-                        currentUserIsAdmin = currentUserIsAdmin)
+                        currentUserIsAdmin = currentUserIsAdmin,
+                        onChangeProfileClick = {onChangeProfileClick(currentState.location)}
+                    )
                 }
             ) {
                 Box(modifier = Modifier.padding(paddingValues)) {

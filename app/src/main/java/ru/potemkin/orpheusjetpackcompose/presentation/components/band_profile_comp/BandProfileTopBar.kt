@@ -24,7 +24,8 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 fun BandProfileTopBar(
     onBackPressed: () -> Unit,
     bandItem: BandItem,
-    currentUserInBand: Boolean
+    currentUserInBand: Boolean,
+    onChangeProfileClick: (BandItem)->Unit
 ) {
     Column(
         modifier = Modifier
@@ -38,7 +39,7 @@ fun BandProfileTopBar(
                 ) {
                     Text(text = bandItem.name, color = White)
                     Spacer(modifier = Modifier.weight(1f)) // Занимаем всю доступную ширину
-                    if(currentUserInBand) EditButton()
+                    if(currentUserInBand) EditButton(bandItem,{onChangeProfileClick(bandItem)})
                 }
             },
             navigationIcon = {
@@ -55,9 +56,9 @@ fun BandProfileTopBar(
 
 
 @Composable
-fun EditButton() {
+fun EditButton(bandItem: BandItem, onChangeProfileClick: (BandItem)->Unit) {
     IconButton(
-        onClick = {  },
+        onClick = { onChangeProfileClick(bandItem)},
         modifier = Modifier.size(48.dp)
     ) {
         Icon(

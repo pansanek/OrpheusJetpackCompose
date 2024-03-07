@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
@@ -76,6 +77,17 @@ fun NavGraphBuilder.mapHomeNavGraph(
             val location = it.arguments?.getParcelable<LocationItem>(Screen.KEY_LOCATION)
                 ?: throw RuntimeException("Args is null")
             locationScreenContent(location)
+        }
+        composable(route = Screen.ChangeLocationProfileScreen.route,
+            arguments =
+            listOf(
+                navArgument(Screen.KEY_CHANGE_LOCATION_PROFILE) {
+                    type = LocationItem.NavigationType
+                }
+            )){
+            val location = it.arguments?.getParcelable<LocationItem>(Screen.KEY_CHANGE_LOCATION_PROFILE)
+                ?: throw RuntimeException("Args is null")
+            changeLocationProfileScreenContent(location)
         }
     }
 }

@@ -14,7 +14,6 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.navigation.AppNavGraph
-import ru.potemkin.orpheusjetpackcompose.navigation.Screen
 import ru.potemkin.orpheusjetpackcompose.navigation.rememberNavigationState
 import ru.potemkin.orpheusjetpackcompose.presentation.auth.AboutMeScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.auth.AdminRegScreen
@@ -94,7 +93,10 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                     onUserClickListener = {
                         navigationState.navigateToUser(it)
                     },
-                    paddingValues = paddingValues
+                    paddingValues = paddingValues,
+                    onChangeProfileClick = {
+                        navigationState.navigateToChangeBandProfileScreen(it)
+                    },
                 )
             },
             chatListScreenContent = {
@@ -142,6 +144,9 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                     },
                     onCommentClickListener = {
                         navigationState.navigateToComments(it)
+                    },
+                    onChangeProfileClick = {
+                        navigationState.navigateToChangeLocationProfileScreen(it)
                     }
                 )
             },
@@ -418,12 +423,14 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
             },
             changeBandProfileScreenContent = {bandItem ->
                 ChangeBandProfileScreen(
-
+                    band = bandItem,
+                    {navigationState.navHostController.popBackStack()}
                 )
             },
             changeLocationProfileScreenContent = {locationItem ->
                 ChangeLocationProfileScreen(
-
+                    location = locationItem,
+                    {navigationState.navHostController.popBackStack()}
                 )
             }
 

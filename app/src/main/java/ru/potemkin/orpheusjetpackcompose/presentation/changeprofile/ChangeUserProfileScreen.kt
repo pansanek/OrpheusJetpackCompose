@@ -22,6 +22,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -69,7 +70,12 @@ fun ChangeUserProfileScreen(user: UserItem, onBackPressed: () -> Unit) {
                         )
                     }
                 },
-                backgroundColor = Black
+                backgroundColor = Black,
+                actions = {
+                    IconButton(onClick = { /* открыть меню */ }) {
+                        Icon(Icons.Default.Check, contentDescription = "Сохранить",tint = White)
+                    }
+                }
             )
         },
         content = {

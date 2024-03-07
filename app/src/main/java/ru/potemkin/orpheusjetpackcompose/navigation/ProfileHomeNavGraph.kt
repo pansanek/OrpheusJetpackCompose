@@ -113,5 +113,16 @@ fun NavGraphBuilder.profileHomeNavGraph(
                 ?: throw RuntimeException("Args is null")
             changeUserProfileScreenContent(user)
         }
+        composable(route = Screen.ChangeBandProfileScreen.route,
+            arguments =
+            listOf(
+                navArgument(Screen.KEY_CHANGE_BAND_PROFILE) {
+                    type = BandItem.NavigationType
+                }
+            )){
+            val band = it.arguments?.getParcelable<BandItem>(Screen.KEY_CHANGE_BAND_PROFILE)
+                ?: throw RuntimeException("Args is null")
+            changeBandProfileScreenContent(band)
+        }
     }
 }
