@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
@@ -30,11 +31,13 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
+    userItem: UserItem,
     onBackPressed: () -> Unit,
+    onChangeProfileClick: ()->Unit
 ) {
     var isEditProfileScreenVisible by remember { mutableStateOf(false) }
     var isPrivacyScreenVisible by remember { mutableStateOf(false) }
-    var userSettings by remember { mutableStateOf(UserSettingsItem(true, false)) }
+    var userSettings by remember { mutableStateOf(userItem.settings) }
     Scaffold(
         topBar = {
            TopAppBar(
@@ -64,7 +67,7 @@ fun SettingsScreen(
                 SettingsItem(
                     text = "Редактировать профиль",
                     icon = Icons.Default.Edit,
-                    onClick = { isEditProfileScreenVisible = true }
+                    onClick = { onChangeProfileClick() }
                 )
 
                 // Privacy Settings Button

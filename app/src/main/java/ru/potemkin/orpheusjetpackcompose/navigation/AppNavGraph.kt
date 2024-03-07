@@ -34,8 +34,11 @@ fun AppNavGraph(
     startScreenContent: @Composable () -> Unit,
     userProfileScreenContent: @Composable (UserItem) -> Unit,
     bandCreationScreenContent: @Composable () -> Unit,
-    settingsScreenContent: @Composable () -> Unit,
+    settingsScreenContent: @Composable (UserItem) -> Unit,
     bandListScreenContent: @Composable () -> Unit,
+    changeUserProfileScreenContent: @Composable (UserItem) -> Unit,
+    changeBandProfileScreenContent: @Composable (BandItem) -> Unit,
+    changeLocationProfileScreenContent: @Composable (LocationItem) -> Unit
 ) {
     NavHost(
         navController = navHostController,
@@ -45,16 +48,16 @@ fun AppNavGraph(
             startScreenContent, loginScreenContent, registrationScreenContent,registrationAboutMeScreenContent, registrationUserTypeScreenContent, registrationMusicianTypeScreenContent, registrationAdministratorTypeScreenContent
         )
         feedHomeNavGraph(
-            newsFeedScreenContent, commentsScreenContent, userProfileScreenContent, bandProfileScreenContent,bandCreationScreenContent
+            newsFeedScreenContent, commentsScreenContent, userProfileScreenContent, bandProfileScreenContent,bandCreationScreenContent,changeBandProfileScreenContent
         )
         chatHomeNavGraph(
-            chatListScreenContent, chatScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent,commentsScreenContent,
+            chatListScreenContent, chatScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent,commentsScreenContent, changeBandProfileScreenContent
         )
         profileHomeNavGraph(
-            profileScreenContent, commentsScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent, chatListScreenContent, chatScreenContent,searchScreenContent,settingsScreenContent, bandListScreenContent
+            profileScreenContent, commentsScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent, chatListScreenContent, chatScreenContent,searchScreenContent,settingsScreenContent, bandListScreenContent,changeUserProfileScreenContent,changeBandProfileScreenContent
         )
         mapHomeNavGraph(
-            userProfileScreenContent, commentsScreenContent, chatListScreenContent, chatScreenContent, mapScreenContent, locationScreenContent
+            userProfileScreenContent, commentsScreenContent, chatListScreenContent, chatScreenContent, mapScreenContent, locationScreenContent,changeLocationProfileScreenContent
         )
     }
 }

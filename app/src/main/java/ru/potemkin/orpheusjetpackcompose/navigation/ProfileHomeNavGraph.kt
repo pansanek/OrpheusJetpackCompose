@@ -19,9 +19,10 @@ fun NavGraphBuilder.profileHomeNavGraph(
     chatListScreenContent: @Composable () -> Unit,
     chatScreenContent: @Composable (ChatItem) -> Unit,
     searchScreenContent: @Composable () -> Unit,
-    settingsScreenContent: @Composable () -> Unit,
+    settingsScreenContent: @Composable (UserItem) -> Unit,
     bandListScreenContent: @Composable () -> Unit,
-
+    changeUserProfileScreenContent: @Composable (UserItem) -> Unit,
+    changeBandProfileScreenContent: @Composable (BandItem) -> Unit,
     ) {
     navigation(
         startDestination = Screen.ProfileScreen.route,
@@ -87,11 +88,30 @@ fun NavGraphBuilder.profileHomeNavGraph(
         composable(Screen.ProfileScreen.route) {
             profileScreenContent()
         }
-        composable(Screen.SettingsScreen.route) {
-            settingsScreenContent()
+        composable(route = Screen.SettingsScreen.route,
+            arguments = listOf(
+                navArgument(Screen.KEY_SETTINGS) {
+                    type = UserItem.NavigationType
+                }
+            )
+        ) {
+            val user = it.arguments?.getParcelable<UserItem>(Screen.KEY_SETTINGS)
+                ?: throw RuntimeException("Args is null")
+            settingsScreenContent(user)
         }
         composable(Screen.SearchScreen.route) {
             searchScreenContent()
+        }
+        composable(route = Screen.ChangeUserProfileScreen.route,
+            arguments =
+            listOf(
+                navArgument(Screen.KEY_CHANGE_USER_PROFILE) {
+                    type = UserItem.NavigationType
+                }
+            )){
+            val user = it.arguments?.getParcelable<UserItem>(Screen.KEY_CHANGE_USER_PROFILE)
+                ?: throw RuntimeException("Args is null")
+            changeUserProfileScreenContent(user)
         }
     }
 }

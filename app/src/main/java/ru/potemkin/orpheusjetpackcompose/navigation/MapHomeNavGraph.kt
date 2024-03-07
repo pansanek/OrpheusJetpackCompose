@@ -17,6 +17,7 @@ fun NavGraphBuilder.mapHomeNavGraph(
     chatScreenContent: @Composable (ChatItem) -> Unit,
     mapScreenContent: @Composable () -> Unit,
     locationScreenContent: @Composable (LocationItem) -> Unit,
+    changeLocationProfileScreenContent: @Composable (LocationItem) -> Unit
 ) {
     navigation(
         startDestination = Screen.MapScreen.route,

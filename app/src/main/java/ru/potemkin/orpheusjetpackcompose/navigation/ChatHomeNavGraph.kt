@@ -16,7 +16,8 @@ fun NavGraphBuilder.chatHomeNavGraph(
     userProfileScreenContent: @Composable (UserItem) -> Unit,
     bandCreationScreenContent: @Composable () -> Unit,
     bandProfileScreenContent: @Composable (BandItem) -> Unit,
-    commentsScreenContent: @Composable (PostItem) -> Unit
+    commentsScreenContent: @Composable (PostItem) -> Unit,
+    changeBandProfileScreenContent: @Composable (BandItem) -> Unit,
 ) {
     navigation(
         startDestination = Screen.ChatListScreen.route,

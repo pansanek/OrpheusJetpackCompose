@@ -55,8 +55,8 @@ class NavigationState(
     fun navigateToNewsFeed() {
         navHostController.navigate(Screen.NewsFeedScreen.route)
     }
-    fun navigateToSettings() {
-        navHostController.navigate(Screen.SettingsScreen.route)
+    fun navigateToSettings(userItem: UserItem) {
+        navHostController.navigate(Screen.SettingsScreen.getRouteWithArgs(userItem))
     }
     fun navigateToSearch() {
         navHostController.navigate(Screen.SearchScreen.route)
@@ -82,6 +82,16 @@ class NavigationState(
     }
     fun navigateToAdministratorTypeScreen(typeItem: TypeItem) {
         navHostController.navigate(Screen.RegistrationAdministratorTypeScreen.getRouteWithArgs(typeItem))
+    }
+
+    fun navigateToChangeUserProfileScreen(userItem: UserItem) {
+        navHostController.navigate(Screen.ChangeUserProfileScreen.getRouteWithArgs(userItem))
+    }
+    fun navigateToChangeBandProfileScreen(bandItem:BandItem) {
+        navHostController.navigate(Screen.ChangeBandProfileScreen.getRouteWithArgs(bandItem))
+    }
+    fun navigateToChangeLocationProfileScreen(locationItem:LocationItem) {
+        navHostController.navigate(Screen.ChangeLocationProfileScreen.getRouteWithArgs(locationItem))
     }
 }
 

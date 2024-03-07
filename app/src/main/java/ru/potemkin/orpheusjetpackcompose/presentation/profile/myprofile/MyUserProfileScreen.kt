@@ -64,7 +64,7 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 @Composable
 fun MyUserProfileScreen(
     paddingValues: PaddingValues,
-    onSettingsClickListener: () -> Unit,
+    onSettingsClickListener: (UserItem) -> Unit,
     onSearchClickListener:()-> Unit,
     onBandListClickListener: () -> Unit,
     onLocationClickListener:(LocationItem) -> Unit,
@@ -161,7 +161,7 @@ fun MyUserProfileScreen(
                                             latitude = 55.786505,
                                             longitude = 37.704143
                                         ))
-                                        "settings" -> onSettingsClickListener()
+                                        "settings" -> onSettingsClickListener(currentState.user)
                                         "search" -> onSearchClickListener()
                                         else -> {
                                             println("Clicked on ${it.title}")

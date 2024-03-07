@@ -14,6 +14,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.navigation.AppNavGraph
+import ru.potemkin.orpheusjetpackcompose.navigation.Screen
 import ru.potemkin.orpheusjetpackcompose.navigation.rememberNavigationState
 import ru.potemkin.orpheusjetpackcompose.presentation.auth.AboutMeScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.auth.AdminRegScreen
@@ -31,6 +32,9 @@ import ru.potemkin.orpheusjetpackcompose.presentation.map.map.MapScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.comments.CommentsScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.band.bandprofile.BandProfileScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.changeprofile.ChangeBandProfileScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.changeprofile.ChangeLocationProfileScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.changeprofile.ChangeUserProfileScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.MyUserProfileScreen
 
 import ru.potemkin.orpheusjetpackcompose.presentation.search.SearchScreen
@@ -171,7 +175,7 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                 MyUserProfileScreen(
                     paddingValues = paddingValues,
                     onSettingsClickListener = {
-                        navigationState.navigateToSettings()
+                        navigationState.navigateToSettings(it)
                     },
                     onCommentClickListener = {
                         navigationState.navigateToComments(it)
@@ -344,6 +348,8 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                     onBackPressed = {
                         navigationState.navHostController.popBackStack()
                     },
+                    userItem = it,
+                    onChangeProfileClick = { navigationState.navigateToChangeUserProfileScreen(it) }
                 )
             },
             bandListScreenContent = {
@@ -404,6 +410,20 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                     onNextClickListener = {
                         navigationState.navigateToNewsFeed()
                     }
+                )
+            },
+            changeUserProfileScreenContent =
+            {
+                ChangeUserProfileScreen(it,{ navigationState.navHostController.popBackStack()})
+            },
+            changeBandProfileScreenContent = {bandItem ->
+                ChangeBandProfileScreen(
+
+                )
+            },
+            changeLocationProfileScreenContent = {locationItem ->
+                ChangeLocationProfileScreen(
+
                 )
             }
 

@@ -15,6 +15,7 @@ fun NavGraphBuilder.feedHomeNavGraph(
     userProfileScreenContent: @Composable (UserItem) -> Unit,
     bandProfileScreenContent: @Composable (BandItem) -> Unit,
     bandCreationScreenContent: @Composable () -> Unit,
+    changeBandProfileScreenContent: @Composable (BandItem) -> Unit,
 ) {
     navigation(
         startDestination = Screen.NewsFeedScreen.route,

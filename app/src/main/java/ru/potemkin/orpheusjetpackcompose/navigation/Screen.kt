@@ -106,13 +106,45 @@ sealed class Screen(
     }
     object BandCreationScreen : Screen(ROUTE_BAND_CREATION)
     object BandListScreen : Screen(ROUTE_BAND_LIST)
-    object NotificationsScreen : Screen(ROUTE_NOTIFICATIONS)
-    object SettingsScreen : Screen(ROUTE_SETTINGS)
+    object ChangeUserProfileScreen : Screen(ROUTE_CHANGE_USER_PROFILE){
+        private const val ROUTE_FOR_ARGS = "change_user_profile"
+
+        fun getRouteWithArgs(user: UserItem): String {
+            val userJson = Gson().toJson(user)
+            return "$ROUTE_FOR_ARGS/${userJson.encode()}"
+        }
+    }
+    object ChangeLocationProfileScreen : Screen(ROUTE_CHANGE_LOCATION_PROFILE){
+        private const val ROUTE_FOR_ARGS = "change_location_profile"
+
+        fun getRouteWithArgs(location: LocationItem): String {
+            val locationJson = Gson().toJson(location)
+            return "$ROUTE_FOR_ARGS/${locationJson.encode()}"
+        }
+    }
+    object ChangeBandProfileScreen : Screen(ROUTE_CHANGE_BAND_PROFILE){
+        private const val ROUTE_FOR_ARGS = "change_band_profile"
+
+        fun getRouteWithArgs(band: BandItem): String {
+            val bandJson = Gson().toJson(band)
+            return "$ROUTE_FOR_ARGS/${bandJson.encode()}"
+        }
+    }
+    object SettingsScreen : Screen(ROUTE_SETTINGS){
+        private const val ROUTE_FOR_ARGS = "settings"
+
+        fun getRouteWithArgs(user: UserItem): String {
+            val userJson = Gson().toJson(user)
+            return "$ROUTE_FOR_ARGS/${userJson.encode()}"
+        }
+    }
     object AuthHomeScreen : Screen(ROUTE_AUTH_HOME)
     object ChatHomeScreen : Screen(ROUTE_CHAT_HOME)
     object MapHomeScreen : Screen(ROUTE_MAP_HOME)
     object ProfileHomeScreen : Screen(ROUTE_PROFILE_HOME)
     object FeedHomeScreen : Screen(ROUTE_FEED_HOME)
+
+
 
     companion object {
         const val KEY_FEED_POST = "feed_post"
@@ -124,6 +156,10 @@ sealed class Screen(
         const val KEY_REG_ADMN = "reg_admn"
         const val KEY_REG_MUS = "reg_mus"
         const val KEY_REG_TYPE = "reg_type"
+        const val KEY_SETTINGS = "settings"
+        const val KEY_CHANGE_USER_PROFILE = "change_user"
+        const val KEY_CHANGE_BAND_PROFILE = "change_band"
+        const val KEY_CHANGE_LOCATION_PROFILE = "change_location"
 
         const val ROUTE_AUTH_HOME = "auth_home"
         const val ROUTE_BAND_PROFILE = "band_profile/{$KEY_BAND}"
@@ -150,7 +186,10 @@ sealed class Screen(
         const val ROUTE_BAND_CREATION = "band_creation"
         const val ROUTE_BAND_LIST = "band_list"
         const val ROUTE_NOTIFICATIONS = "notifications"
-        const val ROUTE_SETTINGS = "settings"
+        const val ROUTE_SETTINGS = "settings/{$KEY_SETTINGS}"
+        const val ROUTE_CHANGE_USER_PROFILE = "change_user_profile/{$KEY_CHANGE_USER_PROFILE}"
+        const val ROUTE_CHANGE_BAND_PROFILE = "change_band_profile/{$KEY_CHANGE_BAND_PROFILE}"
+        const val ROUTE_CHANGE_LOCATION_PROFILE = "change_location_profile/{$KEY_CHANGE_LOCATION_PROFILE}"
     }
 }
 fun String.encode(): String {
