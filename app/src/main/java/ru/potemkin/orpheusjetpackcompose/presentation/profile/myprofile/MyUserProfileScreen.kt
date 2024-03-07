@@ -65,6 +65,7 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 fun MyUserProfileScreen(
     paddingValues: PaddingValues,
     onSettingsClickListener: () -> Unit,
+    onSearchClickListener:()-> Unit,
     onBandListClickListener: () -> Unit,
     onLocationClickListener:(LocationItem) -> Unit,
     onCommentClickListener: (PostItem) -> Unit,
@@ -75,7 +76,7 @@ fun MyUserProfileScreen(
     if (userType == UserType.MUSICIAN) {
         menuItem.put("mybands", "Мои группы")
     } else {
-        menuItem.put("mylocations", "Мои учреждения")
+        menuItem.put("mylocations", "Мое учреждение")
         menuItemIcon = Icons.Default.LocationOn
     }
 
@@ -161,6 +162,7 @@ fun MyUserProfileScreen(
                                             longitude = 37.704143
                                         ))
                                         "settings" -> onSettingsClickListener()
+                                        "search" -> onSearchClickListener()
                                         else -> {
                                             println("Clicked on ${it.title}")
                                         }

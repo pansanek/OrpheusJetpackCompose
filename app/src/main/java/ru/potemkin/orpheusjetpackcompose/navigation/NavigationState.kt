@@ -58,6 +58,9 @@ class NavigationState(
     fun navigateToSettings() {
         navHostController.navigate(Screen.SettingsScreen.route)
     }
+    fun navigateToSearch() {
+        navHostController.navigate(Screen.SearchScreen.route)
+    }
     fun navigateToBandCreation() {
         navHostController.navigate(Screen.BandCreationScreen.route)
     }

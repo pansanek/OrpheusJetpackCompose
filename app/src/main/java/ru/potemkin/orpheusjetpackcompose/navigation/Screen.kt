@@ -108,7 +108,6 @@ sealed class Screen(
     object BandListScreen : Screen(ROUTE_BAND_LIST)
     object NotificationsScreen : Screen(ROUTE_NOTIFICATIONS)
     object SettingsScreen : Screen(ROUTE_SETTINGS)
-
     object AuthHomeScreen : Screen(ROUTE_AUTH_HOME)
     object ChatHomeScreen : Screen(ROUTE_CHAT_HOME)
     object MapHomeScreen : Screen(ROUTE_MAP_HOME)

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -26,13 +27,18 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.filled.CameraAlt
+import androidx.compose.material.icons.filled.CameraEnhance
+import androidx.compose.material3.Surface
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -43,11 +49,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
@@ -58,6 +66,9 @@ import ru.potemkin.orpheusjetpackcompose.presentation.search.FilterDialog
 import ru.potemkin.orpheusjetpackcompose.presentation.search.MusicianListItem
 import ru.potemkin.orpheusjetpackcompose.presentation.search.SearchScreenState
 import ru.potemkin.orpheusjetpackcompose.presentation.search.SearchViewModel
+import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
+import ru.potemkin.orpheusjetpackcompose.ui.theme.LightBlack
+import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -73,37 +84,68 @@ fun BandListScreen(
     val screenState = viewModel.screenState.observeAsState(BandCreationScreenState.Initial)
     when (val currentState = screenState.value) {
         is BandCreationScreenState.Bands -> {
-            Column {
-                LazyColumn {
-                    items(currentState.bands) { band ->
-                        BandListItem(band = band, onItemClick = {
-                            onBandClickListener(band)
-                        })
-                    }
-                }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                    Text(
-                        text = "Создать группу",
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.clickable {
-                            onBandCreationClickListener()
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Text("Ваши группы",
+                                color = White,
+                                fontWeight = FontWeight.Bold
+                            )
+                        },
+                        navigationIcon = {
+                            IconButton(
+                                onClick = { onBackPressed() }
+                            ) {
+                                Icon(
+                                    Icons.Default.ArrowBack, contentDescription = null,
+                                    tint = White
+                                )
+                            }
+                        },
+                        backgroundColor = Black,
+
+                        )
+                },
+                content = {
+                    Column(
+                        Modifier
+                            .fillMaxSize()
+                            .padding(it)
+                            .background(Black)
+                    ) {
+                        LazyColumn {
+                            items(currentState.bands) { band ->
+                                BandListItem(band = band, onItemClick = {
+                                    onBandClickListener(band)
+                                })
+                            }
                         }
-                    )
-                }
-            }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = null,
+                                tint = White
+                            )
+                            Text(
+                                text = "Создать группу",
+                                fontWeight = FontWeight.Bold,
+                                color = White,
+                                modifier = Modifier.clickable {
+                                    onBandCreationClickListener()
+                                }
+                            )
+                        }
+                    }
+                })
         }
+
         BandCreationScreenState.Initial -> {}
         BandCreationScreenState.Loading -> {
             Box(
@@ -126,27 +168,26 @@ fun BandListItem(band: BandItem, onItemClick: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Аватар группы
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground), // Замените на ваш ресурс
+        AsyncImage(
+            model = band.photo.url,
             contentDescription = null,
             modifier = Modifier
-                .size(64.dp)
-                .clip(CircleShape)
+                .size(86.dp)
+                .padding(4.dp)
+                .clip(CircleShape),
+            contentScale = ContentScale.Crop
         )
 
-        // Информация о группе
         Column(
             modifier = Modifier
                 .padding(start = 16.dp)
                 .weight(1f)
         ) {
-            Text(text = band.name, fontWeight = FontWeight.Bold)
+            Text(text = band.name, fontWeight = FontWeight.Bold, color = White)
             Text(
                 text = band.genre,
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                color = White
             )
-
-            // Миниатюры участников
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -154,18 +195,26 @@ fun BandListItem(band: BandItem, onItemClick: () -> Unit) {
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 band.members.forEach { member ->
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_like_set), // Замените на ваш ресурс
+                    AsyncImage(
+                        model = member.profile_picture.url,
                         contentDescription = null,
                         modifier = Modifier
-                            .size(24.dp)
-                            .clip(CircleShape)
+                            .size(36.dp)
+                            .padding(4.dp)
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Crop
                     )
                 }
             }
         }
     }
+    HorizontalDivider(
+        modifier = Modifier.fillMaxWidth(),
+        thickness = 3.dp,
+        color = LightBlack
+    )
 }
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -180,64 +229,92 @@ fun BandCreationScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text("Create Group")
+                    Text("Create Group", color = White, fontWeight = FontWeight.Bold)
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = {  }
+                        onClick = { onBackPressed() }
                     ) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = null)
+                        Icon(
+                            Icons.Default.ArrowBack, contentDescription = null,
+                            tint = White
+                        )
                     }
                 },
+                backgroundColor = Black,
                 actions = {
                     IconButton(
                         onClick = {
                             // TODO: Обработка создания группы
                         }
                     ) {
-                        Icon(Icons.Default.Check, contentDescription = null)
+                        Icon(
+                            Icons.Default.Check, contentDescription = null,
+                            tint = White
+                        )
                     }
-                }
-            )
+                },
+
+                )
         },
         content = {
-            Column(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                shape = RoundedCornerShape(bottomEndPercent = 10, bottomStartPercent = 10),
+                color = Black
             ) {
-                OutlinedTextField(
-                    value = groupName,
-                    onValueChange = { groupName = it },
-                    label = { Text("Group Name") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                OutlinedTextField(
-                    value = groupGenre,
-                    onValueChange = { groupGenre = it },
-                    label = { Text("Group Genre") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                // TODO: Добавьте функциональность для загрузки аватарки группы
-
-                // Пример загрузки аватарки через кнопку
-                Box(
+                Column(
                     modifier = Modifier
-                        .size(100.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primary)
-                        .clickable { /* TODO: Обработка загрузки аватарки */ }
+                        .fillMaxSize()
+                        .padding(it),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Icon(
-                        Icons.Default.Image,
-                        contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier.size(48.dp)
+                    OutlinedTextField(
+                        value = groupName,
+                        onValueChange = { groupName = it },
+                        label = { Text("Название") },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = TextFieldDefaults.textFieldColors(
+                            containerColor = Black,
+                            unfocusedIndicatorColor = White,
+                            focusedIndicatorColor = White,
+                            focusedTextColor = White,
+                            cursorColor = White
+                        )
                     )
+                    OutlinedTextField(
+                        value = groupGenre,
+                        onValueChange = { groupGenre = it },
+                        label = { Text("Жанр") },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = TextFieldDefaults.textFieldColors(
+                            containerColor = Black,
+                            unfocusedIndicatorColor = White,
+                            focusedIndicatorColor = White,
+                            focusedTextColor = White,
+                            cursorColor = White
+                        )
+                    )
+
+                    // TODO: Добавьте функциональность для загрузки аватарки группы
+
+                    // Пример загрузки аватарки через кнопку
+                    Box(
+                        modifier = Modifier
+                            .size(100.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.primary)
+                            .clickable { /* TODO: Обработка загрузки аватарки */ },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            Icons.Default.CameraAlt,
+                            contentDescription = null,
+                            tint = Black,
+                            modifier = Modifier.size(48.dp)
+                        )
+                    }
                 }
             }
         }

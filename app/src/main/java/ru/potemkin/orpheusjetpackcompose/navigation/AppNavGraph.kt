@@ -51,7 +51,7 @@ fun AppNavGraph(
             chatListScreenContent, chatScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent,commentsScreenContent,
         )
         profileHomeNavGraph(
-            profileScreenContent, commentsScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent, chatListScreenContent, chatScreenContent,settingsScreenContent,searchScreenContent, bandListScreenContent
+            profileScreenContent, commentsScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent, chatListScreenContent, chatScreenContent,searchScreenContent,settingsScreenContent, bandListScreenContent
         )
         mapHomeNavGraph(
             userProfileScreenContent, commentsScreenContent, chatListScreenContent, chatScreenContent, mapScreenContent, locationScreenContent
