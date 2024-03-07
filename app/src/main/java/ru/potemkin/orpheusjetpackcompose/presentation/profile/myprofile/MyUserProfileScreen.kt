@@ -38,7 +38,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
+import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.navigation.rememberNavigationState
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerHeight
@@ -62,6 +66,7 @@ fun MyUserProfileScreen(
     paddingValues: PaddingValues,
     onSettingsClickListener: () -> Unit,
     onBandListClickListener: () -> Unit,
+    onLocationClickListener:(LocationItem) -> Unit,
     onCommentClickListener: (PostItem) -> Unit,
 ) {
     val userType = UserType.MUSICIAN
@@ -133,6 +138,28 @@ fun MyUserProfileScreen(
                                 onItemClick = {
                                     when (it.id) {
                                         "mybands" -> onBandListClickListener()
+                                        "mylocations" -> onLocationClickListener(
+                                            LocationItem(
+                                            id= "a9d28f2a-5eae-48bf-85f7-7c8dde3ec22c",
+                                            admin = UserItem(
+                                                "51bdc118-e76b-4372-8678-6822658cefed",
+                                                "pansanek",
+                                                "Sasha",
+                                                "12341234",
+                                                "email@gmail.com",
+                                                "Hehe",
+                                                UserType.ADMINISTRATOR,
+                                                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://img-fotki.yandex.ru/get/5803/12042645.1d/0_965fd_fcd89bb9_orig.jpg"),
+                                                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
+                                                UserSettingsItem(true,true)
+                                            ),
+                                            about = "Настоящий храм творчества и оплот музыкальной КУЛЬТуры, созданный музыкантами для музыкантов.",
+                                            name = "КУЛЬТ",
+                                            address = "Электрозаводская улица, 21, Москва",
+                                            profilePicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fc5325235234","https://avatars.mds.yandex.net/i?id=150e8ad466d96a519c0372d21be120ebcd4beaef-5329555-images-thumbs&n=13"),
+                                            latitude = 55.786505,
+                                            longitude = 37.704143
+                                        ))
                                         "settings" -> onSettingsClickListener()
                                         else -> {
                                             println("Clicked on ${it.title}")
@@ -267,17 +294,7 @@ fun CreatePostButton(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewMyProfileScreen() {
-    val navigationState = rememberNavigationState()
-    MyUserProfileScreen(
-        paddingValues = PaddingValues(),
-        onSettingsClickListener = {},
-        onBandListClickListener = {},
-        onCommentClickListener = {}
-    )
-}
+
 
 
 

@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
+import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
@@ -51,6 +52,8 @@ fun UserProfileScreen(
     onBackPressed: () -> Unit,
     userItem: UserItem,
     onCommentClickListener: (PostItem) -> Unit,
+    onBandClickListener: () -> Unit,
+    onLocationClickListener:(LocationItem) -> Unit,
 ) {
     val viewModel: UserProfileViewModel = viewModel(
         factory = UserProfileViewModelFactory(
@@ -77,7 +80,10 @@ fun UserProfileScreen(
                     ) {
                         ProfileHeader(
                             currentState.user,
-                            scrollState = scrollState
+                            scrollState = scrollState,
+                            onBandClickListener,
+                            onLocationClickListener,
+                            currentState
                         )
                         ChatButton(
                             modifier = Modifier
@@ -192,32 +198,4 @@ fun ChatButton(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewProfileScreen() {
-    val navigationState = rememberNavigationState()
-    UserProfileScreen(
-        paddingValues = PaddingValues(),
-        onBackPressed = {},
-        userItem = UserItem(
-            "51bdc118-e76b-4372-8678-6822658cefed",
-            "noahbadomens",
-            "Noah Sebastian",
-            "12341234",
-            "email@gmail.com",
-            "Vocalist for Bad Omens",
-            UserType.MUSICIAN,
-            PhotoUrlItem(
-                "b59ae42e-8859-441a-9a3a-2fca1b784de3",
-                "https://i.pinimg.com/originals/7a/bd/00/7abd00f199dff4ec1364663ce0b45ea3.jpg"
-            ),
-            PhotoUrlItem(
-                "b59ae42e-8859-441a-9a3a-2fca1b784de4",
-                "https://chaoszine.net/wp-content/uploads/2023/11/bad-omens-2023.jpg"
-            ),
-            UserSettingsItem(true, true)
-        ),
-        onCommentClickListener = {}
-    )
-}
 
