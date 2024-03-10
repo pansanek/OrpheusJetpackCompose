@@ -39,8 +39,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationType
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.MenuItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
@@ -50,6 +52,7 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
 @Composable
 fun NewsFeedTopBar(
+    onPostCreateClickListener: (CreatorInfoItem) -> Unit,
     onDrawerClickListener: () -> Unit
 ) {
     Column(
@@ -68,7 +71,7 @@ fun NewsFeedTopBar(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        PostCreationButton()
+                        PostCreationButton (onPostCreateClickListener)
                         SpacerWidth()
                         DrawerButton(onDrawerClickListener)
                     }
@@ -83,9 +86,22 @@ fun NewsFeedTopBar(
 }
 
 @Composable
-fun PostCreationButton() {
+fun PostCreationButton(
+    onPostCreateClickListener: (CreatorInfoItem) -> Unit,
+) {
     IconButton(
-        onClick = { },
+        onClick = {
+            onPostCreateClickListener((
+                    CreatorInfoItem(
+                        "1", "pansanek",
+                        PhotoUrlItem(
+                            "b59ae42e-8859-441a-9a3a-2fca1b784de3",
+                            "https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"
+                        ),
+                        "MUSICIAN"
+                    )
+                    ))
+        },
         modifier = Modifier.size(48.dp)
     ) {
         Icon(

@@ -7,6 +7,8 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 
@@ -23,6 +25,7 @@ fun NavGraphBuilder.profileHomeNavGraph(
     bandListScreenContent: @Composable () -> Unit,
     changeUserProfileScreenContent: @Composable (UserItem) -> Unit,
     changeBandProfileScreenContent: @Composable (BandItem) -> Unit,
+    postCreationScreenContent: @Composable (CreatorInfoItem) -> Unit
     ) {
     navigation(
         startDestination = Screen.ProfileScreen.route,

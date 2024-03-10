@@ -1,7 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -12,13 +11,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DriveFileRenameOutline
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material.icons.filled.PostAdd
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberScaffoldState
@@ -29,10 +25,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,16 +38,13 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
-import ru.potemkin.orpheusjetpackcompose.navigation.rememberNavigationState
-import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerHeight
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.DrawerBody
-import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.DrawerHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.MenuItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.MyUserProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.MyUserProfileTopBar
 
-import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.PostItem
+import ru.potemkin.orpheusjetpackcompose.presentation.post.PostItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.LightBlack
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White

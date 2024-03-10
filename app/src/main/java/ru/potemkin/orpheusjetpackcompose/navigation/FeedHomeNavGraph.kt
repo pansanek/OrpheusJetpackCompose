@@ -6,8 +6,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import ru.potemkin.orpheusjetpackcompose.presentation.post.PostCreationScreen
 
 fun NavGraphBuilder.feedHomeNavGraph(
     newsFeedScreenContent: @Composable () -> Unit,
@@ -16,6 +19,7 @@ fun NavGraphBuilder.feedHomeNavGraph(
     bandProfileScreenContent: @Composable (BandItem) -> Unit,
     bandCreationScreenContent: @Composable () -> Unit,
     changeBandProfileScreenContent: @Composable (BandItem) -> Unit,
+    postCreationScreenContent: @Composable (CreatorInfoItem) -> Unit
 ) {
     navigation(
         startDestination = Screen.NewsFeedScreen.route,
@@ -62,6 +66,18 @@ fun NavGraphBuilder.feedHomeNavGraph(
         }
         composable(Screen.BandCreationScreen.route) {
             bandCreationScreenContent()
+        }
+        composable(
+            route = Screen.PostCreationScreen.route,
+            arguments = listOf(
+                navArgument(Screen.KEY_CREATE_POST) {
+                    type = CreatorInfoItem.NavigationType
+                }
+            )
+        ) {
+            val creatorInfoItem = it.arguments?.getParcelable<CreatorInfoItem>(Screen.KEY_CREATE_POST)
+                ?: throw RuntimeException("Args is null")
+            postCreationScreenContent(creatorInfoItem)
         }
     }
 }

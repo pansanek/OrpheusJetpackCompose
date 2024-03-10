@@ -34,6 +34,7 @@ import ru.potemkin.orpheusjetpackcompose.presentation.band.bandprofile.BandProfi
 import ru.potemkin.orpheusjetpackcompose.presentation.changeprofile.ChangeBandProfileScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.changeprofile.ChangeLocationProfileScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.changeprofile.ChangeUserProfileScreen
+import ru.potemkin.orpheusjetpackcompose.presentation.post.PostCreationScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.MyUserProfileScreen
 
 import ru.potemkin.orpheusjetpackcompose.presentation.search.SearchScreen
@@ -173,6 +174,9 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                     paddingValues = paddingValues,
                     onCommentClickListener = {
                         navigationState.navigateToComments(it)
+                    },
+                    onPostCreateClickListener={
+                        navigationState.navigateToPostCreationScreen(it)
                     }
                 )
             },
@@ -431,6 +435,15 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                 ChangeLocationProfileScreen(
                     location = locationItem,
                     {navigationState.navHostController.popBackStack()}
+                )
+            }
+            ,
+            postCreationScreenContent = {
+                creatorInfoItem ->
+                PostCreationScreen(
+                    creatorInfoItem,
+                    onBackPressed = { navigationState.navHostController.popBackStack() },
+                    onDonePressed = {navigationState.navHostController.popBackStack()}
                 )
             }
 

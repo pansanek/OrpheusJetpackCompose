@@ -10,6 +10,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.RegItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.TypeItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
@@ -92,6 +93,9 @@ class NavigationState(
     }
     fun navigateToChangeLocationProfileScreen(locationItem:LocationItem) {
         navHostController.navigate(Screen.ChangeLocationProfileScreen.getRouteWithArgs(locationItem))
+    }
+    fun navigateToPostCreationScreen(creatorInfoItem: CreatorInfoItem) {
+        navHostController.navigate(Screen.PostCreationScreen.getRouteWithArgs(creatorInfoItem))
     }
 }
 

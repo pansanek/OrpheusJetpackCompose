@@ -9,6 +9,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class PostItem(
     var id: String = UNDEFINED_ID,
+    val creatorId:String,
     val creatorName: String,
     val creatorPicture: PhotoUrlItem,
     var text: String,

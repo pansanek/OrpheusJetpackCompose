@@ -40,6 +40,7 @@ class PostMapper {
         if(postDto.creatorType == "User"){
             val postItem = PostItem(
                 id = postDto.postId,
+                creatorId = postDto.creatorId,
                 creatorName = mapCreatorToUser(postDto.creatorId).name,
                 creatorPicture = mapCreatorToUser(postDto.creatorId).profile_picture,
                 text = postDto.caption,
@@ -58,6 +59,7 @@ class PostMapper {
         else if (postDto.creatorType == "Band") {
             val postItem = PostItem(
                 id = postDto.postId,
+                creatorId = postDto.creatorId,
                 creatorName = mapCreatorToBand(postDto.creatorId).name,
                 creatorPicture = mapCreatorToBand(postDto.creatorId).photo,
                 text = postDto.caption,
@@ -76,6 +78,7 @@ class PostMapper {
         else {
             val postItem = PostItem(
                 id = postDto.postId,
+                creatorId = postDto.creatorId,
                 creatorName = mapCreatorToLocation(postDto.creatorId).name,
                 creatorPicture = mapCreatorToLocation(postDto.creatorId).profilePicture,
                 text = postDto.caption,

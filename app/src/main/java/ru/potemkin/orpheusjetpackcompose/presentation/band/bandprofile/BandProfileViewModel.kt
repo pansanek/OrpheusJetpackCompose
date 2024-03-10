@@ -44,6 +44,7 @@ class BandProfileViewModel @Inject constructor(bandItem: BandItem) : ViewModel()
         val mockData = mutableListOf<PostItem>(
             PostItem(
                 id= "a9d28f2a-5eae-48bf-85f7-7c8dde3ec22c",
+                creatorId = "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23c",
                 creatorName = "pansanek" ,
                 creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
                 creatorType = "MUSICIAN",

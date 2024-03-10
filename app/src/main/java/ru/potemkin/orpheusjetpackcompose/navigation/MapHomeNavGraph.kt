@@ -7,7 +7,9 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 
@@ -18,7 +20,8 @@ fun NavGraphBuilder.mapHomeNavGraph(
     chatScreenContent: @Composable (ChatItem) -> Unit,
     mapScreenContent: @Composable () -> Unit,
     locationScreenContent: @Composable (LocationItem) -> Unit,
-    changeLocationProfileScreenContent: @Composable (LocationItem) -> Unit
+    changeLocationProfileScreenContent: @Composable (LocationItem) -> Unit,
+    postCreationScreenContent: @Composable (CreatorInfoItem) -> Unit
 ) {
     navigation(
         startDestination = Screen.MapScreen.route,

@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,14 +32,8 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.band_profile_comp.BandProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.band_profile_comp.BandProfileTopBar
-import ru.potemkin.orpheusjetpackcompose.presentation.components.profile_comp.ProfileHeader
-import ru.potemkin.orpheusjetpackcompose.presentation.components.profile_comp.ProfileTopBar
-import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.comments.CommentsScreenState
-import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.PostItem
+import ru.potemkin.orpheusjetpackcompose.presentation.post.PostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.ChatButton
-import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.UserProfileScreenState
-import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.UserProfileViewModel
-import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.UserProfileViewModelFactory
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 
 @OptIn(ExperimentalMaterial3Api::class)

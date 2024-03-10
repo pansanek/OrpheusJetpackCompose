@@ -64,6 +64,7 @@ class MyUserProfileViewModel @Inject constructor() : ViewModel() {
         val mockData = mutableListOf<PostItem>(
             PostItem(
                 id= "a9d28f2a-5eae-48bf-85f7-7c8dde3ec22c",
+                creatorId = "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23c",
                 creatorName = "pansanek" ,
                 creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"),
                 creatorType = "MUSICIAN",
@@ -97,6 +98,7 @@ class MyUserProfileViewModel @Inject constructor() : ViewModel() {
             ),
             PostItem(
                 id= "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23c",
+                creatorId = "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23c",
                 creatorName = "pansanek" ,
                 creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"),
                 creatorType = "MUSICIAN",
@@ -130,6 +132,7 @@ class MyUserProfileViewModel @Inject constructor() : ViewModel() {
             ),
             PostItem(
                 id= "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23g",
+                creatorId = "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23c",
                 creatorName = "pansanek" ,
                 creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"),
                 creatorType = "MUSICIAN",

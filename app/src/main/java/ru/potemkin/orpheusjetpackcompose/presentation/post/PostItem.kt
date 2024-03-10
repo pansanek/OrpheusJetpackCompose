@@ -1,4 +1,4 @@
-package ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers
+package ru.potemkin.orpheusjetpackcompose.presentation.post
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +31,7 @@ import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticType
+import ru.potemkin.orpheusjetpackcompose.ui.theme.*
 
 @Composable
 fun PostItem(
@@ -40,13 +42,23 @@ fun PostItem(
 ) {
     Card(
         modifier = modifier
+            .padding(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = LightBlack,
+        ),
+        elevation = CardDefaults.cardElevation(
+            // Установка высоты карточки
+            defaultElevation = 1.dp, // По умолчанию 4.dp
+        ),
     ) {
         Column(
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier
+                .padding(8.dp)
+
         ) {
             PostHeader(feedPost)
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = feedPost.text)
+            Text(text = feedPost.text,color = White)
             Spacer(modifier = Modifier.height(8.dp))
             AsyncImage(
                 model = feedPost.attachment.url,
@@ -54,7 +66,7 @@ fun PostItem(
                     .fillMaxWidth()
                     .wrapContentHeight(),
                 contentDescription = null,
-                contentScale = ContentScale.FillWidth
+                contentScale = ContentScale.FillWidth,
             )
             Spacer(modifier = Modifier.height(8.dp))
             Statistics(
@@ -80,7 +92,8 @@ private fun PostHeader(
             modifier = Modifier
                 .size(50.dp)
                 .clip(CircleShape),
-            contentDescription = null
+            contentDescription = null,
+            contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.width(8.dp))
         Column(
@@ -88,18 +101,18 @@ private fun PostHeader(
         ) {
             Text(
                 text = feedPost.creatorName,
-                color = Color.Black
+                color = White
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(
                 text = feedPost.date,
-                color = Color.Black
+                color = White
             )
         }
         Icon(
             imageVector = Icons.Rounded.MoreVert,
             contentDescription = null,
-            tint = Color.Black
+            tint = White
         )
     }
 }
@@ -122,7 +135,8 @@ private fun Statistics(
                 text = formatStatisticCount(commentItem.count),
                 onItemClickListener = {
                     onCommentClickListener(commentItem)
-                }
+                },
+                tint = White
             )
             val likesItem = statistics.getItemByType(StatisticType.LIKES)
             IconWithText(
@@ -131,7 +145,7 @@ private fun Statistics(
                 onItemClickListener = {
                     onLikeClickListener(likesItem)
                 },
-                tint = if (isFavourite) Color.Black else Color.Blue
+                tint = if (isFavourite) White else Red
             )
         }
     }

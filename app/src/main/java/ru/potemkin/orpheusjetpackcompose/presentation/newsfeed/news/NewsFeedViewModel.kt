@@ -76,6 +76,7 @@ class NewsFeedViewModel @Inject constructor() : ViewModel() {
                 date = "06-03-24",
                 postItem = PostItem(
                     id= "a9d28f2a-5eae-48bf-85f7-7c8dde3ec22c",
+                    creatorId = "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23c",
                     creatorName = "pansanek" ,
                     creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
                     creatorType = "MUSICIAN",
@@ -196,6 +197,7 @@ class NewsFeedViewModel @Inject constructor() : ViewModel() {
             PostItem(
                 id= "a9d28f2a-5eae-48bf-85f7-7c8dde3ec22c",
                 creatorName = "pansanek" ,
+                creatorId = "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23c",
                 creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
                 creatorType = "MUSICIAN",
                 text = "Test post",
@@ -229,6 +231,7 @@ class NewsFeedViewModel @Inject constructor() : ViewModel() {
             PostItem(
                 id= "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23c",
                 creatorName = "Dealer" ,
+                creatorId = "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23c",
                 creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://www.noecho.net/uploads/wysiwyg/56398448_2377037402530657_3620978213045403648_o.jpg"),
                 creatorType = "BAND",
                 text = "RED TEETH OUT NOW!!!",

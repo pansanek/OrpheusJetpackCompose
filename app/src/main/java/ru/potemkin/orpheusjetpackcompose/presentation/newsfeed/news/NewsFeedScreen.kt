@@ -4,10 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -18,17 +14,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.NewsFeedDrawerBody
-import ru.potemkin.orpheusjetpackcompose.presentation.components.NewsFeedDrawerHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.NewsFeedTopBar
-import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.MenuItem
-import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.MyUserProfileTopBar
+import ru.potemkin.orpheusjetpackcompose.presentation.post.PostItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 
 @Composable
 fun NewsFeedScreen(
-    paddingValues: PaddingValues, onCommentClickListener: (PostItem) -> Unit
+    paddingValues: PaddingValues,
+    onCommentClickListener: (PostItem) -> Unit,
+    onPostCreateClickListener: (CreatorInfoItem) -> Unit
 ) {
     val viewModel: NewsFeedViewModel = viewModel()
     val screenState = viewModel.screenState.observeAsState(NewsFeedScreenState.Initial)
@@ -40,11 +38,25 @@ fun NewsFeedScreen(
             androidx.compose.material.Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    NewsFeedTopBar(onDrawerClickListener = {
-                        scope.launch {
-                            scaffoldState.drawerState.open()
+                    NewsFeedTopBar(
+                        onPostCreateClickListener = {
+                            onPostCreateClickListener(
+                                    CreatorInfoItem(
+                                        "1", "pansanek",
+                                        PhotoUrlItem(
+                                            "b59ae42e-8859-441a-9a3a-2fca1b784de3",
+                                            "https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"
+                                        ),
+                                        "MUSICIAN"
+                                    )
+                                    )
+                        },
+                        onDrawerClickListener = {
+                            scope.launch {
+                                scaffoldState.drawerState.open()
+                            }
                         }
-                    })
+                    )
                 },
                 drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
                 drawerContent = {
@@ -54,10 +66,10 @@ fun NewsFeedScreen(
                             .background(Black)
                             .padding(paddingValues),
                     ) {
-                        Column{
-                        NewsFeedDrawerBody(
-                            items = currentState.notifications
-                        )
+                        Column {
+                            NewsFeedDrawerBody(
+                                items = currentState.notifications
+                            )
                         }
                     }
                 },

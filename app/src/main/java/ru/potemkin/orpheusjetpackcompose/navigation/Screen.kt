@@ -8,6 +8,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.RegItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.TypeItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
@@ -138,6 +139,15 @@ sealed class Screen(
             return "$ROUTE_FOR_ARGS/${userJson.encode()}"
         }
     }
+    object PostCreationScreen : Screen(ROUTE_CREATE_POST){
+
+        private const val ROUTE_FOR_ARGS = "create_post"
+
+        fun getRouteWithArgs(creatorInfoItem: CreatorInfoItem): String {
+            val creatorInfoItemJson = Gson().toJson(creatorInfoItem)
+            return "$ROUTE_FOR_ARGS/${creatorInfoItemJson.encode()}"
+        }
+    }
     object AuthHomeScreen : Screen(ROUTE_AUTH_HOME)
     object ChatHomeScreen : Screen(ROUTE_CHAT_HOME)
     object MapHomeScreen : Screen(ROUTE_MAP_HOME)
@@ -160,6 +170,7 @@ sealed class Screen(
         const val KEY_CHANGE_USER_PROFILE = "change_user"
         const val KEY_CHANGE_BAND_PROFILE = "change_band"
         const val KEY_CHANGE_LOCATION_PROFILE = "change_location"
+        const val KEY_CREATE_POST = "create_post"
 
         const val ROUTE_AUTH_HOME = "auth_home"
         const val ROUTE_BAND_PROFILE = "band_profile/{$KEY_BAND}"
@@ -185,11 +196,11 @@ sealed class Screen(
         const val ROUTE_USER_PROFILE = "user_profile/{$KEY_USER}"
         const val ROUTE_BAND_CREATION = "band_creation"
         const val ROUTE_BAND_LIST = "band_list"
-        const val ROUTE_NOTIFICATIONS = "notifications"
         const val ROUTE_SETTINGS = "settings/{$KEY_SETTINGS}"
         const val ROUTE_CHANGE_USER_PROFILE = "change_user_profile/{$KEY_CHANGE_USER_PROFILE}"
         const val ROUTE_CHANGE_BAND_PROFILE = "change_band_profile/{$KEY_CHANGE_BAND_PROFILE}"
         const val ROUTE_CHANGE_LOCATION_PROFILE = "change_location_profile/{$KEY_CHANGE_LOCATION_PROFILE}"
+        const val ROUTE_CREATE_POST = "create_post/{$KEY_CREATE_POST}"
     }
 }
 fun String.encode(): String {

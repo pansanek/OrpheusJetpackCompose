@@ -9,7 +9,9 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.RegItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.TypeItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 
@@ -38,7 +40,8 @@ fun AppNavGraph(
     bandListScreenContent: @Composable () -> Unit,
     changeUserProfileScreenContent: @Composable (UserItem) -> Unit,
     changeBandProfileScreenContent: @Composable (BandItem) -> Unit,
-    changeLocationProfileScreenContent: @Composable (LocationItem) -> Unit
+    changeLocationProfileScreenContent: @Composable (LocationItem) -> Unit,
+    postCreationScreenContent: @Composable (CreatorInfoItem) -> Unit
 ) {
     NavHost(
         navController = navHostController,
@@ -48,16 +51,16 @@ fun AppNavGraph(
             startScreenContent, loginScreenContent, registrationScreenContent,registrationAboutMeScreenContent, registrationUserTypeScreenContent, registrationMusicianTypeScreenContent, registrationAdministratorTypeScreenContent
         )
         feedHomeNavGraph(
-            newsFeedScreenContent, commentsScreenContent, userProfileScreenContent, bandProfileScreenContent,bandCreationScreenContent,changeBandProfileScreenContent
+            newsFeedScreenContent, commentsScreenContent, userProfileScreenContent, bandProfileScreenContent,bandCreationScreenContent,changeBandProfileScreenContent,postCreationScreenContent
         )
         chatHomeNavGraph(
             chatListScreenContent, chatScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent,commentsScreenContent, changeBandProfileScreenContent
         )
         profileHomeNavGraph(
-            profileScreenContent, commentsScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent, chatListScreenContent, chatScreenContent,searchScreenContent,settingsScreenContent, bandListScreenContent,changeUserProfileScreenContent,changeBandProfileScreenContent
+            profileScreenContent, commentsScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent, chatListScreenContent, chatScreenContent,searchScreenContent,settingsScreenContent, bandListScreenContent,changeUserProfileScreenContent,changeBandProfileScreenContent,postCreationScreenContent
         )
         mapHomeNavGraph(
-            userProfileScreenContent, commentsScreenContent, chatListScreenContent, chatScreenContent, mapScreenContent, locationScreenContent,changeLocationProfileScreenContent
+            userProfileScreenContent, commentsScreenContent, chatListScreenContent, chatScreenContent, mapScreenContent, locationScreenContent,changeLocationProfileScreenContent,postCreationScreenContent
         )
     }
 }
