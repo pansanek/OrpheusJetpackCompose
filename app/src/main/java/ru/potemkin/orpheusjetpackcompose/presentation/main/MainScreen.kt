@@ -56,6 +56,7 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                     NavigationItem.Chat,
                     NavigationItem.Profile
                 )
+
                 items.forEach { item ->
 
                     val selected = navBackStackEntry?.destination?.hierarchy?.any {

@@ -39,7 +39,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
@@ -142,7 +144,8 @@ fun NewsFeedDrawerHeader() {
 fun NewsFeedDrawerBody(
     items: List<NotificationItem>,
     modifier: Modifier = Modifier,
-//    onUserClick: () -> Unit,
+    onUserClickListener: (UserItem) -> Unit,
+    onBandClickListener: (BandItem) -> Unit,
 ) {
     LazyColumn(modifier) {
         items(items) { item ->
@@ -160,10 +163,10 @@ fun NewsFeedDrawerBody(
                         model = item.fromUser.profile_picture.url,
                         modifier = Modifier
                             .size(50.dp)
-                            .clip(CircleShape),
-//                            .clickable {
-//                                onUserClick()
-//                            }
+                            .clip(CircleShape)
+                            .clickable {
+                                onUserClickListener(item.fromUser)
+                            },
                         contentDescription = null,
                         contentScale = ContentScale.Crop
                     )
@@ -187,7 +190,12 @@ fun NewsFeedDrawerBody(
                             else item.fromUser.login
                                     +item.contentDescription
                             + (item.bandItem?.name ?: ""),
-                            color = White
+                            color = White,
+                            modifier = Modifier.clickable {
+                                if(item.bandItem!=null){
+                                    onBandClickListener(item.bandItem!!)
+                                }
+                            }
                         )
                     }
                 }

@@ -75,7 +75,9 @@ fun NewsFeedScreen(
                     ) {
                         Column {
                             NewsFeedDrawerBody(
-                                items = currentState.notifications
+                                items = currentState.notifications,
+                                onUserClickListener = onUserClickListener,
+                                onBandClickListener = onBandClickListener,
                             )
                         }
                     }

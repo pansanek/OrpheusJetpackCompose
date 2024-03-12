@@ -29,7 +29,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         component.inject(this)
         super.onCreate(savedInstanceState)
-//        MapKitFactory.setApiKey("YOUR_API_KEY")
         setContent {
             OrpheusJetpackComposeTheme {
                 val viewModel: AuthViewModel = viewModel(factory = viewModelFactory)
