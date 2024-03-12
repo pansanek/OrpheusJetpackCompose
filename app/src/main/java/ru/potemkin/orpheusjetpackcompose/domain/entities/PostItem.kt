@@ -16,7 +16,7 @@ data class PostItem(
     val date: String,
     var comments: List<CommentItem>,
     var attachment: PhotoUrlItem,
-    var creatorType: String,
+    var creatorType: CreatorType,
     var isLiked: Boolean,
     val statistics: List<StatisticItem>,
 ):Parcelable{

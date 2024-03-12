@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
@@ -45,7 +46,7 @@ fun UserProfileScreen(
     onBackPressed: () -> Unit,
     userItem: UserItem,
     onCommentClickListener: (PostItem) -> Unit,
-    onBandClickListener: () -> Unit,
+    onBandClickListener: (BandItem) -> Unit,
     onLocationClickListener:(LocationItem) -> Unit,
 ) {
     val viewModel: UserProfileViewModel = viewModel(

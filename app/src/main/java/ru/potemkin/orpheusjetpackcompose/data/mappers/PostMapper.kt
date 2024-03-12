@@ -8,6 +8,7 @@ import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateUserRe
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
@@ -47,7 +48,7 @@ class PostMapper {
                 date = postDto.timestamp,
                 comments = mapCommentList(postDto.comments),
                 attachment = mapAttachment(postDto.attachment),
-                creatorType = postDto.creatorType,
+                creatorType = CreatorType.valueOf(postDto.creatorType),
                 isLiked = false,
                 statistics = listOf(
                     StatisticItem(type = StatisticType.LIKES, postDto.likes.size),
@@ -66,7 +67,7 @@ class PostMapper {
                 date = postDto.timestamp,
                 comments = mapCommentList(postDto.comments),
                 attachment = mapAttachment(postDto.attachment),
-                creatorType = postDto.creatorType,
+                creatorType = CreatorType.valueOf(postDto.creatorType),
                 isLiked = false,
                 statistics = listOf(
                     StatisticItem(type = StatisticType.LIKES, postDto.likes.size),
@@ -85,7 +86,7 @@ class PostMapper {
                 date = postDto.timestamp,
                 comments = mapCommentList(postDto.comments),
                 attachment = mapAttachment(postDto.attachment),
-                creatorType = postDto.creatorType,
+                creatorType = CreatorType.valueOf(postDto.creatorType),
                 isLiked = false,
                 statistics = listOf(
                     StatisticItem(type = StatisticType.LIKES, postDto.likes.size),

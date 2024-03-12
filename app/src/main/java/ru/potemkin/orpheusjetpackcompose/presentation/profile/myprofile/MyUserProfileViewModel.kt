@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.UserRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticItem
@@ -67,7 +68,7 @@ class MyUserProfileViewModel @Inject constructor() : ViewModel() {
                 creatorId = "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23c",
                 creatorName = "pansanek" ,
                 creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"),
-                creatorType = "MUSICIAN",
+                creatorType = CreatorType.USER,
                 text = "Test post",
                 date = "01-07-21",
                 comments = mutableListOf<CommentItem>(
@@ -101,7 +102,7 @@ class MyUserProfileViewModel @Inject constructor() : ViewModel() {
                 creatorId = "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23c",
                 creatorName = "pansanek" ,
                 creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"),
-                creatorType = "MUSICIAN",
+                creatorType = CreatorType.USER,
                 text = "AMO OUT NOW!!!",
                 date = "01-02-24",
                 comments = mutableListOf<CommentItem>(
@@ -135,7 +136,7 @@ class MyUserProfileViewModel @Inject constructor() : ViewModel() {
                 creatorId = "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23c",
                 creatorName = "pansanek" ,
                 creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"),
-                creatorType = "MUSICIAN",
+                creatorType = CreatorType.USER,
                 text = "gang",
                 date = "01-02-24",
                 comments = mutableListOf<CommentItem>(

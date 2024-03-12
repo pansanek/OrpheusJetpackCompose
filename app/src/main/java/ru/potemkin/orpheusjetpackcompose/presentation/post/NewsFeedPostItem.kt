@@ -35,14 +35,19 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedViewModel
 import ru.potemkin.orpheusjetpackcompose.ui.theme.*
 
 @Composable
-fun PostItem(
+fun NewsFeedPostItem(
+    viewModel: NewsFeedViewModel,
     modifier: Modifier = Modifier,
     feedPost: PostItem,
     onLikeClickListener: (StatisticItem) -> Unit,
     onCommentClickListener: (StatisticItem) -> Unit,
+    onLocationClickListener: (LocationItem) -> Unit,
+    onUserClickListener: (UserItem) -> Unit,
+    onBandClickListener: (BandItem) -> Unit
 ) {
     Card(
         modifier = modifier
@@ -60,8 +65,12 @@ fun PostItem(
                 .padding(8.dp)
 
         ) {
-            PostHeader(
+            NewsFeedPostHeader(
+                viewModel = viewModel,
                 feedPost = feedPost,
+                onLocationClickListener = onLocationClickListener,
+                onBandClickListener = onBandClickListener,
+                onUserClickListener = onUserClickListener
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = feedPost.text, color = White)
@@ -86,8 +95,12 @@ fun PostItem(
 }
 
 @Composable
-private fun PostHeader(
+private fun NewsFeedPostHeader(
+    viewModel: NewsFeedViewModel,
     feedPost: PostItem,
+    onLocationClickListener: (LocationItem) -> Unit,
+    onUserClickListener: (UserItem) -> Unit,
+    onBandClickListener: (BandItem) -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -98,7 +111,13 @@ private fun PostHeader(
             modifier = Modifier
                 .size(50.dp)
                 .clip(CircleShape)
-                ,
+                .clickable {
+                      when(feedPost.creatorType){
+                          CreatorType.USER -> onUserClickListener(viewModel.loadUserFromCreator(feedPost.creatorId))
+                          CreatorType.BAND -> onBandClickListener(viewModel.loadBandFromCreator(feedPost.creatorId))
+                          CreatorType.LOCATION -> onLocationClickListener(viewModel.loadLocationFromCreator(feedPost.creatorId))
+                      }
+                },
             contentDescription = null,
             contentScale = ContentScale.Crop
         )

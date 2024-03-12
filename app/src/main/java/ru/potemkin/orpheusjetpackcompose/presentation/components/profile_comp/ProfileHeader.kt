@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.R
+import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.UserProfileScreenState
@@ -45,7 +46,7 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 @Composable
 fun ProfileHeader(user: UserItem,
                   scrollState: LazyListState,
-                  onBandClickListener: () -> Unit,
+                  onBandClickListener: (BandItem) -> Unit,
                   onLocationClickListener:(LocationItem) -> Unit,
                   screenState: UserProfileScreenState.User
                   ) {

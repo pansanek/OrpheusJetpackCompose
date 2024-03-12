@@ -14,11 +14,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
+import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.NewsFeedDrawerBody
 import ru.potemkin.orpheusjetpackcompose.presentation.components.NewsFeedTopBar
+import ru.potemkin.orpheusjetpackcompose.presentation.post.NewsFeedPostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.post.PostItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 
@@ -26,7 +30,10 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 fun NewsFeedScreen(
     paddingValues: PaddingValues,
     onCommentClickListener: (PostItem) -> Unit,
-    onPostCreateClickListener: (CreatorInfoItem) -> Unit
+    onPostCreateClickListener: (CreatorInfoItem) -> Unit,
+    onLocationClickListener: (LocationItem) -> Unit,
+    onUserClickListener: (UserItem) -> Unit,
+    onBandClickListener: (BandItem) -> Unit
 ) {
     val viewModel: NewsFeedViewModel = viewModel()
     val screenState = viewModel.screenState.observeAsState(NewsFeedScreenState.Initial)
@@ -81,11 +88,15 @@ fun NewsFeedScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         FeedPosts(
+                            viewModel = viewModel,
                             topPaddingValues = it,
                             bottomPaddingValues = paddingValues,
                             posts = currentState.posts,
                             onCommentClickListener = onCommentClickListener,
-                            nextDataIsLoading = currentState.nextDataIsLoading
+                            nextDataIsLoading = currentState.nextDataIsLoading,
+                            onLocationClickListener = onLocationClickListener,
+                            onBandClickListener = onBandClickListener,
+                            onUserClickListener = onUserClickListener
                         )
                     }
                 }
@@ -106,10 +117,14 @@ fun NewsFeedScreen(
 
 @Composable
 private fun FeedPosts(
+    viewModel: NewsFeedViewModel,
     topPaddingValues: PaddingValues,
     bottomPaddingValues: PaddingValues,
     posts: List<PostItem>,
     onCommentClickListener: (PostItem) -> Unit,
+    onLocationClickListener: (LocationItem) -> Unit,
+    onUserClickListener: (UserItem) -> Unit,
+    onBandClickListener: (BandItem) -> Unit,
     nextDataIsLoading: Boolean
 ) {
     LazyColumn(
@@ -126,7 +141,8 @@ private fun FeedPosts(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(items = posts, key = { it.id }) { feedPost ->
-            PostItem(
+            NewsFeedPostItem(
+                viewModel = viewModel,
                 feedPost = feedPost,
                 onCommentClickListener = {
                     onCommentClickListener(feedPost)
@@ -134,6 +150,9 @@ private fun FeedPosts(
                 onLikeClickListener = { _ ->
 //                    viewModel.changeLikeStatus(feedPost)
                 },
+                onLocationClickListener = onLocationClickListener,
+                onBandClickListener = onBandClickListener,
+                onUserClickListener = onUserClickListener
             )
 
         }

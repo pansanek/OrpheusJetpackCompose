@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.LocationRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
 
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
@@ -48,7 +49,7 @@ class LocationViewModel @Inject constructor(
                 creatorId= "a9d28f2a-5eae-48bf-85f7-7c8dde3ec22c",
                 creatorName = "pansanek" ,
                 creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                creatorType = "MUSICIAN",
+                creatorType = CreatorType.LOCATION,
                 text = "Test post",
                 date = "01-07-21",
                 comments = mutableListOf<CommentItem>(

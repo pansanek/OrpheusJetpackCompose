@@ -8,6 +8,8 @@ import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
+import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
@@ -41,6 +43,94 @@ class NewsFeedViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    fun loadLocationFromCreator(locationId:String): LocationItem {
+        return LocationItem(
+            id= locationId,
+            admin = UserItem(
+                "51bdc118-e76b-4372-8678-6822658cefed",
+                "pansanek",
+                "Sasha",
+                "12341234",
+                "email@gmail.com",
+                "Hehe",
+                UserType.ADMINISTRATOR,
+                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://img-fotki.yandex.ru/get/5803/12042645.1d/0_965fd_fcd89bb9_orig.jpg"),
+                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
+                UserSettingsItem(true,true)
+            ),
+            about = "Настоящий храм творчества и оплот музыкальной КУЛЬТуры, созданный музыкантами для музыкантов.",
+            name = "КУЛЬТ",
+            address = "Электрозаводская улица, 21, Москва",
+            profilePicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fc5325235234","https://avatars.mds.yandex.net/i?id=150e8ad466d96a519c0372d21be120ebcd4beaef-5329555-images-thumbs&n=13"),
+            latitude = 55.786505,
+            longitude = 37.704143
+        )
+    }
+
+    fun loadUserFromCreator(userId:String): UserItem {
+        return UserItem(
+            userId,
+            "pansanek",
+            "Sasha",
+            "12341234",
+            "email@gmail.com",
+            "Hehe",
+            UserType.ADMINISTRATOR,
+            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://img-fotki.yandex.ru/get/5803/12042645.1d/0_965fd_fcd89bb9_orig.jpg"),
+            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
+            UserSettingsItem(true,true)
+        )
+    }
+    fun loadBandFromCreator(bandId:String): BandItem {
+        return BandItem(
+            bandId,
+            "Bad Omens",
+            listOf(
+                UserItem(
+                    "51bdc118-e76b-4372-8678-6822658cefed",
+                    "noahbadomens",
+                    "Noah Sebastian",
+                    "12341234",
+                    "email@gmail.com",
+                    "Vocalist for Bad Omens",
+                    UserType.MUSICIAN,
+                    PhotoUrlItem(
+                        "b59ae42e-8859-441a-9a3a-2fca1b784de3",
+                        "https://i.pinimg.com/originals/7a/bd/00/7abd00f199dff4ec1364663ce0b45ea3.jpg"
+                    ),
+                    PhotoUrlItem(
+                        "b59ae42e-8859-441a-9a3a-2fca1b784de4",
+                        "https://chaoszine.net/wp-content/uploads/2023/11/bad-omens-2023.jpg"
+                    ),
+                    UserSettingsItem(true, true)
+                ),
+                UserItem(
+                    "51bdc118-e76b-4372-8678-6822658cefed",
+                    "pansanek",
+                    "Sasha",
+                    "12341234",
+                    "email@gmail.com",
+                    "Hehe",
+                    UserType.MUSICIAN,
+                    PhotoUrlItem(
+                        "b59ae42e-8859-441a-9a3a-2fca1b784de3",
+                        "https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"
+                    ),
+                    PhotoUrlItem(
+                        "b59ae42e-8859-441a-9a3a-2fca1b784de4",
+                        "https://i.pinimg.com/originals/06/67/9c/06679c2e2ae5aee8cf25eedc4bb41b98.jpg"
+                    ),
+                    UserSettingsItem(true, true)
+                )
+            ),
+            "Metalcore",
+            PhotoUrlItem(
+                "b59ae42e-8859-441a-9a3a-2fca1b784de4",
+                "https://chaoszine.net/wp-content/uploads/2023/11/bad-omens-2023.jpg"
+            )
+        )
+
+    }
     fun addNotificationMockData():List<NotificationItem>{
         val mockData = mutableListOf<NotificationItem>(
             NotificationItem(
@@ -79,7 +169,7 @@ class NewsFeedViewModel @Inject constructor() : ViewModel() {
                     creatorId = "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23c",
                     creatorName = "pansanek" ,
                     creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                    creatorType = "MUSICIAN",
+                    creatorType = CreatorType.USER,
                     text = "Test post",
                     date = "01-07-21",
                     comments = mutableListOf<CommentItem>(
@@ -199,7 +289,7 @@ class NewsFeedViewModel @Inject constructor() : ViewModel() {
                 creatorName = "pansanek" ,
                 creatorId = "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23c",
                 creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                creatorType = "MUSICIAN",
+                creatorType = CreatorType.USER,
                 text = "Test post",
                 date = "01-07-21",
                 comments = mutableListOf<CommentItem>(
@@ -233,7 +323,7 @@ class NewsFeedViewModel @Inject constructor() : ViewModel() {
                 creatorName = "Dealer" ,
                 creatorId = "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23c",
                 creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://www.noecho.net/uploads/wysiwyg/56398448_2377037402530657_3620978213045403648_o.jpg"),
-                creatorType = "BAND",
+                creatorType = CreatorType.BAND,
                 text = "RED TEETH OUT NOW!!!",
                 date = "01-02-24",
                 comments = mutableListOf<CommentItem>(
