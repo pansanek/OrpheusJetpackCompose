@@ -21,7 +21,8 @@ fun NavGraphBuilder.mapHomeNavGraph(
     mapScreenContent: @Composable () -> Unit,
     locationScreenContent: @Composable (LocationItem) -> Unit,
     changeLocationProfileScreenContent: @Composable (LocationItem) -> Unit,
-    postCreationScreenContent: @Composable (CreatorInfoItem) -> Unit
+    postCreationScreenContent: @Composable (CreatorInfoItem) -> Unit,
+    newsFeedScreenContent: @Composable () -> Unit,
 ) {
     navigation(
         startDestination = Screen.MapScreen.route,
@@ -91,6 +92,9 @@ fun NavGraphBuilder.mapHomeNavGraph(
             val location = it.arguments?.getParcelable<LocationItem>(Screen.KEY_CHANGE_LOCATION_PROFILE)
                 ?: throw RuntimeException("Args is null")
             changeLocationProfileScreenContent(location)
+        }
+        composable(Screen.NewsFeedScreen.route) {
+            newsFeedScreenContent()
         }
     }
 }

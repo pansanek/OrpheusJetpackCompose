@@ -25,7 +25,8 @@ fun NavGraphBuilder.profileHomeNavGraph(
     bandListScreenContent: @Composable () -> Unit,
     changeUserProfileScreenContent: @Composable (UserItem) -> Unit,
     changeBandProfileScreenContent: @Composable (BandItem) -> Unit,
-    postCreationScreenContent: @Composable (CreatorInfoItem) -> Unit
+    postCreationScreenContent: @Composable (CreatorInfoItem) -> Unit,
+    newsFeedScreenContent: @Composable () -> Unit,
     ) {
     navigation(
         startDestination = Screen.ProfileScreen.route,
@@ -126,6 +127,9 @@ fun NavGraphBuilder.profileHomeNavGraph(
             val band = it.arguments?.getParcelable<BandItem>(Screen.KEY_CHANGE_BAND_PROFILE)
                 ?: throw RuntimeException("Args is null")
             changeBandProfileScreenContent(band)
+        }
+        composable(Screen.NewsFeedScreen.route) {
+            newsFeedScreenContent()
         }
     }
 }

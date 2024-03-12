@@ -18,6 +18,7 @@ fun NavGraphBuilder.chatHomeNavGraph(
     bandProfileScreenContent: @Composable (BandItem) -> Unit,
     commentsScreenContent: @Composable (PostItem) -> Unit,
     changeBandProfileScreenContent: @Composable (BandItem) -> Unit,
+    newsFeedScreenContent: @Composable () -> Unit,
 ) {
     navigation(
         startDestination = Screen.ChatListScreen.route,
@@ -76,6 +77,9 @@ fun NavGraphBuilder.chatHomeNavGraph(
             val feedPost = it.arguments?.getParcelable<PostItem>(Screen.KEY_FEED_POST)
                 ?: throw RuntimeException("Args is null")
             commentsScreenContent(feedPost)
+        }
+        composable(Screen.NewsFeedScreen.route) {
+            newsFeedScreenContent()
         }
     }
 }

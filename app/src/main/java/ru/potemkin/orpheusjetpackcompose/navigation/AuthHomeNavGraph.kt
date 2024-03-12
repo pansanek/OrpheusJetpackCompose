@@ -18,6 +18,7 @@ fun NavGraphBuilder.authHomeNavGraph(
     registrationUserTypeScreenContent: @Composable (AboutMeItem) -> Unit,
     registrationMusicianTypeScreenContent: @Composable (TypeItem) -> Unit,
     registrationAdministratorTypeScreenContent: @Composable (TypeItem) -> Unit,
+    newsFeedScreenContent: @Composable () -> Unit,
 ) {
     navigation(
         startDestination = Screen.StartScreen.route,

@@ -48,19 +48,19 @@ fun AppNavGraph(
         startDestination = Screen.FeedHomeScreen.route
     ) {
         authHomeNavGraph(
-            startScreenContent, loginScreenContent, registrationScreenContent,registrationAboutMeScreenContent, registrationUserTypeScreenContent, registrationMusicianTypeScreenContent, registrationAdministratorTypeScreenContent
+            startScreenContent, loginScreenContent, registrationScreenContent,registrationAboutMeScreenContent, registrationUserTypeScreenContent, registrationMusicianTypeScreenContent, registrationAdministratorTypeScreenContent,newsFeedScreenContent
         )
         feedHomeNavGraph(
             newsFeedScreenContent, commentsScreenContent, userProfileScreenContent, bandProfileScreenContent,bandCreationScreenContent,changeBandProfileScreenContent,postCreationScreenContent
         )
         chatHomeNavGraph(
-            chatListScreenContent, chatScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent,commentsScreenContent, changeBandProfileScreenContent
+            chatListScreenContent, chatScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent,commentsScreenContent, changeBandProfileScreenContent,newsFeedScreenContent
         )
         profileHomeNavGraph(
-            profileScreenContent, commentsScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent, chatListScreenContent, chatScreenContent,searchScreenContent,settingsScreenContent, bandListScreenContent,changeUserProfileScreenContent,changeBandProfileScreenContent,postCreationScreenContent
+            profileScreenContent, commentsScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent, chatListScreenContent, chatScreenContent,searchScreenContent,settingsScreenContent, bandListScreenContent,changeUserProfileScreenContent,changeBandProfileScreenContent,postCreationScreenContent,newsFeedScreenContent
         )
         mapHomeNavGraph(
-            userProfileScreenContent, commentsScreenContent, chatListScreenContent, chatScreenContent, mapScreenContent, locationScreenContent,changeLocationProfileScreenContent,postCreationScreenContent
+            userProfileScreenContent, commentsScreenContent, chatListScreenContent, chatScreenContent, mapScreenContent, locationScreenContent,changeLocationProfileScreenContent,postCreationScreenContent,newsFeedScreenContent
         )
     }
 }
