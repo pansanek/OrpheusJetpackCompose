@@ -31,8 +31,10 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
+import ru.potemkin.orpheusjetpackcompose.presentation.components.StartChatDialog
 import ru.potemkin.orpheusjetpackcompose.presentation.components.profile_comp.ProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.profile_comp.ProfileTopBar
+import ru.potemkin.orpheusjetpackcompose.presentation.map.map.CustomAlertDialog
 import ru.potemkin.orpheusjetpackcompose.presentation.post.PostItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.LightBlack
@@ -59,6 +61,7 @@ fun UserProfileScreen(
     val topBarHeight = 0.dp
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+    var startChat by remember { mutableStateOf(false) }
     when (val currentState = screenState.value) {
         is UserProfileScreenState.User -> {
             androidx.compose.material.Scaffold(
@@ -88,10 +91,10 @@ fun UserProfileScreen(
                                     bottom = 4.dp
                                 )
                                 .height(40.dp),
-                            onClick = { },
+                            onClick = { startChat = true},
                             text = "Написать",
                             fontSize = 16.sp,
-                            scrollState = scrollState
+                            scrollState = scrollState,
                         )
                         Surface(
                             modifier = Modifier.fillMaxSize(),
@@ -120,6 +123,14 @@ fun UserProfileScreen(
                                 }
                             }
                         }
+                    }
+                    if(startChat) {
+                        StartChatDialog(
+                            toUser = currentState.user,
+                            onDismiss = { startChat = false },
+                            onConfirm = {
+                                startChat = false
+                            })
                     }
                 }
             }
@@ -168,7 +179,7 @@ fun ChatButton(
         contentAlignment = Alignment.Center
     ) {
         Button(
-            onClick = { },
+            onClick = onClick,
             modifier = modifier
                 .fillMaxWidth(),
             shape = RoundedCornerShape(100.dp),
