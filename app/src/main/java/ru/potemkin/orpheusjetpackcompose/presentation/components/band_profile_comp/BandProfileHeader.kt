@@ -3,6 +3,7 @@ package ru.potemkin.orpheusjetpackcompose.presentation.components.band_profile_c
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,13 +34,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 
 @Composable
 fun BandProfileHeader(
     scrollState: LazyListState,
     topBarHeight: Dp,
-    bandItem: BandItem
+    bandItem: BandItem,
+    onUserClickListener: (UserItem) -> Unit,
 ) {
     // При скролле уменьшаем высоту Header и делаем его непрозрачным
     val headerHeight by animateDpAsState(
@@ -59,7 +62,7 @@ fun BandProfileHeader(
             modifier = Modifier.fillMaxSize(),
             color = Black
         ) {
-            Box{
+            Box {
                 AsyncImage(
                     model = bandItem.photo.url,
                     modifier = Modifier.fillMaxSize(),
@@ -97,7 +100,10 @@ fun BandProfileHeader(
                             modifier = Modifier
                                 .size(48.dp)
                                 .padding(4.dp)
-                                .clip(CircleShape),
+                                .clip(CircleShape)
+                                .clickable {
+                                    onUserClickListener(member)
+                                },
                             contentScale = ContentScale.Crop
                         )
                     }

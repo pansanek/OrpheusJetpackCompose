@@ -3,6 +3,7 @@ package ru.potemkin.orpheusjetpackcompose.presentation.chat.chat
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -94,7 +95,10 @@ fun ChatScreen(
                                         model = chatItem.users.get(1).profile_picture.url,
                                         modifier = Modifier
                                             .size(48.dp)
-                                            .clip(CircleShape),
+                                            .clip(CircleShape)
+                                            .clickable {
+                                                onUserClickListener(chatItem.users.get(1))
+                                            },
                                         contentDescription = null,
                                         contentScale = ContentScale.Crop,
                                     )

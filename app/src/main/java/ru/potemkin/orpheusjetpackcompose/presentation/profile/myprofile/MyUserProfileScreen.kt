@@ -32,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
@@ -60,6 +62,7 @@ fun MyUserProfileScreen(
     onBandListClickListener: () -> Unit,
     onLocationClickListener:(LocationItem) -> Unit,
     onCommentClickListener: (PostItem) -> Unit,
+    onPostCreateClickListener: (CreatorInfoItem) -> Unit,
 ) {
     val userType = UserType.MUSICIAN
     var menuItem = mutableMapOf<String, String>()
@@ -184,7 +187,16 @@ fun MyUserProfileScreen(
                                         bottom = 4.dp
                                     )
                                     .height(40.dp),
-                                onClick = { },
+                                onClick = {
+                                        onPostCreateClickListener(
+                                            CreatorInfoItem(
+                                                currentState.user.id,
+                                                currentState.user.name,
+                                                currentState.user.profile_picture,
+                                                CreatorType.USER
+                                            )
+                                        )
+                                },
                                 text = "Опубликовать",
                                 fontSize = 16.sp,
                                 scrollState = scrollState
@@ -263,7 +275,7 @@ fun CreatePostButton(
         contentAlignment = Alignment.Center
     ) {
         Button(
-            onClick = { },
+            onClick = onClick ,
             modifier = modifier
                 .fillMaxWidth(),
             shape = RoundedCornerShape(100.dp),

@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
@@ -34,6 +36,7 @@ import ru.potemkin.orpheusjetpackcompose.presentation.components.location_profil
 import ru.potemkin.orpheusjetpackcompose.presentation.components.location_profile_comp.LocationProfileTopBar
 
 import ru.potemkin.orpheusjetpackcompose.presentation.post.PostItem
+import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.CreatePostButton
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.ChatButton
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 
@@ -47,7 +50,8 @@ fun LocationScreen(
     onUserClickListener: (UserItem) -> Unit,
     onCommentClickListener: (PostItem) -> Unit,
     onChatClickListener: (ChatItem) -> Unit,
-    onChangeProfileClick: (LocationItem)->Unit
+    onChangeProfileClick: (LocationItem)->Unit,
+    onPostCreateClickListener: (CreatorInfoItem) -> Unit,
 ) {
     val viewModel: LocationViewModel = viewModel(
         factory = LocationViewModelFactory(
@@ -98,7 +102,32 @@ fun LocationScreen(
                                 fontSize = 16.sp,
                                 scrollState = scrollState
                             )
+                        } else{
+                            CreatePostButton(
+                                modifier = Modifier
+                                    .padding(
+                                        top = 4.dp,
+                                        start = 40.dp,
+                                        end = 40.dp,
+                                        bottom = 4.dp
+                                    )
+                                    .height(40.dp),
+                                onClick = {
+                                    onPostCreateClickListener(
+                                        CreatorInfoItem(
+                                            currentState.location.id,
+                                            currentState.location.name,
+                                            currentState.location.profilePicture,
+                                            CreatorType.LOCATION
+                                        )
+                                    )
+                                },
+                                text = "Опубликовать",
+                                fontSize = 16.sp,
+                                scrollState = scrollState
+                            )
                         }
+
                         Surface(
                             modifier = Modifier.fillMaxSize(),
                             color = Black

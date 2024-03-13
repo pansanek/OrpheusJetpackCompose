@@ -27,12 +27,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.band_profile_comp.BandProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.band_profile_comp.BandProfileTopBar
 import ru.potemkin.orpheusjetpackcompose.presentation.post.PostItem
+import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.CreatePostButton
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.ChatButton
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 
@@ -45,7 +48,8 @@ fun BandProfileScreen(
     bandItem: BandItem,
     onCommentClickListener: (PostItem) -> Unit,
     onUserClickListener: (UserItem) -> Unit,
-    onChangeProfileClick: (BandItem)->Unit
+    onChangeProfileClick: (BandItem)->Unit,
+    onPostCreateClickListener: (CreatorInfoItem) -> Unit,
 ) {
     val viewModel: BandProfileViewModel = viewModel(
         factory = BandProfileViewModelFactory(
@@ -80,7 +84,8 @@ fun BandProfileScreen(
                         BandProfileHeader(
                             topBarHeight = topBarHeight,
                             bandItem = currentState.band,
-                            scrollState = scrollState
+                            scrollState = scrollState,
+                            onUserClickListener = onUserClickListener
                         )
                         if (currentUserInBand) {
                             ChatButton(
@@ -94,6 +99,29 @@ fun BandProfileScreen(
                                     .height(40.dp),
                                 onClick = { },
                                 text = "Написать",
+                                fontSize = 16.sp,
+                                scrollState = scrollState
+                            )
+                            CreatePostButton(
+                                modifier = Modifier
+                                    .padding(
+                                        top = 4.dp,
+                                        start = 40.dp,
+                                        end = 40.dp,
+                                        bottom = 4.dp
+                                    )
+                                    .height(40.dp),
+                                onClick = {
+                                    onPostCreateClickListener(
+                                        CreatorInfoItem(
+                                            currentState.band.id,
+                                            currentState.band.name,
+                                            currentState.band.photo,
+                                            CreatorType.BAND
+                                        )
+                                    )
+                                },
+                                text = "Опубликовать",
                                 fontSize = 16.sp,
                                 scrollState = scrollState
                             )

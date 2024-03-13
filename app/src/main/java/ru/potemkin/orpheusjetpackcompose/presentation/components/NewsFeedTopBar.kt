@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationType
@@ -100,7 +101,7 @@ fun PostCreationButton(
                             "b59ae42e-8859-441a-9a3a-2fca1b784de3",
                             "https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"
                         ),
-                        "MUSICIAN"
+                        CreatorType.USER
                     )
                     ))
         },

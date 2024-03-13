@@ -13,6 +13,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -205,29 +206,11 @@ fun UserEachRow(
 
 @Composable
 fun Header() {
-    val annotatedString = buildAnnotatedString {
-        withStyle(
-            style = SpanStyle(
-                color = Color.White,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.W300
-            )
-        ) {
-            append(stringResource(R.string.welcome_back))
-        }
-        withStyle(
-            style = SpanStyle(
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-            )
-        ) {
-            append("Alex")
-        }
-    }
 
     Text(
-        text = annotatedString,
+        text = "Ваши чаты",
+        style = MaterialTheme.typography.titleLarge,
+        color = White,
         modifier = Modifier
             .padding(bottom = 32.dp)
     )

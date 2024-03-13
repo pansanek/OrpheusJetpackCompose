@@ -1,5 +1,10 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.changeprofile
 
+import android.Manifest
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -41,6 +46,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.DrawerButton
@@ -50,9 +57,26 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.Grey
 import ru.potemkin.orpheusjetpackcompose.ui.theme.LightBlack
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun ChangeUserProfileScreen(user: UserItem, onBackPressed: () -> Unit) {
+    var selectedProfilePictureUri by remember {
+        mutableStateOf<Uri?>(Uri.parse(user.profile_picture.url))
+    }
+    var selectedBackgroundPictureUri by remember {
+        mutableStateOf<Uri?>(Uri.parse(user.background_picture.url))
+    }
+    val storagePermissionState = rememberPermissionState(
+        permission = Manifest.permission.READ_EXTERNAL_STORAGE
+    )
+    val singleProfilePicturePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri -> selectedProfilePictureUri = uri }
+    )
+    val singleBackgroundPicturePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri -> selectedBackgroundPictureUri = uri }
+    )
     var userName by remember { mutableStateOf(user.name) }
     var userAbout by remember { mutableStateOf(user.about) }
     Scaffold(
@@ -98,10 +122,21 @@ fun ChangeUserProfileScreen(user: UserItem, onBackPressed: () -> Unit) {
                             .size(100.dp)
                             .padding(4.dp)
                             .clip(CircleShape)
-                            .clickable { }
+                            .clickable {
+                                storagePermissionState.launchPermissionRequest()
+                                if (storagePermissionState.hasPermission) {
+                                    try {
+                                        singleProfilePicturePickerLauncher.launch(
+                                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                        )
+                                    } catch (e: SecurityException) {
+
+                                    }
+                                }
+                            }
                     ) {
                         AsyncImage(
-                            model = user.profile_picture.url,
+                            model = selectedProfilePictureUri,
                             contentDescription = null,
                             modifier = Modifier.matchParentSize(),
                             contentScale = ContentScale.Crop
@@ -125,7 +160,18 @@ fun ChangeUserProfileScreen(user: UserItem, onBackPressed: () -> Unit) {
                         Surface(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { }
+                                .clickable {
+                                    storagePermissionState.launchPermissionRequest()
+                                    if (storagePermissionState.hasPermission) {
+                                        try {
+                                            singleBackgroundPicturePickerLauncher.launch(
+                                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                            )
+                                        } catch (e: SecurityException) {
+
+                                        }
+                                    }
+                                }
                                 .height(64.dp),
                             shape = RoundedCornerShape(
                                 bottomEndPercent = 10,
@@ -136,7 +182,7 @@ fun ChangeUserProfileScreen(user: UserItem, onBackPressed: () -> Unit) {
                             color = Black
                         ) {
                             AsyncImage(
-                                model = user.background_picture.url,
+                                model = selectedBackgroundPictureUri,
                                 modifier = Modifier.fillMaxSize(),
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop

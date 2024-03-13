@@ -99,6 +99,9 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                     onChangeProfileClick = {
                         navigationState.navigateToChangeBandProfileScreen(it)
                     },
+                    onPostCreateClickListener={
+                        navigationState.navigateToPostCreationScreen(it)
+                    },
                 )
             },
             chatListScreenContent = {
@@ -149,7 +152,10 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                     },
                     onChangeProfileClick = {
                         navigationState.navigateToChangeLocationProfileScreen(it)
-                    }
+                    },
+                    onPostCreateClickListener={
+                        navigationState.navigateToPostCreationScreen(it)
+                    },
                 )
             },
             loginScreenContent = {
@@ -207,7 +213,10 @@ fun MainScreen(viewModelFactory: ViewModelFactory) {
                     onLocationClickListener = {
                         navigationState.navigateToLocation(it)
                     },
-                    onSearchClickListener = {navigationState.navigateToSearch()}
+                    onSearchClickListener = {navigationState.navigateToSearch()},
+                    onPostCreateClickListener={
+                        navigationState.navigateToPostCreationScreen(it)
+                    }
                 )
             },
             registrationScreenContent = {

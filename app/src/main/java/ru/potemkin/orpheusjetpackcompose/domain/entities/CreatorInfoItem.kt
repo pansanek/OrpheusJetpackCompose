@@ -11,7 +11,7 @@ class CreatorInfoItem(
     val creatorId: String,
     val creatorName: String,
     val creatorPicture: PhotoUrlItem,
-    val creatorType: String
+    val creatorType: CreatorType
 ) : Parcelable {
     companion object {
         val NavigationType: NavType<CreatorInfoItem> = object : NavType<CreatorInfoItem>(false) {

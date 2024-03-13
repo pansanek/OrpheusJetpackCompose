@@ -1,5 +1,10 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.changeprofile
 
+import android.Manifest
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,15 +37,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberPermissionState
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Grey
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun ChangeBandProfileScreen(band: BandItem, onBackPressed: () -> Unit) {
     var bandName by remember { mutableStateOf(band.name) }
+    var selectedProfilePictureUri by remember {
+        mutableStateOf<Uri?>(Uri.parse(band.photo.url))
+    }
+
+    val storagePermissionState = rememberPermissionState(
+        permission = Manifest.permission.READ_EXTERNAL_STORAGE
+    )
+    val singleProfilePicturePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri -> selectedProfilePictureUri = uri }
+    )
     Scaffold(
         topBar = {
             TopAppBar(
@@ -89,7 +107,18 @@ fun ChangeBandProfileScreen(band: BandItem, onBackPressed: () -> Unit) {
                         Surface(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { }
+                                .clickable {
+                                    storagePermissionState.launchPermissionRequest()
+                                    if (storagePermissionState.hasPermission) {
+                                        try {
+                                            singleProfilePicturePickerLauncher.launch(
+                                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                            )
+                                        } catch (e: SecurityException) {
+
+                                        }
+                                    }
+                                }
                                 .height(200.dp),
                             shape = RoundedCornerShape(
                                 bottomEndPercent = 10,
@@ -100,7 +129,7 @@ fun ChangeBandProfileScreen(band: BandItem, onBackPressed: () -> Unit) {
                             color = Black
                         ) {
                             AsyncImage(
-                                model = band.photo.url,
+                                model = selectedProfilePictureUri,
                                 modifier = Modifier.fillMaxSize(),
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop
