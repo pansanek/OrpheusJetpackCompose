@@ -3,7 +3,6 @@ package ru.potemkin.orpheusjetpackcompose.di
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import ru.potemkin.orpheusjetpackcompose.data.network.AdministratorApiService
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.data.network.BandApiService
 import ru.potemkin.orpheusjetpackcompose.data.network.ChatApiService
@@ -23,8 +22,6 @@ import ru.potemkin.orpheusjetpackcompose.data.repositories.UserRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.BandRepository
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.ChatRepository
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.LocationRepository
-import ru.potemkin.orpheusjetpackcompose.domain.repositories.MessageRepository
-import ru.potemkin.orpheusjetpackcompose.domain.repositories.MusicianRepository
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.PostRepository
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.UserRepository
 
@@ -49,14 +46,6 @@ interface DataModule {
     @Binds
     fun bindBandRepository(bandImpl: BandRepositoryImpl): BandRepository
 
-    @ApplicationScope
-    @Binds
-    fun bindMessageRepository(messageImpl: MessageRepositoryImpl): MessageRepository
-
-
-    @ApplicationScope
-    @Binds
-    fun bindMusicianRepository(postImpl: MusicianRepositoryImpl): MusicianRepository
     companion object {
 
         @ApplicationScope
