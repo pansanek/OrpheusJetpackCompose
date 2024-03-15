@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.BandRepositoryImpl
-import ru.potemkin.orpheusjetpackcompose.data.repositories.MusicianRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
@@ -23,7 +22,7 @@ class SearchViewModel @Inject constructor() : ViewModel() {
     val screenState: LiveData<SearchScreenState> = _screenState
 
     private val bandRepository = BandRepositoryImpl()
-    private val musicianRepository = MusicianRepositoryImpl()
+
     init {
         _screenState.value = SearchScreenState.Loading
         loadBandsAndUsers()

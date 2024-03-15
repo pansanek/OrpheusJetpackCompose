@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.BandRepositoryImpl
-import ru.potemkin.orpheusjetpackcompose.data.repositories.MusicianRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
@@ -17,7 +16,6 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
-import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.UserProfileScreenState
 import javax.inject.Inject
 
 class BandProfileViewModel @Inject constructor(bandItem: BandItem) : ViewModel() {

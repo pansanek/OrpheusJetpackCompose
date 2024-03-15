@@ -3,6 +3,7 @@ package ru.potemkin.orpheusjetpackcompose.data.repositories
 import ru.potemkin.orpheusjetpackcompose.data.mappers.PostMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticItem
@@ -72,7 +73,29 @@ class PostRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override fun getUserPosts(userId: String): List<PostItem> {
+        val userPosts = mutableListOf<PostItem>()
+        for (post in _postItems){
+            if(post.creatorId == userId) userPosts.add(post)
+        }
+        return userPosts
+    }
 
+    override fun getBandPosts(bandId: String): List<PostItem> {
+        val bandPosts = mutableListOf<PostItem>()
+        for (post in _postItems){
+            if(post.creatorId == bandId) bandPosts.add(post)
+        }
+        return bandPosts
+    }
+
+    override fun getLocationPosts(locationId: String): List<PostItem> {
+        val locationPosts = mutableListOf<PostItem>()
+        for (post in _postItems){
+            if(post.creatorId == locationId) locationPosts.add(post)
+        }
+        return locationPosts
+    }
 
 
 }

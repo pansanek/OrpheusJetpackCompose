@@ -66,7 +66,7 @@ class UserRepositoryImpl @Inject constructor(
         _userItems.addAll(users)
         return userItems
     }
-    fun getMyUser():UserItem {
+    override fun getMyUser():UserItem {
         TODO()
 //        return _userItems.find {
 //            it.id ==
@@ -90,6 +90,10 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun getUsersList(): List<UserItem> {
         return _userItems.toList()
+    }
+
+    override fun getOtherUser(userId: String): UserItem {
+        TODO("Not yet implemented")
     }
 
 

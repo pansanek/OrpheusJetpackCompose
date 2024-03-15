@@ -15,13 +15,13 @@ import ru.potemkin.orpheusjetpackcompose.data.network.UserApiService
 import ru.potemkin.orpheusjetpackcompose.data.repositories.BandRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.data.repositories.ChatRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.data.repositories.LocationRepositoryImpl
-import ru.potemkin.orpheusjetpackcompose.data.repositories.MessageRepositoryImpl
-import ru.potemkin.orpheusjetpackcompose.data.repositories.MusicianRepositoryImpl
+import ru.potemkin.orpheusjetpackcompose.data.repositories.NotificationRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.data.repositories.UserRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.BandRepository
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.ChatRepository
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.LocationRepository
+import ru.potemkin.orpheusjetpackcompose.domain.repositories.NotificationRepository
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.PostRepository
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.UserRepository
 
@@ -46,6 +46,9 @@ interface DataModule {
     @Binds
     fun bindBandRepository(bandImpl: BandRepositoryImpl): BandRepository
 
+    @ApplicationScope
+    @Binds
+    fun bindNotificationRepository(notificationImpl: NotificationRepositoryImpl): NotificationRepository
     companion object {
 
         @ApplicationScope

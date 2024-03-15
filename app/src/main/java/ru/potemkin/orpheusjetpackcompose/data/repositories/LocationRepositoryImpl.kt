@@ -4,6 +4,7 @@ import ru.potemkin.orpheusjetpackcompose.data.mappers.LocationMapper
 import ru.potemkin.orpheusjetpackcompose.data.mappers.MessageMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationItem
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.LocationRepository
 import javax.inject.Inject
 
@@ -59,5 +60,11 @@ class LocationRepositoryImpl @Inject constructor(
 
     override fun getLocationsList(): List<LocationItem> {
         return _locationItems.toList()
+    }
+
+    override fun getMyUserLocation(userId: String): LocationItem {
+        return _locationItems.find {
+            it.admin.id == userId
+        } ?: throw java.lang.RuntimeException("Element with id $userId not found")
     }
 }

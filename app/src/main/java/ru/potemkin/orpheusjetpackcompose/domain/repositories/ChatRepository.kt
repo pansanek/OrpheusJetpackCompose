@@ -13,6 +13,6 @@ interface ChatRepository {
     fun deleteMessageItem(messageItem: MessageItem)
     fun editMessageItem(messageItem: MessageItem)
     fun getMessageList(chatId:String): List<MessageItem>
-
+    fun getMessageItem(messageId: String): MessageItem
 
 }
