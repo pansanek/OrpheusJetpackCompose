@@ -13,4 +13,7 @@ interface BandRepository {
     fun getBandItem(bandId: String): BandItem
 
     fun getBandsList(): List<BandItem>
+
+    fun getMyUserBands(userId: String): List<BandItem>
+
 }

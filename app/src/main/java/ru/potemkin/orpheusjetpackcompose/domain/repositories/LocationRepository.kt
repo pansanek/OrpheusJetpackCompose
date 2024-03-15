@@ -12,4 +12,6 @@ interface LocationRepository {
     fun getLocationItem(locationId: String): LocationItem
 
     fun getLocationsList(): List<LocationItem>
+
+    fun getMyUserLocation(userId: String): LocationItem
 }

@@ -14,4 +14,10 @@ interface PostRepository {
     fun getPostsList(): List<PostItem>
     fun getComments(postItem: PostItem): List<CommentItem>
     suspend fun loadNextData()
+
+    fun getUserPosts(userId: String): List<PostItem>
+
+    fun getBandPosts(bandId: String): List<PostItem>
+    fun getLocationPosts(locationId: String): List<PostItem>
+
 }
