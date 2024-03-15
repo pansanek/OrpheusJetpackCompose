@@ -26,51 +26,45 @@ class UserRepositoryImpl @Inject constructor(
 
     private var nextFrom: String? = null
 
-    private val postApiService = ApiFactory.appPostApiService
-    private val postMapper = PostMapper()
 
-    private val _postItems = mutableListOf<PostItem>()
-    private val postItems: List<PostItem>
-        get() = _postItems.toList()
-
-    private var postNextFrom: String? = null
-
-    suspend fun loadPosts(userid:String): List<PostItem> {
-        val startFrom = postNextFrom
-
-        if (startFrom == null && postItems.isNotEmpty()) return postItems
-
-        val response = if (startFrom == null) {
-            postApiService.getCreatorsPosts(userid)
-        } else {
-            postApiService.getCreatorsPosts(userid)
-        }
-        val posts = postMapper.mapPostList(response)
-        _postItems.addAll(posts)
-        return postItems
+    init {
+        addUserItem( UserItem(
+            "1",
+            "pansanek",
+            "Sasha",
+            "12341234",
+            "email@gmail.com",
+            "Hehe",
+            UserType.MUSICIAN,
+            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"),
+            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://i.pinimg.com/originals/06/67/9c/06679c2e2ae5aee8cf25eedc4bb41b98.jpg"),
+            UserSettingsItem(true,true)
+        ))
+        addUserItem(UserItem(
+            "2",
+            "noahbadomens",
+            "Noah Sebastian",
+            "12341234",
+            "email@gmail.com",
+            "Vocalist for Bad Omens",
+            UserType.MUSICIAN,
+            PhotoUrlItem(
+                "b59ae42e-8859-441a-9a3a-2fca1b784de3",
+                "https://i.pinimg.com/originals/7a/bd/00/7abd00f199dff4ec1364663ce0b45ea3.jpg"
+            ),
+            PhotoUrlItem(
+                "b59ae42e-8859-441a-9a3a-2fca1b784de4",
+                "https://chaoszine.net/wp-content/uploads/2023/11/bad-omens-2023.jpg"
+            ),
+            UserSettingsItem(true, true)
+        ))
     }
     override fun addUserItem(userItem: UserItem) {
         _userItems.add(userItem)
     }
-    suspend fun loadUsers(): List<UserItem> {
-        val startFrom = nextFrom
 
-        if (startFrom == null && userItems.isNotEmpty()) return userItems
-
-        val response = if (startFrom == null) {
-            apiService.getAllUsers()
-        } else {
-            apiService.getAllUsers()
-        }
-        val users = mapper.mapUsers(response)
-        _userItems.addAll(users)
-        return userItems
-    }
     override fun getMyUser():UserItem {
-        TODO()
-//        return _userItems.find {
-//            it.id ==
-//        } ?: throw java.lang.RuntimeException("Element with id $userId not found")
+        return _userItems.first()
     }
     override fun deleteUserItem(userItem: UserItem) {
         _userItems.remove(userItem)
