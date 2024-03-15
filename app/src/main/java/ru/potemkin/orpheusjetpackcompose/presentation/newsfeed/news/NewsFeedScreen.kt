@@ -23,6 +23,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.NewsFeedDrawerBody
 import ru.potemkin.orpheusjetpackcompose.presentation.components.NewsFeedTopBar
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
 import ru.potemkin.orpheusjetpackcompose.presentation.post.NewsFeedPostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.post.PostItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
@@ -36,7 +37,8 @@ fun NewsFeedScreen(
     onUserClickListener: (UserItem) -> Unit,
     onBandClickListener: (BandItem) -> Unit
 ) {
-    val viewModel: NewsFeedViewModel = viewModel()
+    val component = getApplicationComponent()
+    val viewModel: NewsFeedViewModel = viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.observeAsState(NewsFeedScreenState.Initial)
 
     val scaffoldState = rememberScaffoldState()
@@ -114,6 +116,7 @@ fun NewsFeedScreen(
                 CircularProgressIndicator(color = Color.Black)
             }
         }
+        else -> {}
     }
 }
 

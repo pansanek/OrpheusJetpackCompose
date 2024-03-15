@@ -19,9 +19,22 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetBandUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.location_usecases.GetLocationUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.AddPostUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetCommentsUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetPostListUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetUserUseCase
 import javax.inject.Inject
 
-class NewsFeedViewModel @Inject constructor() : ViewModel() {
+class NewsFeedViewModel @Inject constructor(
+    private val getPostListUseCase: GetPostListUseCase,
+    private val addPostUseCase: AddPostUseCase,
+    private val getCommentsUseCase: GetCommentsUseCase,
+    private val getUserItemUseCase: GetUserUseCase,
+    private val getLocationUseCase: GetLocationUseCase,
+    private val getBandUseCase: GetBandUseCase
+) : ViewModel() {
 
     private val initialState = NewsFeedScreenState.Initial
 
@@ -29,6 +42,9 @@ class NewsFeedViewModel @Inject constructor() : ViewModel() {
     val screenState: LiveData<NewsFeedScreenState> = _screenState
 
     private val repository = PostRepositoryImpl()
+
+    val postList = getPostListUseCase.invoke()
+
 
     init {
         _screenState.value = NewsFeedScreenState.Loading
@@ -38,97 +54,20 @@ class NewsFeedViewModel @Inject constructor() : ViewModel() {
     private fun loadRecommendations() {
         viewModelScope.launch {
 //            val feedPosts = repository.loadRecommendations()
-            val feedPosts = addMockData()
-            _screenState.value = NewsFeedScreenState.Posts(posts = feedPosts, notifications = addNotificationMockData())
+//            val feedPosts = addMockData()
+            _screenState.value = NewsFeedScreenState.Posts(posts = postList, notifications = addNotificationMockData())
         }
     }
 
     fun loadLocationFromCreator(locationId:String): LocationItem {
-        return LocationItem(
-            id= locationId,
-            admin = UserItem(
-                "51bdc118-e76b-4372-8678-6822658cefed",
-                "pansanek",
-                "Sasha",
-                "12341234",
-                "email@gmail.com",
-                "Hehe",
-                UserType.ADMINISTRATOR,
-                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://img-fotki.yandex.ru/get/5803/12042645.1d/0_965fd_fcd89bb9_orig.jpg"),
-                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                UserSettingsItem(true,true)
-            ),
-            about = "Настоящий храм творчества и оплот музыкальной КУЛЬТуры, созданный музыкантами для музыкантов.",
-            name = "КУЛЬТ",
-            address = "Электрозаводская улица, 21, Москва",
-            profilePicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fc5325235234","https://avatars.mds.yandex.net/i?id=150e8ad466d96a519c0372d21be120ebcd4beaef-5329555-images-thumbs&n=13"),
-            latitude = 55.786505,
-            longitude = 37.704143
-        )
+        return getLocationUseCase.getLocationItem(locationId)
     }
 
     fun loadUserFromCreator(userId:String): UserItem {
-        return UserItem(
-            userId,
-            "pansanek",
-            "Sasha",
-            "12341234",
-            "email@gmail.com",
-            "Hehe",
-            UserType.ADMINISTRATOR,
-            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://img-fotki.yandex.ru/get/5803/12042645.1d/0_965fd_fcd89bb9_orig.jpg"),
-            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-            UserSettingsItem(true,true)
-        )
+        return getUserItemUseCase.getUserItem(userId)
     }
     fun loadBandFromCreator(bandId:String): BandItem {
-        return BandItem(
-            bandId,
-            "Bad Omens",
-            listOf(
-                UserItem(
-                    "51bdc118-e76b-4372-8678-6822658cefed",
-                    "noahbadomens",
-                    "Noah Sebastian",
-                    "12341234",
-                    "email@gmail.com",
-                    "Vocalist for Bad Omens",
-                    UserType.MUSICIAN,
-                    PhotoUrlItem(
-                        "b59ae42e-8859-441a-9a3a-2fca1b784de3",
-                        "https://i.pinimg.com/originals/7a/bd/00/7abd00f199dff4ec1364663ce0b45ea3.jpg"
-                    ),
-                    PhotoUrlItem(
-                        "b59ae42e-8859-441a-9a3a-2fca1b784de4",
-                        "https://chaoszine.net/wp-content/uploads/2023/11/bad-omens-2023.jpg"
-                    ),
-                    UserSettingsItem(true, true)
-                ),
-                UserItem(
-                    "51bdc118-e76b-4372-8678-6822658cefed",
-                    "pansanek",
-                    "Sasha",
-                    "12341234",
-                    "email@gmail.com",
-                    "Hehe",
-                    UserType.MUSICIAN,
-                    PhotoUrlItem(
-                        "b59ae42e-8859-441a-9a3a-2fca1b784de3",
-                        "https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"
-                    ),
-                    PhotoUrlItem(
-                        "b59ae42e-8859-441a-9a3a-2fca1b784de4",
-                        "https://i.pinimg.com/originals/06/67/9c/06679c2e2ae5aee8cf25eedc4bb41b98.jpg"
-                    ),
-                    UserSettingsItem(true, true)
-                )
-            ),
-            "Metalcore",
-            PhotoUrlItem(
-                "b59ae42e-8859-441a-9a3a-2fca1b784de4",
-                "https://chaoszine.net/wp-content/uploads/2023/11/bad-omens-2023.jpg"
-            )
-        )
+        return getBandUseCase.getBandItem(bandId)
 
     }
     fun addNotificationMockData():List<NotificationItem>{
