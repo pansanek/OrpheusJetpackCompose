@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.PostRepository
 import javax.inject.Inject
 
 class AddPostUseCase @Inject constructor(private val postRepository: PostRepository) {
-    fun addPostItem(postItem: PostItem){
+    operator fun invoke(postItem: PostItem){
         postRepository.addPostItem(postItem);
     }
 }

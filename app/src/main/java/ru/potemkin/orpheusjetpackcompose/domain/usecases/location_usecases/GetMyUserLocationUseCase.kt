@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.LocationRepository
 import javax.inject.Inject
 
 class GetMyUserLocationUseCase @Inject constructor(private val locationRepository: LocationRepository) {
-    fun getMyUserLocation(locationItemId: String): LocationItem {
+    operator fun invoke(locationItemId: String): LocationItem {
         return locationRepository.getMyUserLocation(locationItemId)
     }
 }

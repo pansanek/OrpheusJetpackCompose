@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.PostRepository
 import javax.inject.Inject
 
 class GetBandPostsUseCase @Inject constructor(private val postRepository: PostRepository) {
-    fun getBandPosts(bandId: String): List<PostItem> {
+    operator fun invoke(bandId: String): List<PostItem> {
         return postRepository.getBandPosts(bandId)
     }
 }

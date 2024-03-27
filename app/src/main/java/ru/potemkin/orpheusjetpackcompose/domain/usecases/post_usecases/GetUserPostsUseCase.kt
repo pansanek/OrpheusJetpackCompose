@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.PostRepository
 import javax.inject.Inject
 
 class GetUserPostsUseCase @Inject constructor(private val postRepository: PostRepository) {
-    fun getUserPosts(userId: String): List<PostItem> {
+    operator fun invoke(userId: String): List<PostItem> {
         return postRepository.getUserPosts(userId)
     }
 }

@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.ChatRepository
 import javax.inject.Inject
 
 class EditMessageUseCase @Inject constructor(private val chatRepository: ChatRepository) {
-    fun editMessageItem(messageItem: MessageItem){
+    operator fun invoke(messageItem: MessageItem){
         chatRepository.editMessageItem(messageItem)
     }
 }

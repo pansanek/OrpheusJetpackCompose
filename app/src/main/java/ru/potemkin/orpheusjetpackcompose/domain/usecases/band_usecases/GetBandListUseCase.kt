@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.BandRepository
 import javax.inject.Inject
 
 class GetBandListUseCase @Inject constructor(private val bandRepository: BandRepository) {
-    fun getBandList(): List<BandItem>{
+    operator fun invoke(): List<BandItem>{
         return bandRepository.getBandsList()
     }
 }

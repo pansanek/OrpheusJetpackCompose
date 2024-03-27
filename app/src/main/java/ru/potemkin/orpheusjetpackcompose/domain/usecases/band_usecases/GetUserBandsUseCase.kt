@@ -4,8 +4,8 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.BandRepository
 import javax.inject.Inject
 
-class DeleteBandUseCase @Inject constructor(private val bandRepository: BandRepository){
-    operator fun invoke(BandItem: BandItem){
-        bandRepository.deleteBandItem(BandItem)
+class GetUserBandsUseCase @Inject constructor(private val bandRepository: BandRepository) {
+    operator fun invoke(userId: String): List<BandItem> {
+        return bandRepository.getUserBands(userId)
     }
 }

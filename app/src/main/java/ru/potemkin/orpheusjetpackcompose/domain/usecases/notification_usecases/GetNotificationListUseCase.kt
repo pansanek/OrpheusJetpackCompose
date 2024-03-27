@@ -8,7 +8,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.NotificationReposit
 import javax.inject.Inject
 
 class GetNotificationListUseCase @Inject constructor(private val notificationRepository: NotificationRepository) {
-    fun getNotificationList(toUser: UserItem): List<NotificationItem>{
+    operator fun invoke(toUser: UserItem): List<NotificationItem>{
         return notificationRepository.getNotifications(toUser)
     }
 }

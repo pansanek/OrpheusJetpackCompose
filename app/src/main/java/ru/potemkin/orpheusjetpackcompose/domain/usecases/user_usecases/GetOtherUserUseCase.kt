@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.UserRepository
 import javax.inject.Inject
 
 class GetOtherUserUseCase @Inject constructor(private val userRepository: UserRepository) {
-    fun getOtherUserItem(userItemId: String): UserItem {
+    operator fun invoke(userItemId: String): UserItem {
         return userRepository.getOtherUser(userItemId)
     }
 }

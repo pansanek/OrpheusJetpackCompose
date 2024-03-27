@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.UserRepository
 import javax.inject.Inject
 
 class GetUserListUseCase @Inject constructor(private val userRepository: UserRepository) {
-    fun getUserList(): List<UserItem>{
+    operator fun invoke(): List<UserItem>{
         return userRepository.getUsersList()
     }
 }

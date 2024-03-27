@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.LocationRepository
 import javax.inject.Inject
 
 class EditLocationUseCase @Inject constructor(private val locationRepository: LocationRepository) {
-    fun editLocationItem(locationItem: LocationItem){
+    operator fun invoke(locationItem: LocationItem){
         locationRepository.editLocationItem(locationItem)
     }
 }
