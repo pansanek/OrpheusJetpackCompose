@@ -155,7 +155,6 @@ sealed class Screen(
     object FeedHomeScreen : Screen(ROUTE_FEED_HOME)
 
 
-
     companion object {
         const val KEY_FEED_POST = "feed_post"
         const val KEY_USER = "user"

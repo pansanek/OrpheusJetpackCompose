@@ -11,4 +11,3 @@ data class MessageItem(
     var timestamp: String,
     var content: String,
 ):Parcelable
-

@@ -15,3 +15,4 @@ data class NotificationItem(
     var postItem: PostItem?,
     var bandItem: BandItem?
 )
+
