@@ -29,6 +29,22 @@ class NotificationRepositoryImpl @Inject constructor(
         get() = _notificationItems.toList()
 
     init {
+        addMockData()
+    }
+    override fun addNotificationItem(notificationItem: NotificationItem) {
+        _notificationItems.add(notificationItem)
+    }
+
+
+    override fun getNotifications(toUser: UserItem): List<NotificationItem> {
+        val userNotifications = mutableListOf<NotificationItem>()
+        for (notification in _notificationItems){
+            if(notification.toUser == toUser) userNotifications.add(notification)
+        }
+        return userNotifications
+    }
+
+    fun addMockData(){
         addNotificationItem(NotificationItem(
             id= "1",
             type = NotificationType.LIKE,
@@ -174,17 +190,5 @@ class NotificationRepositoryImpl @Inject constructor(
             postItem = null,
             date = "06-03-24"
         ))
-    }
-    override fun addNotificationItem(notificationItem: NotificationItem) {
-        _notificationItems.add(notificationItem)
-    }
-
-
-    override fun getNotifications(toUser: UserItem): List<NotificationItem> {
-        val userNotifications = mutableListOf<NotificationItem>()
-        for (notification in _notificationItems){
-            if(notification.toUser == toUser) userNotifications.add(notification)
-        }
-        return userNotifications
     }
 }

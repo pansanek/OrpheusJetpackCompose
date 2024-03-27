@@ -1,5 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
+import androidx.compose.runtime.mutableStateOf
 import ru.potemkin.orpheusjetpackcompose.data.mappers.PostMapper
 import ru.potemkin.orpheusjetpackcompose.data.mappers.UsersMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
@@ -26,8 +27,79 @@ class UserRepositoryImpl @Inject constructor(
 
     private var nextFrom: String? = null
 
+    private val _myUser= UserItem(
+        "1",
+        "pansanek",
+        "Sasha",
+        "12341234",
+        "email@gmail.com",
+        "Hehe",
+        UserType.MUSICIAN,
+        PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"),
+        PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://i.pinimg.com/originals/06/67/9c/06679c2e2ae5aee8cf25eedc4bb41b98.jpg"),
+        UserSettingsItem(true,true)
+    )
 
     init {
+        addMockData()
+    }
+    override fun addUserItem(userItem: UserItem) {
+        _userItems.add(userItem)
+    }
+
+    override fun getMyUser():UserItem {
+        return UserItem(
+            _myUser.id,
+            _myUser.login,
+            _myUser.name,
+            _myUser.password,
+            _myUser.email,
+            _myUser.about,
+            _myUser.user_type,
+            _myUser.profile_picture,
+            _myUser.background_picture,
+            _myUser.settings
+        )
+    }
+
+    override fun setMyUser(userItem: UserItem) {
+        _myUser.id = userItem.id
+        _myUser.login = userItem.login
+        _myUser.name = userItem.name
+        _myUser.password = userItem.password
+        _myUser.email = userItem.email
+        _myUser.about = userItem.about
+        _myUser.user_type = userItem.user_type
+        _myUser.profile_picture = userItem.profile_picture
+        _myUser.background_picture = userItem.background_picture
+        _myUser.settings = userItem.settings
+    }
+
+    override fun deleteUserItem(userItem: UserItem) {
+        _userItems.remove(userItem)
+    }
+
+    override fun editUserItem(userItem: UserItem) {
+        val oldElement = getUserItem(userItem.id)
+        _userItems.remove(oldElement)
+        addUserItem(userItem)
+    }
+
+    override fun getUserItem(userId: String): UserItem {
+        return _userItems.find {
+            it.id == userId
+        } ?: throw java.lang.RuntimeException("Element with id $userId not found")
+    }
+
+    override fun getUsersList(): List<UserItem> {
+        return _userItems.toList()
+    }
+
+    override fun getOtherUser(userId: String): UserItem {
+        TODO("Not yet implemented")
+    }
+
+    fun addMockData() {
         addUserItem( UserItem(
             "1",
             "pansanek",
@@ -59,36 +131,5 @@ class UserRepositoryImpl @Inject constructor(
             UserSettingsItem(true, true)
         ))
     }
-    override fun addUserItem(userItem: UserItem) {
-        _userItems.add(userItem)
-    }
-
-    override fun getMyUser():UserItem {
-        return _userItems.first()
-    }
-    override fun deleteUserItem(userItem: UserItem) {
-        _userItems.remove(userItem)
-    }
-
-    override fun editUserItem(userItem: UserItem) {
-        val oldElement = getUserItem(userItem.id)
-        _userItems.remove(oldElement)
-        addUserItem(userItem)
-    }
-
-    override fun getUserItem(userId: String): UserItem {
-        return _userItems.find {
-            it.id == userId
-        } ?: throw java.lang.RuntimeException("Element with id $userId not found")
-    }
-
-    override fun getUsersList(): List<UserItem> {
-        return _userItems.toList()
-    }
-
-    override fun getOtherUser(userId: String): UserItem {
-        TODO("Not yet implemented")
-    }
-
 
 }

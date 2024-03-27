@@ -44,6 +44,69 @@ class PostRepositoryImpl @Inject constructor(
     }
 
     init {
+        addMockData()
+    }
+
+    override fun addPostItem(postItem: PostItem) {
+        _postItems.add(postItem)
+    }
+
+    override fun deletePostItem(postItem: PostItem) {
+        _postItems.remove(postItem)
+    }
+
+    override fun getComments(postItem: PostItem): List<CommentItem> {
+        return postItem.comments
+    }
+
+    override fun addCommentItem(commentItem: CommentItem) {
+
+    }
+
+    override fun editPostItem(postItem: PostItem) {
+        val oldElement = getPostItem(postItem.id)
+        _postItems.remove(oldElement)
+        addPostItem(postItem)
+    }
+
+    override fun getPostItem(postId: String): PostItem {
+        return postItems.find {
+            it.id == postId
+        } ?: throw java.lang.RuntimeException("Element with id $postId not found")
+    }
+
+
+    override fun getPostsList(): List<PostItem> = _postItems
+
+    override suspend fun loadNextData() {
+        TODO("Not yet implemented")
+    }
+
+    override fun getUserPosts(userId: String): List<PostItem> {
+        val userPosts = mutableListOf<PostItem>()
+        for (post in _postItems) {
+            if (post.creatorId == userId) userPosts.add(post)
+        }
+        return userPosts
+    }
+
+    override fun getBandPosts(bandId: String): List<PostItem> {
+        val bandPosts = mutableListOf<PostItem>()
+        for (post in _postItems) {
+            if (post.creatorId == bandId) bandPosts.add(post)
+        }
+        return bandPosts
+    }
+
+    override fun getLocationPosts(locationId: String): List<PostItem> {
+        val locationPosts = mutableListOf<PostItem>()
+        for (post in _postItems) {
+            if (post.creatorId == locationId) locationPosts.add(post)
+        }
+        return locationPosts
+    }
+
+    fun addMockData(){
         addPostItem(
             PostItem(
                 id = "a9d28f2a-5eae-48bf-85f7-7c8dde3ec22c",
@@ -165,61 +228,5 @@ class PostRepositoryImpl @Inject constructor(
             )
         )
     }
-
-    override fun addPostItem(postItem: PostItem) {
-        _postItems.add(postItem)
-    }
-
-    override fun deletePostItem(postItem: PostItem) {
-        _postItems.remove(postItem)
-    }
-
-    override fun getComments(postItem: PostItem): List<CommentItem> {
-        return postItem.comments
-    }
-
-    override fun editPostItem(postItem: PostItem) {
-        val oldElement = getPostItem(postItem.id)
-        _postItems.remove(oldElement)
-        addPostItem(postItem)
-    }
-
-    override fun getPostItem(postId: String): PostItem {
-        return postItems.find {
-            it.id == postId
-        } ?: throw java.lang.RuntimeException("Element with id $postId not found")
-    }
-
-
-    override fun getPostsList(): List<PostItem> = _postItems
-
-    override suspend fun loadNextData() {
-        TODO("Not yet implemented")
-    }
-
-    override fun getUserPosts(userId: String): List<PostItem> {
-        val userPosts = mutableListOf<PostItem>()
-        for (post in _postItems) {
-            if (post.creatorId == userId) userPosts.add(post)
-        }
-        return userPosts
-    }
-
-    override fun getBandPosts(bandId: String): List<PostItem> {
-        val bandPosts = mutableListOf<PostItem>()
-        for (post in _postItems) {
-            if (post.creatorId == bandId) bandPosts.add(post)
-        }
-        return bandPosts
-    }
-
-    override fun getLocationPosts(locationId: String): List<PostItem> {
-        val locationPosts = mutableListOf<PostItem>()
-        for (post in _postItems) {
-            if (post.creatorId == locationId) locationPosts.add(post)
-        }
-        return locationPosts
-    }
-
 
 }
