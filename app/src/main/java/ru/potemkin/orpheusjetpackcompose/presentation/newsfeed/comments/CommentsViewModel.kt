@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetCommentsUseCase
 import javax.inject.Inject
 
 

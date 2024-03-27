@@ -16,25 +16,33 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetBandPostsUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetLocationPostsUseCase
 import javax.inject.Inject
 
-class BandProfileViewModel @Inject constructor(bandItem: BandItem) : ViewModel() {
+class BandProfileViewModel @Inject constructor(
+    bandItem: BandItem,
+    getBandPostsUseCase: GetBandPostsUseCase
+) : ViewModel() {
 
     private val initialState = BandProfileScreenState.Initial
 
     private val _screenState = MutableLiveData<BandProfileScreenState>(initialState)
     val screenState: LiveData<BandProfileScreenState> = _screenState
 
-    private val repository = BandRepositoryImpl()
+
     init {
         _screenState.value = BandProfileScreenState.Loading
-        loadPosts(bandItem)
+        loadPosts(bandItem,getBandPostsUseCase)
     }
 
-    private fun loadPosts(band: BandItem) {
+    private fun loadPosts(band: BandItem,getBandPostsUseCase: GetBandPostsUseCase) {
         viewModelScope.launch {
 //            val feedPosts = repository.loadPosts(band.id)
-            _screenState.value = BandProfileScreenState.Band(band = band,posts = addPostMockData())
+            _screenState.value = BandProfileScreenState.Band(
+                band = band,
+                posts = getBandPostsUseCase.invoke(band.id)
+            )
         }
     }
 
