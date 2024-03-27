@@ -8,3 +8,4 @@ interface NotificationRepository {
     fun addNotificationItem(notificationItem: NotificationItem)
     fun getNotifications(toUser: UserItem): List<NotificationItem>
 }
+

@@ -16,4 +16,9 @@ interface UserRepository {
     fun getUsersList(): List<UserItem>
     fun getOtherUser(userId: String): UserItem
     fun getMyUser(): UserItem
+
+    fun setMyUser(userItem: UserItem)
 }
+
+
+

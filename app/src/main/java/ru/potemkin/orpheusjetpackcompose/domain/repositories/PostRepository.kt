@@ -13,6 +13,7 @@ interface PostRepository {
 
     fun getPostsList(): List<PostItem>
     fun getComments(postItem: PostItem): List<CommentItem>
+    fun addCommentItem(commentItem: CommentItem)
     suspend fun loadNextData()
 
     fun getUserPosts(userId: String): List<PostItem>
@@ -21,3 +22,4 @@ interface PostRepository {
     fun getLocationPosts(locationId: String): List<PostItem>
 
 }
+
