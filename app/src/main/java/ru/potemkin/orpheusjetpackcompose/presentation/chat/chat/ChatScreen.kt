@@ -162,7 +162,7 @@ fun ChatScreen(
 fun ChatRow(
     message: MessageItem
 ) {
-    var userId = "51bdc118-e76b-4372-8678-6822658cefed"
+    var userId = "1"
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = if (message.fromUser.id != userId) Alignment.Start else Alignment.End

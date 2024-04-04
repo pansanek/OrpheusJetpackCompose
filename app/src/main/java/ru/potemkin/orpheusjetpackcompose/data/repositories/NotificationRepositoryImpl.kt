@@ -24,6 +24,8 @@ class NotificationRepositoryImpl @Inject constructor(
 
 ) : NotificationRepository {
 
+    private val notificationIdNumber = 8
+
     private val _notificationItems = mutableListOf<NotificationItem>()
     private val notificationItems: List<NotificationItem>
         get() = _notificationItems.toList()
@@ -31,6 +33,7 @@ class NotificationRepositoryImpl @Inject constructor(
     init {
         addMockData()
     }
+
     override fun addNotificationItem(notificationItem: NotificationItem) {
         _notificationItems.add(notificationItem)
     }
@@ -38,157 +41,181 @@ class NotificationRepositoryImpl @Inject constructor(
 
     override fun getNotifications(toUser: UserItem): List<NotificationItem> {
         val userNotifications = mutableListOf<NotificationItem>()
-        for (notification in _notificationItems){
-            if(notification.toUser == toUser) userNotifications.add(notification)
+        for (notification in _notificationItems) {
+            if (notification.toUser == toUser) userNotifications.add(notification)
         }
         return userNotifications
     }
 
-    fun addMockData(){
-        addNotificationItem(NotificationItem(
-            id= "1",
-            type = NotificationType.LIKE,
-            bandItem = null,
-            contentDescription = " оценил вашу запись от ",
-            title = "Ваш пост оценили",
-            fromUser = UserItem(
-                "51bdc118-e76b-4372-8678-6822658cefed",
-                "noahbadomens",
-                "Noah Sebastian",
-                "12341234",
-                "email@gmail.com",
-                "Vocalist for Bad Omens",
-                UserType.MUSICIAN,
-                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://i.pinimg.com/originals/7a/bd/00/7abd00f199dff4ec1364663ce0b45ea3.jpg"),
-                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://chaoszine.net/wp-content/uploads/2023/11/bad-omens-2023.jpg"),
-                UserSettingsItem(true,true)
-            ),
-            toUser = UserItem(
-                "51bdc118-e76b-4372-8678-6822658cefed",
-                "pansanek",
-                "Sasha",
-                "12341234",
-                "email@gmail.com",
-                "Hehe",
-                UserType.MUSICIAN,
-                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                UserSettingsItem(true,true)
-            ),
-            date = "06-03-24",
-            postItem = PostItem(
-                id= "a9d28f2a-5eae-48bf-85f7-7c8dde3ec22c",
-                creatorId = "a9d28f2a-5eae-48bf-85f7-7c8dde3ec23c",
-                creatorName = "pansanek" ,
-                creatorPicture = PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                creatorType = CreatorType.USER,
-                text = "Test post",
-                date = "01-07-21",
-                comments = mutableListOf<CommentItem>(
-                    CommentItem(
-                        "5600434b-7627-45fc-af8b-9f92e838c2e7",
-                        "a9d28f2a-5eae-48bf-85f7-7c8dde3ec22c",
-                        UserItem(
-                            "51bdc118-e76b-4372-8678-6822658cefed",
-                            "pansanek",
-                            "Sasha",
-                            "12341234",
-                            "email@gmail.com",
-                            "Hehe",
-                            UserType.MUSICIAN,
-                            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                            PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                            UserSettingsItem(true,true)
-                        ),
-                        "Nice",
-                        "01-07-21"
-                    )
-                ),
-                attachment =  PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de5","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                isLiked = true,
-                statistics = mutableListOf(
-                    StatisticItem(StatisticType.LIKES,21), StatisticItem(StatisticType.COMMENTS,1)
-                ),
-            )
-        ))
-        addNotificationItem(NotificationItem(
-            id= "1",
-            type = NotificationType.BAND_INVITE,
-            bandItem = BandItem(
-                "51bdc118-e76b-4372-8678-6822658cefed",
-                "Bad Omens",
-                listOf(
-                    UserItem(
-                        "51bdc118-e76b-4372-8678-6822658cefed",
-                        "noahbadomens",
-                        "Noah Sebastian",
-                        "12341234",
-                        "email@gmail.com",
-                        "Vocalist for Bad Omens",
-                        UserType.MUSICIAN,
-                        PhotoUrlItem(
-                            "b59ae42e-8859-441a-9a3a-2fca1b784de3",
-                            "https://i.pinimg.com/originals/7a/bd/00/7abd00f199dff4ec1364663ce0b45ea3.jpg"
-                        ),
-                        PhotoUrlItem(
-                            "b59ae42e-8859-441a-9a3a-2fca1b784de4",
-                            "https://chaoszine.net/wp-content/uploads/2023/11/bad-omens-2023.jpg"
-                        ),
-                        UserSettingsItem(true, true)
+    fun addMockData() {
+        addNotificationItem(
+            NotificationItem(
+                id = "111",
+                type = NotificationType.LIKE,
+                bandItem = null,
+                contentDescription = " оценил вашу запись от ",
+                title = "Ваш пост оценили",
+                fromUser = UserItem(
+                    "16",
+                    "almblabalbladh",
+                    "Hakan Almbladh",
+                    "12341234",
+                    "email@gmail.com",
+                    "Guitarist for Normandie",
+                    UserType.MUSICIAN,
+                    PhotoUrlItem(
+                        "196",
+                        "https://sun6-23.userapi.com/s/v1/if1/Gzwvj0HYoXOEjeEzkx1zmYMRGnRDw387ol_FVX2xcHPijVR0XFMOuWPcZz09cyt32p_ne61G.jpg?size=400x400&quality=96&crop=6,0,1428,1428&ava=1"
                     ),
-                    UserItem(
-                        "51bdc118-e76b-4372-8678-6822658cefed",
-                        "pansanek",
-                        "Sasha",
-                        "12341234",
-                        "email@gmail.com",
-                        "Hehe",
-                        UserType.MUSICIAN,
-                        PhotoUrlItem(
-                            "b59ae42e-8859-441a-9a3a-2fca1b784de3",
-                            "https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"
-                        ),
-                        PhotoUrlItem(
-                            "b59ae42e-8859-441a-9a3a-2fca1b784de4",
-                            "https://i.pinimg.com/originals/06/67/9c/06679c2e2ae5aee8cf25eedc4bb41b98.jpg"
-                        ),
-                        UserSettingsItem(true, true)
+                    PhotoUrlItem(
+                        "1106",
+                        "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Normandie_-_Bochum_Total_-_160716LEOKR009181510000.jpg/440px-Normandie_-_Bochum_Total_-_160716LEOKR009181510000.jpg"
+                    ),
+                    UserSettingsItem(true, true)
+                ),
+                toUser = UserItem(
+                    "11",
+                    "pansanek",
+                    "Sasha Potemkin",
+                    "12341234",
+                    "1@gmail.com",
+                    "Just a drummer, guitarist, bassist etc.",
+                    UserType.MUSICIAN,
+                    PhotoUrlItem(
+                        "111",
+                        "https://sun1-88.userapi.com/impg/SsYpAAyxKG2SXIKXfY8iBvf2BTxZH9XYP2PFmA/lSVeMDXQuDM.jpg?size=1435x1435&quality=95&sign=c2dff2cc261588cb4a712c853c116199&type=album"
+                    ),
+                    PhotoUrlItem(
+                        "112",
+                        "https://i.pinimg.com/originals/06/67/9c/06679c2e2ae5aee8cf25eedc4bb41b98.jpg"
+                    ),
+                    UserSettingsItem(true, true)
+                ),
+                date = "06-03-24",
+                postItem = PostItem(
+                    id = "31",
+                    creatorName = "pansanek",
+                    creatorId = "11",
+                    creatorPicture = PhotoUrlItem(
+                        "191",
+                        "https://sun1-88.userapi.com/impg/SsYpAAyxKG2SXIKXfY8iBvf2BTxZH9XYP2PFmA/lSVeMDXQuDM.jpg?size=1435x1435&quality=95&sign=c2dff2cc261588cb4a712c853c116199&type=album"
+                    ),
+                    creatorType = CreatorType.USER,
+                    text = "First Post!",
+                    date = "01-07-21",
+                    comments = mutableListOf<CommentItem>(
+                        CommentItem(
+                            "21",
+                            "31",
+                            UserItem(
+                                "12",
+                                "noahbadomens",
+                                "Noah Sebastian",
+                                "12341234",
+                                "email@gmail.com",
+                                "Vocalist",
+                                UserType.MUSICIAN,
+                                PhotoUrlItem(
+                                    "192",
+                                    "https://i.pinimg.com/originals/7a/bd/00/7abd00f199dff4ec1364663ce0b45ea3.jpg"
+                                ),
+                                PhotoUrlItem(
+                                    "1102",
+                                    "https://chaoszine.net/wp-content/uploads/2023/11/bad-omens-2023.jpg"
+                                ),
+                                UserSettingsItem(true, true)
+                            ),
+                            "Nice",
+                            "01-07-21"
+                        )
+                    ),
+                    attachment = PhotoUrlItem(
+                        "391",
+                        "https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"
+                    ),
+                    isLiked = true,
+                    statistics = mutableListOf(
+                        StatisticItem(StatisticType.LIKES, 21),
+                        StatisticItem(StatisticType.COMMENTS, 1)
+                    ),
+                )
+
+            )
+        )
+        addNotificationItem(
+            NotificationItem(
+                id = "112",
+                type = NotificationType.BAND_INVITE,
+                bandItem = BandItem(
+                    "73",
+                    "The Plot In You",
+                    listOf(
+                        UserItem(
+                            "19",
+                            "landontewers",
+                            "Landon Tewers",
+                            "12341234",
+                            "9@gmail.com",
+                            "Много пою и кричу",
+                            UserType.MUSICIAN,
+                            PhotoUrlItem(
+                                "199",
+                                "https://sun9-25.userapi.com/impf/c840320/v840320259/36208/h5GVeRP9URM.jpg?size=640x640&quality=96&sign=f5307f49e081c58b7cbb3bbb4680efb6&c_uniq_tag=FbHPADgjU38jiYwFHjugwpbBeRJbDbBXfs4fCfTv3rk&type=album"
+                            ),
+                            PhotoUrlItem(
+                                "1109",
+                                "https://i0.wp.com/distortedsoundmag.com/wp-content/uploads/2017/11/TPIY_Dispose_3000px_600dpi_RGB.jpg?w=3000&ssl=1"
+                            ),
+                            UserSettingsItem(true, true)
+                        )
+                    ),
+                    "Metalcore",
+                    PhotoUrlItem(
+                        "793",
+                        "https://substreammagazine.com/wp-content/uploads/2018/01/Main1-2000x1333.jpg"
                     )
                 ),
-                "Metalcore",
-                PhotoUrlItem(
-                    "b59ae42e-8859-441a-9a3a-2fca1b784de4",
-                    "https://chaoszine.net/wp-content/uploads/2023/11/bad-omens-2023.jpg"
-                )
-            ),
-            contentDescription = " пригласил вас в группу ",
-            title = "Вас пригласили в группу",
-            fromUser = UserItem(
-                "51bdc118-e76b-4372-8678-6822658cefed",
-                "noahbadomens",
-                "Noah Sebastian",
-                "12341234",
-                "email@gmail.com",
-                "Vocalist for Bad Omens",
-                UserType.MUSICIAN,
-                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://i.pinimg.com/originals/7a/bd/00/7abd00f199dff4ec1364663ce0b45ea3.jpg"),
-                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://chaoszine.net/wp-content/uploads/2023/11/bad-omens-2023.jpg"),
-                UserSettingsItem(true,true)
-            ),
-            toUser = UserItem(
-                "51bdc118-e76b-4372-8678-6822658cefed",
-                "pansanek",
-                "Sasha",
-                "12341234",
-                "email@gmail.com",
-                "Hehe",
-                UserType.MUSICIAN,
-                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                UserSettingsItem(true,true)
-            ),
-            postItem = null,
-            date = "06-03-24"
-        ))
+                contentDescription = " пригласил вас в группу ",
+                title = "Вас пригласили в группу",
+                fromUser = UserItem(
+                    "19",
+                    "landontewers",
+                    "Landon Tewers",
+                    "12341234",
+                    "9@gmail.com",
+                    "Много пою и кричу",
+                    UserType.MUSICIAN,
+                    PhotoUrlItem(
+                        "199",
+                        "https://sun9-25.userapi.com/impf/c840320/v840320259/36208/h5GVeRP9URM.jpg?size=640x640&quality=96&sign=f5307f49e081c58b7cbb3bbb4680efb6&c_uniq_tag=FbHPADgjU38jiYwFHjugwpbBeRJbDbBXfs4fCfTv3rk&type=album"
+                    ),
+                    PhotoUrlItem(
+                        "1109",
+                        "https://i0.wp.com/distortedsoundmag.com/wp-content/uploads/2017/11/TPIY_Dispose_3000px_600dpi_RGB.jpg?w=3000&ssl=1"
+                    ),
+                    UserSettingsItem(true, true)
+                ),
+                toUser = UserItem(
+                    "11",
+                    "pansanek",
+                    "Sasha Potemkin",
+                    "12341234",
+                    "1@gmail.com",
+                    "Just a drummer, guitarist, bassist etc.",
+                    UserType.MUSICIAN,
+                    PhotoUrlItem(
+                        "111",
+                        "https://sun1-88.userapi.com/impg/SsYpAAyxKG2SXIKXfY8iBvf2BTxZH9XYP2PFmA/lSVeMDXQuDM.jpg?size=1435x1435&quality=95&sign=c2dff2cc261588cb4a712c853c116199&type=album"
+                    ),
+                    PhotoUrlItem(
+                        "112",
+                        "https://i.pinimg.com/originals/06/67/9c/06679c2e2ae5aee8cf25eedc4bb41b98.jpg"
+                    ),
+                    UserSettingsItem(true, true)
+                ),
+                postItem = null,
+                date = "06-03-24"
+            )
+        )
     }
 }

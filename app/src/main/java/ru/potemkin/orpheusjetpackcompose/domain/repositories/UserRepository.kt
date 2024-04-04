@@ -1,5 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.domain.repositories
 
+import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 
@@ -14,6 +15,8 @@ interface UserRepository {
     fun getUserItem(userId: String): UserItem
 
     fun getUsersList(): List<UserItem>
+    fun getMusiciansList(): List<MusicianItem>
+    fun addMusicianItem(musicianItem: MusicianItem)
     fun getOtherUser(userId: String): UserItem
     fun getMyUser(): UserItem
 

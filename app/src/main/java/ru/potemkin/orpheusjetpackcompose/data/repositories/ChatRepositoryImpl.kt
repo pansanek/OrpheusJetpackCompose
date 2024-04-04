@@ -4,9 +4,7 @@ import ru.potemkin.orpheusjetpackcompose.data.mappers.ChatMapper
 import ru.potemkin.orpheusjetpackcompose.data.mappers.MessageMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
-import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MessageItem
-import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
@@ -17,6 +15,7 @@ import javax.inject.Inject
 class ChatRepositoryImpl @Inject constructor(
 
 ): ChatRepository {
+
 
     private val apiService = ApiFactory.appChatApiService
     private val messageApiService = ApiFactory.appMessageApiService
@@ -97,56 +96,68 @@ class ChatRepositoryImpl @Inject constructor(
 
     fun addMockChatData(){
         addChatItem(ChatItem(
-            "51bdc118-e76b-4372-8678-6822658cetett",
+            "51",
             mutableListOf(
                 UserItem(
-                    "1",
+                    "11",
                     "pansanek",
-                    "Sasha",
+                    "Sasha Potemkin",
                     "12341234",
-                    "email@gmail.com",
-                    "Hehe",
+                    "1@gmail.com",
+                    "Just a drummer, guitarist, bassist etc.",
                     UserType.MUSICIAN,
-                    PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                    PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"),
-                    UserSettingsItem(true,true)
+                    PhotoUrlItem(
+                        "191",
+                        "https://sun1-88.userapi.com/impg/SsYpAAyxKG2SXIKXfY8iBvf2BTxZH9XYP2PFmA/lSVeMDXQuDM.jpg?size=1435x1435&quality=95&sign=c2dff2cc261588cb4a712c853c116199&type=album"
+                    ),
+                    PhotoUrlItem(
+                        "1101",
+                        "https://i.pinimg.com/originals/06/67/9c/06679c2e2ae5aee8cf25eedc4bb41b98.jpg"
+                    ),
+                    UserSettingsItem(true, true)
                 ), UserItem(
-                    "51bdc118-e76b-4372-8678-6822658cefed",
-                    "noahbadomens",
-                    "Noah Sebastian",
+                    "17",
+                    "antonfranzon",
+                    "Anton Franzon",
                     "12341234",
                     "email@gmail.com",
-                    "Vocalist for Bad Omens",
+                    "Drummer for Normandie",
                     UserType.MUSICIAN,
-                    PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de3","https://i.pinimg.com/originals/7a/bd/00/7abd00f199dff4ec1364663ce0b45ea3.jpg"),
-                    PhotoUrlItem("b59ae42e-8859-441a-9a3a-2fca1b784de4","https://chaoszine.net/wp-content/uploads/2023/11/bad-omens-2023.jpg"),
-                    UserSettingsItem(true,true)
+                    PhotoUrlItem(
+                        "197",
+                        "https://sun1-91.userapi.com/s/v1/ig2/VuGmflKD09SOOd9MeZIZzPqQmdYqbyJbu5VuHJz8ur39YTANcs4FudgMJrmrzKao6_fdj0zO3nUTymhBXrQwaW6P.jpg?size=400x400&quality=95&crop=270,705,873,873&ava=1"
+                    ),
+                    PhotoUrlItem(
+                        "1107",
+                        "https://sun9-80.userapi.com/impf/c855524/v855524135/19eaeb/VfxIoZvQHGA.jpg?size=604x403&quality=96&sign=d9899d7b718557643742be9c124e1e5a&type=album"
+                    ),
+                    UserSettingsItem(true, true)
                 )
             ),
-            "Oh my GOD!",
+            "OH MY GOD",
         ))
     }
 
     fun addMockMessageData(){
         addMessageItem(
             MessageItem(
-                "51bdc118-e76b-4372-8678-6822658gewgweg",
-                "51bdc118-e76b-4372-8678-6822658cetett",
+                "61",
+                "51",
                 UserItem(
-                    "51bdc118-e76b-4372-8678-6822658cefed",
+                    "11",
                     "pansanek",
-                    "Sasha",
+                    "Sasha Potemkin",
                     "12341234",
-                    "email@gmail.com",
-                    "Hehe",
+                    "1@gmail.com",
+                    "Just a drummer, guitarist, bassist etc.",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
-                        "b59ae42e-8859-441a-9a3a-2fca1b784de3",
-                        "https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"
+                        "191",
+                        "https://sun1-88.userapi.com/impg/SsYpAAyxKG2SXIKXfY8iBvf2BTxZH9XYP2PFmA/lSVeMDXQuDM.jpg?size=1435x1435&quality=95&sign=c2dff2cc261588cb4a712c853c116199&type=album"
                     ),
                     PhotoUrlItem(
-                        "b59ae42e-8859-441a-9a3a-2fca1b784de4",
-                        "https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"
+                        "1101",
+                        "https://i.pinimg.com/originals/06/67/9c/06679c2e2ae5aee8cf25eedc4bb41b98.jpg"
                     ),
                     UserSettingsItem(true, true)
                 ),
@@ -156,23 +167,23 @@ class ChatRepositoryImpl @Inject constructor(
         )
         addMessageItem(
             MessageItem(
-                "51bdc118-e76b-4372-8678-6822658gewgweh",
-                "51bdc118-e76b-4372-8678-6822658cetett",
+                "62",
+                "51",
                 UserItem(
-                    "51bdc118-e76b-4372-8678-6822658ceabc",
-                    "sanpanek",
-                    "Sasha",
+                    "17",
+                    "antonfranzon",
+                    "Anton Franzon",
                     "12341234",
-                    "email2@gmail.com",
-                    "Hehehe",
+                    "email@gmail.com",
+                    "Drummer for Normandie",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
-                        "b59ae42e-8859-441a-9a3a-2fca1b784de3",
-                        "https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"
+                        "197",
+                        "https://sun1-91.userapi.com/s/v1/ig2/VuGmflKD09SOOd9MeZIZzPqQmdYqbyJbu5VuHJz8ur39YTANcs4FudgMJrmrzKao6_fdj0zO3nUTymhBXrQwaW6P.jpg?size=400x400&quality=95&crop=270,705,873,873&ava=1"
                     ),
                     PhotoUrlItem(
-                        "b59ae42e-8859-441a-9a3a-2fca1b784de4",
-                        "https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"
+                        "1107",
+                        "https://sun9-80.userapi.com/impf/c855524/v855524135/19eaeb/VfxIoZvQHGA.jpg?size=604x403&quality=96&sign=d9899d7b718557643742be9c124e1e5a&type=album"
                     ),
                     UserSettingsItem(true, true)
                 ),
