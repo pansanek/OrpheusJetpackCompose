@@ -34,6 +34,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.band_profile_comp.BandProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.band_profile_comp.BandProfileTopBar
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
 import ru.potemkin.orpheusjetpackcompose.presentation.post.PostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.CreatePostButton
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.ChatButton
@@ -51,10 +52,11 @@ fun BandProfileScreen(
     onChangeProfileClick: (BandItem)->Unit,
     onPostCreateClickListener: (CreatorInfoItem) -> Unit,
 ) {
+    val component = getApplicationComponent()
+        .getBandProfileScreenComponentFactory()
+        .create(bandItem)
     val viewModel: BandProfileViewModel = viewModel(
-        factory = BandProfileViewModelFactory(
-            bandItem
-        )
+        factory = component.getViewModelFactory()
     )
     val screenState = viewModel.screenState.observeAsState(BandProfileScreenState.Initial)
     val currentState = screenState.value

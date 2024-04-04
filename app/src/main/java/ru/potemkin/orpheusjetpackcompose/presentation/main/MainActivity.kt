@@ -19,24 +19,18 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.OrpheusJetpackComposeTheme
 import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val component by lazy {
-        (application as MainApplication).component
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        component.inject(this)
         super.onCreate(savedInstanceState)
         setContent {
             OrpheusJetpackComposeTheme {
-                val viewModel: AuthViewModel = viewModel(factory = viewModelFactory)
+                val component = getApplicationComponent()
+                val viewModel: AuthViewModel = viewModel(factory =component.getViewModelFactory())
                 val authState = viewModel.authState.observeAsState(AuthState.Initial)
                 val navigationState = rememberNavigationState()
                 when (authState.value) {
                     is AuthState.Authorized -> {
-                        MainScreen(viewModelFactory)
+                        MainScreen()
                     }
 
                     is AuthState.NotAuthorized -> {

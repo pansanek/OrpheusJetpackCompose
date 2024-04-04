@@ -100,7 +100,7 @@ class ChatRepositoryImpl @Inject constructor(
             "51bdc118-e76b-4372-8678-6822658cetett",
             mutableListOf(
                 UserItem(
-                    "51bdc118-e76b-4372-8678-6822658cefed",
+                    "1",
                     "pansanek",
                     "Sasha",
                     "12341234",

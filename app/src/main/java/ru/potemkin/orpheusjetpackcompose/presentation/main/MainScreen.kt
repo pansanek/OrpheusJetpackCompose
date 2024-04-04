@@ -42,7 +42,7 @@ import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.Settings
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.UserProfileScreen
 
 @Composable
-fun MainScreen(viewModelFactory: ViewModelFactory) {
+fun MainScreen() {
     val navigationState = rememberNavigationState()
 
     Scaffold(

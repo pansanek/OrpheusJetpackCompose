@@ -61,6 +61,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.google.maps.android.compose.CameraPositionState
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
 
 
 @Composable
@@ -134,8 +135,8 @@ fun MapScreen(
     paddingValues: PaddingValues,
     onLocationClickListener: (LocationItem) -> Unit,
 ) {
-
-    val viewModel: MapViewModel = viewModel()
+    val component = getApplicationComponent()
+    val viewModel: MapViewModel = viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.observeAsState(MapScreenState.Initial)
     val context = LocalContext.current
 

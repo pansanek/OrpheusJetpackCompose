@@ -34,6 +34,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Grey
 import ru.potemkin.orpheusjetpackcompose.ui.theme.LightBlack
@@ -55,7 +56,9 @@ fun SearchScreen(
     var selectedInstrument by remember { mutableStateOf("") }
 
     var isSearchingUsers by remember { mutableStateOf(true) }
-    val viewModel: SearchViewModel = viewModel()
+
+    val component = getApplicationComponent()
+    val viewModel: SearchViewModel = viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.observeAsState(SearchScreenState.Initial)
     when (val currentState = screenState.value) {
         is SearchScreenState.Finds -> {

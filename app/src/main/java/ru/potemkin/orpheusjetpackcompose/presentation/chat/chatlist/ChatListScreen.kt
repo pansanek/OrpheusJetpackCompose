@@ -40,6 +40,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerHeight
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedScreenState
 import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedViewModel
 import ru.potemkin.orpheusjetpackcompose.ui.theme.*
@@ -52,7 +53,8 @@ fun ChatListScreen(
     onChatClickListener: (ChatItem) -> Unit,
     onUserClickListener: (UserItem) -> Unit
 ) {
-    val viewModel: ChatListViewModel = viewModel()
+    val component = getApplicationComponent()
+    val viewModel: ChatListViewModel = viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.observeAsState(ChatListScreenState.Initial)
     when (val currentState = screenState.value) {
         is ChatListScreenState.Chats -> {

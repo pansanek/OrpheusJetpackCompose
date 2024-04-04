@@ -46,6 +46,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.IconComponentImageVector
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.DrawerButton
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
 import ru.potemkin.orpheusjetpackcompose.ui.theme.*
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -59,10 +60,11 @@ fun ChatScreen(
 ) {
 
     var message by remember { mutableStateOf("") }
+
+    val component = getApplicationComponent()
+        .getChatScreenComponentFactory().create(chatItem)
     val viewModel: ChatViewModel = viewModel(
-        factory = ChatViewModelFactory(
-            chatItem
-        )
+        factory = component.getViewModelFactory()
     )
     val screenState = viewModel.screenState.observeAsState(ChatScreenState.Initial)
     val currentState = screenState.value

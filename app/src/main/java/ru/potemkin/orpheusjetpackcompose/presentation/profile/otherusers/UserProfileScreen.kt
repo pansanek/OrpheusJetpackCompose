@@ -34,6 +34,7 @@ import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
 import ru.potemkin.orpheusjetpackcompose.presentation.components.StartChatDialog
 import ru.potemkin.orpheusjetpackcompose.presentation.components.profile_comp.ProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.profile_comp.ProfileTopBar
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
 import ru.potemkin.orpheusjetpackcompose.presentation.map.map.CustomAlertDialog
 import ru.potemkin.orpheusjetpackcompose.presentation.post.PostItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
@@ -51,10 +52,11 @@ fun UserProfileScreen(
     onBandClickListener: (BandItem) -> Unit,
     onLocationClickListener:(LocationItem) -> Unit,
 ) {
+    val component = getApplicationComponent()
+        .getUserProfileScreenComponentFactory()
+        .create(userItem)
     val viewModel: UserProfileViewModel = viewModel(
-        factory = UserProfileViewModelFactory(
-            userItem
-        )
+        factory = component.getViewModelFactory()
     )
     val screenState = viewModel.screenState.observeAsState(UserProfileScreenState.Initial)
     val scrollState = rememberLazyListState()

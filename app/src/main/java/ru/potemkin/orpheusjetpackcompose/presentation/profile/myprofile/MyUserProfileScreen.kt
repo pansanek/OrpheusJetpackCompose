@@ -45,6 +45,7 @@ import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.MenuItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.MyUserProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.MyUserProfileTopBar
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
 
 import ru.potemkin.orpheusjetpackcompose.presentation.post.PostItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
@@ -74,7 +75,8 @@ fun MyUserProfileScreen(
         menuItemIcon = Icons.Default.LocationOn
     }
 
-    val viewModel: MyUserProfileViewModel = viewModel()
+    val component = getApplicationComponent()
+    val viewModel: MyUserProfileViewModel = viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.observeAsState(MyUserProfileScreenState.Initial)
     val scrollState = rememberLazyListState()
     val scaffoldState = rememberScaffoldState()

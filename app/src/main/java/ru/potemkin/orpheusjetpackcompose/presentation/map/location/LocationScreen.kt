@@ -34,6 +34,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.location_profile_comp.LocationProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.location_profile_comp.LocationProfileTopBar
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
 
 import ru.potemkin.orpheusjetpackcompose.presentation.post.PostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.CreatePostButton
@@ -53,10 +54,12 @@ fun LocationScreen(
     onChangeProfileClick: (LocationItem)->Unit,
     onPostCreateClickListener: (CreatorInfoItem) -> Unit,
 ) {
+
+    val component = getApplicationComponent()
+        .getLocationScreenComponentFactory()
+        .create(locationItem)
     val viewModel: LocationViewModel = viewModel(
-        factory = LocationViewModelFactory(
-            locationItem
-        )
+        factory = component.getViewModelFactory()
     )
     val screenState = viewModel.screenState.observeAsState(LocationScreenState.Initial)
     var text by remember { mutableStateOf("") }

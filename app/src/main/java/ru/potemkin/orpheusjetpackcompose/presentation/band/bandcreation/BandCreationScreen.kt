@@ -72,6 +72,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
 import ru.potemkin.orpheusjetpackcompose.presentation.search.FilterDialog
 import ru.potemkin.orpheusjetpackcompose.presentation.search.MusicianListItem
 import ru.potemkin.orpheusjetpackcompose.presentation.search.SearchScreenState
@@ -89,8 +90,8 @@ fun BandListScreen(
     onBandClickListener: (BandItem) -> Unit,
     onBandCreationClickListener: () -> Unit,
 ) {
-
-    val viewModel: BandCreationViewModel = viewModel()
+    val component = getApplicationComponent()
+    val viewModel: BandCreationViewModel = viewModel(factory = component.getViewModelFactory())
     val screenState = viewModel.screenState.observeAsState(BandCreationScreenState.Initial)
     when (val currentState = screenState.value) {
         is BandCreationScreenState.Bands -> {
