@@ -22,7 +22,7 @@ interface ApplicationComponent {
     fun getBandProfileScreenComponentFactory(): BandProfileScreenComponent.Factory
     fun getLocationScreenComponentFactory(): LocationScreenComponent.Factory
     fun getUserProfileScreenComponentFactory(): UserProfileScreenComponent.Factory
-
+    fun getPostCreationScreenComponentFactory(): PostCreationScreenComponent.Factory
 
     fun getViewModelFactory(): ViewModelFactory
     @Component.Factory

@@ -52,6 +52,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
@@ -59,8 +60,10 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.PrivacySettingsScreen
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.SettingsItem
+import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.UserProfileViewModel
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Grey
 import ru.potemkin.orpheusjetpackcompose.ui.theme.LightBlack
@@ -73,6 +76,14 @@ fun PostCreationScreen(
     onBackPressed: () -> Unit,
     onDonePressed: () -> Unit
 ) {
+
+    val component = getApplicationComponent()
+        .getPostCreationScreenComponentFactory()
+        .create(creatorInfoItem)
+    val viewModel: PostCreationViewModel = viewModel(
+        factory = component.getViewModelFactory()
+    )
+
     var selectedImageUri by remember {
         mutableStateOf<Uri?>(null)
     }
@@ -117,7 +128,9 @@ fun PostCreationScreen(
                         contentScale = ContentScale.Crop
                     )
                     SpacerWidth()
-                    IconButton(onClick = { onDonePressed() }) {
+                    IconButton(onClick = {
+                        viewModel.createPost(creatorInfoItem,postContent,selectedImageUri.toString())
+                        onDonePressed() }) {
                         androidx.compose.material.Icon(
                             Icons.Default.Check,
                             contentDescription = "Сохранить",
