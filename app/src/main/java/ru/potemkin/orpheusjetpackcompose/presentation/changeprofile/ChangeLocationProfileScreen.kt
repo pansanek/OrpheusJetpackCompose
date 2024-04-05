@@ -37,11 +37,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
+import ru.potemkin.orpheusjetpackcompose.presentation.band.bandprofile.BandProfileViewModel
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
+import ru.potemkin.orpheusjetpackcompose.presentation.map.location.LocationViewModel
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Grey
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
@@ -64,6 +68,12 @@ fun ChangeLocationProfileScreen(location: LocationItem, onBackPressed: () -> Uni
         onResult = { uri -> selectedProfilePictureUri = uri }
     )
 
+    val component = getApplicationComponent()
+        .getLocationScreenComponentFactory()
+        .create(location)
+    val viewModel: LocationViewModel = viewModel(
+        factory = component.getViewModelFactory()
+    )
     Scaffold(
         topBar = {
             TopAppBar(

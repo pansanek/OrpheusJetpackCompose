@@ -36,10 +36,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
+import ru.potemkin.orpheusjetpackcompose.presentation.band.bandprofile.BandProfileViewModel
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
+import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.UserProfileViewModel
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Grey
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
@@ -58,6 +62,13 @@ fun ChangeBandProfileScreen(band: BandItem, onBackPressed: () -> Unit) {
     val singleProfilePicturePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri -> selectedProfilePictureUri = uri }
+    )
+
+    val component = getApplicationComponent()
+        .getBandProfileScreenComponentFactory()
+        .create(band)
+    val viewModel: BandProfileViewModel = viewModel(
+        factory = component.getViewModelFactory()
     )
     Scaffold(
         topBar = {

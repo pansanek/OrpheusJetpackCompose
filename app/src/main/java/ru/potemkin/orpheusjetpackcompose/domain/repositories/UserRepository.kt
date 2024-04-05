@@ -14,9 +14,12 @@ interface UserRepository {
 
     fun getUserItem(userId: String): UserItem
 
+    fun getMusicianItem(userItem: UserItem):MusicianItem
+
     fun getUsersList(): List<UserItem>
     fun getMusiciansList(): List<MusicianItem>
     fun addMusicianItem(musicianItem: MusicianItem)
+    fun editMusicianItem(musicianItem: MusicianItem)
     fun getOtherUser(userId: String): UserItem
     fun getMyUser(): UserItem
 

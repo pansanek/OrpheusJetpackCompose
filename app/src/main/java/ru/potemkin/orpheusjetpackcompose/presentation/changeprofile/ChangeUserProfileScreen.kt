@@ -45,13 +45,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import ru.potemkin.orpheusjetpackcompose.presentation.band.bandprofile.BandProfileViewModel
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.DrawerButton
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.MyUserProfileTopBar
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
+import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.MyUserProfileViewModel
+import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.UserProfileViewModel
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Grey
 import ru.potemkin.orpheusjetpackcompose.ui.theme.LightBlack
@@ -79,6 +84,9 @@ fun ChangeUserProfileScreen(user: UserItem, onBackPressed: () -> Unit) {
     )
     var userName by remember { mutableStateOf(user.name) }
     var userAbout by remember { mutableStateOf(user.about) }
+
+    val component = getApplicationComponent()
+    val viewModel: MyUserProfileViewModel = viewModel(factory = component.getViewModelFactory())
     Scaffold(
         topBar = {
             TopAppBar(
@@ -96,7 +104,14 @@ fun ChangeUserProfileScreen(user: UserItem, onBackPressed: () -> Unit) {
                 },
                 backgroundColor = Black,
                 actions = {
-                    IconButton(onClick = { /* открыть меню */ }) {
+                    IconButton(onClick = {
+                        viewModel.changeUserProfile(user,
+                            userName,
+                            userAbout,
+                            selectedProfilePictureUri.toString(),
+                            selectedBackgroundPictureUri.toString())
+                        onBackPressed()
+                    }) {
                         Icon(Icons.Default.Check, contentDescription = "Сохранить",tint = White)
                     }
                 }

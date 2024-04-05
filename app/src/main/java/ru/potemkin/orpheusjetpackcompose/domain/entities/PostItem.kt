@@ -13,8 +13,8 @@ import kotlinx.parcelize.RawValue
 data class PostItem(
     var id: String = UNDEFINED_ID,
     val creatorId:String,
-    val creatorName: String,
-    val creatorPicture: PhotoUrlItem,
+    var creatorName: String,
+    var creatorPicture: PhotoUrlItem,
     var text: String,
     val date: String,
     var comments: List<CommentItem>,

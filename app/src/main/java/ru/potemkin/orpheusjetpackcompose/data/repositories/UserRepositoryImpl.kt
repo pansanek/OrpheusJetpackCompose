@@ -1,9 +1,11 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
+import android.util.Log
 import ru.potemkin.orpheusjetpackcompose.data.mappers.UsersMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
@@ -93,9 +95,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override fun editUserItem(userItem: UserItem) {
-        val oldElement = getUserItem(userItem.id)
-        _userItems.remove(oldElement)
-        addUserItem(userItem)
+        setMyUser(userItem)
     }
 
     override fun getUserItem(userId: String): UserItem {
@@ -112,6 +112,18 @@ class UserRepositoryImpl @Inject constructor(
         return _musicianItems.toList()
     }
 
+    override fun editMusicianItem(musicianItem: MusicianItem) {
+        val oldElement = _musicianItems.find {
+            it.id == musicianItem.id
+        } ?: throw java.lang.RuntimeException("Element with id ${musicianItem.id} not found")
+        _musicianItems.remove(oldElement)
+        addMusicianItem(musicianItem)
+    }
+    override fun getMusicianItem(userItem: UserItem): MusicianItem {
+        return _musicianItems.find {
+            it.user == userItem
+        } ?: throw java.lang.RuntimeException("Element $userItem not found")
+    }
     override fun getOtherUser(userId: String): UserItem {
         TODO("Not yet implemented")
     }
