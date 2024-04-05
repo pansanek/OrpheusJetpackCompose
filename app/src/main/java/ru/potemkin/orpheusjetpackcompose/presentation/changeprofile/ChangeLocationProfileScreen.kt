@@ -91,7 +91,16 @@ fun ChangeLocationProfileScreen(location: LocationItem, onBackPressed: () -> Uni
                 },
                 backgroundColor = Black,
                 actions = {
-                    IconButton(onClick = { /* открыть меню */ }) {
+                    IconButton(onClick = {
+                        viewModel.changeLocationProfile(
+                            location,
+                            locationName,
+                            locationAddress,
+                            locationAbout,
+                            selectedProfilePictureUri.toString()
+                        )
+                        onBackPressed()
+                    }) {
                         Icon(
                             Icons.Default.Check,
                             contentDescription = "Сохранить",
