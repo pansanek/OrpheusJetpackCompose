@@ -13,14 +13,13 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -45,7 +44,6 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.MessageItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.IconComponentImageVector
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
-import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.DrawerButton
 import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
 import ru.potemkin.orpheusjetpackcompose.ui.theme.*
 
@@ -59,7 +57,6 @@ fun ChatScreen(
     onUserClickListener: (UserItem) -> Unit
 ) {
 
-    var message by remember { mutableStateOf("") }
 
     val component = getApplicationComponent()
         .getChatScreenComponentFactory().create(chatItem)
@@ -68,101 +65,104 @@ fun ChatScreen(
     )
     val screenState = viewModel.screenState.observeAsState(ChatScreenState.Initial)
     val currentState = screenState.value
+    val messages = viewModel.messagesFlow.collectAsState()
     if (currentState is ChatScreenState.Messages) {
         Box(
             modifier = Modifier
                 .padding(paddingValues)
                 .background(Black)
         ) {
-                Scaffold(
-                    topBar = {
-                        TopAppBar(
-                            navigationIcon = {
-                                IconButton(onClick = {
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        navigationIcon = {
+                            IconButton(
+                                onClick = {
                                     onBackPressed()
                                 },
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.ArrowBack,
-                                        contentDescription = "Назад",
-                                        tint = White
-                                    )
-                                }
-                            },
-                            title = {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                ) {
-                                    AsyncImage(
-                                        model = chatItem.users.get(1).profile_picture.url,
-                                        modifier = Modifier
-                                            .size(48.dp)
-                                            .clip(CircleShape)
-                                            .clickable {
-                                                onUserClickListener(chatItem.users.get(1))
-                                            },
-                                        contentDescription = null,
-                                        contentScale = ContentScale.Crop,
-                                    )
-                                    SpacerWidth(width = 24.dp)
-                                    Column {
-                                        Text(
-                                            text = chatItem.users.get(1).name,
-                                            style = TextStyle(
-                                                color = White,
-                                                fontWeight = FontWeight.Bold,
-                                                fontSize = 16.sp
-                                            )
-                                        )
-                                    }
-                                }
-                            },
-                            backgroundColor = Black
-                        )
-
-                    },
-                    bottomBar = {
-                        CustomTextField(
-                            text = message, onValueChange = { message = it },
-                            modifier = Modifier
-                                .padding(horizontal = 20.dp, vertical = 20.dp)
-                        )
-                    }, content = {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(
-                                    Color.White, RoundedCornerShape(
-                                        topStart = 30.dp, topEnd = 30.dp
-                                    )
-                                )
-                                .padding(top = 25.dp)
-                        ) {
-                            LazyColumn(
-                                modifier = Modifier.padding(
-                                    start = 15.dp,
-                                    top = 45.dp,
-                                    end = 15.dp,
-                                    bottom = 75.dp
-                                )
                             ) {
-                                items(currentState.messages, key = { it.id }) {
-                                    ChatRow(message = it)
+                                Icon(
+                                    imageVector = Icons.Default.ArrowBack,
+                                    contentDescription = "Назад",
+                                    tint = White
+                                )
+                            }
+                        },
+                        title = {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                AsyncImage(
+                                    model = chatItem.users.get(1).profile_picture.url,
+                                    modifier = Modifier
+                                        .size(48.dp)
+                                        .clip(CircleShape)
+                                        .clickable {
+                                            onUserClickListener(chatItem.users.get(1))
+                                        },
+                                    contentDescription = null,
+                                    contentScale = ContentScale.Crop,
+                                )
+                                SpacerWidth(width = 24.dp)
+                                Column {
+                                    Text(
+                                        text = chatItem.users.get(1).name,
+                                        style = TextStyle(
+                                            color = White,
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 16.sp
+                                        )
+                                    )
                                 }
+                            }
+                        },
+                        backgroundColor = Black
+                    )
+
+                },
+                bottomBar = {
+                    CustomTextField(
+                        modifier = Modifier
+                            .padding(horizontal = 20.dp, vertical = 20.dp),
+                        viewModel = viewModel
+                    )
+                }, content = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(
+                                Color.White, RoundedCornerShape(
+                                    topStart = 30.dp, topEnd = 30.dp
+                                )
+                            )
+                            .padding(top = 25.dp)
+                    ) {
+                        LazyColumn(
+                            modifier = Modifier.padding(
+                                start = 15.dp,
+                                top = 45.dp,
+                                end = 15.dp,
+                                bottom = 75.dp
+                            )
+                        ) {
+                            items(messages.value, key = { it.id }) {
+                                ChatRow(message = it, viewModel = viewModel)
                             }
                         }
                     }
-                )
-            }
+                }
+            )
         }
+    }
 
 }
 
 @Composable
 fun ChatRow(
-    message: MessageItem
+    message: MessageItem,
+    viewModel: ChatViewModel
 ) {
-    var userId = "1"
+    var userId = viewModel.getMyUserId()
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = if (message.fromUser.id != userId) Alignment.Start else Alignment.End
@@ -199,12 +199,13 @@ fun ChatRow(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTextField(
-    text: String,
     modifier: Modifier = Modifier,
-    onValueChange: (String) -> Unit
+    viewModel:ChatViewModel
 ) {
+    var message by remember { mutableStateOf("") }
+
     TextField(
-        value = text, onValueChange = { onValueChange(it) },
+        value = message, onValueChange = { message=it },
         placeholder = {
             Text(
                 text = stringResource(R.string.type_message),
@@ -224,8 +225,16 @@ fun CustomTextField(
 
 
             ),
-        leadingIcon = { CommonIconButton(imageVector = Icons.Default.Add) },
-        trailingIcon = { },
+        leadingIcon = { CommonIconButton(imageVector = Icons.Default.Add,
+            onClick = {}) },
+        trailingIcon = {
+            CommonIconButton(imageVector = Icons.Default.Send,
+                onClick = {
+                    viewModel.sendMessage(message)
+                })
+
+
+        },
         modifier = modifier.fillMaxWidth(),
         shape = CircleShape
     )
@@ -234,36 +243,23 @@ fun CustomTextField(
 
 @Composable
 fun CommonIconButton(
-    imageVector: ImageVector
+    imageVector: ImageVector,
+    onClick:()->Unit
 ) {
     Box(
         modifier = Modifier
             .background(White, CircleShape)
             .size(33.dp), contentAlignment = Center
     ) {
-        IconComponentImageVector(icon = imageVector, size = 15.dp, tint = Black)
+        IconComponentImageVector(icon = imageVector, size = 15.dp, tint = Black,
+            modifier = Modifier.clickable {
+                onClick()
+            })
     }
 
 }
 
-//@Composable
-//fun CommonIconButtonDrawable(
-//    @DrawableRes icon: Int
-//) {
-//    Box(
-//        modifier = Modifier
-//            .background(White, CircleShape)
-//            .size(33.dp),
-//        contentAlignment = Center
-//    ) {
-//        Icon(
-//            painter = painterResource(id = icon), contentDescription = "",
-//            tint = Black,
-//            modifier = Modifier.size(15.dp)
-//        )
-//    }
-//
-//}
+
 
 @Composable
 fun UserNameRow(

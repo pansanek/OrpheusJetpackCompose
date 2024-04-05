@@ -141,7 +141,7 @@ class ChatRepositoryImpl @Inject constructor(
     fun addMockMessageData(){
         addMessageItem(
             MessageItem(
-                "61",
+                "651",
                 "51",
                 UserItem(
                     "11",
@@ -167,7 +167,7 @@ class ChatRepositoryImpl @Inject constructor(
         )
         addMessageItem(
             MessageItem(
-                "62",
+                "652",
                 "51",
                 UserItem(
                     "17",
