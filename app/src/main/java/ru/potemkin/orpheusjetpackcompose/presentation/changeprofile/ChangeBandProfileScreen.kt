@@ -52,6 +52,7 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 @Composable
 fun ChangeBandProfileScreen(band: BandItem, onBackPressed: () -> Unit) {
     var bandName by remember { mutableStateOf(band.name) }
+    var genre by remember { mutableStateOf(band.genre) }
     var selectedProfilePictureUri by remember {
         mutableStateOf<Uri?>(Uri.parse(band.photo.url))
     }
@@ -87,7 +88,15 @@ fun ChangeBandProfileScreen(band: BandItem, onBackPressed: () -> Unit) {
                 },
                 backgroundColor = Black,
                 actions = {
-                    IconButton(onClick = { /* открыть меню */ }) {
+                    IconButton(onClick = {
+                        viewModel.changeBandProfile(
+                            oldProfile = band,
+                            bandName = bandName,
+                            genre = genre,
+                            profilePictureUrl = selectedProfilePictureUri.toString()
+                        )
+                        onBackPressed()
+                    }) {
                         Icon(Icons.Default.Check,
                             contentDescription = "Сохранить",
                             tint = White)
@@ -163,7 +172,22 @@ fun ChangeBandProfileScreen(band: BandItem, onBackPressed: () -> Unit) {
                             unfocusedTextColor = Grey
                         )
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
+                    OutlinedTextField(
+                        value = genre,
+                        onValueChange = { genre = it },
+                        label = { androidx.compose.material3.Text("Жанр") },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = TextFieldDefaults.textFieldColors(
+                            containerColor = Black,
+                            unfocusedIndicatorColor = White,
+                            focusedIndicatorColor = White,
+                            focusedTextColor = White,
+                            cursorColor = White,
+                            unfocusedLabelColor = Grey,
+                            unfocusedTextColor = Grey
+                        )
+                    )
 
                 }
             }
