@@ -1,5 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.data.mappers
 
+import kotlinx.coroutines.flow.MutableStateFlow
 import ru.potemkin.orpheusjetpackcompose.data.model.CommentDto
 import ru.potemkin.orpheusjetpackcompose.data.model.PhotoUrlDto
 import ru.potemkin.orpheusjetpackcompose.data.model.PostDto

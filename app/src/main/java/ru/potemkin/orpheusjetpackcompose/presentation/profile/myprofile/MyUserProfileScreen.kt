@@ -221,10 +221,7 @@ fun MyUserProfileScreen(
                                                     onCommentClickListener(
                                                         post
                                                     )
-                                                },
-                                                onLikeClickListener = { _ ->
-                                                    // viewModel.changeLikeStatus(feedPost)
-                                                },
+                                                }
                                             )
                                         }
                                     }

@@ -8,7 +8,6 @@ sealed class CommentsScreenState {
     object Initial : CommentsScreenState()
 
     data class Comments(
-        val feedPost: PostItem,
         val comments: List<CommentItem>
     ) : CommentsScreenState()
 }

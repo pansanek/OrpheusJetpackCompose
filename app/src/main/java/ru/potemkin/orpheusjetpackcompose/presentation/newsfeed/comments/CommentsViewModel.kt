@@ -12,7 +12,9 @@ import javax.inject.Inject
 
 
 class CommentsViewModel @Inject constructor(
-    feedPost: PostItem,
+    postItem: PostItem,
+    private val getCommentsUseCase: GetCommentsUseCase
+
 ) : ViewModel() {
 
     private val repository = PostRepositoryImpl()
@@ -21,14 +23,13 @@ class CommentsViewModel @Inject constructor(
     val screenState: LiveData<CommentsScreenState> = _screenState
 
     init {
-        loadComments(feedPost)
+        loadComments(postItem)
     }
 
-    private fun loadComments(feedPost: PostItem) {
+    private fun loadComments(postItem: PostItem) {
         viewModelScope.launch {
-            val comments = feedPost.comments
+            val comments = getCommentsUseCase.invoke(postItem.id)
             _screenState.value = CommentsScreenState.Comments(
-                feedPost = feedPost,
                 comments = comments
             )
         }

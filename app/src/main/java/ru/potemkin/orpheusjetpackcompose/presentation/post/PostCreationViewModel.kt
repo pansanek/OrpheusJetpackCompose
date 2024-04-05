@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
@@ -31,7 +32,7 @@ class PostCreationViewModel @Inject constructor(
     val screenState: LiveData<PostCreationScreenState> = _screenState
 
     fun createPost(creatorInfoItem: CreatorInfoItem,postContent:String,photoUrl:String){
-        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
         val currentDate = sdf.format(Date())
 
         val newPostItem = PostItem(
@@ -43,7 +44,6 @@ class PostCreationViewModel @Inject constructor(
             text = postContent,
             comments = listOf(),
             date = currentDate,
-            isLiked = false,
             attachment = PhotoUrlItem(
                 getNewPostPictureId(),
                 photoUrl

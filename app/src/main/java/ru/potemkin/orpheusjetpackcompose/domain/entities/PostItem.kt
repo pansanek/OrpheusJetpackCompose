@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.navigation.NavType
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class PostItem(
@@ -17,9 +20,11 @@ data class PostItem(
     var comments: List<CommentItem>,
     var attachment: PhotoUrlItem,
     var creatorType: CreatorType,
-    var isLiked: Boolean,
-    val statistics: List<StatisticItem>,
+    var statistics: List<StatisticItem>,
+    var isLiked:Boolean = false
 ):Parcelable{
+
+
     companion object {
         const val UNDEFINED_ID = "0"
 

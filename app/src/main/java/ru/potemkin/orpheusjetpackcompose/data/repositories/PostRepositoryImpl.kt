@@ -1,5 +1,8 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
+import android.util.Log
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import ru.potemkin.orpheusjetpackcompose.data.mappers.PostMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
@@ -52,12 +55,29 @@ class PostRepositoryImpl @Inject constructor(
         _postItems.add(postItem)
     }
 
+    override fun changeLikeStatus(postItemId: String) {
+        val oldElement = getPostItem(postItemId)
+        if(oldElement.isLiked == false) {
+            oldElement.isLiked = true
+            oldElement.statistics.get(0).count += 1
+            _postItems.remove(oldElement)
+            addPostItem(oldElement)
+        }
+        else{
+            oldElement.isLiked = false
+            oldElement.statistics.get(0).count -= 1
+            _postItems.remove(oldElement)
+            addPostItem(oldElement)
+        }
+
+    }
+
     override fun deletePostItem(postItem: PostItem) {
         _postItems.remove(postItem)
     }
 
-    override fun getComments(postItem: PostItem): List<CommentItem> {
-        return postItem.comments
+    override fun getComments(postId: String): List<CommentItem> {
+        return getPostItem(postId).comments
     }
 
     override fun addCommentItem(commentItem: CommentItem) {
@@ -119,7 +139,7 @@ class PostRepositoryImpl @Inject constructor(
                 ),
                 creatorType = CreatorType.USER,
                 text = "First Post!",
-                date = "01-07-21",
+                date = "15/2/2024 10:01",
                 comments = mutableListOf<CommentItem>(
                     CommentItem(
                         "21",
@@ -143,14 +163,14 @@ class PostRepositoryImpl @Inject constructor(
                             UserSettingsItem(true, true)
                         ),
                         "Nice",
-                        "01-07-21"
+                        "15/2/2024 12:37"
                     )
                 ),
                 attachment = PhotoUrlItem(
                     "391",
                     "https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"
                 ),
-                isLiked = true,
+                isLiked = false,
                 statistics = mutableListOf(
                     StatisticItem(StatisticType.LIKES, 21), StatisticItem(StatisticType.COMMENTS, 1)
                 ),
@@ -167,7 +187,7 @@ class PostRepositoryImpl @Inject constructor(
                 ),
                 creatorType = CreatorType.BAND,
                 text = "NEW ALBUM IS OUT!!!",
-                date = "01-02-24",
+                date = "01/3/2024 19:37",
                 comments = mutableListOf<CommentItem>(
                     CommentItem(
                         "21",
@@ -191,7 +211,7 @@ class PostRepositoryImpl @Inject constructor(
                             UserSettingsItem(true, true)
                         ),
                         "Nice",
-                        "01-02-24"
+                        "01/3/2024 20:37"
                     ),
                     CommentItem(
                         "22",
@@ -215,14 +235,14 @@ class PostRepositoryImpl @Inject constructor(
                             UserSettingsItem(true, true)
                         ),
                         "Amazing",
-                        "01-02-24"
+                        "01/3/2024 21:43"
                     )
                 ),
                 attachment = PhotoUrlItem(
                     "392",
                     "https://www.bringthenoiseuk.com/wp-content/uploads/normandie-band-2022.jpg"
                 ),
-                isLiked = true,
+                isLiked = false,
                 statistics = mutableListOf(
                     StatisticItem(StatisticType.LIKES, 21), StatisticItem(StatisticType.COMMENTS, 2)
                 ),

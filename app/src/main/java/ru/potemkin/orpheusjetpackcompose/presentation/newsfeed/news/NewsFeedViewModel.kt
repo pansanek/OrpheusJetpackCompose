@@ -1,13 +1,18 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationItem
@@ -23,6 +28,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetBandUs
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.location_usecases.GetLocationUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.notification_usecases.GetNotificationListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.AddPostUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.ChangeLikeStatusUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetCommentsUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetPostListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetMyUserUseCase
@@ -37,7 +43,8 @@ class NewsFeedViewModel @Inject constructor(
     private val getMyUserUseCase: GetMyUserUseCase,
     private val getLocationUseCase: GetLocationUseCase,
     private val getBandUseCase: GetBandUseCase,
-    private val getNotificationListUseCase: GetNotificationListUseCase
+    private val getNotificationListUseCase: GetNotificationListUseCase,
+    private val changeLikeStatusUseCase: ChangeLikeStatusUseCase
 ) : ViewModel() {
 
     private val initialState = NewsFeedScreenState.Initial
@@ -45,6 +52,7 @@ class NewsFeedViewModel @Inject constructor(
     private val _screenState = MutableLiveData<NewsFeedScreenState>(initialState)
     val screenState: LiveData<NewsFeedScreenState> = _screenState
 
+    private val _likeStatusMap = mutableMapOf<String, MutableStateFlow<Boolean>>()
 
     val postList = getPostListUseCase.invoke()
     val notificationList = getNotificationListUseCase.invoke(getMyUserUseCase.invoke())
@@ -74,12 +82,21 @@ class NewsFeedViewModel @Inject constructor(
 
     }
 
+    fun getCreatorInfo():CreatorInfoItem{
+        return CreatorInfoItem(
+            creatorId =  getMyUserUseCase.invoke().id,
+            creatorName = getMyUserUseCase.invoke().name,
+            creatorPicture = getMyUserUseCase.invoke().profile_picture,
+            creatorType = CreatorType.USER
+        )
+    }
 
-//    fun changeLikeStatus(feedPost: PostItem) {
-//        viewModelScope.launch {
-//            repository.changeLikeStatus(feedPost)
-//            _screenState.value = NewsFeedScreenState.Posts(posts = repository.postList)
-//        }
-//    }
-
+    fun changeLikeStatus(postId:String) {
+        val currentState = _likeStatusMap.getOrPut(postId) { MutableStateFlow(false) }.value
+        _likeStatusMap[postId]?.value = !currentState
+        changeLikeStatusUseCase.invoke(postId)
+    }
+    fun getLikeStatus(postId: String): StateFlow<Boolean> {
+        return _likeStatusMap.getOrPut(postId) { MutableStateFlow(false) }
+    }
 }

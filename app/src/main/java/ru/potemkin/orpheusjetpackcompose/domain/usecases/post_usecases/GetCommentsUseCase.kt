@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class GetCommentsUseCase @Inject constructor(private val postRepository: PostRepository) {
 
-    operator fun invoke(feedPost: PostItem): List<CommentItem> {
-        return postRepository.getComments(feedPost)
+    operator fun invoke(postId:String): List<CommentItem> {
+        return postRepository.getComments(postId)
     }
 }

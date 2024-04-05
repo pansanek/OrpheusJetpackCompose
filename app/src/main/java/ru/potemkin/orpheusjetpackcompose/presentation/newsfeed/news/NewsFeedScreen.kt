@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
@@ -43,6 +44,7 @@ fun NewsFeedScreen(
 
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+
     when (val currentState = screenState.value) {
         is NewsFeedScreenState.Posts -> {
             androidx.compose.material.Scaffold(
@@ -51,15 +53,8 @@ fun NewsFeedScreen(
                     NewsFeedTopBar(
                         onPostCreateClickListener = {
                             onPostCreateClickListener(
-                                    CreatorInfoItem(
-                                        "1", "pansanek",
-                                        PhotoUrlItem(
-                                            "b59ae42e-8859-441a-9a3a-2fca1b784de3",
-                                            "https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"
-                                        ),
-                                        CreatorType.USER
-                                    )
-                                    )
+                                viewModel.getCreatorInfo()
+                            )
                         },
                         onDrawerClickListener = {
                             scope.launch {
@@ -92,6 +87,7 @@ fun NewsFeedScreen(
                             .background(Black),
                         contentAlignment = Alignment.Center
                     ) {
+
                         FeedPosts(
                             viewModel = viewModel,
                             topPaddingValues = it,
@@ -103,6 +99,7 @@ fun NewsFeedScreen(
                             onBandClickListener = onBandClickListener,
                             onUserClickListener = onUserClickListener
                         )
+
                     }
                 }
             )
@@ -116,6 +113,7 @@ fun NewsFeedScreen(
                 CircularProgressIndicator(color = Color.Black)
             }
         }
+
         else -> {}
     }
 }
@@ -152,9 +150,6 @@ private fun FeedPosts(
                 feedPost = feedPost,
                 onCommentClickListener = {
                     onCommentClickListener(feedPost)
-                },
-                onLikeClickListener = { _ ->
-//                    viewModel.changeLikeStatus(feedPost)
                 },
                 onLocationClickListener = onLocationClickListener,
                 onBandClickListener = onBandClickListener,

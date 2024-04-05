@@ -34,6 +34,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
+import ru.potemkin.orpheusjetpackcompose.presentation.band.bandprofile.BandProfileViewModel
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Grey
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
@@ -41,12 +43,13 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 @Composable
 fun CommentsScreen(
     onBackPressed: () -> Unit,
-    feedPost: PostItem,
+    postItem: PostItem,
 ) {
+    val component = getApplicationComponent()
+        .getCommentsScreenComponentFactory()
+        .create(postItem)
     val viewModel: CommentsViewModel = viewModel(
-        factory = CommentsViewModelFactory(
-            feedPost
-        )
+        factory = component.getViewModelFactory()
     )
     val screenState = viewModel.screenState.observeAsState(CommentsScreenState.Initial)
     val currentState = screenState.value

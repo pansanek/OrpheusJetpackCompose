@@ -149,10 +149,7 @@ fun LocationScreen(
                                                 onCommentClickListener(
                                                     post
                                                 )
-                                            },
-                                            onLikeClickListener = { _ ->
-                                                // viewModel.changeLikeStatus(feedPost)
-                                            },
+                                            }
                                         )
                                     }
                                 }

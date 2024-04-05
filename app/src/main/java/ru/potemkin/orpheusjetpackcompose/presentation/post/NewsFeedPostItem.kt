@@ -26,6 +26,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,6 +39,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import kotlinx.coroutines.flow.MutableStateFlow
 import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
@@ -54,7 +56,6 @@ fun NewsFeedPostItem(
     viewModel: NewsFeedViewModel,
     modifier: Modifier = Modifier,
     feedPost: PostItem,
-    onLikeClickListener: (StatisticItem) -> Unit,
     onCommentClickListener: (StatisticItem) -> Unit,
     onLocationClickListener: (LocationItem) -> Unit,
     onUserClickListener: (UserItem) -> Unit,
@@ -96,10 +97,10 @@ fun NewsFeedPostItem(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Statistics(
+                postItem = feedPost,
+                viewModel = viewModel,
                 statistics = feedPost.statistics,
-                onLikeClickListener = onLikeClickListener,
-                onCommentClickListener = onCommentClickListener,
-                isFavourite = feedPost.isLiked
+                onCommentClickListener = onCommentClickListener
             )
         }
     }
@@ -199,11 +200,12 @@ private fun NewsFeedPostHeader(
 
 @Composable
 private fun Statistics(
+    viewModel: NewsFeedViewModel,
+    postItem: PostItem,
     statistics: List<StatisticItem>,
-    onLikeClickListener: (StatisticItem) -> Unit,
     onCommentClickListener: (StatisticItem) -> Unit,
-    isFavourite: Boolean
 ) {
+    val likeStatus = viewModel.getLikeStatus(postItem.id).collectAsState()
     Row {
         Row(
             modifier = Modifier.weight(1f),
@@ -220,12 +222,10 @@ private fun Statistics(
             )
             val likesItem = statistics.getItemByType(StatisticType.LIKES)
             IconWithText(
-                iconResId = if (isFavourite) R.drawable.ic_like_set else R.drawable.ic_like,
+                iconResId = if (likeStatus.value) R.drawable.ic_like_set else R.drawable.ic_like,
                 text = formatStatisticCount(likesItem.count),
-                onItemClickListener = {
-                    onLikeClickListener(likesItem)
-                },
-                tint = if (isFavourite) White else Red
+                onItemClickListener ={viewModel.changeLikeStatus(postItem.id)},
+                tint = if (likeStatus.value) Red else White
             )
         }
     }

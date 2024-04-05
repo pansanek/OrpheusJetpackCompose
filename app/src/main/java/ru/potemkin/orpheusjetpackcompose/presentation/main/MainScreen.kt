@@ -131,7 +131,7 @@ fun MainScreen() {
                     onBackPressed = {
                         navigationState.navHostController.popBackStack()
                     },
-                    feedPost = feedPost,
+                    postItem = feedPost,
                 )
             },
             locationScreenContent = { locationItem ->

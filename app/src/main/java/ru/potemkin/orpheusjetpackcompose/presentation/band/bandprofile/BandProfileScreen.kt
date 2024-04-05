@@ -147,9 +147,7 @@ fun BandProfileScreen(
                                                     post
                                                 )
                                             },
-                                            onLikeClickListener = { _ ->
-                                                // viewModel.changeLikeStatus(feedPost)
-                                            },
+
                                         )
                                     }
                                 }
