@@ -10,7 +10,7 @@ import kotlinx.parcelize.Parcelize
 data class BandItem(
     var id: String = UNDEFINED_ID,
     val name: String,
-    val members: List<UserItem>,
+    var members: List<UserItem>,
     val genre: String,
     val photo: PhotoUrlItem
 ): Parcelable{

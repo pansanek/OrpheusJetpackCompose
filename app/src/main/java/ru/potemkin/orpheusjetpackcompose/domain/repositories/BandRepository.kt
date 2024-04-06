@@ -1,11 +1,12 @@
 package ru.potemkin.orpheusjetpackcompose.domain.repositories
 
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 
 interface BandRepository {
 
     fun addBandItem(bandItem: BandItem)
-
+    fun addBandMemberItem(bandItem: BandItem,myUser: UserItem)
     fun deleteBandItem(bandItem: BandItem)
 
     fun editBandItem(bandItem: BandItem)

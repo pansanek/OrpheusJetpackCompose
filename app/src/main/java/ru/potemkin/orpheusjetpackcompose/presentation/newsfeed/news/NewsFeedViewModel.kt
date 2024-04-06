@@ -1,5 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
@@ -24,6 +25,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.AddBandMemberUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetBandUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.location_usecases.GetLocationUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.notification_usecases.GetNotificationListUseCase
@@ -44,7 +46,8 @@ class NewsFeedViewModel @Inject constructor(
     private val getLocationUseCase: GetLocationUseCase,
     private val getBandUseCase: GetBandUseCase,
     private val getNotificationListUseCase: GetNotificationListUseCase,
-    private val changeLikeStatusUseCase: ChangeLikeStatusUseCase
+    private val changeLikeStatusUseCase: ChangeLikeStatusUseCase,
+    private val addBandMemberUseCase: AddBandMemberUseCase
 ) : ViewModel() {
 
     private val initialState = NewsFeedScreenState.Initial
@@ -99,4 +102,10 @@ class NewsFeedViewModel @Inject constructor(
     fun getLikeStatus(postId: String): StateFlow<Boolean> {
         return _likeStatusMap.getOrPut(postId) { MutableStateFlow(false) }
     }
+
+    fun acceptBandInvitation(bandItem: BandItem){
+        addBandMemberUseCase.invoke(bandItem,getMyUserUseCase.invoke())
+    }
+
+
 }

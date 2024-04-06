@@ -30,6 +30,14 @@ class BandRepositoryImpl @Inject constructor(
         _bandItems.add(bandItem)
     }
 
+    override fun addBandMemberItem(bandItem: BandItem,myUser:UserItem) {
+        _bandItems.remove(bandItem)
+        var members = mutableListOf(myUser)
+        for (i in bandItem.members) members.add(i)
+        bandItem.members = members
+        addBandItem(bandItem)
+    }
+
     suspend fun loadBands(): List<BandItem> {
         val startFrom = nextFrom
 

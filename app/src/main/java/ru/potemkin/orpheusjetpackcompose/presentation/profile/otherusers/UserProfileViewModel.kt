@@ -1,5 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +11,8 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticItem
@@ -18,16 +21,27 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetBandUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetMyUserBandsUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetUserBandsUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.location_usecases.GetUserLocationUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.notification_usecases.AddNotificationUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.notification_usecases.GetAllNotificationListUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.notification_usecases.GetNotificationListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetUserPostsUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetMyUserUseCase
+import java.text.SimpleDateFormat
+import java.util.Date
 import javax.inject.Inject
 
 class UserProfileViewModel @Inject constructor(
     userItem: UserItem,
     getUserPostsUseCase: GetUserPostsUseCase,
     getUserBandsUseCase: GetUserBandsUseCase,
-    getUserLocationUseCase: GetUserLocationUseCase
+    getUserLocationUseCase: GetUserLocationUseCase,
+    private val addNotificationUseCase: AddNotificationUseCase,
+    private val getAllNotificationListUseCase: GetAllNotificationListUseCase,
+    private val getMyUserUseCase: GetMyUserUseCase,
+    private val getMyUserBandsUseCase: GetMyUserBandsUseCase
     ) : ViewModel() {
 
     private val initialState = UserProfileScreenState.Initial
@@ -69,6 +83,44 @@ class UserProfileViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun sendBandInvitation(bandItem: BandItem,user: UserItem){
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
+        val currentDate = sdf.format(Date())
+        addNotificationUseCase.invoke(
+            NotificationItem(
+                id = getNewNotificationId(),
+                type = NotificationType.BAND_INVITE,
+                contentDescription = " пригласил вас в группу ",
+                title = "Вас пригласили в группу",
+                toUser = user,
+                fromUser = getMyUserUseCase.invoke(),
+                postItem = null,
+                date = currentDate,
+                bandItem = bandItem
+            )
+        )
+
+    }
+
+    private fun getNewNotificationId(): String {
+        var notificationList = getAllNotificationListUseCase.invoke()
+        val indexes: MutableList<String> = ArrayList()
+        var largest: Int = 0
+        for (i in notificationList) {
+            indexes.add(i.id)
+        }
+        for (i in indexes) {
+            if (largest < i.toIntOrNull()!!)
+                largest = i.toIntOrNull()!!
+        }
+        largest = largest + 1
+        return largest.toString()
+    }
+
+    fun getMyUserBands():List<BandItem>{
+        return getMyUserBandsUseCase.invoke(getMyUserUseCase.invoke().id)
     }
 
 

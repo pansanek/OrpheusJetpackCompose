@@ -50,7 +50,7 @@ fun UserProfileScreen(
     userItem: UserItem,
     onCommentClickListener: (PostItem) -> Unit,
     onBandClickListener: (BandItem) -> Unit,
-    onLocationClickListener:(LocationItem) -> Unit,
+    onLocationClickListener: (LocationItem) -> Unit,
 ) {
     val component = getApplicationComponent()
         .getUserProfileScreenComponentFactory()
@@ -69,7 +69,11 @@ fun UserProfileScreen(
             androidx.compose.material.Scaffold(
                 scaffoldState = scaffoldState,
                 topBar = {
-                    ProfileTopBar(userItem = currentState.user, onBackPressed = onBackPressed)
+                    ProfileTopBar(
+                        userItem = currentState.user,
+                        onBackPressed = onBackPressed,
+                        viewModel = viewModel
+                    )
                 }
             ) {
                 Box(modifier = Modifier.padding(paddingValues)) {
@@ -82,7 +86,7 @@ fun UserProfileScreen(
                             scrollState = scrollState,
                             onBandClickListener,
                             onLocationClickListener,
-                            currentState
+                            currentState,
                         )
                         ChatButton(
                             modifier = Modifier
@@ -93,7 +97,7 @@ fun UserProfileScreen(
                                     bottom = 4.dp
                                 )
                                 .height(40.dp),
-                            onClick = { startChat = true},
+                            onClick = { startChat = true },
                             text = "Написать",
                             fontSize = 16.sp,
                             scrollState = scrollState,
@@ -123,7 +127,7 @@ fun UserProfileScreen(
                             }
                         }
                     }
-                    if(startChat) {
+                    if (startChat) {
                         StartChatDialog(
                             toUser = currentState.user,
                             onDismiss = { startChat = false },

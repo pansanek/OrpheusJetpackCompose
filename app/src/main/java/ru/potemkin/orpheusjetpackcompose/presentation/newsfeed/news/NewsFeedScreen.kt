@@ -60,7 +60,8 @@ fun NewsFeedScreen(
                             scope.launch {
                                 scaffoldState.drawerState.open()
                             }
-                        }
+                        },
+                        viewModel=viewModel
                     )
                 },
                 drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
@@ -76,6 +77,7 @@ fun NewsFeedScreen(
                                 items = currentState.notifications,
                                 onUserClickListener = onUserClickListener,
                                 onBandClickListener = onBandClickListener,
+                                viewModel = viewModel
                             )
                         }
                     }

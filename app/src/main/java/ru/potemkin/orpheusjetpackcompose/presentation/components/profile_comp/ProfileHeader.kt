@@ -48,7 +48,7 @@ fun ProfileHeader(user: UserItem,
                   scrollState: LazyListState,
                   onBandClickListener: (BandItem) -> Unit,
                   onLocationClickListener:(LocationItem) -> Unit,
-                  screenState: UserProfileScreenState.User
+                  screenState: UserProfileScreenState.User,
                   ) {
     // При скролле уменьшаем высоту Header и делаем его непрозрачным
     val headerHeight by animateDpAsState(

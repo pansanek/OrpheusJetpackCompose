@@ -199,45 +199,52 @@ fun CustomAlertDialog(location: LocationItem, onDismiss: () -> Unit, onConfirm: 
             shape = MaterialTheme.shapes.medium,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                // Отображение изображения
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(location.profilePicture.url)
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = location.name,
+            Column {
+                Box(
                     modifier = Modifier
-                        .size(100.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                // Заголовок
-                Text(text = location.name, style = MaterialTheme.typography.titleLarge)
-                // Текст
-                Text(text = location.about, style = MaterialTheme.typography.titleMedium)
-                Spacer(modifier = Modifier.height(16.dp))
-                // Кнопки действий
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    contentAlignment = Alignment.Center,
                 ) {
-                    TextButton(
-                        onClick = onDismiss,
-                        colors = ButtonDefaults.textButtonColors(contentColor = Color.Black)
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(location.profilePicture.url)
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = location.name,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                        ,
+                        contentScale = ContentScale.Crop
+                    )
+                }
+                Column(modifier = Modifier.padding(16.dp)) {
+                    // Заголовок
+                    Text(text = location.name, style = MaterialTheme.typography.titleLarge)
+                    // Текст
+                    Text(text = location.about, style = MaterialTheme.typography.titleMedium)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    // Кнопки действий
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text("Отмена")
-                    }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Button(
-                        onClick = onConfirm,
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Black,
-                            contentColor = Color.White
-                        ), // Установка черного цвета фона
-                    ) {
-                        Text("Открыть")
+                        TextButton(
+                            onClick = onDismiss,
+                            colors = ButtonDefaults.textButtonColors(contentColor = Color.Black)
+                        ) {
+                            Text("Отмена")
+                        }
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Button(
+                            onClick = onConfirm,
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color.Black,
+                                contentColor = Color.White
+                            ), // Установка черного цвета фона
+                        ) {
+                            Text("Открыть")
+                        }
                     }
                 }
             }

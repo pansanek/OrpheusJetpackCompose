@@ -28,8 +28,6 @@ class NotificationRepositoryImpl @Inject constructor(
     private val notificationIdNumber = 8
 
     private val _notificationItems = mutableListOf<NotificationItem>()
-    private val notificationItems: List<NotificationItem>
-        get() = _notificationItems.toList()
 
     init {
         addMockData()
@@ -39,7 +37,9 @@ class NotificationRepositoryImpl @Inject constructor(
         _notificationItems.add(notificationItem)
     }
 
-
+    override fun getAllNotifications(): List<NotificationItem> {
+        return _notificationItems
+    }
     override fun getNotifications(toUser: UserItem): List<NotificationItem> {
         val userNotifications = mutableListOf<NotificationItem>()
         for (notification in _notificationItems) {
