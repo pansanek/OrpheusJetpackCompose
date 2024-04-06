@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -46,6 +47,9 @@ import ru.potemkin.orpheusjetpackcompose.presentation.components.IconComponentIm
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
 import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
 import ru.potemkin.orpheusjetpackcompose.ui.theme.*
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,13 +70,19 @@ fun ChatScreen(
     val screenState = viewModel.screenState.observeAsState(ChatScreenState.Initial)
     val currentState = screenState.value
     val messages = viewModel.messagesFlow.collectAsState()
+    val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
     if (currentState is ChatScreenState.Messages) {
         Box(
             modifier = Modifier
                 .padding(paddingValues)
                 .background(Black)
+
         ) {
             Scaffold(
+                modifier = Modifier
+                    .systemBarsPadding()
+                    .fillMaxSize(),
                 topBar = {
                     TopAppBar(
                         navigationIcon = {
@@ -124,7 +134,12 @@ fun ChatScreen(
                     CustomTextField(
                         modifier = Modifier
                             .padding(horizontal = 20.dp, vertical = 20.dp),
-                        viewModel = viewModel
+                        viewModel = viewModel,
+                        onSend = {
+                            coroutineScope.launch {
+                                listState.animateScrollToItem(messages.value.lastIndex)
+                            }
+                        }
                     )
                 }, content = {
                     Box(
@@ -143,7 +158,8 @@ fun ChatScreen(
                                 top = 45.dp,
                                 end = 15.dp,
                                 bottom = 75.dp
-                            )
+                            ),
+                            state = listState
                         ) {
                             items(messages.value, key = { it.id }) {
                                 ChatRow(message = it, viewModel = viewModel)
@@ -200,7 +216,8 @@ fun ChatRow(
 @Composable
 fun CustomTextField(
     modifier: Modifier = Modifier,
-    viewModel:ChatViewModel
+    viewModel:ChatViewModel,
+    onSend:()->Unit
 ) {
     var message by remember { mutableStateOf("") }
 
@@ -230,6 +247,7 @@ fun CustomTextField(
         trailingIcon = {
             CommonIconButton(imageVector = Icons.Default.Send,
                 onClick = {
+                    onSend()
                     viewModel.sendMessage(message)
                 })
 
