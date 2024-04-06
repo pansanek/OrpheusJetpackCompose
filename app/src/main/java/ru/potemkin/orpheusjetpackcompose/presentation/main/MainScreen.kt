@@ -132,6 +132,7 @@ fun MainScreen() {
                         navigationState.navHostController.popBackStack()
                     },
                     postItem = feedPost,
+                    paddingValues = paddingValues
                 )
             },
             locationScreenContent = { locationItem ->

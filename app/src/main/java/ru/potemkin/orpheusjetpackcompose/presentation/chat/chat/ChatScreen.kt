@@ -235,7 +235,7 @@ fun CustomTextField(
 
 
         },
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().height(60.dp),
         shape = CircleShape
     )
 

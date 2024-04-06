@@ -81,7 +81,13 @@ class PostRepositoryImpl @Inject constructor(
     }
 
     override fun addCommentItem(commentItem: CommentItem) {
-
+        val postItem = getPostItem(commentItem.post_id)
+        _postItems.remove(postItem)
+        var comments = mutableListOf(commentItem)
+        for (i in postItem.comments) comments.add(i)
+        postItem.comments = comments
+        postItem.statistics.get(1).count +=1
+        addPostItem(postItem)
     }
 
     override fun editPostItem(postItem: PostItem) {

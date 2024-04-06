@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.PostRepository
 import javax.inject.Inject
 
 class AddCommentUseCase @Inject constructor(private val postRepository: PostRepository) {
-    operator fun invoke(postItem: CommentItem){
-        postRepository.addCommentItem(postItem);
+    operator fun invoke(commentItem: CommentItem){
+        postRepository.addCommentItem(commentItem);
     }
 }
