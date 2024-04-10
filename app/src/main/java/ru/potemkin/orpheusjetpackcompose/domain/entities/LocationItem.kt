@@ -5,6 +5,7 @@ import android.os.Parcelable
 import androidx.navigation.NavType
 import com.google.gson.Gson
 import kotlinx.parcelize.Parcelize
+import ru.potemkin.orpheusjetpackcompose.R
 
 @Parcelize
 data class LocationItem(
@@ -13,10 +14,13 @@ data class LocationItem(
     var name: String,
     var address: String,
     var about: String,
-    var profilePicture: PhotoUrlItem,
+    var profilePicture: PhotoUrlItem = PhotoUrlItem(
+        UserItem.UNDEFINED_ID,
+        R.drawable.harp.toString()
+    ),
     var latitude: Double = 0.0, // Добавлено
     var longitude: Double = 0.0 // Добавлено
-):Parcelable{
+) : Parcelable {
     companion object {
         const val UNDEFINED_ID = "0"
 

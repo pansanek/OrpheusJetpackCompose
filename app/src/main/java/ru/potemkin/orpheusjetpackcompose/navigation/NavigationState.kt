@@ -73,6 +73,7 @@ class NavigationState(
         navHostController.navigate(Screen.ChatScreen.getRouteWithArgs(chatItem))
     }
     fun navigateToAboutMeScreen(regItem: RegItem) {
+        Log.d("AUTHATUT",regItem.toString())
         navHostController.navigate(Screen.RegistrationAboutMeScreen.getRouteWithArgs(regItem))
     }
     fun navigateToUserTypeScreen(aboutMeItem: AboutMeItem) {

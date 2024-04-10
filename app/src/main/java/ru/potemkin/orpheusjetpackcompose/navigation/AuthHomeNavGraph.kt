@@ -18,7 +18,6 @@ fun NavGraphBuilder.authHomeNavGraph(
     registrationUserTypeScreenContent: @Composable (AboutMeItem) -> Unit,
     registrationMusicianTypeScreenContent: @Composable (TypeItem) -> Unit,
     registrationAdministratorTypeScreenContent: @Composable (TypeItem) -> Unit,
-    newsFeedScreenContent: @Composable () -> Unit,
 ) {
     navigation(
         startDestination = Screen.StartScreen.route,
@@ -37,7 +36,7 @@ fun NavGraphBuilder.authHomeNavGraph(
             route = Screen.RegistrationAboutMeScreen.route,
             arguments = listOf(
                 navArgument(Screen.KEY_REG_ABOUT_ME) {
-                    type = PostItem.NavigationType
+                    type = RegItem.NavigationType
                 }
             )
         ) {
@@ -49,7 +48,7 @@ fun NavGraphBuilder.authHomeNavGraph(
             route = Screen.RegistrationUserTypeScreen.route,
             arguments = listOf(
                 navArgument(Screen.KEY_REG_TYPE) {
-                    type = PostItem.NavigationType
+                    type = AboutMeItem.NavigationType
                 }
             )
         ) {
@@ -61,7 +60,7 @@ fun NavGraphBuilder.authHomeNavGraph(
             route = Screen.RegistrationMusicianTypeScreen.route,
             arguments = listOf(
                 navArgument(Screen.KEY_REG_MUS) {
-                    type = PostItem.NavigationType
+                    type = TypeItem.NavigationType
                 }
             )
         ) {
@@ -73,7 +72,7 @@ fun NavGraphBuilder.authHomeNavGraph(
             route = Screen.RegistrationAdministratorTypeScreen.route,
             arguments = listOf(
                 navArgument(Screen.KEY_REG_ADMN) {
-                    type = PostItem.NavigationType
+                    type = TypeItem.NavigationType
                 }
             )
         ) {

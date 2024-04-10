@@ -55,6 +55,7 @@ import ru.potemkin.orpheusjetpackcompose.presentation.components.AuthButton
 import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
 import ru.potemkin.orpheusjetpackcompose.presentation.components.PasswordEntryModule
 import ru.potemkin.orpheusjetpackcompose.presentation.components.TextEntryModule
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
 import ru.potemkin.orpheusjetpackcompose.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,11 +69,11 @@ fun LoginScreen(
     val surfaceVisible = remember { mutableStateOf(false) }
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val viewModel: AuthViewModel = viewModel()
+    val component = getApplicationComponent()
+    val viewModel: AuthViewModel = viewModel(factory = component.getViewModelFactory())
     val authState = viewModel.authState.observeAsState(AuthState.Initial)
 
     val context = LocalContext.current
-    var isPasscodeAvailable by remember { mutableStateOf(viewModel.isUserIdAvailable(context)) }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -152,7 +153,6 @@ fun LoginScreen(
                                 viewModel.authorize(username, password)
                                 when (authState.value) {
                                     is AuthState.Authorized -> {
-                                        viewModel.setUserId(context)
                                         onNextClickListener()
                                     }
 
@@ -271,16 +271,4 @@ fun LoginScreen(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewLoginScreen() {
-    val navigationState = rememberNavigationState()
-    val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
-    LoginScreen(
-        paddingValues = PaddingValues(),
-        onRegistrationClickListener = { navigationState.navigateToRegistration() },
-        onNextClickListener = { navigationState.navigateToNewsFeed() }
-    )
 }

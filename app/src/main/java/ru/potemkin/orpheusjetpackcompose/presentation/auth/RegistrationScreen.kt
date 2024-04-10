@@ -1,5 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.auth
 
+import android.location.Geocoder
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -49,6 +50,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -68,7 +70,10 @@ import ru.potemkin.orpheusjetpackcompose.presentation.components.ButtonComponent
 import ru.potemkin.orpheusjetpackcompose.presentation.components.PasswordEntryModule
 import ru.potemkin.orpheusjetpackcompose.presentation.components.RadioButtonGroup
 import ru.potemkin.orpheusjetpackcompose.presentation.components.TextEntryModule
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
+import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.MyUserProfileViewModel
 import ru.potemkin.orpheusjetpackcompose.ui.theme.*
+import java.util.Locale
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -442,7 +447,8 @@ fun MusicianRegScreen(
     var expandedInstrument by remember { mutableStateOf(false) }
     var expandedGenre by remember { mutableStateOf(false) }
 
-    val viewModel: AuthViewModel = viewModel()
+    val component = getApplicationComponent()
+    val viewModel: AuthViewModel = viewModel(factory = component.getViewModelFactory())
     val surfaceVisible = remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
@@ -632,8 +638,9 @@ fun AdminRegScreen(
     var locationName by remember { mutableStateOf("") }
     var locationAbout by remember { mutableStateOf("") }
 
-    val viewModel: AuthViewModel = viewModel()
-
+    val component = getApplicationComponent()
+    val viewModel: AuthViewModel = viewModel(factory = component.getViewModelFactory())
+    val context = LocalContext.current
     val surfaceVisible = remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
@@ -739,7 +746,8 @@ fun AdminRegScreen(
                                     userType = typeItem.userType.toString(),
                                     locationName = locationName,
                                     locationAbout = locationAbout,
-                                    locationAddress = locationAddress
+                                    locationAddress = locationAddress,
+                                    context = context
                                 )
                                 onNextClickListener()
                             }
@@ -755,12 +763,3 @@ fun AdminRegScreen(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewRegistrationScreen() {
-    val navigationState = rememberNavigationState()
-    AdminRegScreen(
-        typeItem = TypeItem(AboutMeItem(RegItem("a", "a", "a", "a"), "a"), UserType.ADMINISTRATOR),
-        onBackPressed = { /*TODO*/ },
-        onNextClickListener = {})
-}

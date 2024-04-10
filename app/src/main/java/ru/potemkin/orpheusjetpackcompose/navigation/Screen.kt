@@ -68,7 +68,7 @@ sealed class Screen(
     }
     object RegistrationUserTypeScreen : Screen(ROUTE_REGISTRATION_USER_TYPE){
 
-        private const val ROUTE_FOR_ARGS = "reg_user_type"
+        private const val ROUTE_FOR_ARGS = "reg_type"
 
         fun getRouteWithArgs(aboutMeItem: AboutMeItem): String {
             val argsJson = Gson().toJson(aboutMeItem)
@@ -77,7 +77,7 @@ sealed class Screen(
     }
     object RegistrationMusicianTypeScreen : Screen(ROUTE_REGISTRATION_MUS){
 
-        private const val ROUTE_FOR_ARGS = "reg_mus_type"
+        private const val ROUTE_FOR_ARGS = "reg_mus"
 
         fun getRouteWithArgs(typeItem: TypeItem): String {
             val argsJson = Gson().toJson(typeItem)
@@ -86,7 +86,7 @@ sealed class Screen(
     }
     object RegistrationAdministratorTypeScreen : Screen(ROUTE_REGISTRATION_ADMN){
 
-        private const val ROUTE_FOR_ARGS = "reg_admin_type"
+        private const val ROUTE_FOR_ARGS = "reg_admn"
 
         fun getRouteWithArgs(typeItem: TypeItem): String {
             val argsJson = Gson().toJson(typeItem)
@@ -186,10 +186,10 @@ sealed class Screen(
         const val ROUTE_PROFILE = "profile"
         const val ROUTE_PROFILE_HOME = "profile_home"
         const val ROUTE_REGISTRATION = "registration"
-        const val ROUTE_REGISTRATION_ABOUT_ME = "registration_about_me/{$KEY_REG_ABOUT_ME}"
-        const val ROUTE_REGISTRATION_USER_TYPE = "registration_user_type/{$KEY_REG_TYPE}"
-        const val ROUTE_REGISTRATION_MUS = "registration_mus/{$KEY_REG_MUS}"
-        const val ROUTE_REGISTRATION_ADMN = "registration_admn/{$KEY_REG_ADMN}"
+        const val ROUTE_REGISTRATION_ABOUT_ME = "reg_about_me/{$KEY_REG_ABOUT_ME}"
+        const val ROUTE_REGISTRATION_USER_TYPE = "reg_type/{$KEY_REG_TYPE}"
+        const val ROUTE_REGISTRATION_MUS = "reg_mus/{$KEY_REG_MUS}"
+        const val ROUTE_REGISTRATION_ADMN = "reg_admn/{$KEY_REG_ADMN}"
         const val ROUTE_SEARCH = "search"
         const val ROUTE_START = "start"
         const val ROUTE_USER_PROFILE = "user_profile/{$KEY_USER}"

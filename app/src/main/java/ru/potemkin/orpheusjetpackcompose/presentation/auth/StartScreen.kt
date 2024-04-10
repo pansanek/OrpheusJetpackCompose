@@ -73,7 +73,7 @@ fun StartScreen(
                     .padding(top = 400.dp, start = 40.dp,end = 40.dp)
                     .align(Alignment.BottomCenter)
                     .height(60.dp),
-                onClick = { onAuthClickListener() },
+                onClick =  onAuthClickListener ,
                 text = "Начать!",
                 fontSize = 32.sp
             )
@@ -86,14 +86,6 @@ fun StartScreen(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewStartScreen() {
-    val navigationState = rememberNavigationState()
-    val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
-    StartScreen(
-        onAuthClickListener = { navigationState.navigateToNewsFeed() }
-    )
-}
+
 
 

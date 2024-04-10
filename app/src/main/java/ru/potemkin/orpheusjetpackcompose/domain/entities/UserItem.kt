@@ -24,7 +24,10 @@ data class UserItem(
         UserItem.UNDEFINED_ID,
         R.drawable.harp.toString()
     ),
-    var settings: UserSettingsItem
+    var settings: UserSettingsItem = UserSettingsItem(
+        canReceiveMessagesForNewChats = true,
+        canReceiveBandInvitations = true
+    )
 ):Parcelable {
     companion object {
         const val UNDEFINED_ID = "0"
