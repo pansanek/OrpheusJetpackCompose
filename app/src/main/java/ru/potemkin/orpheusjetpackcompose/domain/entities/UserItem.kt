@@ -5,6 +5,7 @@ import android.os.Parcelable
 import androidx.navigation.NavType
 import com.google.gson.Gson
 import kotlinx.parcelize.Parcelize
+import ru.potemkin.orpheusjetpackcompose.R
 
 @Parcelize
 data class UserItem(
@@ -15,8 +16,14 @@ data class UserItem(
     var email: String,
     var about: String,
     var user_type: UserType,
-    var profile_picture: PhotoUrlItem,
-    var background_picture: PhotoUrlItem,
+    var profile_picture: PhotoUrlItem = PhotoUrlItem(
+        UserItem.UNDEFINED_ID,
+        R.drawable.harp.toString()
+    ),
+    var background_picture: PhotoUrlItem= PhotoUrlItem(
+        UserItem.UNDEFINED_ID,
+        R.drawable.harp.toString()
+    ),
     var settings: UserSettingsItem
 ):Parcelable {
     companion object {

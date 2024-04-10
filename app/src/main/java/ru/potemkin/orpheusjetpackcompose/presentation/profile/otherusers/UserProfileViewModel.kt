@@ -8,9 +8,11 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.UserRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.MessageItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
@@ -23,6 +25,10 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetBandUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetMyUserBandsUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetUserBandsUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.AddChatItemUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.AddMessageUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.GetChatListUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.GetMessageListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.location_usecases.GetUserLocationUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.notification_usecases.AddNotificationUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.notification_usecases.GetAllNotificationListUseCase
@@ -41,8 +47,12 @@ class UserProfileViewModel @Inject constructor(
     private val addNotificationUseCase: AddNotificationUseCase,
     private val getAllNotificationListUseCase: GetAllNotificationListUseCase,
     private val getMyUserUseCase: GetMyUserUseCase,
-    private val getMyUserBandsUseCase: GetMyUserBandsUseCase
-    ) : ViewModel() {
+    private val getMyUserBandsUseCase: GetMyUserBandsUseCase,
+    private val getChatListUseCase: GetChatListUseCase,
+    private val addChatItemUseCase: AddChatItemUseCase,
+    private val getMessageListUseCase: GetMessageListUseCase,
+    private val addMessageUseCase: AddMessageUseCase
+) : ViewModel() {
 
     private val initialState = UserProfileScreenState.Initial
 
@@ -59,22 +69,23 @@ class UserProfileViewModel @Inject constructor(
         )
     }
 
-    private fun loadPosts(user:UserItem,
-                          getUserPostsUseCase: GetUserPostsUseCase,
-                          getUserBandsUseCase: GetUserBandsUseCase,
-                          getUserLocationUseCase: GetUserLocationUseCase) {
+    private fun loadPosts(
+        user: UserItem,
+        getUserPostsUseCase: GetUserPostsUseCase,
+        getUserBandsUseCase: GetUserBandsUseCase,
+        getUserLocationUseCase: GetUserLocationUseCase
+    ) {
         viewModelScope.launch {
 //            val feedPosts = repository.loadPosts(user.id)
             val feedPosts = getUserPostsUseCase.invoke(user.id)
-            if(user.user_type == UserType.MUSICIAN) {
+            if (user.user_type == UserType.MUSICIAN) {
                 _screenState.value = UserProfileScreenState.User(
                     user = user,
                     posts = feedPosts,
                     location = null,
                     bands = getUserBandsUseCase.invoke(user.id)
                 )
-            }
-            else{
+            } else {
                 _screenState.value = UserProfileScreenState.User(
                     user = user,
                     posts = feedPosts,
@@ -85,7 +96,35 @@ class UserProfileViewModel @Inject constructor(
         }
     }
 
-    fun sendBandInvitation(bandItem: BandItem,user: UserItem){
+    fun createChat(toUser: UserItem, message: String) {
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
+        val currentDate = sdf.format(Date())
+        var chatExists = false
+        val chatId = getNewChatId(getMyUserUseCase.invoke())
+        for (i in getChatListUseCase.invoke(getMyUserUseCase.invoke().id)) {
+            if (toUser in i.users) chatExists = true
+        }
+        if (!chatExists) {
+            addChatItemUseCase.invoke(
+                ChatItem(
+                    id = chatId,
+                    users = listOf(getMyUserUseCase.invoke(), toUser),
+                    lastMessage = message
+                )
+            )
+        }
+        addMessageUseCase.invoke(
+            MessageItem(
+                id = getNewMessageId(chatId),
+                chatId = chatId,
+                fromUser = getMyUserUseCase.invoke(),
+                timestamp = currentDate,
+                content = message
+            )
+        )
+    }
+
+    fun sendBandInvitation(bandItem: BandItem, user: UserItem) {
         val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
         val currentDate = sdf.format(Date())
         addNotificationUseCase.invoke(
@@ -119,12 +158,39 @@ class UserProfileViewModel @Inject constructor(
         return largest.toString()
     }
 
-    fun getMyUserBands():List<BandItem>{
-        return getMyUserBandsUseCase.invoke(getMyUserUseCase.invoke().id)
+    private fun getNewMessageId(chatId: String): String {
+        var messageList = getMessageListUseCase.invoke(chatId)
+        val indexes: MutableList<String> = ArrayList()
+        var largest: Int = 0
+        for (i in messageList) {
+            indexes.add(i.id)
+        }
+        for (i in indexes) {
+            if (largest < i.toIntOrNull()!!)
+                largest = i.toIntOrNull()!!
+        }
+        largest = largest + 1
+        return largest.toString()
     }
 
+    private fun getNewChatId(userItem: UserItem): String {
+        var chatList = getChatListUseCase.invoke(userItem.id)
+        val indexes: MutableList<String> = ArrayList()
+        var largest: Int = 0
+        for (i in chatList) {
+            indexes.add(i.id)
+        }
+        for (i in indexes) {
+            if (largest < i.toIntOrNull()!!)
+                largest = i.toIntOrNull()!!
+        }
+        largest = largest + 1
+        return largest.toString()
+    }
 
-
+    fun getMyUserBands(): List<BandItem> {
+        return getMyUserBandsUseCase.invoke(getMyUserUseCase.invoke().id)
+    }
 
 
 }

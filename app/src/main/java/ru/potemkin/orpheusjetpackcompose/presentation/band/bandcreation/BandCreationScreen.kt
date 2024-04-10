@@ -234,6 +234,8 @@ fun BandCreationScreen(
 ) {
     var groupName by remember { mutableStateOf("") }
     var groupGenre by remember { mutableStateOf("") }
+    val component = getApplicationComponent()
+    val viewModel: BandCreationViewModel = viewModel(factory = component.getViewModelFactory())
     var selectedProfilePictureUri by remember {
         mutableStateOf<Uri?>(null)
     }
@@ -268,7 +270,12 @@ fun BandCreationScreen(
                 actions = {
                     IconButton(
                         onClick = {
-                            // TODO: Обработка создания группы
+                            viewModel.createBand(
+                                groupName,
+                                groupGenre,
+                                selectedProfilePictureUri.toString()
+                            )
+                            onBackPressed()
                         }
                     ) {
                         Icon(

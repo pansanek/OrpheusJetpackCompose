@@ -31,10 +31,13 @@ import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.UserProfileViewModel
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 
 @Composable
-fun StartChatDialog(toUser:UserItem, onDismiss: () -> Unit, onConfirm: () -> Unit) {
+fun StartChatDialog(toUser:UserItem, onDismiss: () -> Unit, onConfirm: () -> Unit,
+                    viewModel: UserProfileViewModel
+) {
     var message by remember { mutableStateOf("") }
     Dialog(onDismissRequest = onDismiss) {
         Surface(
@@ -85,7 +88,10 @@ fun StartChatDialog(toUser:UserItem, onDismiss: () -> Unit, onConfirm: () -> Uni
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
-                        onClick = onConfirm,
+                        onClick = {
+                            viewModel.createChat(toUser,message)
+                            onConfirm()
+                                  },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Black,
                             contentColor = Color.White

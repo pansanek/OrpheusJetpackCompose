@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.EditPostUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetUserPostsUseCase
@@ -50,6 +51,28 @@ class MyUserProfileViewModel @Inject constructor(
         }
     }
 
+    fun changePrivacySettings(userSettings: UserSettingsItem){
+        val oldUser = getMyUserUseCase.invoke()
+        val newUser = UserItem(
+            id = oldUser.id,
+            login = oldUser.login,
+            name =oldUser.name,
+            password = oldUser.password,
+            email = oldUser.email,
+            about = oldUser.about,
+            user_type= oldUser.user_type,
+            profile_picture= PhotoUrlItem(
+                id = oldUser.profile_picture.id,
+                url = oldUser.profile_picture.url
+            ),
+            background_picture= PhotoUrlItem(
+                id = oldUser.background_picture.id,
+                url = oldUser.background_picture.url
+            ),
+            settings= userSettings
+        )
+        editUserUseCase.invoke(newUser)
+    }
     fun changeUserProfile(oldProfile:UserItem,userName:String,userAbout:String, profilePictureUrl:String,backgroundPictureUrl:String){
         val newUser = UserItem(
             id = oldProfile.id,

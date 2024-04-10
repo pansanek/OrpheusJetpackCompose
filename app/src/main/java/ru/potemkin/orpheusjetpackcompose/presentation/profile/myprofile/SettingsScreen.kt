@@ -23,8 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
+import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
@@ -38,6 +40,8 @@ fun SettingsScreen(
     var isEditProfileScreenVisible by remember { mutableStateOf(false) }
     var isPrivacyScreenVisible by remember { mutableStateOf(false) }
     var userSettings by remember { mutableStateOf(userItem.settings) }
+    val component = getApplicationComponent()
+    val viewModel: MyUserProfileViewModel = viewModel(factory = component.getViewModelFactory())
     Scaffold(
         topBar = {
            TopAppBar(
@@ -85,7 +89,8 @@ fun SettingsScreen(
                         userSettings = userSettings,
                         onUserSettingsChanged = { newUserSettings ->
                             userSettings = newUserSettings
-                        }
+                        },
+                        viewModel = viewModel
                     )
                 }
             }
@@ -124,7 +129,8 @@ fun SettingsItem(text: String, icon: ImageVector, onClick: () -> Unit) {
 fun PrivacySettingsScreen(
     onClose: () -> Unit,
     userSettings: UserSettingsItem,
-    onUserSettingsChanged: (UserSettingsItem) -> Unit
+    onUserSettingsChanged: (UserSettingsItem) -> Unit,
+    viewModel:MyUserProfileViewModel
 ) {
     Column(
         modifier = Modifier
@@ -143,7 +149,10 @@ fun PrivacySettingsScreen(
                 color = White
             )
             IconButton(
-                onClick = onClose
+                onClick = {
+                    viewModel.changePrivacySettings(userSettings)
+                    onClose()
+                }
             ) {
                 Icon(
                     imageVector = Icons.Default.Close,

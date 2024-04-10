@@ -133,7 +133,8 @@ fun UserProfileScreen(
                             onDismiss = { startChat = false },
                             onConfirm = {
                                 startChat = false
-                            })
+                            },
+                            viewModel = viewModel)
                     }
                 }
             }
