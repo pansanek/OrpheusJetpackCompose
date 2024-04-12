@@ -148,11 +148,14 @@ sealed class Screen(
             return "$ROUTE_FOR_ARGS/${creatorInfoItemJson.encode()}"
         }
     }
+    object MainScreen : Screen(ROUTE_MAIN)
     object AuthHomeScreen : Screen(ROUTE_AUTH_HOME)
     object ChatHomeScreen : Screen(ROUTE_CHAT_HOME)
     object MapHomeScreen : Screen(ROUTE_MAP_HOME)
     object ProfileHomeScreen : Screen(ROUTE_PROFILE_HOME)
     object FeedHomeScreen : Screen(ROUTE_FEED_HOME)
+
+
 
 
     companion object {
@@ -182,6 +185,7 @@ sealed class Screen(
         const val ROUTE_LOGIN = "login"
         const val ROUTE_MAP = "map"
         const val ROUTE_MAP_HOME = "map_home"
+        const val ROUTE_MAIN = "main"
         const val ROUTE_NEWS_FEED = "news_feed"
         const val ROUTE_PROFILE = "profile"
         const val ROUTE_PROFILE_HOME = "profile_home"

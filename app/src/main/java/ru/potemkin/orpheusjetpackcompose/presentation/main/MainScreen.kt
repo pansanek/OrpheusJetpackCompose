@@ -159,16 +159,7 @@ fun MainScreen() {
                     },
                 )
             },
-            loginScreenContent = {
-                LoginScreen(
-                    paddingValues = paddingValues,
-                    onRegistrationClickListener = {
-                        navigationState.navigateToRegistration()
-                    },
-                    onNextClickListener = {
-                        navigationState.navigateToNewsFeed()
-                    })
-            },
+
             mapScreenContent = {
                 MapScreen(
                     paddingValues = paddingValues,
@@ -220,17 +211,7 @@ fun MainScreen() {
                     }
                 )
             },
-            registrationScreenContent = {
-                RegistrationScreen(
-                    paddingValues = paddingValues,
-                    onLoginClickListener = {
-                        navigationState.navigateToLogin()
-                    },
-                    onNextClickListener ={
-                        navigationState.navigateToAboutMeScreen(it)
-                    }
-                    )
-            },
+
             searchScreenContent = {
                 SearchScreen(
                     paddingValues = paddingValues,
@@ -245,13 +226,7 @@ fun MainScreen() {
                     },
                 )
             },
-            startScreenContent = {
-                StartScreen(
-                    onAuthClickListener = {
-                        navigationState.navigateToLogin()
-                    },
-                )
-            },
+
             userProfileScreenContent = { userItem ->
                 UserProfileScreen(
                     paddingValues = paddingValues,
@@ -299,53 +274,7 @@ fun MainScreen() {
                     }
                 )
             },
-            registrationAboutMeScreenContent = { regItem ->
-                AboutMeScreen(
-                    regItem = regItem,
-                    onBackPressed = {
-                        navigationState.navHostController.popBackStack()
-                    },
-                    onNextClickListener = {
-                        navigationState.navigateToUserTypeScreen(it)
-                    }
-                )
-            },
-            registrationUserTypeScreenContent = { aboutMeItem ->
-                UserTypeScreen(
-                    aboutMeItem =aboutMeItem,
-                    onBackPressed = {
-                        navigationState.navHostController.popBackStack()
-                    },
-                    onAdminClickListener = {
-                        navigationState.navigateToAdministratorTypeScreen(it)
-                    },
-                    onMusicianClickListener = {
-                        navigationState.navigateToMusicianTypeScreen(it)
-                    }
-                )
-            },
-            registrationAdministratorTypeScreenContent = { typeItem ->
-                AdminRegScreen(
-                    typeItem = typeItem,
-                    onBackPressed = {
-                        navigationState.navHostController.popBackStack()
-                    },
-                    onNextClickListener = {
-                        navigationState.navigateToNewsFeed()
-                    }
-                )
-            },
-            registrationMusicianTypeScreenContent = { typeItem ->
-                MusicianRegScreen(
-                    typeItem = typeItem,
-                    onBackPressed = {
-                        navigationState.navHostController.popBackStack()
-                    },
-                    onNextClickListener = {
-                        navigationState.navigateToNewsFeed()
-                    }
-                )
-            },
+
             changeUserProfileScreenContent =
             {
                 ChangeUserProfileScreen(it,{ navigationState.navHostController.popBackStack()})

@@ -36,8 +36,7 @@ class MainActivity : ComponentActivity() {
             OrpheusJetpackComposeTheme {
                 val component = getApplicationComponent()
                 val viewModel: AuthViewModel = viewModel(factory = component.getViewModelFactory())
-                val authState = viewModel.authState.observeAsState(AuthState.Initial)
-                val navigationState = rememberNavigationState()
+                var authState = viewModel.authState.observeAsState(AuthState.Initial)
                 when (authState.value) {
                     is AuthState.Authorized -> {
                         MainScreen()
@@ -54,7 +53,7 @@ class MainActivity : ComponentActivity() {
                                         onRegistrationClickListener = {
                                             navigationState.navigateToRegistration()
                                         },
-                                        onNextClickListener = { }
+                                        onNextClickListener = {navigationState.navigateToMainScreen() }
                                     )
                                 },
                                 registrationScreenContent = {
@@ -96,14 +95,15 @@ class MainActivity : ComponentActivity() {
                                         onBackPressed = {
                                             navigationState.navHostController.popBackStack()
                                         },
-                                        onNextClickListener = {})
+                                        onNextClickListener = { navigationState.navigateToMainScreen() }
+                                    )
                                 },
                                 registrationAdministratorTypeScreenContent = {
                                     AdminRegScreen(typeItem = it,
                                         onBackPressed = {
                                             navigationState.navHostController.popBackStack()
                                         },
-                                        onNextClickListener = {})
+                                        onNextClickListener = {navigationState.navigateToMainScreen()})
                                 },
                                 startScreenContent = {
                                     StartScreen(
@@ -111,6 +111,9 @@ class MainActivity : ComponentActivity() {
                                             navigationState.navigateToLogin()
                                         }
                                     )
+                                },
+                                mainScreenContent = {
+                                    MainScreen()
                                 }
                             )
                         }
@@ -123,6 +126,8 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+    
+    
 }
 
 

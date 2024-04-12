@@ -28,6 +28,9 @@ class NavigationState(
             restoreState = true
         }
     }
+    fun navigateToMainScreen() {
+        navHostController.navigate(Screen.MainScreen.route)
+    }
 
     fun navigateToComments(feedPost: PostItem) {
         navHostController.navigate(Screen.CommentsScreen.getRouteWithArgs(feedPost))

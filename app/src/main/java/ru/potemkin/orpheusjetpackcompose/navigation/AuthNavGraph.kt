@@ -18,6 +18,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 @Composable
 fun AuthNavGraph(
     navHostController: NavHostController,
+    mainScreenContent: @Composable () -> Unit,
     loginScreenContent: @Composable () -> Unit,
     registrationScreenContent: @Composable () -> Unit,
     registrationAboutMeScreenContent: @Composable (RegItem) -> Unit,
@@ -32,7 +33,7 @@ fun AuthNavGraph(
         startDestination = Screen.AuthHomeScreen.route
     ) {
         authHomeNavGraph(
-            startScreenContent, loginScreenContent, registrationScreenContent,registrationAboutMeScreenContent, registrationUserTypeScreenContent, registrationMusicianTypeScreenContent, registrationAdministratorTypeScreenContent
+            mainScreenContent,startScreenContent, loginScreenContent, registrationScreenContent,registrationAboutMeScreenContent, registrationUserTypeScreenContent, registrationMusicianTypeScreenContent, registrationAdministratorTypeScreenContent
         )
 
     }

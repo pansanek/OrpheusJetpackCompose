@@ -39,25 +39,8 @@ class AuthViewModel @Inject constructor(
     private val initialState = AuthState.Initial
 
     private val _authState = MutableLiveData<AuthState>(initialState)
-    val authState: LiveData<AuthState> = _authState
-    private val PREFERENCES_USER_ID = "user_id"
+    var authState: LiveData<AuthState> = _authState
 
-    private var userId: String? = null
-
-    //    fun isUserIdAvailable(context: Context): Boolean {
-//        val sharedPreferences = SharedPreferences.getSecurePreferences(context)
-//        return sharedPreferences.getString(PREFERENCES_USER_ID, null) != null
-//    }
-//    fun setUserId(context: Context) {
-//        val sharedPreferences = SharedPreferences.getSecurePreferences(context)
-//        with (sharedPreferences.edit()) {
-//            if (userId == null)
-//                remove(PREFERENCES_USER_ID)
-//            else
-//                putString(PREFERENCES_USER_ID, userId)
-//            apply()
-//        }
-//    }
     init {
         _authState.value = AuthState.NotAuthorized
     }
@@ -67,6 +50,7 @@ class AuthViewModel @Inject constructor(
         for(i in userList){
             if(login == i.login && password ==i.password){
                 _authState.value = AuthState.Authorized
+                Log.d("AUTHORIZE",_authState.value.toString())
                 setMyUserUseCase.invoke(i)
             }
         }

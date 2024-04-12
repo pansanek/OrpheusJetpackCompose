@@ -241,6 +241,8 @@ fun MyUserProfileScreen(
                 CircularProgressIndicator(color = Color.Black)
             }
         }
+
+        else -> {}
     }
 
 }

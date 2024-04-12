@@ -84,7 +84,7 @@ fun LoginScreen(
                 Text(
                     text = "Orpheus",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Green,
+                    color = White,
                     fontSize = 48.sp,
                     fontWeight = FontWeight.ExtraBold
                 )
@@ -170,6 +170,7 @@ fun LoginScreen(
                                 Text(
                                     "Нет аккаунта?",
                                     style = MaterialTheme.typography.bodyMedium,
+                                    color = Black,
                                     modifier = Modifier.padding(bottom = 15.dp)
                                 )
                                 Text(

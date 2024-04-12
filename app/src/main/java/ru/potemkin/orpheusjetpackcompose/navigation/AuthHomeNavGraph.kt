@@ -11,6 +11,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.AuthItems.TypeItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 
 fun NavGraphBuilder.authHomeNavGraph(
+    mainScreenContent: @Composable () -> Unit,
     startScreenContent: @Composable () -> Unit,
     loginScreenContent: @Composable () -> Unit,
     registrationScreenContent: @Composable () -> Unit,
@@ -23,6 +24,9 @@ fun NavGraphBuilder.authHomeNavGraph(
         startDestination = Screen.StartScreen.route,
         route = Screen.AuthHomeScreen.route
     ) {
+        composable(Screen.MainScreen.route) {
+            mainScreenContent()
+        }
         composable(Screen.LoginScreen.route) {
             loginScreenContent()
         }

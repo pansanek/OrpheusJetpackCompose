@@ -103,7 +103,7 @@ fun RegistrationScreen(
                 Text(
                     text = "Orpheus",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Green,
+                    color = White,
                     fontSize = 48.sp,
                     fontWeight = FontWeight.ExtraBold
                 )

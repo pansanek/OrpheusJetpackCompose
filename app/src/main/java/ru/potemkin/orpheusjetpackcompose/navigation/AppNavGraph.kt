@@ -23,17 +23,10 @@ fun AppNavGraph(
     chatScreenContent: @Composable (ChatItem) -> Unit,
     commentsScreenContent: @Composable (PostItem) -> Unit,
     locationScreenContent: @Composable (LocationItem) -> Unit,
-    loginScreenContent: @Composable () -> Unit,
     mapScreenContent: @Composable () -> Unit,
     newsFeedScreenContent: @Composable () -> Unit,
     profileScreenContent: @Composable () -> Unit,
-    registrationScreenContent: @Composable () -> Unit,
-    registrationAboutMeScreenContent: @Composable (RegItem) -> Unit,
-    registrationUserTypeScreenContent: @Composable (AboutMeItem) -> Unit,
-    registrationMusicianTypeScreenContent: @Composable (TypeItem) -> Unit,
-    registrationAdministratorTypeScreenContent: @Composable (TypeItem) -> Unit,
     searchScreenContent: @Composable () -> Unit,
-    startScreenContent: @Composable () -> Unit,
     userProfileScreenContent: @Composable (UserItem) -> Unit,
     bandCreationScreenContent: @Composable () -> Unit,
     settingsScreenContent: @Composable (UserItem) -> Unit,
@@ -45,11 +38,8 @@ fun AppNavGraph(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.StartScreen.route
+        startDestination = Screen.FeedHomeScreen.route
     ) {
-        authHomeNavGraph(
-            startScreenContent, loginScreenContent, registrationScreenContent,registrationAboutMeScreenContent, registrationUserTypeScreenContent, registrationMusicianTypeScreenContent, registrationAdministratorTypeScreenContent
-        )
         feedHomeNavGraph(
             newsFeedScreenContent, commentsScreenContent, userProfileScreenContent, bandProfileScreenContent,bandCreationScreenContent,changeBandProfileScreenContent,postCreationScreenContent
         )
