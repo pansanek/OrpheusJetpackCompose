@@ -4,6 +4,7 @@ import ru.potemkin.orpheusjetpackcompose.data.model.ChatDto
 import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateChatRequest
 import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateUserRequest
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 
 class ChatMapper {
@@ -14,7 +15,11 @@ class ChatMapper {
             val chatItem = ChatItem(
                 id = chatDto.id,
                 users = userMapper.mapUsers(chatDto.users),
-                lastMessage = chatDto.lastMessage
+                lastMessage = chatDto.lastMessage,
+                picture = PhotoUrlItem(
+                    "",""
+                ),
+                name = ""
             )
             result.add(chatItem)
         }
@@ -31,7 +36,11 @@ class ChatMapper {
         return ChatItem(
             id = chatDto.id,
             users = userMapper.mapUsers(chatDto.users),
-            lastMessage = chatDto.lastMessage
+            lastMessage = chatDto.lastMessage,
+            picture = PhotoUrlItem(
+                "",""
+            ),
+            name = ""
         )
     }
 

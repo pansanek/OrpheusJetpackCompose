@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,8 +47,8 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 @Composable
 fun ProfileHeader(user: UserItem,
                   scrollState: LazyListState,
-                  onBandClickListener: (BandItem) -> Unit,
-                  onLocationClickListener:(LocationItem) -> Unit,
+                  onBandClickListener: (BandItem?) -> Unit,
+                  onLocationClickListener:(LocationItem?) -> Unit,
                   screenState: UserProfileScreenState.User,
                   ) {
     // При скролле уменьшаем высоту Header и делаем его непрозрачным
@@ -121,7 +122,8 @@ fun ProfileHeader(user: UserItem,
                         modifier = Modifier
                             .size(48.dp)
                             .padding(4.dp)
-                            .clip(CircleShape),
+                            .clip(CircleShape)
+                            .clickable { onLocationClickListener(screenState.location) },
                         contentScale = ContentScale.Crop
                     )
                 } else {
@@ -138,7 +140,8 @@ fun ProfileHeader(user: UserItem,
                                     modifier = Modifier
                                         .size(48.dp)
                                         .padding(4.dp)
-                                        .clip(CircleShape),
+                                        .clip(CircleShape).
+                                    clickable { onBandClickListener(screenState.bands.get(index)) },
                                     contentScale = ContentScale.Crop
                                 )
                             }

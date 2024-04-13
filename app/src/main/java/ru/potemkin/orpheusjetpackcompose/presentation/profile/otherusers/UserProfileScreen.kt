@@ -31,11 +31,10 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.SpacerWidth
-import ru.potemkin.orpheusjetpackcompose.presentation.components.StartChatDialog
+import ru.potemkin.orpheusjetpackcompose.presentation.components.StartUserChatDialog
 import ru.potemkin.orpheusjetpackcompose.presentation.components.profile_comp.ProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.profile_comp.ProfileTopBar
 import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
-import ru.potemkin.orpheusjetpackcompose.presentation.map.map.CustomAlertDialog
 import ru.potemkin.orpheusjetpackcompose.presentation.post.PostItem
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.LightBlack
@@ -49,8 +48,8 @@ fun UserProfileScreen(
     onBackPressed: () -> Unit,
     userItem: UserItem,
     onCommentClickListener: (PostItem) -> Unit,
-    onBandClickListener: (BandItem) -> Unit,
-    onLocationClickListener: (LocationItem) -> Unit,
+    onBandClickListener: (BandItem?) -> Unit,
+    onLocationClickListener: (LocationItem?) -> Unit,
 ) {
     val component = getApplicationComponent()
         .getUserProfileScreenComponentFactory()
@@ -128,7 +127,7 @@ fun UserProfileScreen(
                         }
                     }
                     if (startChat) {
-                        StartChatDialog(
+                        StartUserChatDialog(
                             toUser = currentState.user,
                             onDismiss = { startChat = false },
                             onConfirm = {

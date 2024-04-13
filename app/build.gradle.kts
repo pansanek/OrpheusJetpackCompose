@@ -101,4 +101,7 @@ dependencies {
     implementation ("com.google.android.gms:play-services-location:18.0.0")
     implementation ("com.google.accompanist:accompanist-permissions:0.15.0")
 
+    //Calendar
+    implementation ("io.github.boguszpawlowski.composecalendar:composecalendar:1.2.0")
+
 }

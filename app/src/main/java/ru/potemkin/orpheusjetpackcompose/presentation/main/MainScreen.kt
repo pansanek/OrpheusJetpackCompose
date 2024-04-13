@@ -238,10 +238,10 @@ fun MainScreen() {
                         navigationState.navigateToComments(it)
                     },
                     onBandClickListener = {
-                        navigationState.navigateToBand(it)
+                        navigationState.navigateToBand(it!!)
                     },
                     onLocationClickListener = {
-                        navigationState.navigateToLocation(it)
+                        navigationState.navigateToLocation(it!!)
                     }
                 )
             },

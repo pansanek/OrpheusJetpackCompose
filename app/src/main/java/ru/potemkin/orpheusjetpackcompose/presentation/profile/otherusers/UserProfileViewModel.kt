@@ -100,16 +100,21 @@ class UserProfileViewModel @Inject constructor(
         val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
         val currentDate = sdf.format(Date())
         var chatExists = false
-        val chatId = getNewChatId(getMyUserUseCase.invoke())
+        var chatId = getNewChatId(getMyUserUseCase.invoke())
         for (i in getChatListUseCase.invoke(getMyUserUseCase.invoke().id)) {
-            if (toUser in i.users) chatExists = true
+            if (toUser in i.users) {
+                chatId = i.id
+                chatExists = true
+            }
         }
         if (!chatExists) {
             addChatItemUseCase.invoke(
                 ChatItem(
                     id = chatId,
                     users = listOf(getMyUserUseCase.invoke(), toUser),
-                    lastMessage = message
+                    lastMessage = message,
+                    picture = toUser.profile_picture,
+                    name = toUser.name
                 )
             )
         }

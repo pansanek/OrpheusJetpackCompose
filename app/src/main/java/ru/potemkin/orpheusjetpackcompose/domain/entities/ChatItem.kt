@@ -11,6 +11,8 @@ data class ChatItem (
     var id: String = UNDEFINED_ID,
     var users: List<UserItem>,
     var lastMessage: String,
+    var picture:PhotoUrlItem,
+    var name:String
 ):Parcelable{
     companion object {
         const val UNDEFINED_ID = "0"

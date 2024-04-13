@@ -32,6 +32,8 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import ru.potemkin.orpheusjetpackcompose.presentation.components.StartAdminChatDialog
+import ru.potemkin.orpheusjetpackcompose.presentation.components.StartBandChatDialog
 import ru.potemkin.orpheusjetpackcompose.presentation.components.band_profile_comp.BandProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.band_profile_comp.BandProfileTopBar
 import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
@@ -64,7 +66,8 @@ fun BandProfileScreen(
     val scrollState = rememberLazyListState()
     val scaffoldState = rememberScaffoldState()
     val topBarHeight = 0.dp
-    val currentUserInBand = true
+    val currentUserInBand = viewModel.isMyUserInBand()
+    var startChat by remember { mutableStateOf(false) }
     when (val currentState = screenState.value) {
         is BandProfileScreenState.Band -> {
             androidx.compose.material.Scaffold(
@@ -99,7 +102,7 @@ fun BandProfileScreen(
                                         bottom = 4.dp
                                     )
                                     .height(40.dp),
-                                onClick = { },
+                                onClick = { startChat = true},
                                 text = "Написать",
                                 fontSize = 16.sp,
                                 scrollState = scrollState
@@ -152,6 +155,15 @@ fun BandProfileScreen(
                                     }
                                 }
                             }
+                        }
+                        if (startChat) {
+                            StartBandChatDialog(
+                                band = bandItem,
+                                onDismiss = { startChat = false },
+                                onConfirm = {
+                                    startChat = false
+                                },
+                                viewModel = viewModel)
                         }
                     }
                 }

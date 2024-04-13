@@ -92,7 +92,7 @@ fun ChatListScreen(
                                     items(currentState.chats, key = { it.id }) {
                                         UserEachRow(
                                             lastMessage = it.lastMessage,
-                                            user = it.users.get(1),
+                                            chat = it,
                                             onChatClick = { onChatClickListener(it) },
                                             onUserClick= {onUserClickListener(it.users.get(1))}
                                         )
@@ -152,7 +152,7 @@ fun BottomSheetSwipeUp(
 @Composable
 fun UserEachRow(
     lastMessage: String,
-    user: UserItem,
+    chat: ChatItem,
     onChatClick: () -> Unit,
     onUserClick: () -> Unit,
 ) {
@@ -171,7 +171,7 @@ fun UserEachRow(
             ) {
                 Row {
                     AsyncImage(
-                        model = user.profile_picture.url,
+                        model = chat.picture.url,
                         modifier = Modifier
                             .size(64.dp)
                             .clip(CircleShape)
@@ -184,7 +184,7 @@ fun UserEachRow(
                     SpacerWidth()
                     Column {
                         Text(
-                            text = user.name, style = TextStyle(
+                            text = chat.name, style = TextStyle(
                                 color = Color.Black, fontSize = 15.sp, fontWeight = FontWeight.Bold
                             )
                         )

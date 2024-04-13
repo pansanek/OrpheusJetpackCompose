@@ -135,6 +135,11 @@ class ChatRepositoryImpl @Inject constructor(
                 )
             ),
             "OH MY GOD",
+            PhotoUrlItem(
+                "197",
+                "https://sun1-91.userapi.com/s/v1/ig2/VuGmflKD09SOOd9MeZIZzPqQmdYqbyJbu5VuHJz8ur39YTANcs4FudgMJrmrzKao6_fdj0zO3nUTymhBXrQwaW6P.jpg?size=400x400&quality=95&crop=270,705,873,873&ava=1"
+            ),
+            "Anton Franzon"
         ))
     }
 

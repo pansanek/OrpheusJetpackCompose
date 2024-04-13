@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,10 +33,10 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import ru.potemkin.orpheusjetpackcompose.presentation.components.StartAdminChatDialog
 import ru.potemkin.orpheusjetpackcompose.presentation.components.location_profile_comp.LocationProfileHeader
 import ru.potemkin.orpheusjetpackcompose.presentation.components.location_profile_comp.LocationProfileTopBar
 import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
-
 import ru.potemkin.orpheusjetpackcompose.presentation.post.PostItem
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.CreatePostButton
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.ChatButton
@@ -65,8 +66,10 @@ fun LocationScreen(
     var text by remember { mutableStateOf("") }
     val scrollState = rememberLazyListState()
     val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
     val topBarHeight = 0.dp
-    val currentUserIsAdmin = true
+    val currentUserIsAdmin = viewModel.isMyUserAdmin()
+    var startChat by remember { mutableStateOf(false) }
     when (val currentState = screenState.value) {
         is LocationScreenState.Location -> {
             androidx.compose.material.Scaffold(
@@ -75,9 +78,26 @@ fun LocationScreen(
                     LocationProfileTopBar(locationItem = currentState.location,
                         onBackPressed = onBackPressed,
                         currentUserIsAdmin = currentUserIsAdmin,
-                        onChangeProfileClick = {onChangeProfileClick(currentState.location)}
+                        onChangeProfileClick = {onChangeProfileClick(currentState.location)
+                        }
+//
                     )
-                }
+                },
+//                drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
+//                drawerContent = {
+//                    Box(
+//                        modifier = Modifier
+//                            .fillMaxSize()
+//                            .background(Black)
+//                            .padding(paddingValues),
+//                    ) {
+//                        Column {
+//                            LocationDrawer(
+//
+//                            )
+//                        }
+//                    }
+//                }
             ) {
                 Box(modifier = Modifier.padding(paddingValues)) {
                     Column(
@@ -100,7 +120,7 @@ fun LocationScreen(
                                         bottom = 4.dp
                                     )
                                     .height(40.dp),
-                                onClick = { },
+                                onClick = {startChat = true },
                                 text = "Написать",
                                 fontSize = 16.sp,
                                 scrollState = scrollState
@@ -155,10 +175,20 @@ fun LocationScreen(
                                 }
                             }
                         }
+                        if (startChat) {
+                            StartAdminChatDialog(
+                                toUser = currentState.location.admin,
+                                onDismiss = { startChat = false },
+                                onConfirm = {
+                                    startChat = false
+                                },
+                                viewModel = viewModel)
+                        }
                     }
                 }
             }
-        }
+
+    }
 
         LocationScreenState.Initial -> {}
         LocationScreenState.Loading -> {
@@ -171,12 +201,49 @@ fun LocationScreen(
     }
 }
 
-
-
-//@Preview(showBackground = true)
+//@RequiresApi(Build.VERSION_CODES.O)
 //@Composable
-//fun LocationScreenPreview() {
-//    OrpheusJetpackComposeTheme {
-//       LocationScreen()
+//fun LocationDrawer() {
+//    val calendarState = rememberSelectableCalendarState()
+//    var showPieChartDialog by remember { mutableStateOf(false) }
+//    Column {
+//        Spacer(modifier = Modifier.height(16.dp))
+//        Text(
+//            text = "Календарь",
+//            style = MaterialTheme.typography.titleLarge,
+//            color = White,
+//            modifier = Modifier.padding(horizontal = 16.dp)
+//        )
+//        Spacer(modifier = Modifier.height(8.dp))
+//        CalendarView(calendarState) {
+//            showPieChartDialog = true
+//        }
+//        Spacer(modifier = Modifier.height(16.dp))
+//        Text(
+//            text = calendarState.selectionState.selection.toString(),
+//            style = MaterialTheme.typography.titleLarge,
+//            color = White,
+//            modifier = Modifier.padding(horizontal = 16.dp)
+//        )
+////        PieChart(selectedDate.value)
+//    }
+//}
+//
+//@RequiresApi(Build.VERSION_CODES.O)
+//@Composable
+//fun CalendarView(calendarState: CalendarState<DynamicSelectionState>, onDateSelected: (String) -> Unit) {
+//    SelectableCalendar(calendarState = calendarState,
+//        modifier = Modifier.padding(16.dp),
+//        firstDayOfWeek = DayOfWeek.MONDAY,
+//        monthHeader = {MonthHeader(monthState = it)}
+//    )
+//
+//}
+//@RequiresApi(Build.VERSION_CODES.O)
+//@Composable
+//private fun MonthHeader(monthState: MonthState) {
+//    Row(horizontalArrangement = Arrangement.Center) {
+//        Text(monthState.currentMonth.month.name, style = MaterialTheme.typography.titleMedium,
+//            color = White)
 //    }
 //}

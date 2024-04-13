@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
+import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.DrawerButton
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
@@ -25,7 +26,8 @@ fun LocationProfileTopBar(
     onBackPressed: () -> Unit,
     locationItem: LocationItem,
     currentUserIsAdmin: Boolean,
-    onChangeProfileClick: (LocationItem)->Unit
+    onChangeProfileClick: (LocationItem)->Unit,
+
 ) {
     Column(
         modifier = Modifier

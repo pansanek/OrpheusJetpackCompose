@@ -42,7 +42,7 @@ class AuthViewModel @Inject constructor(
     var authState: LiveData<AuthState> = _authState
 
     init {
-        _authState.value = AuthState.NotAuthorized
+        _authState.value = AuthState.Authorized
     }
 
     fun authorize(login: String, password: String) {

@@ -65,15 +65,7 @@ fun MyUserProfileScreen(
     onCommentClickListener: (PostItem) -> Unit,
     onPostCreateClickListener: (CreatorInfoItem) -> Unit,
 ) {
-    val userType = UserType.MUSICIAN
-    var menuItem = mutableMapOf<String, String>()
-    var menuItemIcon = Icons.Default.Mic
-    if (userType == UserType.MUSICIAN) {
-        menuItem.put("mybands", "Мои группы")
-    } else {
-        menuItem.put("mylocations", "Мое учреждение")
-        menuItemIcon = Icons.Default.LocationOn
-    }
+
 
     val component = getApplicationComponent()
     val viewModel: MyUserProfileViewModel = viewModel(factory = component.getViewModelFactory())
@@ -103,6 +95,15 @@ fun MyUserProfileScreen(
                             .padding(paddingValues),
                     ) {
                         Column {
+                            val userType = currentState.user.user_type
+                            var menuItem = mutableMapOf<String, String>()
+                            var menuItemIcon = Icons.Default.Mic
+                            if (userType == UserType.MUSICIAN) {
+                                menuItem.put("mybands", "Мои группы")
+                            } else {
+                                menuItem.put("mylocations", "Мое учреждение")
+                                menuItemIcon = Icons.Default.LocationOn
+                            }
                             DrawerBody(
                                 items = listOf(
                                     MenuItem(

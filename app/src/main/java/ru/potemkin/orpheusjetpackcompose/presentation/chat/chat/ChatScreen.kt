@@ -103,7 +103,7 @@ fun ChatScreen(
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 AsyncImage(
-                                    model = chatItem.users.get(1).profile_picture.url,
+                                    model = chatItem.picture.url,
                                     modifier = Modifier
                                         .size(48.dp)
                                         .clip(CircleShape)
@@ -116,7 +116,7 @@ fun ChatScreen(
                                 SpacerWidth(width = 24.dp)
                                 Column {
                                     Text(
-                                        text = chatItem.users.get(1).name,
+                                        text = chatItem.name,
                                         style = TextStyle(
                                             color = White,
                                             fontWeight = FontWeight.Bold,

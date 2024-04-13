@@ -49,13 +49,15 @@ class ChatViewModel @Inject constructor(
 
     private fun loadMessages(chatId: String) {
         viewModelScope.launch {
-            _screenState.value = ChatScreenState.Messages(chatId = chatId,
-                messages = messagesFlow.value)
+            _screenState.value = ChatScreenState.Messages(
+                chatId = chatId,
+                messages = messagesFlow.value
+            )
         }
     }
 
     fun sendMessage(message: String) {
-        Log.d("SENDMESSAGE",message)
+        Log.d("SENDMESSAGE", message)
         val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
         val currentDate = sdf.format(Date())
         addMessageUseCase.invoke(
@@ -72,7 +74,9 @@ class ChatViewModel @Inject constructor(
                 (
                 id = chatItem.id,
                 users = chatItem.users,
-                lastMessage = message
+                lastMessage = message,
+                picture = chatItem.picture,
+                name = chatItem.name
             )
         )
         messagesFlow.value = getMessageListUseCase.invoke(chatItem.id)
