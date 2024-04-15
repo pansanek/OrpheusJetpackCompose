@@ -6,7 +6,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.UserRepository
 import javax.inject.Inject
 
 class EditMusicianUseCase @Inject constructor(private val userRepository: UserRepository) {
-    operator fun invoke(musicianItem: MusicianItem){
+    suspend operator fun invoke(musicianItem: MusicianItem){
         userRepository.editMusicianItem(musicianItem)
     }
 }

@@ -6,7 +6,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.ChatRepository
 import javax.inject.Inject
 
 class GetChatItemUseCase @Inject constructor(private val chatRepository: ChatRepository) {
-    operator fun invoke(chatId: String): ChatItem {
+    suspend operator fun invoke(chatId: String): ChatItem {
         return chatRepository.getChatItem(chatId)
     }
 }

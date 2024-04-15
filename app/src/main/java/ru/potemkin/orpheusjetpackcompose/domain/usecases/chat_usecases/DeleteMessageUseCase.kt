@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.ChatRepository
 import javax.inject.Inject
 
 class DeleteMessageUseCase @Inject constructor(private val chatRepository: ChatRepository){
-    operator fun invoke(MessageItem: MessageItem){
+    suspend operator fun invoke(MessageItem: MessageItem){
         chatRepository.deleteMessageItem(MessageItem)
     }
 }

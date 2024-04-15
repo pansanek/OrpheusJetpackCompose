@@ -7,7 +7,7 @@ import ru.potemkin.orpheusjetpackcompose.presentation.main.NavigationItem
 import javax.inject.Inject
 
 class AddChatItemUseCase @Inject constructor(private val chatRepository: ChatRepository) {
-    operator fun invoke(chat: ChatItem) {
+    suspend operator fun invoke(chat: ChatItem) {
         return chatRepository.addChatItem(chat)
     }
 }

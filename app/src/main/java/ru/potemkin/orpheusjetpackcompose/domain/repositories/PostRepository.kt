@@ -10,7 +10,7 @@ interface PostRepository {
     suspend fun deletePostItem(postItem: PostItem)
     suspend fun editPostItem(postItem: PostItem)
 
-    fun getPostItem(postId: String): PostItem
+    suspend fun getPostItem(postId: String): PostItem
 
     fun getPostsList(): StateFlow<List<PostItem>>
     fun getComments(postId: String): StateFlow<List<CommentItem>>

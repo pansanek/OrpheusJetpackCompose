@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.UserRepository
 import javax.inject.Inject
 
 class DeleteUserUseCase @Inject constructor(private val userRepository: UserRepository){
-    operator fun invoke(UserItem: UserItem){
+    suspend operator fun invoke(UserItem: UserItem){
         userRepository.deleteUserItem(UserItem)
     }
 }

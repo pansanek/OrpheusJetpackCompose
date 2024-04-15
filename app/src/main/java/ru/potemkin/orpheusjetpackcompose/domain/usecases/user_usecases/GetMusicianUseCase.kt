@@ -6,7 +6,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.UserRepository
 import javax.inject.Inject
 
 class GetMusicianUseCase @Inject constructor(private val userRepository: UserRepository) {
-    operator fun invoke(userItem: UserItem): MusicianItem {
+    suspend operator fun invoke(userItem: UserItem): MusicianItem {
         return userRepository.getMusicianItem(userItem)
     }
 }

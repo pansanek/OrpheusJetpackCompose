@@ -7,7 +7,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.NotificationReposit
 import javax.inject.Inject
 
 class AddNotificationUseCase @Inject constructor(private val notificationRepository: NotificationRepository) {
-    operator fun invoke(notificationItem: NotificationItem){
+    suspend operator fun invoke(notificationItem: NotificationItem){
         notificationRepository.addNotificationItem(notificationItem);
     }
 }

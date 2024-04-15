@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.PostRepository
 import javax.inject.Inject
 
 class DeletePostUseCase @Inject constructor(private val postRepository: PostRepository){
-    operator fun invoke(PostItem: PostItem){
+    suspend operator fun invoke(PostItem: PostItem){
         postRepository.deletePostItem(PostItem)
     }
 }

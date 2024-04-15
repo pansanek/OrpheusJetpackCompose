@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.BandRepository
 import javax.inject.Inject
 
 class DeleteBandUseCase @Inject constructor(private val bandRepository: BandRepository){
-    operator fun invoke(BandItem: BandItem){
+    suspend operator fun invoke(BandItem: BandItem){
         bandRepository.deleteBandItem(BandItem)
     }
 }
