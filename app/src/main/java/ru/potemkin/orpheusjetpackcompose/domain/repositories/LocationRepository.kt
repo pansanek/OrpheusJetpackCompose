@@ -1,20 +1,21 @@
 package ru.potemkin.orpheusjetpackcompose.domain.repositories
 
+import kotlinx.coroutines.flow.StateFlow
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 
 interface LocationRepository {
-    fun addLocationItem(locationItem: LocationItem)
+    suspend fun addLocationItem(locationItem: LocationItem)
 
-    fun deleteLocationItem(locationItem: LocationItem)
+    suspend fun deleteLocationItem(locationItem: LocationItem)
 
-    fun editLocationItem(locationItem: LocationItem)
+    suspend fun editLocationItem(locationItem: LocationItem)
 
-    fun getLocationItem(locationId: String): LocationItem
+    suspend fun getLocationItem(locationId: String): LocationItem
 
-    fun getLocationsList(): List<LocationItem>
+    fun getLocationsList(): StateFlow<List<LocationItem>>
 
-    fun getMyUserLocation(userId: String): LocationItem
+    suspend fun getMyUserLocation(userId: String): LocationItem
 
-    fun getUserLocation(userId: String): LocationItem
+    suspend fun getUserLocation(userId: String): LocationItem
 }
 

@@ -1,18 +1,19 @@
 package ru.potemkin.orpheusjetpackcompose.domain.repositories
 
+import kotlinx.coroutines.flow.StateFlow
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MessageItem
 
 interface ChatRepository {
-    fun addChatItem(chatItem: ChatItem)
-    fun editChatItem(chatItem: ChatItem)
-    fun getChatItem(chatId: String): ChatItem
-    fun getChatList(userId: String): List<ChatItem>
-    fun deleteChatItem(chatItem: ChatItem)
-    fun addMessageItem(messageItem: MessageItem)
-    fun deleteMessageItem(messageItem: MessageItem)
-    fun editMessageItem(messageItem: MessageItem)
-    fun getMessageList(chatId:String): List<MessageItem>
-    fun getMessageItem(messageId: String): MessageItem
+    suspend fun addChatItem(chatItem: ChatItem)
+    suspend fun editChatItem(chatItem: ChatItem)
+    suspend fun getChatItem(chatId: String): ChatItem
+    fun getChatList(userId: String): StateFlow<List<ChatItem>>
+    suspend fun deleteChatItem(chatItem: ChatItem)
+    suspend fun addMessageItem(messageItem: MessageItem)
+    suspend fun deleteMessageItem(messageItem: MessageItem)
+    suspend fun editMessageItem(messageItem: MessageItem)
+    fun getMessageList(chatId:String): StateFlow<List<MessageItem>>
+    suspend fun getMessageItem(messageId: String): MessageItem
 
 }
