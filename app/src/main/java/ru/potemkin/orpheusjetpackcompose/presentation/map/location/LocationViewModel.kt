@@ -1,9 +1,11 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.map.location
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.LocationRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
@@ -46,6 +48,10 @@ class LocationViewModel @Inject constructor(
     private val getMessageListUseCase: GetMessageListUseCase,
     private val addMessageUseCase: AddMessageUseCase
 ) : ViewModel() {
+
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
+        Log.d("ViewModel", "Exception caught by exception handler")
+    }
 
     private val _screenState = MutableLiveData<LocationScreenState>(LocationScreenState.Initial)
     val screenState: LiveData<LocationScreenState> = _screenState
@@ -110,30 +116,34 @@ class LocationViewModel @Inject constructor(
         locationAbout: String,
         profilePictureUrl: String
     ) {
-        val newLocation = LocationItem(
-            id = oldProfile.id,
-            admin = oldProfile.admin,
-            name = locationName,
-            address = locationAddress,
-            about = locationAbout,
-            profilePicture = PhotoUrlItem(
+        viewModelScope.launch(exceptionHandler) {
+            val newLocation = LocationItem(
                 id = oldProfile.id,
-                url = profilePictureUrl
-            ),
-            latitude = oldProfile.latitude,
-            longitude = oldProfile.longitude,
-        )
-        editLocationUseCase.invoke(newLocation)
+                admin = oldProfile.admin,
+                name = locationName,
+                address = locationAddress,
+                about = locationAbout,
+                profilePicture = PhotoUrlItem(
+                    id = oldProfile.id,
+                    url = profilePictureUrl
+                ),
+                latitude = oldProfile.latitude,
+                longitude = oldProfile.longitude,
+            )
+            editLocationUseCase.invoke(newLocation)
 
-        changeLocationPosts(locationName, profilePictureUrl)
+            changeLocationPosts(locationName, profilePictureUrl)
+        }
 
     }
 
     private fun changeLocationPosts(userName: String, profilePictureUrl: String) {
-        for(i in postList){
-            i.creatorName = userName
-            i.creatorPicture.url = profilePictureUrl
-            editPostUseCase.invoke(i)
+        viewModelScope.launch(exceptionHandler) {
+            for (i in postList) {
+                i.creatorName = userName
+                i.creatorPicture.url = profilePictureUrl
+                editPostUseCase.invoke(i)
+            }
         }
 
     }

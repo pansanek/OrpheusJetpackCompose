@@ -1,9 +1,11 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.band.bandprofile
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
@@ -33,6 +35,10 @@ class BandProfileViewModel @Inject constructor(
     private val getMessageListUseCase: GetMessageListUseCase,
     private val addMessageUseCase: AddMessageUseCase
 ) : ViewModel() {
+
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
+        Log.d("ViewModel", "Exception caught by exception handler")
+    }
 
     private val initialState = BandProfileScreenState.Initial
 
@@ -100,26 +106,30 @@ class BandProfileViewModel @Inject constructor(
         genre: String,
         profilePictureUrl: String
     ) {
-        val newBand = BandItem(
-            id = oldProfile.id,
-            name = bandName,
-            members = oldProfile.members,
-            genre = genre,
-            photo = PhotoUrlItem(
+        viewModelScope.launch(exceptionHandler) {
+            val newBand = BandItem(
                 id = oldProfile.id,
-                url = profilePictureUrl
-            ),
-        )
-        editBandUseCase.invoke(newBand)
-        changeBandPosts(bandName, profilePictureUrl)
+                name = bandName,
+                members = oldProfile.members,
+                genre = genre,
+                photo = PhotoUrlItem(
+                    id = oldProfile.id,
+                    url = profilePictureUrl
+                ),
+            )
+            editBandUseCase.invoke(newBand)
+            changeBandPosts(bandName, profilePictureUrl)
+        }
 
     }
 
     private fun changeBandPosts(userName: String, profilePictureUrl: String) {
-        for (i in postList) {
-            i.creatorName = userName
-            i.creatorPicture.url = profilePictureUrl
-            editPostUseCase.invoke(i)
+        viewModelScope.launch(exceptionHandler) {
+            for (i in postList) {
+                i.creatorName = userName
+                i.creatorPicture.url = profilePictureUrl
+                editPostUseCase.invoke(i)
+            }
         }
 
     }

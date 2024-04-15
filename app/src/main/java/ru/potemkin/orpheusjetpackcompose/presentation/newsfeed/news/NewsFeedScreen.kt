@@ -40,7 +40,7 @@ fun NewsFeedScreen(
 ) {
     val component = getApplicationComponent()
     val viewModel: NewsFeedViewModel = viewModel(factory = component.getViewModelFactory())
-    val screenState = viewModel.screenState.observeAsState(NewsFeedScreenState.Initial)
+    val screenState = viewModel.screenState.collectAsState(NewsFeedScreenState.Initial)
 
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()

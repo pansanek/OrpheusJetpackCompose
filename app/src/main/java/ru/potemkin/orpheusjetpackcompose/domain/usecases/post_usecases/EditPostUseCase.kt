@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.PostRepository
 import javax.inject.Inject
 
 class EditPostUseCase @Inject constructor(private val psotRepository: PostRepository) {
-    operator fun invoke(psotItem: PostItem){
+    suspend operator fun invoke(psotItem: PostItem){
         psotRepository.editPostItem(psotItem)
     }
 }

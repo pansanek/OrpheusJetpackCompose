@@ -1,9 +1,11 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.comments
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
@@ -26,7 +28,10 @@ class CommentsViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val repository = PostRepositoryImpl()
+
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
+        Log.d("ViewModel", "Exception caught by exception handler")
+    }
 
     private val _screenState = MutableLiveData<CommentsScreenState>(CommentsScreenState.Initial)
     val screenState: LiveData<CommentsScreenState> = _screenState
@@ -45,18 +50,20 @@ class CommentsViewModel @Inject constructor(
         }
     }
     fun createComment(content:String, postItem: PostItem){
-        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
-        val currentDate = sdf.format(Date())
-        addCommentUseCase.invoke(
-            CommentItem(
-                id=getNewCommentId(postItem),
-                post_id = postItem.id,
-                user = getMyUser(),
-                text = content,
-                timestamp = currentDate
+        viewModelScope.launch(exceptionHandler) {
+            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
+            val currentDate = sdf.format(Date())
+            addCommentUseCase.invoke(
+                CommentItem(
+                    id = getNewCommentId(postItem),
+                    post_id = postItem.id,
+                    user = getMyUser(),
+                    text = content,
+                    timestamp = currentDate
+                )
             )
-        )
-        commentsFlow.value = getCommentsUseCase.invoke(postItem.id)
+            commentsFlow.value = getCommentsUseCase.invoke(postItem.id)
+        }
     }
 
     private fun getNewCommentId(postItem: PostItem): String {

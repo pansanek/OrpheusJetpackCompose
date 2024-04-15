@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
@@ -26,41 +27,45 @@ class PostCreationViewModel @Inject constructor(
     private val getPostListUseCase: GetPostListUseCase
 ) : ViewModel() {
 
-
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
+        Log.d("ViewModel", "Exception caught by exception handler")
+    }
 
     private val _screenState = MutableLiveData<PostCreationScreenState>(PostCreationScreenState.Initial)
     val screenState: LiveData<PostCreationScreenState> = _screenState
 
-    fun createPost(creatorInfoItem: CreatorInfoItem,postContent:String,photoUrl:String){
-        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
-        val currentDate = sdf.format(Date())
+    fun createPost(creatorInfoItem: CreatorInfoItem, postContent:String, photoUrl:String){
+        viewModelScope.launch(exceptionHandler) {
+            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
+            val currentDate = sdf.format(Date())
 
-        val newPostItem = PostItem(
-            id = getNewPostId(),
-            creatorId = creatorInfoItem.creatorId,
-            creatorType = creatorInfoItem.creatorType,
-            creatorPicture = creatorInfoItem.creatorPicture,
-            creatorName = creatorInfoItem.creatorName,
-            text = postContent,
-            comments = listOf(),
-            date = currentDate,
-            attachment = PhotoUrlItem(
-                getNewPostPictureId(),
-                photoUrl
-            ),
-            statistics = mutableListOf(
-                StatisticItem(StatisticType.LIKES, 0), StatisticItem(StatisticType.COMMENTS, 0)
-            ),
+            val newPostItem = PostItem(
+                id = getNewPostId(),
+                creatorId = creatorInfoItem.creatorId,
+                creatorType = creatorInfoItem.creatorType,
+                creatorPicture = creatorInfoItem.creatorPicture,
+                creatorName = creatorInfoItem.creatorName,
+                text = postContent,
+                comments = listOf(),
+                date = currentDate,
+                attachment = PhotoUrlItem(
+                    getNewPostPictureId(),
+                    photoUrl
+                ),
+                statistics = mutableListOf(
+                    StatisticItem(StatisticType.LIKES, 0), StatisticItem(StatisticType.COMMENTS, 0)
+                ),
 
-        )
-        addPostUseCase.invoke(newPostItem)
+                )
+            addPostUseCase.invoke(newPostItem)
+        }
     }
 
     private fun getNewPostId():String{
         var postList = getPostListUseCase.invoke()
         val indexes: MutableList<String> = ArrayList()
         var largest:Int = 0
-        for (i in postList){
+        for (i in postList.value){
             indexes.add(i.id)
         }
         for (i in indexes){
@@ -76,7 +81,7 @@ class PostCreationViewModel @Inject constructor(
         var postList = getPostListUseCase.invoke()
         val indexes: MutableList<String> = ArrayList()
         var largest:Int = 0
-        for (i in postList){
+        for (i in postList.value){
             indexes.add(i.attachment.id)
         }
         for (i in indexes){

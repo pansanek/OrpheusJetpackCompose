@@ -1,19 +1,20 @@
 package ru.potemkin.orpheusjetpackcompose.domain.repositories
 
+import kotlinx.coroutines.flow.StateFlow
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 
 interface PostRepository {
-    fun addPostItem(postItem: PostItem)
-    fun changeLikeStatus(postItemId: String)
+    suspend fun addPostItem(postItem: PostItem)
+    suspend fun changeLikeStatus(postItemId: String)
     fun deletePostItem(postItem: PostItem)
-    fun editPostItem(postItem: PostItem)
+    suspend fun editPostItem(postItem: PostItem)
 
     fun getPostItem(postId: String): PostItem
 
-    fun getPostsList(): List<PostItem>
+    fun getPostsList(): StateFlow<List<PostItem>>
     fun getComments(postId: String): List<CommentItem>
-    fun addCommentItem(commentItem: CommentItem)
+    suspend fun addCommentItem(commentItem: CommentItem)
     suspend fun loadNextData()
 
     fun getUserPosts(userId: String): List<PostItem>

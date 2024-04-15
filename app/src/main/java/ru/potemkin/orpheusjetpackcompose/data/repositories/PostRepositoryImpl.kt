@@ -1,8 +1,16 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
 import android.util.Log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.retry
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import ru.potemkin.orpheusjetpackcompose.data.mappers.PostMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
@@ -15,13 +23,14 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.PostRepository
+import ru.potemkin.orpheusjetpackcompose.extentions.mergeWith
 import javax.inject.Inject
 
 class PostRepositoryImpl @Inject constructor(
 
 ) : PostRepository {
 
-
+    private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
     private val apiService = ApiFactory.appPostApiService
     private val mapper = PostMapper()
@@ -32,30 +41,34 @@ class PostRepositoryImpl @Inject constructor(
 
     private var nextFrom: String? = null
 
-    suspend fun loadRecommendations(): List<PostItem> {
-        val startFrom = nextFrom
-
-        if (startFrom == null && postItems.isNotEmpty()) return postItems
-
-        val response = if (startFrom == null) {
-            apiService.getAllPosts()
+    private val refreshedListFlow = MutableSharedFlow<List<PostItem>>()
+    private val loadedListFlow = flow {
+        // Проверяем, есть ли уже какие-то посты, и если есть, то их сначала отправляем
+        if (postItems.isNotEmpty()) {
+            emit(postItems)
         } else {
-            apiService.getAllPosts()
+            // Если постов нет, добавляем моковые данные
+            addMockData()
+            emit(postItems)
         }
-        val posts = mapper.mapPostList(response)
-        _postItems.addAll(posts)
-        return postItems
+    }.retry {
+        delay(RETRY_TIMEOUT_MILLIS)
+        true
     }
+    private val recommendations: StateFlow<List<PostItem>> = loadedListFlow
+        .mergeWith(refreshedListFlow)
+        .stateIn(
+            scope = coroutineScope,
+            started = SharingStarted.Lazily,
+            initialValue = postItems
+        )
 
-    init {
-        addMockData()
-    }
-
-    override fun addPostItem(postItem: PostItem) {
+    override suspend fun addPostItem(postItem: PostItem) {
         _postItems.add(postItem)
+        refreshedListFlow.emit(postItems)
     }
 
-    override fun changeLikeStatus(postItemId: String) {
+    override suspend fun changeLikeStatus(postItemId: String) {
         val oldElement = getPostItem(postItemId)
         if(oldElement.isLiked == false) {
             oldElement.isLiked = true
@@ -80,7 +93,7 @@ class PostRepositoryImpl @Inject constructor(
         return getPostItem(postId).comments
     }
 
-    override fun addCommentItem(commentItem: CommentItem) {
+    override suspend fun addCommentItem(commentItem: CommentItem) {
         val postItem = getPostItem(commentItem.post_id)
         _postItems.remove(postItem)
         var comments = mutableListOf(commentItem)
@@ -90,7 +103,7 @@ class PostRepositoryImpl @Inject constructor(
         addPostItem(postItem)
     }
 
-    override fun editPostItem(postItem: PostItem) {
+    override suspend fun editPostItem(postItem: PostItem) {
         val oldElement = getPostItem(postItem.id)
         _postItems.remove(oldElement)
         addPostItem(postItem)
@@ -103,7 +116,7 @@ class PostRepositoryImpl @Inject constructor(
     }
 
 
-    override fun getPostsList(): List<PostItem> = _postItems
+    override fun getPostsList(): StateFlow<List<PostItem>>  = recommendations
 
     override suspend fun loadNextData() {
         TODO("Not yet implemented")
@@ -133,7 +146,7 @@ class PostRepositoryImpl @Inject constructor(
         return locationPosts
     }
 
-    fun addMockData() {
+    suspend fun addMockData() {
         addPostItem(
             PostItem(
                 id = "31",
@@ -254,6 +267,11 @@ class PostRepositoryImpl @Inject constructor(
                 ),
             )
         )
+    }
+
+    companion object {
+
+        private const val RETRY_TIMEOUT_MILLIS = 3000L
     }
 
 }

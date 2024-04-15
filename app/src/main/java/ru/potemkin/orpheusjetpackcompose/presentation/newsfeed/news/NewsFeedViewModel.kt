@@ -7,8 +7,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
@@ -50,28 +54,36 @@ class NewsFeedViewModel @Inject constructor(
     private val addBandMemberUseCase: AddBandMemberUseCase
 ) : ViewModel() {
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
+        Log.d("ViewModel", "Exception caught by exception handler")
+    }
+
+
     private val initialState = NewsFeedScreenState.Initial
 
+    val postListFlow = getPostListUseCase.invoke()
+    val notificationList = getNotificationListUseCase.invoke(getMyUserUseCase.invoke())
+
     private val _screenState = MutableLiveData<NewsFeedScreenState>(initialState)
-    val screenState: LiveData<NewsFeedScreenState> = _screenState
+    val screenState = postListFlow
+        .filter { it.isNotEmpty() }
+        .map { NewsFeedScreenState.Posts(posts = it, notifications = notificationList) as NewsFeedScreenState }
+        .onStart { emit(NewsFeedScreenState.Loading) }
+
 
     private val _likeStatusMap = mutableMapOf<String, MutableStateFlow<Boolean>>()
 
-    val postList = getPostListUseCase.invoke()
-    val notificationList = getNotificationListUseCase.invoke(getMyUserUseCase.invoke())
 
-    init {
-        _screenState.value = NewsFeedScreenState.Loading
-        loadRecommendations()
-    }
 
-    private fun loadRecommendations() {
-        viewModelScope.launch {
-//            val feedPosts = repository.loadRecommendations()
-//            val feedPosts = addMockData()
-            _screenState.value = NewsFeedScreenState.Posts(posts = postList, notifications = notificationList)
-        }
-    }
+
+
+//    private fun loadRecommendations() {
+//        viewModelScope.launch {
+////            val feedPosts = repository.loadRecommendations()
+////            val feedPosts = addMockData()
+//            _screenState.value = NewsFeedScreenState.Posts(posts = postList, notifications = notificationList)
+//        }
+//    }
 
     fun loadLocationFromCreator(locationId:String): LocationItem {
         return getLocationUseCase.invoke(locationId)
@@ -95,9 +107,11 @@ class NewsFeedViewModel @Inject constructor(
     }
 
     fun changeLikeStatus(postId:String) {
-        val currentState = _likeStatusMap.getOrPut(postId) { MutableStateFlow(false) }.value
-        _likeStatusMap[postId]?.value = !currentState
-        changeLikeStatusUseCase.invoke(postId)
+        viewModelScope.launch(exceptionHandler) {
+            val currentState = _likeStatusMap.getOrPut(postId) { MutableStateFlow(false) }.value
+            _likeStatusMap[postId]?.value = !currentState
+            changeLikeStatusUseCase.invoke(postId)
+        }
     }
     fun getLikeStatus(postId: String): StateFlow<Boolean> {
         return _likeStatusMap.getOrPut(postId) { MutableStateFlow(false) }
