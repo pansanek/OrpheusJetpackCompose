@@ -69,7 +69,7 @@ fun MyUserProfileScreen(
 
     val component = getApplicationComponent()
     val viewModel: MyUserProfileViewModel = viewModel(factory = component.getViewModelFactory())
-    val screenState = viewModel.screenState.observeAsState(MyUserProfileScreenState.Initial)
+    val screenState = viewModel.screenState.collectAsState(MyUserProfileScreenState.Initial)
     val scrollState = rememberLazyListState()
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()

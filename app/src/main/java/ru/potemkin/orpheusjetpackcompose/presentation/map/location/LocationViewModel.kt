@@ -6,6 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.LocationRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
@@ -32,6 +36,9 @@ import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.EditPostU
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetLocationPostsUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetUserPostsUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetMyUserUseCase
+import ru.potemkin.orpheusjetpackcompose.presentation.map.map.MapScreenState
+import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedScreenState
+import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.UserProfileScreenState
 import java.text.SimpleDateFormat
 import java.util.Date
 import javax.inject.Inject
@@ -53,56 +60,48 @@ class LocationViewModel @Inject constructor(
         Log.d("ViewModel", "Exception caught by exception handler")
     }
 
-    private val _screenState = MutableLiveData<LocationScreenState>(LocationScreenState.Initial)
-    val screenState: LiveData<LocationScreenState> = _screenState
-
-    val postList = getLocationPostsUseCase.invoke(location.id)
+    val postListFlow = getLocationPostsUseCase.invoke(location.id)
     val admin = location.admin
-    init {
-        loadLocation(location)
-    }
 
-    private fun loadLocation(
-        location: LocationItem,
-    ) {
-        viewModelScope.launch {
-            _screenState.value = LocationScreenState.Location(
-                location = location,
-                posts = postList
-            )
-        }
-    }
+
+    val screenState = postListFlow
+        .filter { it.isNotEmpty() }
+        .map { LocationScreenState.Location(location,it) as LocationScreenState }
+        .onStart { emit(LocationScreenState.Loading) }
+
     fun createChat(toUser: UserItem, message: String) {
-        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
-        val currentDate = sdf.format(Date())
-        var chatExists = false
-        var chatId = getNewChatId(getMyUserUseCase.invoke())
-        for (i in getChatListUseCase.invoke(getMyUserUseCase.invoke().id)) {
-            if (toUser in i.users) {
-                chatId = i.id
-                chatExists = true
+        viewModelScope.launch(exceptionHandler) {
+            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
+            val currentDate = sdf.format(Date())
+            var chatExists = false
+            var chatId = getNewChatId(getMyUserUseCase.invoke())
+            for (i in getChatListUseCase.invoke(getMyUserUseCase.invoke().id).value) {
+                if (toUser in i.users) {
+                    chatId = i.id
+                    chatExists = true
+                }
             }
-        }
-        if (!chatExists) {
-            addChatItemUseCase.invoke(
-                ChatItem(
-                    id = chatId,
-                    users = listOf(getMyUserUseCase.invoke(), toUser),
-                    lastMessage = message,
-                    picture = toUser.profile_picture,
-                    name = toUser.name
+            if (!chatExists) {
+                addChatItemUseCase.invoke(
+                    ChatItem(
+                        id = chatId,
+                        users = listOf(getMyUserUseCase.invoke(), toUser),
+                        lastMessage = message,
+                        picture = toUser.profile_picture,
+                        name = toUser.name
+                    )
+                )
+            }
+            addMessageUseCase.invoke(
+                MessageItem(
+                    id = getNewMessageId(chatId),
+                    chatId = chatId,
+                    fromUser = getMyUserUseCase.invoke(),
+                    timestamp = currentDate,
+                    content = message
                 )
             )
         }
-        addMessageUseCase.invoke(
-            MessageItem(
-                id = getNewMessageId(chatId),
-                chatId = chatId,
-                fromUser = getMyUserUseCase.invoke(),
-                timestamp = currentDate,
-                content = message
-            )
-        )
     }
     fun isMyUserAdmin():Boolean{
         if(getMyUserUseCase.invoke() == admin) return true
@@ -139,7 +138,7 @@ class LocationViewModel @Inject constructor(
 
     private fun changeLocationPosts(userName: String, profilePictureUrl: String) {
         viewModelScope.launch(exceptionHandler) {
-            for (i in postList) {
+            for (i in postListFlow.value) {
                 i.creatorName = userName
                 i.creatorPicture.url = profilePictureUrl
                 editPostUseCase.invoke(i)
@@ -152,7 +151,7 @@ class LocationViewModel @Inject constructor(
         var messageList = getMessageListUseCase.invoke(chatId)
         val indexes: MutableList<String> = ArrayList()
         var largest: Int = 0
-        for (i in messageList) {
+        for (i in messageList.value) {
             indexes.add(i.id)
         }
         for (i in indexes) {
@@ -167,7 +166,7 @@ class LocationViewModel @Inject constructor(
         var chatList = getChatListUseCase.invoke(userItem.id)
         val indexes: MutableList<String> = ArrayList()
         var largest: Int = 0
-        for (i in chatList) {
+        for (i in chatList.value) {
             indexes.add(i.id)
         }
         for (i in indexes) {

@@ -1,20 +1,31 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.retry
+import kotlinx.coroutines.flow.stateIn
 import ru.potemkin.orpheusjetpackcompose.data.mappers.LocationMapper
 import ru.potemkin.orpheusjetpackcompose.data.mappers.MessageMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.LocationRepository
+import ru.potemkin.orpheusjetpackcompose.extentions.mergeWith
 import javax.inject.Inject
 
 class LocationRepositoryImpl @Inject constructor(
 
 ) : LocationRepository {
-
+    private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
 
     private val apiService = ApiFactory.appLocationApiService
@@ -28,20 +39,40 @@ class LocationRepositoryImpl @Inject constructor(
         get() = _locationItems.toList()
 
     private var nextFrom: String? = null
-    init {
-        addMockData()
+    private val refreshedListFlow = MutableSharedFlow<List<LocationItem>>()
+    private val loadedListFlow = flow {
+        // Проверяем, есть ли уже какие-то посты, и если есть, то их сначала отправляем
+        if (locationItems.isNotEmpty()) {
+            emit(locationItems)
+        } else {
+            // Если постов нет, добавляем моковые данные
+            addMockData()
+            emit(locationItems)
+        }
+    }.retry {
+        delay(RETRY_TIMEOUT_MILLIS)
+        true
     }
-    override fun addLocationItem(locationItem: LocationItem) {
+    private val locations: StateFlow<List<LocationItem>> = loadedListFlow
+        .mergeWith(refreshedListFlow)
+        .stateIn(
+            scope = coroutineScope,
+            started = SharingStarted.Lazily,
+            initialValue = locationItems
+        )
+    override suspend fun addLocationItem(locationItem: LocationItem) {
         _locationItems.add(locationItem)
+        refreshedListFlow.emit(locationItems)
     }
 
 
 
-    override fun deleteLocationItem(locationItem: LocationItem) {
+    override suspend fun deleteLocationItem(locationItem: LocationItem) {
         _locationItems.remove(locationItem)
+        refreshedListFlow.emit(locationItems)
     }
 
-    override fun editLocationItem(locationItem: LocationItem) {
+    override suspend fun editLocationItem(locationItem: LocationItem) {
         val oldElement = getLocationItem(locationItem.id)
         _locationItems.remove(oldElement)
         addLocationItem(locationItem)
@@ -53,9 +84,7 @@ class LocationRepositoryImpl @Inject constructor(
         } ?: throw java.lang.RuntimeException("Element with id $locationId not found")
     }
 
-    override fun getLocationsList(): List<LocationItem> {
-        return _locationItems.toList()
-    }
+    override fun getLocationsList(): StateFlow<List<LocationItem>> = locations
 
     override fun getMyUserLocation(userId: String): LocationItem {
         return _locationItems.find {
@@ -70,7 +99,7 @@ class LocationRepositoryImpl @Inject constructor(
     }
 
 
-    fun addMockData(){
+    suspend fun addMockData(){
         addLocationItem(LocationItem(
             id= "41",
             admin = UserItem(
@@ -125,5 +154,10 @@ class LocationRepositoryImpl @Inject constructor(
             latitude = 55.788085,
             longitude = 37.583625
         ))
+    }
+
+    companion object {
+
+        private const val RETRY_TIMEOUT_MILLIS = 5L
     }
 }

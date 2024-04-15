@@ -15,6 +15,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -60,7 +61,7 @@ fun BandProfileScreen(
     val viewModel: BandProfileViewModel = viewModel(
         factory = component.getViewModelFactory()
     )
-    val screenState = viewModel.screenState.observeAsState(BandProfileScreenState.Initial)
+    val screenState = viewModel.screenState.collectAsState(BandProfileScreenState.Initial)
     val currentState = screenState.value
     var text by remember { mutableStateOf("") }
     val scrollState = rememberLazyListState()

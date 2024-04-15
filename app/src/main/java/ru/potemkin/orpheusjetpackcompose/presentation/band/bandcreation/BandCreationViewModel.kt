@@ -5,6 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.BandRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.data.repositories.UserRepositoryImpl
@@ -17,6 +21,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.AddBandUs
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetBandListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetMyUserBandsUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetMyUserUseCase
+import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.MyUserProfileScreenState
 import ru.potemkin.orpheusjetpackcompose.presentation.search.SearchScreenState
 import javax.inject.Inject
 
@@ -27,46 +32,43 @@ class BandCreationViewModel @Inject constructor(
     private val getBandListUseCase: GetBandListUseCase
 ) : ViewModel() {
 
-    private val initialState = BandCreationScreenState.Initial
-
-    private val _screenState = MutableLiveData<BandCreationScreenState>(initialState)
-    val screenState: LiveData<BandCreationScreenState> = _screenState
-
-
-    init {
-        _screenState.value = BandCreationScreenState.Loading
-        loadMyUserBands()
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
+        Log.d("ViewModel", "Exception caught by exception handler")
     }
 
-    private fun loadMyUserBands() {
-        viewModelScope.launch {
-            _screenState.value = BandCreationScreenState.Bands(
-                getMyUserBandsUseCase.invoke(getMyUserUseCase.invoke().id)
-            )
-        }
-    }
+    val myUser = getMyUserUseCase.invoke()
+
+
+    val bandListFlow = getMyUserBandsUseCase.invoke(myUser.id)
+
+    val screenState = bandListFlow
+        .filter { it.isNotEmpty() }
+        .map { BandCreationScreenState.Bands(bands = it) as BandCreationScreenState }
+        .onStart { emit(BandCreationScreenState.Loading) }
 
 
     fun createBand(name:String,genre:String,photoUrl:String){
-        addBandUseCase.invoke(
-            BandItem(
-                id = getNewBandId(),
-                name = name,
-                members = listOf(getMyUserUseCase.invoke()),
-                genre = genre,
-                photo = PhotoUrlItem(
-                    id = getNewPictureId(),
-                    url = photoUrl
+        viewModelScope.launch(exceptionHandler) {
+            addBandUseCase.invoke(
+                BandItem(
+                    id = getNewBandId(),
+                    name = name,
+                    members = listOf(getMyUserUseCase.invoke()),
+                    genre = genre,
+                    photo = PhotoUrlItem(
+                        id = getNewPictureId(),
+                        url = photoUrl
+                    )
                 )
             )
-        )
+        }
     }
 
     private fun getNewPictureId():String{
         var postList = getBandListUseCase.invoke()
         val indexes: MutableList<String> = ArrayList()
         var largest:Int = 0
-        for (i in postList){
+        for (i in postList.value){
             indexes.add(i.photo.id)
         }
         for (i in indexes){
@@ -81,7 +83,7 @@ class BandCreationViewModel @Inject constructor(
         var bandList = getBandListUseCase.invoke()
         val indexes: MutableList<String> = ArrayList()
         var largest: Int = 0
-        for (i in bandList) {
+        for (i in bandList.value) {
             indexes.add(i.id)
         }
         for (i in indexes) {

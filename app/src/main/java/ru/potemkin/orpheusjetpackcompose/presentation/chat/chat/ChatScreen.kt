@@ -67,7 +67,7 @@ fun ChatScreen(
     val viewModel: ChatViewModel = viewModel(
         factory = component.getViewModelFactory()
     )
-    val screenState = viewModel.screenState.observeAsState(ChatScreenState.Initial)
+    val screenState = viewModel.screenState.collectAsState(ChatScreenState.Initial)
     val currentState = screenState.value
     val messages = viewModel.messagesFlow.collectAsState()
     val listState = rememberLazyListState()

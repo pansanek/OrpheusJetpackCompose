@@ -1,18 +1,31 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.retry
+import kotlinx.coroutines.flow.stateIn
 import ru.potemkin.orpheusjetpackcompose.data.mappers.BandMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.BandRepository
+import ru.potemkin.orpheusjetpackcompose.extentions.mergeWith
 import javax.inject.Inject
 
 class BandRepositoryImpl @Inject constructor(
 
 ) : BandRepository {
+    private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
     private val apiService = ApiFactory.appBandApiService
     private val mapper = BandMapper()
@@ -22,15 +35,34 @@ class BandRepositoryImpl @Inject constructor(
 
     private var nextFrom: String? = null
 
-    init {
-        addMockData()
+    private val refreshedListFlow = MutableSharedFlow<List<BandItem>>()
+    private val loadedListFlow = flow {
+        // Проверяем, есть ли уже какие-то посты, и если есть, то их сначала отправляем
+        if (bandItems.isNotEmpty()) {
+            emit(bandItems)
+        } else {
+            // Если постов нет, добавляем моковые данные
+            addMockData()
+            emit(bandItems)
+        }
+    }.retry {
+        delay(RETRY_TIMEOUT_MILLIS)
+        true
     }
+    private val bands: StateFlow<List<BandItem>> = loadedListFlow
+        .mergeWith(refreshedListFlow)
+        .stateIn(
+            scope = coroutineScope,
+            started = SharingStarted.Lazily,
+            initialValue = bandItems
+        )
 
-    override fun addBandItem(bandItem: BandItem) {
+    override suspend fun addBandItem(bandItem: BandItem) {
         _bandItems.add(bandItem)
+        refreshedListFlow.emit(bandItems)
     }
 
-    override fun addBandMemberItem(bandItem: BandItem,myUser:UserItem) {
+    override suspend fun addBandMemberItem(bandItem: BandItem, myUser:UserItem) {
         _bandItems.remove(bandItem)
         var members = mutableListOf(myUser)
         for (i in bandItem.members) members.add(i)
@@ -53,11 +85,12 @@ class BandRepositoryImpl @Inject constructor(
         return bandItems
     }
 
-    override fun deleteBandItem(bandItem: BandItem) {
+    override suspend fun deleteBandItem(bandItem: BandItem) {
         _bandItems.remove(bandItem)
+        refreshedListFlow.emit(bandItems)
     }
 
-    override fun editBandItem(bandItem: BandItem) {
+    override suspend fun editBandItem(bandItem: BandItem) {
         val oldElement = getBandItem(bandItem.id)
         _bandItems.remove(oldElement)
         addBandItem(bandItem)
@@ -69,32 +102,30 @@ class BandRepositoryImpl @Inject constructor(
         } ?: throw java.lang.RuntimeException("Element with id $bandId not found")
     }
 
-    override fun getBandsList(): List<BandItem> {
-        return _bandItems.toList()
-    }
+    override fun getBandsList(): StateFlow<List<BandItem>>  = bands
 
-    override fun getMyUserBands(userId: String): List<BandItem> {
+    override fun getMyUserBands(userId: String): StateFlow<List<BandItem>> {
         val userBands = mutableListOf<BandItem>()
         for (band in _bandItems) {
             for (member in band.members) {
                 if (member.id == userId) userBands.add(band)
             }
         }
-        return userBands
+        return MutableStateFlow(userBands.toList())
     }
 
-    override fun getUserBands(userId: String): List<BandItem> {
+    override fun getUserBands(userId: String): StateFlow<List<BandItem>> {
         val userBands = mutableListOf<BandItem>()
         for (band in _bandItems) {
             for (member in band.members) {
                 if (member.id == userId) userBands.add(band)
             }
         }
-        return userBands
+        return MutableStateFlow(userBands.toList())
     }
 
 
-    fun addMockData() {
+    suspend fun addMockData() {
         addBandItem(
             BandItem(
                 "71",
@@ -278,5 +309,11 @@ class BandRepositoryImpl @Inject constructor(
                 )
             )
         )
+    }
+
+
+    companion object {
+
+        private const val RETRY_TIMEOUT_MILLIS = 5L
     }
 }

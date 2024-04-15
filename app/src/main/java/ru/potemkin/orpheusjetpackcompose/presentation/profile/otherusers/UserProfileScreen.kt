@@ -57,7 +57,7 @@ fun UserProfileScreen(
     val viewModel: UserProfileViewModel = viewModel(
         factory = component.getViewModelFactory()
     )
-    val screenState = viewModel.screenState.observeAsState(UserProfileScreenState.Initial)
+    val screenState = viewModel.screenState.collectAsState(UserProfileScreenState.Initial)
     val scrollState = rememberLazyListState()
     val topBarHeight = 0.dp
     val scaffoldState = rememberScaffoldState()

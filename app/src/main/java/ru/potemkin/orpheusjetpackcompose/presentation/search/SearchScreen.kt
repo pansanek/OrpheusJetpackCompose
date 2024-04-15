@@ -59,7 +59,7 @@ fun SearchScreen(
 
     val component = getApplicationComponent()
     val viewModel: SearchViewModel = viewModel(factory = component.getViewModelFactory())
-    val screenState = viewModel.screenState.observeAsState(SearchScreenState.Initial)
+    val screenState = viewModel.screenState.collectAsState(SearchScreenState.Initial)
     when (val currentState = screenState.value) {
         is SearchScreenState.Finds -> {
             Scaffold(

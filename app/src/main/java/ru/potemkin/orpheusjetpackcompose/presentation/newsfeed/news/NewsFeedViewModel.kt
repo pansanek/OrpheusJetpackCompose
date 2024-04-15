@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -59,20 +60,21 @@ class NewsFeedViewModel @Inject constructor(
     }
 
 
-    private val initialState = NewsFeedScreenState.Initial
 
     val postListFlow = getPostListUseCase.invoke()
-    val notificationList = getNotificationListUseCase.invoke(getMyUserUseCase.invoke())
 
-    private val _screenState = MutableLiveData<NewsFeedScreenState>(initialState)
+    val notificationListFlow = getNotificationListUseCase.invoke(getMyUserUseCase.invoke())
+
     val screenState = postListFlow
-        .filter { it.isNotEmpty() }
-        .map { NewsFeedScreenState.Posts(posts = it, notifications = notificationList) as NewsFeedScreenState }
+        .combine(notificationListFlow) { posts, notifications ->
+            NewsFeedScreenState.Posts(posts = posts, notifications = notifications)
+        }
+        .filter { it.posts.isNotEmpty() } // Фильтруем, чтобы убедиться, что у нас есть посты
+        .map { it as NewsFeedScreenState } // Преобразуем к типу NewsFeedScreenState
         .onStart { emit(NewsFeedScreenState.Loading) }
 
 
     private val _likeStatusMap = mutableMapOf<String, MutableStateFlow<Boolean>>()
-
 
 
 
@@ -98,6 +100,7 @@ class NewsFeedViewModel @Inject constructor(
     }
 
     fun getCreatorInfo():CreatorInfoItem{
+
         return CreatorInfoItem(
             creatorId =  getMyUserUseCase.invoke().id,
             creatorName = getMyUserUseCase.invoke().name,
@@ -118,7 +121,9 @@ class NewsFeedViewModel @Inject constructor(
     }
 
     fun acceptBandInvitation(bandItem: BandItem){
-        addBandMemberUseCase.invoke(bandItem,getMyUserUseCase.invoke())
+        viewModelScope.launch(exceptionHandler) {
+            addBandMemberUseCase.invoke(bandItem, getMyUserUseCase.invoke())
+        }
     }
 
 

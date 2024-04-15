@@ -1,9 +1,14 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.map.map
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.LocationRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
@@ -16,6 +21,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.location_usecases.GetLocationListUseCase
+import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.comments.CommentsScreenState
 import javax.inject.Inject
 
 class MapViewModel @Inject constructor(
@@ -23,23 +29,18 @@ class MapViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    private val initialState = MapScreenState.Initial
-
-    private val _screenState = MutableLiveData<MapScreenState>(initialState)
-    val screenState: LiveData<MapScreenState> = _screenState
-
-    val locations = getLocationListUseCase.invoke()
-
-    init {
-        _screenState.value = MapScreenState.Loading
-        loadLocations()
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
+        Log.d("ViewModel", "Exception caught by exception handler")
     }
 
-    private fun loadLocations() {
-        viewModelScope.launch {
-            _screenState.value = MapScreenState.Locations(locations = locations)
-        }
-    }
+
+    val locationFlow = getLocationListUseCase.invoke()
+    val screenState = locationFlow
+        .filter { it.isNotEmpty() }
+        .map { MapScreenState.Locations(locations = it) as MapScreenState }
+        .onStart { emit(MapScreenState.Loading) }
+
+
 
 
 }

@@ -137,7 +137,7 @@ fun MapScreen(
 ) {
     val component = getApplicationComponent()
     val viewModel: MapViewModel = viewModel(factory = component.getViewModelFactory())
-    val screenState = viewModel.screenState.observeAsState(MapScreenState.Initial)
+    val screenState = viewModel.screenState.collectAsState(MapScreenState.Initial)
     val context = LocalContext.current
 
 

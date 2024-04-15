@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.ChatRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
@@ -13,37 +16,20 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.GetChatListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetMyUserUseCase
+import ru.potemkin.orpheusjetpackcompose.presentation.map.map.MapScreenState
 import javax.inject.Inject
 
 class ChatListViewModel @Inject constructor(
     private val getChatListUseCase: GetChatListUseCase,
     private val getMyUserUseCase: GetMyUserUseCase
 ) : ViewModel() {
+    val myUser = getMyUserUseCase.invoke()
 
-    private val initialState = ChatListScreenState.Initial
+    val chatFlow = getChatListUseCase.invoke(myUser.id)
 
-    private val _screenState = MutableLiveData<ChatListScreenState>(initialState)
-    val screenState: LiveData<ChatListScreenState> = _screenState
-
-    private val repository = ChatRepositoryImpl()
-
-    init {
-        _screenState.value = ChatListScreenState.Loading
-        loadChats()
-    }
-
-    private fun loadChats() {
-        viewModelScope.launch {
-//            val chats = repository.loadChats()
-            _screenState.value = ChatListScreenState.Chats(
-                chats = getChatListUseCase
-                    .invoke(
-                        getMyUserUseCase.invoke().id
-                    )
-            )
-        }
-    }
-
-
+    val screenState = chatFlow
+        .filter { it.isNotEmpty() }
+        .map { ChatListScreenState.Chats(chats = it) as ChatListScreenState }
+        .onStart { emit(ChatListScreenState.Loading) }
 
 }

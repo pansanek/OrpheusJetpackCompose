@@ -1,21 +1,30 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
 import android.util.Log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.retry
+import kotlinx.coroutines.flow.stateIn
 import ru.potemkin.orpheusjetpackcompose.data.mappers.UsersMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
-import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.UserRepository
+import ru.potemkin.orpheusjetpackcompose.extentions.mergeWith
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
 
 ) : UserRepository {
-
+    private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
     private val apiService = ApiFactory.appUserApiService
     private val mapper = UsersMapper()
@@ -49,17 +58,57 @@ class UserRepositoryImpl @Inject constructor(
         UserSettingsItem(true, true)
     )
 
-    init {
-        addMockData()
-        addMusicianMockData()
+    private val refreshedUserListFlow = MutableSharedFlow<List<UserItem>>()
+    private val loadedUserListFlow = flow {
+        // Проверяем, есть ли уже какие-то посты, и если есть, то их сначала отправляем
+        if (userItems.isNotEmpty()) {
+            emit(userItems)
+        } else {
+            // Если постов нет, добавляем моковые данные
+            addMockData()
+            emit(userItems)
+        }
+    }.retry {
+        delay(RETRY_TIMEOUT_MILLIS)
+        true
     }
+    private val users: StateFlow<List<UserItem>> = loadedUserListFlow
+        .mergeWith(refreshedUserListFlow)
+        .stateIn(
+            scope = coroutineScope,
+            started = SharingStarted.Lazily,
+            initialValue = userItems
+        )
 
-    override fun addUserItem(userItem: UserItem) {
+
+    private val refreshedMusicianListFlow = MutableSharedFlow<List<MusicianItem>>()
+    private val loadedMusicianListFlow = flow {
+        if (musicianItems.isNotEmpty()) {
+            emit(musicianItems)
+        } else {
+            addMusicianMockData()
+            emit(musicianItems)
+        }
+    }.retry {
+        delay(RETRY_TIMEOUT_MILLIS)
+        true
+    }
+    private val musicians: StateFlow<List<MusicianItem>> = loadedMusicianListFlow
+        .mergeWith(refreshedMusicianListFlow)
+        .stateIn(
+            scope = coroutineScope,
+            started = SharingStarted.Lazily,
+            initialValue = musicianItems
+        )
+
+    override suspend fun addUserItem(userItem: UserItem) {
         _userItems.add(userItem)
+        refreshedUserListFlow.emit(userItems)
     }
 
-    override fun addMusicianItem(musicianItem: MusicianItem) {
+    override suspend fun addMusicianItem(musicianItem: MusicianItem) {
         _musicianItems.add(musicianItem)
+        refreshedMusicianListFlow.emit(musicianItems)
     }
 
     override fun getMyUser(): UserItem {
@@ -90,11 +139,12 @@ class UserRepositoryImpl @Inject constructor(
         _myUser.settings = userItem.settings
     }
 
-    override fun deleteUserItem(userItem: UserItem) {
+    override suspend fun deleteUserItem(userItem: UserItem) {
         _userItems.remove(userItem)
+        refreshedUserListFlow.emit(userItems)
     }
 
-    override fun editUserItem(userItem: UserItem) {
+    override suspend fun editUserItem(userItem: UserItem) {
         setMyUser(userItem)
     }
 
@@ -104,31 +154,27 @@ class UserRepositoryImpl @Inject constructor(
         } ?: throw java.lang.RuntimeException("Element with id $userId not found")
     }
 
-    override fun getUsersList(): List<UserItem> {
-        return _userItems.toList()
-    }
+    override fun getUsersList(): StateFlow<List<UserItem>>  = users
 
-    override fun getMusiciansList(): List<MusicianItem> {
-        return _musicianItems.toList()
-    }
+    override fun getMusiciansList(): StateFlow<List<MusicianItem>> =musicians
 
-    override fun editMusicianItem(musicianItem: MusicianItem) {
+    override suspend fun editMusicianItem(musicianItem: MusicianItem) {
         val oldElement = _musicianItems.find {
             it.id == musicianItem.id
         } ?: throw java.lang.RuntimeException("Element with id ${musicianItem.id} not found")
         _musicianItems.remove(oldElement)
         addMusicianItem(musicianItem)
     }
-    override fun getMusicianItem(userItem: UserItem): MusicianItem {
+    override suspend fun getMusicianItem(userItem: UserItem): MusicianItem {
         return _musicianItems.find {
             it.user == userItem
         } ?: throw java.lang.RuntimeException("Element $userItem not found")
     }
-    override fun getOtherUser(userId: String): UserItem {
+    override suspend fun getOtherUser(userId: String): UserItem {
         TODO("Not yet implemented")
     }
 
-    fun addMockData() {
+    suspend fun addMockData() {
         addUserItem(
             UserItem(
                 "11",
@@ -362,7 +408,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
 
-    fun addMusicianMockData() {
+    suspend fun addMusicianMockData() {
         addMusicianItem(
             MusicianItem(
                 "81",
@@ -598,5 +644,10 @@ class UserRepositoryImpl @Inject constructor(
         )
 
 
+    }
+
+    companion object {
+
+        private const val RETRY_TIMEOUT_MILLIS = 5L
     }
 }

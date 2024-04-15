@@ -13,7 +13,7 @@ interface UserRepository {
 
     suspend fun editUserItem(userItem: UserItem)
 
-    suspend fun getUserItem(userId: String): UserItem
+    fun getUserItem(userId: String): UserItem
 
     suspend fun getMusicianItem(userItem: UserItem):MusicianItem
 
@@ -22,9 +22,8 @@ interface UserRepository {
     suspend fun addMusicianItem(musicianItem: MusicianItem)
     suspend fun editMusicianItem(musicianItem: MusicianItem)
     suspend fun getOtherUser(userId: String): UserItem
-    suspend fun getMyUser(): UserItem
-
-    suspend fun setMyUser(userItem: UserItem)
+    fun getMyUser(): UserItem
+    fun setMyUser(userItem: UserItem)
 }
 
 

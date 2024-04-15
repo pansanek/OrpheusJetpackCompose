@@ -7,6 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.PostRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
@@ -33,22 +36,15 @@ class CommentsViewModel @Inject constructor(
         Log.d("ViewModel", "Exception caught by exception handler")
     }
 
-    private val _screenState = MutableLiveData<CommentsScreenState>(CommentsScreenState.Initial)
-    val screenState: LiveData<CommentsScreenState> = _screenState
 
-    val comments = getCommentsUseCase.invoke(postItem.id)
-    val commentsFlow = MutableStateFlow(comments)
-    init {
-        loadComments(postItem)
-    }
+    val commentsFlow = getCommentsUseCase.invoke(postItem)
 
-    private fun loadComments(postItem: PostItem) {
-        viewModelScope.launch {
-            _screenState.value = CommentsScreenState.Comments(
-                comments = commentsFlow.value
-            )
-        }
-    }
+    val screenState = commentsFlow
+        .filter { it.isNotEmpty() }
+        .map { CommentsScreenState.Comments(comments = it) as CommentsScreenState }
+        .onStart { emit(CommentsScreenState.Loading) }
+
+
     fun createComment(content:String, postItem: PostItem){
         viewModelScope.launch(exceptionHandler) {
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
@@ -62,15 +58,16 @@ class CommentsViewModel @Inject constructor(
                     timestamp = currentDate
                 )
             )
-            commentsFlow.value = getCommentsUseCase.invoke(postItem.id)
         }
     }
 
+
+
     private fun getNewCommentId(postItem: PostItem): String {
-        var notificationList = getCommentsUseCase.invoke(postItem.id)
+        var commentList = getCommentsUseCase.invoke(postItem)
         val indexes: MutableList<String> = ArrayList()
         var largest: Int = 0
-        for (i in notificationList) {
+        for (i in commentList.value) {
             indexes.add(i.id)
         }
         for (i in indexes) {

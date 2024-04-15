@@ -6,6 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
@@ -18,6 +22,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.EditMusic
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.EditUserUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetMusicianUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetMyUserUseCase
+import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedScreenState
 import javax.inject.Inject
 
 class MyUserProfileViewModel @Inject constructor(
@@ -32,52 +37,40 @@ class MyUserProfileViewModel @Inject constructor(
     private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
         Log.d("ViewModel", "Exception caught by exception handler")
     }
-
-    private val initialState = MyUserProfileScreenState.Initial
-
-    private val _screenState = MutableLiveData<MyUserProfileScreenState>(initialState)
-    val screenState: LiveData<MyUserProfileScreenState> = _screenState
-
-
-
     val myUser = getMyUserUseCase.invoke()
-    val postList = getMyUserPostsUseCase.invoke(myUser.id)
-    init {
-        _screenState.value = MyUserProfileScreenState.Loading
-        loadUsers()
-    }
 
-    private fun loadUsers() {
-        viewModelScope.launch {
-//            val users = repository.loadUsers()
-//            val user = repository.getMyUser()
-//            val feedPosts = repository.loadPosts(user.id)
+    val postListFlow = getMyUserPostsUseCase.invoke(myUser.id)
 
-            _screenState.value = MyUserProfileScreenState.User(user = myUser,posts = postList)
-        }
-    }
+    val screenState = postListFlow
+        .filter { it.isNotEmpty() }
+        .map { MyUserProfileScreenState.User(user = myUser,posts = it) as MyUserProfileScreenState }
+        .onStart { emit(MyUserProfileScreenState.Loading) }
+
+
 
     fun changePrivacySettings(userSettings: UserSettingsItem){
-        val oldUser = getMyUserUseCase.invoke()
-        val newUser = UserItem(
-            id = oldUser.id,
-            login = oldUser.login,
-            name =oldUser.name,
-            password = oldUser.password,
-            email = oldUser.email,
-            about = oldUser.about,
-            user_type= oldUser.user_type,
-            profile_picture= PhotoUrlItem(
-                id = oldUser.profile_picture.id,
-                url = oldUser.profile_picture.url
-            ),
-            background_picture= PhotoUrlItem(
-                id = oldUser.background_picture.id,
-                url = oldUser.background_picture.url
-            ),
-            settings= userSettings
-        )
-        editUserUseCase.invoke(newUser)
+        viewModelScope.launch(exceptionHandler) {
+            val oldUser = getMyUserUseCase.invoke()
+            val newUser = UserItem(
+                id = oldUser.id,
+                login = oldUser.login,
+                name = oldUser.name,
+                password = oldUser.password,
+                email = oldUser.email,
+                about = oldUser.about,
+                user_type = oldUser.user_type,
+                profile_picture = PhotoUrlItem(
+                    id = oldUser.profile_picture.id,
+                    url = oldUser.profile_picture.url
+                ),
+                background_picture = PhotoUrlItem(
+                    id = oldUser.background_picture.id,
+                    url = oldUser.background_picture.url
+                ),
+                settings = userSettings
+            )
+            editUserUseCase.invoke(newUser)
+        }
     }
      fun changeUserProfile(oldProfile:UserItem, userName:String, userAbout:String, profilePictureUrl:String, backgroundPictureUrl:String){
         viewModelScope.launch(exceptionHandler) {
@@ -137,7 +130,7 @@ class MyUserProfileViewModel @Inject constructor(
 
     private  fun changeUsersPosts(userName: String, profilePictureUrl: String) {
         viewModelScope.launch(exceptionHandler) {
-            for (i in postList) {
+            for (i in postListFlow.value) {
                 i.creatorName = userName
                 i.creatorPicture.url = profilePictureUrl
                 editPostUseCase.invoke(i)

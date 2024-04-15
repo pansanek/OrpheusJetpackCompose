@@ -10,12 +10,12 @@ interface LocationRepository {
 
     suspend fun editLocationItem(locationItem: LocationItem)
 
-    suspend fun getLocationItem(locationId: String): LocationItem
+    fun getLocationItem(locationId: String): LocationItem
 
     fun getLocationsList(): StateFlow<List<LocationItem>>
 
-    suspend fun getMyUserLocation(userId: String): LocationItem
+    fun getMyUserLocation(userId: String): LocationItem
 
-    suspend fun getUserLocation(userId: String): LocationItem
+    fun getUserLocation(userId: String): LocationItem
 }
 

@@ -6,6 +6,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
@@ -36,6 +39,9 @@ class AuthViewModel @Inject constructor(
 //    private val musicianMapper = MusicianMapper()
 //    private val locationMapper = LocationMapper()
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
+        Log.d("ViewModel", "Exception caught by exception handler")
+    }
     private val initialState = AuthState.Initial
 
     private val _authState = MutableLiveData<AuthState>(initialState)
@@ -46,12 +52,14 @@ class AuthViewModel @Inject constructor(
     }
 
     fun authorize(login: String, password: String) {
-        val userList = getUserListUseCase.invoke()
-        for(i in userList){
-            if(login == i.login && password ==i.password){
-                _authState.value = AuthState.Authorized
-                Log.d("AUTHORIZE",_authState.value.toString())
-                setMyUserUseCase.invoke(i)
+        viewModelScope.launch(exceptionHandler) {
+            val userList = getUserListUseCase.invoke()
+            for (i in userList.value) {
+                if (login == i.login && password == i.password) {
+                    _authState.value = AuthState.Authorized
+                    Log.d("AUTHORIZE", _authState.value.toString())
+                    setMyUserUseCase.invoke(i)
+                }
             }
         }
     }
@@ -67,71 +75,76 @@ class AuthViewModel @Inject constructor(
         genre: String,
         instrument: String,
     ) {
-        val newUser = UserItem(
-            id = getNewUserId(),
-            login = login,
-            name = name,
-            password = password,
-            email = email,
-            about = about,
-            user_type = UserType.valueOf(userType),
+        viewModelScope.launch(exceptionHandler) {
+            val newUser = UserItem(
+                id = getNewUserId(),
+                login = login,
+                name = name,
+                password = password,
+                email = email,
+                about = about,
+                user_type = UserType.valueOf(userType),
 
+                )
+            Log.d("AUTHORIZAAAA", newUser.toString())
+            addUserUseCase.invoke(
+                newUser
             )
-        Log.d("AUTHORIZAAAA",newUser.toString())
-        addUserUseCase.invoke(
-            newUser
-        )
-        addMusicianUseCase.invoke(
-            MusicianItem(
-                id = getNewMusicianId(),
-                user = newUser,
-                genre = genre,
-                instrument = instrument
+            addMusicianUseCase.invoke(
+                MusicianItem(
+                    id = getNewMusicianId(),
+                    user = newUser,
+                    genre = genre,
+                    instrument = instrument
+                )
             )
-        )
-        setMyUserUseCase.invoke(newUser)
+            setMyUserUseCase.invoke(newUser)
+        }
     }
 
-    fun createAdminAndLocation(about: String,
-                               email: String,
-                               login: String,
-                               name: String,
-                               password: String,
-                               userType: String,
-                               locationName: String,
-                               locationAddress: String,
-                               locationAbout: String,
-                               context: Context
-                               ) {
-        val newUser = UserItem(
-            id = getNewUserId(),
-            login = login,
-            name = name,
-            password = password,
-            email = email,
-            about = about,
-            user_type = UserType.valueOf(userType),
+    fun createAdminAndLocation(
+        about: String,
+        email: String,
+        login: String,
+        name: String,
+        password: String,
+        userType: String,
+        locationName: String,
+        locationAddress: String,
+        locationAbout: String,
+        context: Context
+    ) {
+        viewModelScope.launch(exceptionHandler) {
+            val newUser = UserItem(
+                id = getNewUserId(),
+                login = login,
+                name = name,
+                password = password,
+                email = email,
+                about = about,
+                user_type = UserType.valueOf(userType),
 
+                )
+            addUserUseCase.invoke(
+                newUser
             )
-        addUserUseCase.invoke(
-            newUser
-        )
-        addLocationUseCase(
-            LocationItem(
-                id = getNewLocationId(),
-                admin = newUser,
-                name = locationName,
-                about = locationAbout,
-                address = locationAddress,
-                latitude = convertAddressToLatLng(locationAddress,context).first,
-                longitude = convertAddressToLatLng(locationAddress,context).second,
+            addLocationUseCase(
+                LocationItem(
+                    id = getNewLocationId(),
+                    admin = newUser,
+                    name = locationName,
+                    about = locationAbout,
+                    address = locationAddress,
+                    latitude = convertAddressToLatLng(locationAddress, context).first,
+                    longitude = convertAddressToLatLng(locationAddress, context).second,
+                )
             )
-        )
-        setMyUserUseCase.invoke(newUser)
+            setMyUserUseCase.invoke(newUser)
+        }
     }
 
 
-    fun convertAddressToLatLng(address: String,context:Context): Pair<Double, Double> {
+    fun convertAddressToLatLng(address: String, context: Context): Pair<Double, Double> {
         val geocoder = Geocoder(context)
         try {
             val addresses = geocoder.getFromLocationName(address, 1)
@@ -145,15 +158,16 @@ class AuthViewModel @Inject constructor(
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        return Pair(0.0,0.0)
+        return Pair(0.0, 0.0)
     }
 
 
     private fun getNewUserId(): String {
+
         var userList = getUserListUseCase.invoke()
         val indexes: MutableList<String> = ArrayList()
         var largest: Int = 0
-        for (i in userList) {
+        for (i in userList.value) {
             indexes.add(i.id)
         }
         for (i in indexes) {
@@ -169,7 +183,7 @@ class AuthViewModel @Inject constructor(
         var musicianList = getMusiciansListUseCase.invoke()
         val indexes: MutableList<String> = ArrayList()
         var largest: Int = 0
-        for (i in musicianList) {
+        for (i in musicianList.value) {
             indexes.add(i.id)
         }
         for (i in indexes) {
@@ -180,11 +194,12 @@ class AuthViewModel @Inject constructor(
         Log.d("CREATEPOST", "ID" + largest.toString())
         return largest.toString()
     }
+
     private fun getNewLocationId(): String {
         var locationList = getLocationListUseCase.invoke()
         val indexes: MutableList<String> = ArrayList()
         var largest: Int = 0
-        for (i in locationList) {
+        for (i in locationList.value) {
             indexes.add(i.id)
         }
         for (i in indexes) {

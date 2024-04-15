@@ -1,6 +1,15 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.retry
+import kotlinx.coroutines.flow.stateIn
 import ru.potemkin.orpheusjetpackcompose.data.mappers.LocationMapper
 import ru.potemkin.orpheusjetpackcompose.data.mappers.MessageMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
@@ -19,36 +28,58 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.LocationRepository
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.NotificationRepository
+import ru.potemkin.orpheusjetpackcompose.extentions.mergeWith
 import javax.inject.Inject
 
 class NotificationRepositoryImpl @Inject constructor(
 
 ) : NotificationRepository {
 
-    private val notificationIdNumber = 8
+    private val coroutineScope = CoroutineScope(Dispatchers.Default)
+
 
     private val _notificationItems = mutableListOf<NotificationItem>()
+    private val notificationItems: List<NotificationItem>
+        get() = _notificationItems.toList()
 
-    init {
-        addMockData()
+    private val refreshedListFlow = MutableSharedFlow<List<NotificationItem>>()
+    private val loadedListFlow = flow {
+        // Проверяем, есть ли уже какие-то посты, и если есть, то их сначала отправляем
+        if (notificationItems.isNotEmpty()) {
+            emit(notificationItems)
+        } else {
+            // Если постов нет, добавляем моковые данные
+            addMockData()
+            emit(notificationItems)
+        }
+    }.retry {
+        delay(RETRY_TIMEOUT_MILLIS)
+        true
     }
+    private val notifications: StateFlow<List<NotificationItem>> = loadedListFlow
+        .mergeWith(refreshedListFlow)
+        .stateIn(
+            scope = coroutineScope,
+            started = SharingStarted.Lazily,
+            initialValue = notificationItems
+        )
 
-    override fun addNotificationItem(notificationItem: NotificationItem) {
+    override suspend fun addNotificationItem(notificationItem: NotificationItem) {
         _notificationItems.add(notificationItem)
+        refreshedListFlow.emit(notificationItems)
     }
 
-    override fun getAllNotifications(): List<NotificationItem> {
-        return _notificationItems
-    }
-    override fun getNotifications(toUser: UserItem): List<NotificationItem> {
+    override fun getAllNotifications(): StateFlow<List<NotificationItem>> =notifications
+    override fun getNotifications(toUser: UserItem): StateFlow<List<NotificationItem>> {
         val userNotifications = mutableListOf<NotificationItem>()
         for (notification in _notificationItems) {
             if (notification.toUser == toUser) userNotifications.add(notification)
         }
-        return userNotifications
+        val notificationsFlow = MutableStateFlow<List<NotificationItem>>(userNotifications)
+        return notificationsFlow
     }
 
-    fun addMockData() {
+    suspend fun addMockData() {
         addNotificationItem(
             NotificationItem(
                 id = "111",
@@ -218,5 +249,10 @@ class NotificationRepositoryImpl @Inject constructor(
                 date = "06-03-24"
             )
         )
+    }
+
+    companion object {
+
+        private const val RETRY_TIMEOUT_MILLIS = 5L
     }
 }

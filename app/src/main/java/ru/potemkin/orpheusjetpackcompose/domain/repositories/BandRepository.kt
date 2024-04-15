@@ -12,7 +12,7 @@ interface BandRepository {
 
     suspend fun editBandItem(bandItem: BandItem)
 
-    suspend fun getBandItem(bandId: String): BandItem
+    fun getBandItem(bandId: String): BandItem
 
     fun getBandsList(): StateFlow<List<BandItem>>
 

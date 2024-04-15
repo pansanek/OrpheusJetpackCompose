@@ -85,12 +85,13 @@ class PostRepositoryImpl @Inject constructor(
 
     }
 
-    override fun deletePostItem(postItem: PostItem) {
+    override suspend fun deletePostItem(postItem: PostItem) {
         _postItems.remove(postItem)
+        refreshedListFlow.emit(postItems)
     }
 
-    override fun getComments(postId: String): List<CommentItem> {
-        return getPostItem(postId).comments
+    override fun getComments(postItem: PostItem): StateFlow<List<CommentItem>> {
+        return MutableStateFlow(postItem.comments)
     }
 
     override suspend fun addCommentItem(commentItem: CommentItem) {
@@ -109,7 +110,7 @@ class PostRepositoryImpl @Inject constructor(
         addPostItem(postItem)
     }
 
-    override fun getPostItem(postId: String): PostItem {
+    override suspend fun getPostItem(postId: String): PostItem {
         return postItems.find {
             it.id == postId
         } ?: throw java.lang.RuntimeException("Element with id $postId not found")
@@ -122,28 +123,19 @@ class PostRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getUserPosts(userId: String): List<PostItem> {
-        val userPosts = mutableListOf<PostItem>()
-        for (post in _postItems) {
-            if (post.creatorId == userId) userPosts.add(post)
-        }
-        return userPosts
+    override fun getUserPosts(userId: String): StateFlow<List<PostItem>> {
+        val userPosts = _postItems.filter { it.creatorId == userId }
+        return MutableStateFlow(userPosts)
     }
 
-    override fun getBandPosts(bandId: String): List<PostItem> {
-        val bandPosts = mutableListOf<PostItem>()
-        for (post in _postItems) {
-            if (post.creatorId == bandId) bandPosts.add(post)
-        }
-        return bandPosts
+    override fun getBandPosts(bandId: String): StateFlow<List<PostItem>> {
+        val bandPosts = _postItems.filter { it.creatorId == bandId }
+        return MutableStateFlow(bandPosts)
     }
 
-    override fun getLocationPosts(locationId: String): List<PostItem> {
-        val locationPosts = mutableListOf<PostItem>()
-        for (post in _postItems) {
-            if (post.creatorId == locationId) locationPosts.add(post)
-        }
-        return locationPosts
+    override fun getLocationPosts(locationId: String): StateFlow<List<PostItem>> {
+        val locationPosts = _postItems.filter { it.creatorId == locationId }
+        return MutableStateFlow(locationPosts)
     }
 
     suspend fun addMockData() {
@@ -271,7 +263,7 @@ class PostRepositoryImpl @Inject constructor(
 
     companion object {
 
-        private const val RETRY_TIMEOUT_MILLIS = 3000L
+        private const val RETRY_TIMEOUT_MILLIS = 5L
     }
 
 }

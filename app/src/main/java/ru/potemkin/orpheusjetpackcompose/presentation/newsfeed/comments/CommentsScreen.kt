@@ -71,7 +71,7 @@ fun CommentsScreen(
     val viewModel: CommentsViewModel = viewModel(
         factory = component.getViewModelFactory()
     )
-    val screenState = viewModel.screenState.observeAsState(CommentsScreenState.Initial)
+    val screenState = viewModel.screenState.collectAsState(CommentsScreenState.Initial)
     val currentState = screenState.value
     val comments = viewModel.commentsFlow.collectAsState()
     if (currentState is CommentsScreenState.Comments) {

@@ -5,7 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.data.repositories.ChatRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
@@ -18,6 +22,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.AddMessag
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.EditChatItemUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.GetMessageListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetMyUserUseCase
+import ru.potemkin.orpheusjetpackcompose.presentation.map.map.MapScreenState
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -31,55 +36,44 @@ class ChatViewModel @Inject constructor(
     private val editChatItemUseCase: EditChatItemUseCase
 ) : ViewModel() {
 
-    private val initialState = ChatScreenState.Initial
 
-    private val _screenState = MutableLiveData<ChatScreenState>(initialState)
-    val screenState: LiveData<ChatScreenState> = _screenState
-
-    private val repository = ChatRepositoryImpl()
-
-    val messages = getMessageListUseCase.invoke(chatItem.id)
-
-    val messagesFlow = MutableStateFlow(messages)
-
-    init {
-        _screenState.value = ChatScreenState.Loading
-        loadMessages(chatItem.id)
+    private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
+        Log.d("ViewModel", "Exception caught by exception handler")
     }
 
-    private fun loadMessages(chatId: String) {
-        viewModelScope.launch {
-            _screenState.value = ChatScreenState.Messages(
-                chatId = chatId,
-                messages = messagesFlow.value
-            )
-        }
-    }
+    val messagesFlow = getMessageListUseCase.invoke(chatItem.id)
+
+    val screenState = messagesFlow
+        .filter { it.isNotEmpty() }
+        .map { ChatScreenState.Messages(messages = it, chatId = chatItem.id) as ChatScreenState }
+        .onStart { emit(ChatScreenState.Loading) }
 
     fun sendMessage(message: String) {
-        Log.d("SENDMESSAGE", message)
-        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
-        val currentDate = sdf.format(Date())
-        addMessageUseCase.invoke(
-            MessageItem(
-                id = getNewMessageId(),
-                chatId = chatItem.id,
-                fromUser = getMyUserUseCase.invoke(),
-                timestamp = currentDate,
-                content = message,
+        viewModelScope.launch(exceptionHandler) {
+            Log.d("SENDMESSAGE", message)
+            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
+            val currentDate = sdf.format(Date())
+            addMessageUseCase.invoke(
+                MessageItem(
+                    id = getNewMessageId(),
+                    chatId = chatItem.id,
+                    fromUser = getMyUserUseCase.invoke(),
+                    timestamp = currentDate,
+                    content = message,
+                )
             )
-        )
-        editChatItemUseCase.invoke(
-            ChatItem
-                (
-                id = chatItem.id,
-                users = chatItem.users,
-                lastMessage = message,
-                picture = chatItem.picture,
-                name = chatItem.name
+            editChatItemUseCase.invoke(
+                ChatItem
+                    (
+                    id = chatItem.id,
+                    users = chatItem.users,
+                    lastMessage = message,
+                    picture = chatItem.picture,
+                    name = chatItem.name
+                )
             )
-        )
-        messagesFlow.value = getMessageListUseCase.invoke(chatItem.id)
+
+        }
     }
 
     private fun getNewMessageId(): String {

@@ -13,7 +13,7 @@ interface PostRepository {
     suspend fun getPostItem(postId: String): PostItem
 
     fun getPostsList(): StateFlow<List<PostItem>>
-    fun getComments(postId: String): StateFlow<List<CommentItem>>
+    fun getComments(postItem: PostItem): StateFlow<List<CommentItem>>
     suspend fun addCommentItem(commentItem: CommentItem)
     suspend fun loadNextData()
 
