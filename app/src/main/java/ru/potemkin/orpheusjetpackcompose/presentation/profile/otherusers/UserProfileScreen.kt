@@ -86,6 +86,7 @@ fun UserProfileScreen(
                             onBandClickListener,
                             onLocationClickListener,
                             currentState,
+                            viewModel
                         )
                         ChatButton(
                             modifier = Modifier

@@ -13,15 +13,15 @@ interface UserRepository {
 
     suspend fun editUserItem(userItem: UserItem)
 
-    fun getUserItem(userId: String): UserItem
+    //fun getUserItem(userId: String): UserItem
 
-    suspend fun getMusicianItem(userItem: UserItem):MusicianItem
+    //suspend fun getMusicianItem(userItem: UserItem):MusicianItem
 
     fun getUsersList(): StateFlow<List<UserItem>>
     fun getMusiciansList(): StateFlow<List<MusicianItem>>
     suspend fun addMusicianItem(musicianItem: MusicianItem)
     suspend fun editMusicianItem(musicianItem: MusicianItem)
-    suspend fun getOtherUser(userId: String): UserItem
+    //suspend fun getOtherUser(userId: String): UserItem
     fun getMyUser(): UserItem
     fun setMyUser(userItem: UserItem)
 }

@@ -40,7 +40,9 @@ import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.UserProfileScreenState
+import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.UserProfileViewModel
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
 import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 
@@ -50,6 +52,7 @@ fun ProfileHeader(user: UserItem,
                   onBandClickListener: (BandItem?) -> Unit,
                   onLocationClickListener:(LocationItem?) -> Unit,
                   screenState: UserProfileScreenState.User,
+                  viewModel: UserProfileViewModel
                   ) {
     // При скролле уменьшаем высоту Header и делаем его непрозрачным
     val headerHeight by animateDpAsState(
@@ -115,15 +118,15 @@ fun ProfileHeader(user: UserItem,
                 verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.Start
             ) {
-                if (screenState.bands == null) {
+                if (user.user_type == UserType.ADMINISTRATOR) {
                     AsyncImage(
-                        model = screenState.location?.profilePicture?.url,
+                        model = viewModel.getUserLocation().profilePicture?.url,
                         contentDescription = null,
                         modifier = Modifier
                             .size(48.dp)
                             .padding(4.dp)
                             .clip(CircleShape)
-                            .clickable { onLocationClickListener(screenState.location) },
+                            .clickable { onLocationClickListener(viewModel.getUserLocation()) },
                         contentScale = ContentScale.Crop
                     )
                 } else {
@@ -132,16 +135,16 @@ fun ProfileHeader(user: UserItem,
                             .fillMaxWidth()
                             .padding(4.dp)
                     ) {
-                        screenState.bands?.let {
+                        viewModel.getUserBands().let {
                             items(it.size) { index ->
                                 AsyncImage(
-                                    model = screenState.bands.get(index).photo.url,
+                                    model = it.get(index).photo.url,
                                     contentDescription = null,
                                     modifier = Modifier
                                         .size(48.dp)
                                         .padding(4.dp)
                                         .clip(CircleShape).
-                                    clickable { onBandClickListener(screenState.bands.get(index)) },
+                                    clickable { onBandClickListener(it.get(index)) },
                                     contentScale = ContentScale.Crop
                                 )
                             }

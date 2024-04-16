@@ -41,6 +41,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.CustomAlertDialog
@@ -127,6 +129,7 @@ fun InviteAlertDialog(
     onDismiss: () -> Unit,
     onConfirm: (BandItem) -> Unit,
 ) {
+    val coroutineScope = rememberCoroutineScope()
     var selectedBand by remember { mutableStateOf<BandItem?>(null) }
     Dialog(onDismissRequest = onDismiss) {
         Surface(
@@ -153,11 +156,13 @@ fun InviteAlertDialog(
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     LazyColumn {
-                        items(viewModel.getMyUserBands()) { band ->
-                            var clicked = false
-                            BandListItem(band = band, onClicked = { clicked = it }) {
-                                if (clicked) {
-                                    selectedBand = it
+                        coroutineScope.launch {
+                            items(viewModel.getMyUserBands()) { band ->
+                                var clicked = false
+                                BandListItem(band = band, onClicked = { clicked = it }) {
+                                    if (clicked) {
+                                        selectedBand = it
+                                    }
                                 }
                             }
                         }
@@ -199,7 +204,7 @@ fun BandListItem(band: BandItem, onClicked: (Boolean) -> Unit, onItemClick: (Ban
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = {
-                clicked=!clicked
+                clicked = !clicked
                 onClicked(clicked)
                 onItemClick(band)
             })

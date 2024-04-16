@@ -86,17 +86,7 @@ class LocationRepositoryImpl @Inject constructor(
 
     override fun getLocationsList(): StateFlow<List<LocationItem>> = locations
 
-    override fun getMyUserLocation(userId: String): LocationItem {
-        return _locationItems.find {
-            it.admin.id == userId
-        } ?: throw java.lang.RuntimeException("Element with id $userId not found")
-    }
 
-    override fun getUserLocation(userId: String): LocationItem {
-        return _locationItems.find {
-            it.admin.id == userId
-        } ?: throw java.lang.RuntimeException("Element with id $userId not found")
-    }
 
 
     suspend fun addMockData(){

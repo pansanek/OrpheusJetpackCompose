@@ -194,7 +194,7 @@ fun MyUserProfileScreen(
                                         onPostCreateClickListener(
                                             CreatorInfoItem(
                                                 currentState.user.id,
-                                                currentState.user.name,
+                                                currentState.user.login,
                                                 currentState.user.profile_picture,
                                                 CreatorType.USER
                                             )

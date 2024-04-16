@@ -148,11 +148,7 @@ class UserRepositoryImpl @Inject constructor(
         setMyUser(userItem)
     }
 
-    override fun getUserItem(userId: String): UserItem {
-        return _userItems.find {
-            it.id == userId
-        } ?: throw java.lang.RuntimeException("Element with id $userId not found")
-    }
+
 
     override fun getUsersList(): StateFlow<List<UserItem>>  = users
 
@@ -164,14 +160,6 @@ class UserRepositoryImpl @Inject constructor(
         } ?: throw java.lang.RuntimeException("Element with id ${musicianItem.id} not found")
         _musicianItems.remove(oldElement)
         addMusicianItem(musicianItem)
-    }
-    override suspend fun getMusicianItem(userItem: UserItem): MusicianItem {
-        return _musicianItems.find {
-            it.user == userItem
-        } ?: throw java.lang.RuntimeException("Element $userItem not found")
-    }
-    override suspend fun getOtherUser(userId: String): UserItem {
-        TODO("Not yet implemented")
     }
 
     suspend fun addMockData() {

@@ -14,8 +14,8 @@ interface LocationRepository {
 
     fun getLocationsList(): StateFlow<List<LocationItem>>
 
-    fun getMyUserLocation(userId: String): LocationItem
+    //fun getMyUserLocation(userId: String): LocationItem
 
-    fun getUserLocation(userId: String): LocationItem
+    //fun getUserLocation(userId: String): LocationItem
 }
 

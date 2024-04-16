@@ -13,7 +13,5 @@ sealed class UserProfileScreenState {
     data class User(
         val user:  UserItem,
         val posts: List<PostItem>,
-        val location: LocationItem?,
-        val bands: List<BandItem>?,
         ) : UserProfileScreenState()
 }

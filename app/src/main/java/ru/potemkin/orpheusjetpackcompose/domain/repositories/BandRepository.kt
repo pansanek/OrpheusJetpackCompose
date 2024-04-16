@@ -16,7 +16,5 @@ interface BandRepository {
 
     fun getBandsList(): StateFlow<List<BandItem>>
 
-    fun getMyUserBands(userId: String): StateFlow<List<BandItem>>
-    fun getUserBands(userId: String): StateFlow<List<BandItem>>
 
 }

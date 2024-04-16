@@ -137,7 +137,7 @@ fun ChatScreen(
                         viewModel = viewModel,
                         onSend = {
                             coroutineScope.launch {
-                                listState.animateScrollToItem(messages.value.lastIndex)
+                                listState.animateScrollToItem(currentState.messages.lastIndex)
                             }
                         }
                     )
@@ -161,7 +161,7 @@ fun ChatScreen(
                             ),
                             state = listState
                         ) {
-                            items(messages.value, key = { it.id }) {
+                            items(currentState.messages, key = { it.id }) {
                                 ChatRow(message = it, viewModel = viewModel)
                             }
                         }

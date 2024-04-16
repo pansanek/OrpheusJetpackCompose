@@ -70,14 +70,7 @@ class NotificationRepositoryImpl @Inject constructor(
     }
 
     override fun getAllNotifications(): StateFlow<List<NotificationItem>> =notifications
-    override fun getNotifications(toUser: UserItem): StateFlow<List<NotificationItem>> {
-        val userNotifications = mutableListOf<NotificationItem>()
-        for (notification in _notificationItems) {
-            if (notification.toUser == toUser) userNotifications.add(notification)
-        }
-        val notificationsFlow = MutableStateFlow<List<NotificationItem>>(userNotifications)
-        return notificationsFlow
-    }
+
 
     suspend fun addMockData() {
         addNotificationItem(

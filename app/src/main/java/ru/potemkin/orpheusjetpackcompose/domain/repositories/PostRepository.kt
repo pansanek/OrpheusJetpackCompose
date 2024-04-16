@@ -17,10 +17,10 @@ interface PostRepository {
     suspend fun addCommentItem(commentItem: CommentItem)
     suspend fun loadNextData()
 
-    fun getUserPosts(userId: String): StateFlow<List<PostItem>>
+    //fun getUserPosts(userId: String): StateFlow<List<PostItem>>
 
-    fun getBandPosts(bandId: String): StateFlow<List<PostItem>>
-    fun getLocationPosts(locationId: String): StateFlow<List<PostItem>>
+    //fun getBandPosts(bandId: String): StateFlow<List<PostItem>>
+    //fun getLocationPosts(locationId: String): StateFlow<List<PostItem>>
 
 }
 

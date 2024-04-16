@@ -6,25 +6,28 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MessageItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
-import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetMyUserBandsUseCase
-import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetUserBandsUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetBandListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.AddChatItemUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.AddMessageUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.GetChatListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.GetMessageListUseCase
-import ru.potemkin.orpheusjetpackcompose.domain.usecases.location_usecases.GetUserLocationUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.location_usecases.GetLocationListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.notification_usecases.AddNotificationUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.notification_usecases.GetAllNotificationListUseCase
-import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetUserPostsUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetPostListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetMyUserUseCase
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -32,17 +35,17 @@ import javax.inject.Inject
 
 class UserProfileViewModel @Inject constructor(
     userItem: UserItem,
-    getUserPostsUseCase: GetUserPostsUseCase,
-    getUserBandsUseCase: GetUserBandsUseCase,
-    getUserLocationUseCase: GetUserLocationUseCase,
+
     private val addNotificationUseCase: AddNotificationUseCase,
     private val getAllNotificationListUseCase: GetAllNotificationListUseCase,
     private val getMyUserUseCase: GetMyUserUseCase,
-    private val getMyUserBandsUseCase: GetMyUserBandsUseCase,
     private val getChatListUseCase: GetChatListUseCase,
     private val addChatItemUseCase: AddChatItemUseCase,
     private val getMessageListUseCase: GetMessageListUseCase,
-    private val addMessageUseCase: AddMessageUseCase
+    private val addMessageUseCase: AddMessageUseCase,
+    private val getPostListUseCase: GetPostListUseCase,
+    private val getBandListUseCase: GetBandListUseCase,
+    private val getLocationListUseCase: GetLocationListUseCase
 ) : ViewModel() {
 
     private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
@@ -50,17 +53,12 @@ class UserProfileViewModel @Inject constructor(
     }
 
 
-    val postListFlow = getUserPostsUseCase.invoke(userItem.id)
+    val postListFlow = getPostListUseCase.invoke()
 
-    val bandListFlow = getUserBandsUseCase.invoke(userItem.id)
-    val location = getUserLocationUseCase.invoke(userItem.id)
+    val user = userItem
 
     val screenState = postListFlow
-        .combine(bandListFlow) { posts, bands ->
-            UserProfileScreenState.User(user = userItem, bands = bands, location = location, posts = posts)
-        }
-        .filter { it.posts.isNotEmpty() } // Фильтруем, чтобы убедиться, что у нас есть посты
-        .map { it as UserProfileScreenState } // Преобразуем к типу UserProfileScreenState
+        .map { UserProfileScreenState.User(user = userItem,posts = it.filter { it.creatorId == userItem.id }) as UserProfileScreenState }
         .onStart { emit(UserProfileScreenState.Loading) }
 
 
@@ -71,8 +69,8 @@ class UserProfileViewModel @Inject constructor(
             val currentDate = sdf.format(Date())
             var chatExists = false
             var chatId = getNewChatId(getMyUserUseCase.invoke())
-            for (i in getChatListUseCase.invoke(getMyUserUseCase.invoke().id).value) {
-                if (toUser in i.users) {
+            for (i in getChatListUseCase.invoke().value) {
+                if (toUser in i.users && getMyUserUseCase.invoke() in i.users) {
                     chatId = i.id
                     chatExists = true
                 }
@@ -138,7 +136,7 @@ class UserProfileViewModel @Inject constructor(
     }
 
     private fun getNewMessageId(chatId: String): String {
-        var messageList = getMessageListUseCase.invoke(chatId)
+        var messageList = getMessageListUseCase.invoke()
         val indexes: MutableList<String> = ArrayList()
         var largest: Int = 0
         for (i in messageList.value) {
@@ -153,7 +151,7 @@ class UserProfileViewModel @Inject constructor(
     }
 
     private fun getNewChatId(userItem: UserItem): String {
-        var chatList = getChatListUseCase.invoke(userItem.id)
+        var chatList = getChatListUseCase.invoke()
         val indexes: MutableList<String> = ArrayList()
         var largest: Int = 0
         for (i in chatList.value) {
@@ -168,7 +166,20 @@ class UserProfileViewModel @Inject constructor(
     }
 
     fun getMyUserBands(): List<BandItem> {
-        return getMyUserBandsUseCase.invoke(getMyUserUseCase.invoke().id).value
+        val flow = getBandListUseCase.invoke().value.filter {getMyUserUseCase.invoke() in it.members }
+        return flow
+    }
+
+    fun getUserLocation():LocationItem{
+        val flow = getLocationListUseCase.invoke().value.filter { it.admin == user }
+        Log.d("GETUSERROFLS",flow.first().toString())
+        return flow.first()
+    }
+
+    fun getUserBands():List<BandItem>{
+        val list = getBandListUseCase.invoke().value.filter { user in it.members }
+        Log.d("GETUSERROFLS",list.toString())
+        return list
     }
 
 

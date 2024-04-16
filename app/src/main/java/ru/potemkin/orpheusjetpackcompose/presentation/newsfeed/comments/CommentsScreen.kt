@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -36,6 +37,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.R
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
@@ -74,6 +77,8 @@ fun CommentsScreen(
     val screenState = viewModel.screenState.collectAsState(CommentsScreenState.Initial)
     val currentState = screenState.value
     val comments = viewModel.commentsFlow.collectAsState()
+    val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
     if (currentState is CommentsScreenState.Comments) {
         Box(modifier = Modifier.padding(paddingValues)) {
             Scaffold(
@@ -102,7 +107,12 @@ fun CommentsScreen(
                         modifier = Modifier
                             .padding(horizontal = 20.dp, vertical = 20.dp),
                         viewModel = viewModel,
-                        postItem = postItem
+                        postItem = postItem,
+                        onSend = {
+                            coroutineScope.launch {
+                                listState.animateScrollToItem(comments.value.lastIndex)
+                            }
+                        }
                     )
                 }
             ) { paddingValues ->
@@ -180,6 +190,7 @@ fun CustomTextField(
     modifier: Modifier = Modifier,
     postItem: PostItem,
     viewModel: CommentsViewModel,
+    onSend:()->Unit
 ) {
     var message by remember { mutableStateOf("") }
 
@@ -217,6 +228,7 @@ fun CustomTextField(
         trailingIcon = {
             CommonIconButton(imageVector = Icons.Default.Send,
                 onClick = {
+                    onSend()
                     viewModel.createComment(message, postItem)
                 })
 

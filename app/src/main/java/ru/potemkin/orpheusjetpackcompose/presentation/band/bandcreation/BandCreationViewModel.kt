@@ -19,7 +19,6 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.AddBandUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetBandListUseCase
-import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetMyUserBandsUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetMyUserUseCase
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.MyUserProfileScreenState
 import ru.potemkin.orpheusjetpackcompose.presentation.search.SearchScreenState
@@ -27,7 +26,6 @@ import javax.inject.Inject
 
 class BandCreationViewModel @Inject constructor(
     private val getMyUserUseCase: GetMyUserUseCase,
-    private val getMyUserBandsUseCase: GetMyUserBandsUseCase,
     private val addBandUseCase: AddBandUseCase,
     private val getBandListUseCase: GetBandListUseCase
 ) : ViewModel() {
@@ -38,12 +36,10 @@ class BandCreationViewModel @Inject constructor(
 
     val myUser = getMyUserUseCase.invoke()
 
-
-    val bandListFlow = getMyUserBandsUseCase.invoke(myUser.id)
+    val bandListFlow = getBandListUseCase.invoke()
 
     val screenState = bandListFlow
-        .filter { it.isNotEmpty() }
-        .map { BandCreationScreenState.Bands(bands = it) as BandCreationScreenState }
+        .map { BandCreationScreenState.Bands(bands = it.filter { myUser in it.members }) as BandCreationScreenState }
         .onStart { emit(BandCreationScreenState.Loading) }
 
 

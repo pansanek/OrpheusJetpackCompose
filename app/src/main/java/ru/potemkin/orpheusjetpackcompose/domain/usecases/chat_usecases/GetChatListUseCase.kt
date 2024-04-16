@@ -7,7 +7,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.ChatRepository
 import javax.inject.Inject
 
 class GetChatListUseCase @Inject constructor(private val chatRepository: ChatRepository) {
-    operator fun invoke(userId:String): StateFlow<List<ChatItem>> {
-        return chatRepository.getChatList(userId)
+    operator fun invoke(): StateFlow<List<ChatItem>> {
+        return chatRepository.getChatList()
     }
 }

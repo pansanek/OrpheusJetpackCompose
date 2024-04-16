@@ -1,13 +1,11 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -17,21 +15,20 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.EditPostUseCase
-import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetUserPostsUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetPostListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.EditMusicianUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.EditUserUseCase
-import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetMusicianUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetMusiciansListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetMyUserUseCase
-import ru.potemkin.orpheusjetpackcompose.presentation.newsfeed.news.NewsFeedScreenState
 import javax.inject.Inject
 
 class MyUserProfileViewModel @Inject constructor(
     private val getMyUserUseCase: GetMyUserUseCase,
-    private val getMyUserPostsUseCase: GetUserPostsUseCase,
     private val editUserUseCase: EditUserUseCase,
     private val editPostUseCase: EditPostUseCase,
     private val editMusicianItem: EditMusicianUseCase,
-    private val getMusicianUseCase: GetMusicianUseCase
+    private val getPostListUseCase: GetPostListUseCase,
+    private val getMusiciansListUseCase: GetMusiciansListUseCase
 ) : ViewModel() {
 
     private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
@@ -39,11 +36,10 @@ class MyUserProfileViewModel @Inject constructor(
     }
     val myUser = getMyUserUseCase.invoke()
 
-    val postListFlow = getMyUserPostsUseCase.invoke(myUser.id)
+    val postListFlow = getPostListUseCase.invoke()
 
     val screenState = postListFlow
-        .filter { it.isNotEmpty() }
-        .map { MyUserProfileScreenState.User(user = myUser,posts = it) as MyUserProfileScreenState }
+        .map { MyUserProfileScreenState.User(user = myUser,posts = it.filter { it.creatorId == myUser.id }) as MyUserProfileScreenState }
         .onStart { emit(MyUserProfileScreenState.Loading) }
 
 
@@ -93,13 +89,16 @@ class MyUserProfileViewModel @Inject constructor(
                 settings = oldProfile.settings,
             )
             if (oldProfile.user_type == UserType.MUSICIAN) {
-                val oldMusician = getMusicianUseCase.invoke(oldProfile)
+                val oldMusician = getMusiciansListUseCase.invoke().filter { musicianItems ->
+                    musicianItems.any() {musician -> musician.user.id == oldProfile.id}
+                }
+                val musician = oldMusician.first().get(0)
                 editMusicianItem(
                     MusicianItem(
-                        id = oldMusician.id,
+                        id = musician.id,
                         user = newUser,
-                        genre = oldMusician.genre,
-                        instrument = oldMusician.instrument
+                        genre = musician.genre,
+                        instrument = musician.instrument
                     )
                 )
             }
@@ -123,17 +122,18 @@ class MyUserProfileViewModel @Inject constructor(
                     settings = oldProfile.settings,
                 )
             )
-            changeUsersPosts(userName, profilePictureUrl)
+            changeUsersPosts(profilePictureUrl)
         }
 
     }
 
-    private  fun changeUsersPosts(userName: String, profilePictureUrl: String) {
+    private  fun changeUsersPosts(profilePictureUrl: String) {
         viewModelScope.launch(exceptionHandler) {
             for (i in postListFlow.value) {
-                i.creatorName = userName
-                i.creatorPicture.url = profilePictureUrl
-                editPostUseCase.invoke(i)
+                if(i.creatorId == myUser.id) {
+                    i.creatorPicture.url = profilePictureUrl
+                    editPostUseCase.invoke(i)
+                }
             }
         }
 

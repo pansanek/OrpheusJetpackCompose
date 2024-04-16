@@ -1,5 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -7,6 +8,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.stateIn
@@ -42,6 +44,8 @@ class ChatRepositoryImpl @Inject constructor(
     private val messageItems: List<MessageItem>
         get() = _messageItems.toList()
 
+    init {
+    }
     private var nextFrom: String? = null
 
     private val refreshedChatListFlow = MutableSharedFlow<List<ChatItem>>()
@@ -71,7 +75,6 @@ class ChatRepositoryImpl @Inject constructor(
         if (messageItems.isNotEmpty()) {
             emit(messageItems)
         } else {
-
             addMockMessageData()
             emit(messageItems)
         }
@@ -88,7 +91,10 @@ class ChatRepositoryImpl @Inject constructor(
         )
 
     override suspend fun addChatItem(chatItem: ChatItem) {
+        Log.d("HEHEHEHEHEHHE",_chatItems.toString())
+        Log.d("HEHEHEHEHEHHE",chatItem.toString())
         _chatItems.add(chatItem)
+        Log.d("HEHEHEHEHEHHE",_chatItems.toString())
         refreshedChatListFlow.emit(chatItems)
     }
 
@@ -98,21 +104,13 @@ class ChatRepositoryImpl @Inject constructor(
         addChatItem(chatItem)
     }
 
-    override suspend fun getChatItem(chatId: String): ChatItem {
+    override fun getChatItem(chatId: String): ChatItem {
         return chatItems.find {
             it.id == chatId
         } ?: throw java.lang.RuntimeException("Element with id $chatId not found")
     }
 
-    override fun getChatList(userId: String): StateFlow<List<ChatItem>> {
-        val chats = mutableListOf<ChatItem>()
-        for (chat in _chatItems){
-            for (user in chat.users) {
-                if (user.id == userId) chats.add(chat)
-            }
-        }
-        return MutableStateFlow(chats.toList())
-    }
+    override fun getChatList(): StateFlow<List<ChatItem>> =chats
 
 
     override suspend fun deleteChatItem(chatItem: ChatItem) {
@@ -129,7 +127,7 @@ class ChatRepositoryImpl @Inject constructor(
         _messageItems.remove(messageItem)
         refreshedMessageListFlow.emit(messageItems)
     }
-    override suspend fun getMessageItem(messageId: String): MessageItem {
+    override fun getMessageItem(messageId: String): MessageItem {
         return _messageItems.find {
             it.id == messageId
         } ?: throw java.lang.RuntimeException("Element with id $messageId not found")
@@ -140,13 +138,7 @@ class ChatRepositoryImpl @Inject constructor(
         addMessageItem(messageItem)
     }
 
-    override fun getMessageList(chatId: String): StateFlow<List<MessageItem>> {
-        val chatMessage = mutableListOf<MessageItem>()
-        for (message in _messageItems){
-            if(message.chatId == chatId) chatMessage.add(message)
-        }
-        return MutableStateFlow(chatMessage.toList())
-    }
+    override fun getMessageList(): StateFlow<List<MessageItem>> = messages
 
     suspend fun addMockChatData(){
         addChatItem(ChatItem(
@@ -161,11 +153,11 @@ class ChatRepositoryImpl @Inject constructor(
                     "Just a drummer, guitarist, bassist etc.",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
-                        "191",
+                        "111",
                         "https://sun1-88.userapi.com/impg/SsYpAAyxKG2SXIKXfY8iBvf2BTxZH9XYP2PFmA/lSVeMDXQuDM.jpg?size=1435x1435&quality=95&sign=c2dff2cc261588cb4a712c853c116199&type=album"
                     ),
                     PhotoUrlItem(
-                        "1101",
+                        "112",
                         "https://i.pinimg.com/originals/06/67/9c/06679c2e2ae5aee8cf25eedc4bb41b98.jpg"
                     ),
                     UserSettingsItem(true, true)
@@ -194,6 +186,52 @@ class ChatRepositoryImpl @Inject constructor(
                 "https://sun1-91.userapi.com/s/v1/ig2/VuGmflKD09SOOd9MeZIZzPqQmdYqbyJbu5VuHJz8ur39YTANcs4FudgMJrmrzKao6_fdj0zO3nUTymhBXrQwaW6P.jpg?size=400x400&quality=95&crop=270,705,873,873&ava=1"
             ),
             "Anton Franzon"
+        ))
+        addChatItem(ChatItem(
+            "52",
+            mutableListOf(
+                UserItem(
+                    "11",
+                    "pansanek",
+                    "Sasha Potemkin",
+                    "12341234",
+                    "1@gmail.com",
+                    "Just a drummer, guitarist, bassist etc.",
+                    UserType.MUSICIAN,
+                    PhotoUrlItem(
+                        "111",
+                        "https://sun1-88.userapi.com/impg/SsYpAAyxKG2SXIKXfY8iBvf2BTxZH9XYP2PFmA/lSVeMDXQuDM.jpg?size=1435x1435&quality=95&sign=c2dff2cc261588cb4a712c853c116199&type=album"
+                    ),
+                    PhotoUrlItem(
+                        "112",
+                        "https://i.pinimg.com/originals/06/67/9c/06679c2e2ae5aee8cf25eedc4bb41b98.jpg"
+                    ),
+                    UserSettingsItem(true, true)
+                ), UserItem(
+                    "19",
+                    "landontewers",
+                    "Landon Tewers",
+                    "12341234",
+                    "9@gmail.com",
+                    "Много пою и кричу",
+                    UserType.MUSICIAN,
+                    PhotoUrlItem(
+                        "199",
+                        "https://sun9-25.userapi.com/impf/c840320/v840320259/36208/h5GVeRP9URM.jpg?size=640x640&quality=96&sign=f5307f49e081c58b7cbb3bbb4680efb6&c_uniq_tag=FbHPADgjU38jiYwFHjugwpbBeRJbDbBXfs4fCfTv3rk&type=album"
+                    ),
+                    PhotoUrlItem(
+                        "1109",
+                        "https://i0.wp.com/distortedsoundmag.com/wp-content/uploads/2017/11/TPIY_Dispose_3000px_600dpi_RGB.jpg?w=3000&ssl=1"
+                    ),
+                    UserSettingsItem(true, true)
+                )
+            ),
+            "Do you want to start a band with me?",
+            PhotoUrlItem(
+                "197",
+                "https://sun9-25.userapi.com/impf/c840320/v840320259/36208/h5GVeRP9URM.jpg?size=640x640&quality=96&sign=f5307f49e081c58b7cbb3bbb4680efb6&c_uniq_tag=FbHPADgjU38jiYwFHjugwpbBeRJbDbBXfs4fCfTv3rk&type=album"
+            ),
+            "Landon Tewers"
         ))
     }
 
@@ -250,7 +288,35 @@ class ChatRepositoryImpl @Inject constructor(
                 "OH MY GOD"
             )
         )
+        addMessageItem(
+            MessageItem(
+                "653",
+                "52",
+                UserItem(
+                    "19",
+                    "landontewers",
+                    "Landon Tewers",
+                    "12341234",
+                    "9@gmail.com",
+                    "Много пою и кричу",
+                    UserType.MUSICIAN,
+                    PhotoUrlItem(
+                        "199",
+                        "https://sun9-25.userapi.com/impf/c840320/v840320259/36208/h5GVeRP9URM.jpg?size=640x640&quality=96&sign=f5307f49e081c58b7cbb3bbb4680efb6&c_uniq_tag=FbHPADgjU38jiYwFHjugwpbBeRJbDbBXfs4fCfTv3rk&type=album"
+                    ),
+                    PhotoUrlItem(
+                        "1109",
+                        "https://i0.wp.com/distortedsoundmag.com/wp-content/uploads/2017/11/TPIY_Dispose_3000px_600dpi_RGB.jpg?w=3000&ssl=1"
+                    ),
+                    UserSettingsItem(true, true)
+                ),
+                "16-02-24",
+                "Do you want to start a band with me?"
+            )
+        )
     }
+
+
 
     companion object {
 

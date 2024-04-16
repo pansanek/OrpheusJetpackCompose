@@ -5,8 +5,8 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.PostRepository
 import javax.inject.Inject
 
-class GetLocationPostsUseCase @Inject constructor(private val postRepository: PostRepository) {
-    operator fun invoke(locationId: String): StateFlow<List<PostItem>> {
-        return postRepository.getLocationPosts(locationId)
-    }
-}
+//class GetLocationPostsUseCase @Inject constructor(private val postRepository: PostRepository) {
+//    operator fun invoke(locationId: String): StateFlow<List<PostItem>> {
+//        return postRepository.getLocationPosts(locationId)
+//    }
+//}

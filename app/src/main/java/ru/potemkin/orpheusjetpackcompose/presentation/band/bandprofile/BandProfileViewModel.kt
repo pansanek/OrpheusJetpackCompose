@@ -21,7 +21,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.AddMessag
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.GetChatListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.GetMessageListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.EditPostUseCase
-import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetBandPostsUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetPostListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetMyUserUseCase
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.MyUserProfileScreenState
 import java.text.SimpleDateFormat
@@ -30,14 +30,14 @@ import javax.inject.Inject
 
 class BandProfileViewModel @Inject constructor(
     bandItem: BandItem,
-    getBandPostsUseCase: GetBandPostsUseCase,
     private val editBandUseCase: EditBandUseCase,
     private val getMyUserUseCase: GetMyUserUseCase,
     private val editPostUseCase: EditPostUseCase,
     private val getChatListUseCase: GetChatListUseCase,
     private val addChatItemUseCase: AddChatItemUseCase,
     private val getMessageListUseCase: GetMessageListUseCase,
-    private val addMessageUseCase: AddMessageUseCase
+    private val addMessageUseCase: AddMessageUseCase,
+    private val getPostListUseCase: GetPostListUseCase
 ) : ViewModel() {
 
     private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
@@ -45,11 +45,12 @@ class BandProfileViewModel @Inject constructor(
     }
     val bandItem = bandItem
     val members = bandItem.members
-    val postListFlow = getBandPostsUseCase.invoke(bandItem.id)
+    val postListFlow = getPostListUseCase.invoke()
 
     val screenState = postListFlow
-        .filter { it.isNotEmpty() }
-        .map { BandProfileScreenState.Band(band = bandItem, posts = it) as BandProfileScreenState }
+        .map { BandProfileScreenState.Band(band = bandItem, posts = it.filter {
+            it.creatorId == bandItem.id
+        }) as BandProfileScreenState }
         .onStart { emit(BandProfileScreenState.Loading) }
 
     fun isMyUserInBand(): Boolean {
@@ -62,9 +63,9 @@ class BandProfileViewModel @Inject constructor(
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
             val currentDate = sdf.format(Date())
             var chatExists = false
-            var chatId = getNewChatId(getMyUserUseCase.invoke())
-            for (i in getChatListUseCase.invoke(getMyUserUseCase.invoke().id).value) {
-                if (members == i.users) {
+            var chatId = getNewChatId()
+            for (i in getChatListUseCase.invoke().value) {
+                if (members == i.users && getMyUserUseCase.invoke() in i.users) {
                     chatId = i.id
                     chatExists = true
                 }
@@ -82,7 +83,7 @@ class BandProfileViewModel @Inject constructor(
             }
             addMessageUseCase.invoke(
                 MessageItem(
-                    id = getNewMessageId(chatId),
+                    id = getNewMessageId(),
                     chatId = chatId,
                     fromUser = getMyUserUseCase.invoke(),
                     timestamp = currentDate,
@@ -118,16 +119,18 @@ class BandProfileViewModel @Inject constructor(
     private fun changeBandPosts(userName: String, profilePictureUrl: String) {
         viewModelScope.launch(exceptionHandler) {
             for (i in postListFlow.value) {
-                i.creatorName = userName
-                i.creatorPicture.url = profilePictureUrl
-                editPostUseCase.invoke(i)
+                if (i.creatorId == bandItem.id) {
+                    i.creatorName = userName
+                    i.creatorPicture.url = profilePictureUrl
+                    editPostUseCase.invoke(i)
+                }
             }
         }
 
     }
 
-    private fun getNewMessageId(chatId: String): String {
-        var messageList = getMessageListUseCase.invoke(chatId)
+    private fun getNewMessageId(): String {
+        var messageList = getMessageListUseCase.invoke()
         val indexes: MutableList<String> = ArrayList()
         var largest: Int = 0
         for (i in messageList.value) {
@@ -141,8 +144,8 @@ class BandProfileViewModel @Inject constructor(
         return largest.toString()
     }
 
-    private fun getNewChatId(userItem: UserItem): String {
-        var chatList = getChatListUseCase.invoke(userItem.id)
+    private fun getNewChatId(): String {
+        var chatList = getChatListUseCase.invoke()
         val indexes: MutableList<String> = ArrayList()
         var largest: Int = 0
         for (i in chatList.value) {

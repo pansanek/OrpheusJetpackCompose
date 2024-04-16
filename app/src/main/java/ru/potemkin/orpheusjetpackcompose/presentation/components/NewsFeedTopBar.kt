@@ -99,7 +99,7 @@ fun NewsFeedTopBar(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        PostCreationButton(onPostCreateClickListener)
+                        PostCreationButton(onPostCreateClickListener,viewModel)
                         SpacerWidth()
                         DrawerButton(onDrawerClickListener)
                     }
@@ -116,21 +116,11 @@ fun NewsFeedTopBar(
 @Composable
 fun PostCreationButton(
     onPostCreateClickListener: (CreatorInfoItem) -> Unit,
+    viewModel:NewsFeedViewModel
 ) {
     IconButton(
         onClick = {
-            onPostCreateClickListener(
-                (
-                        CreatorInfoItem(
-                            "1", "pansanek",
-                            PhotoUrlItem(
-                                "b59ae42e-8859-441a-9a3a-2fca1b784de3",
-                                "https://images6.fanpop.com/image/photos/38800000/-Matt-Nicholls-Upset-Magazine-Portrait-bring-me-the-horizon-38883120-1500-2250.jpg"
-                            ),
-                            CreatorType.USER
-                        )
-                        )
-            )
+            onPostCreateClickListener(viewModel.getCreatorInfo())
         },
         modifier = Modifier.size(48.dp)
     ) {

@@ -123,20 +123,7 @@ class PostRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getUserPosts(userId: String): StateFlow<List<PostItem>> {
-        val userPosts = _postItems.filter { it.creatorId == userId }
-        return MutableStateFlow(userPosts)
-    }
 
-    override fun getBandPosts(bandId: String): StateFlow<List<PostItem>> {
-        val bandPosts = _postItems.filter { it.creatorId == bandId }
-        return MutableStateFlow(bandPosts)
-    }
-
-    override fun getLocationPosts(locationId: String): StateFlow<List<PostItem>> {
-        val locationPosts = _postItems.filter { it.creatorId == locationId }
-        return MutableStateFlow(locationPosts)
-    }
 
     suspend fun addMockData() {
         addPostItem(
@@ -256,6 +243,30 @@ class PostRepositoryImpl @Inject constructor(
                 isLiked = false,
                 statistics = mutableListOf(
                     StatisticItem(StatisticType.LIKES, 21), StatisticItem(StatisticType.COMMENTS, 2)
+                ),
+            )
+        )
+        addPostItem(
+            PostItem(
+                id = "33",
+                creatorName = "КУЛЬТ",
+                creatorId = "41",
+                creatorPicture = PhotoUrlItem(
+                    "491",
+                    "https://avatars.mds.yandex.net/i?id=150e8ad466d96a519c0372d21be120ebcd4beaef-5329555-images-thumbs&n=13"
+                ),
+                creatorType = CreatorType.LOCATION,
+                text = "ЕСЛИ ИЩЕТЕ ЛУЧШУЮ РЕПЕТИЦИОННУЮ БАЗУ В МСК ОБЯЗАТЕЛЬНО ПОСЕТИТЕ НАС",
+                date = "15/2/2024 10:01",
+                comments = mutableListOf<CommentItem>(
+                ),
+                attachment = PhotoUrlItem(
+                    "393",
+                    "https://avatars.mds.yandex.net/i?id=150e8ad466d96a519c0372d21be120ebcd4beaef-5329555-images-thumbs&n=13"
+                ),
+                isLiked = false,
+                statistics = mutableListOf(
+                    StatisticItem(StatisticType.LIKES, 21), StatisticItem(StatisticType.COMMENTS, 1)
                 ),
             )
         )

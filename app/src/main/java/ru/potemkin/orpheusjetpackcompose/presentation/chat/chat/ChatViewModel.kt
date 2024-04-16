@@ -41,11 +41,12 @@ class ChatViewModel @Inject constructor(
         Log.d("ViewModel", "Exception caught by exception handler")
     }
 
-    val messagesFlow = getMessageListUseCase.invoke(chatItem.id)
+    val messagesFlow = getMessageListUseCase.invoke()
 
     val screenState = messagesFlow
-        .filter { it.isNotEmpty() }
-        .map { ChatScreenState.Messages(messages = it, chatId = chatItem.id) as ChatScreenState }
+        .map { ChatScreenState.Messages(messages = it.filter {
+            it.chatId == chatItem.id
+        }, chatId = chatItem.id) as ChatScreenState }
         .onStart { emit(ChatScreenState.Loading) }
 
     fun sendMessage(message: String) {

@@ -4,8 +4,8 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.UserRepository
 import javax.inject.Inject
 
-class GetOtherUserUseCase @Inject constructor(private val userRepository: UserRepository) {
-    suspend operator fun invoke(userItemId: String): UserItem {
-        return userRepository.getOtherUser(userItemId)
-    }
-}
+//class GetOtherUserUseCase @Inject constructor(private val userRepository: UserRepository) {
+//    suspend operator fun invoke(userItemId: String): UserItem {
+//        return userRepository.getOtherUser(userItemId)
+//    }
+//}

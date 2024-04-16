@@ -33,6 +33,7 @@ class BandRepositoryImpl @Inject constructor(
     private val bandItems: List<BandItem>
         get() = _bandItems.toList()
 
+
     private var nextFrom: String? = null
 
     private val refreshedListFlow = MutableSharedFlow<List<BandItem>>()
@@ -104,25 +105,7 @@ class BandRepositoryImpl @Inject constructor(
 
     override fun getBandsList(): StateFlow<List<BandItem>>  = bands
 
-    override fun getMyUserBands(userId: String): StateFlow<List<BandItem>> {
-        val userBands = mutableListOf<BandItem>()
-        for (band in _bandItems) {
-            for (member in band.members) {
-                if (member.id == userId) userBands.add(band)
-            }
-        }
-        return MutableStateFlow(userBands.toList())
-    }
 
-    override fun getUserBands(userId: String): StateFlow<List<BandItem>> {
-        val userBands = mutableListOf<BandItem>()
-        for (band in _bandItems) {
-            for (member in band.members) {
-                if (member.id == userId) userBands.add(band)
-            }
-        }
-        return MutableStateFlow(userBands.toList())
-    }
 
 
     suspend fun addMockData() {
@@ -310,6 +293,9 @@ class BandRepositoryImpl @Inject constructor(
             )
         )
     }
+
+
+
 
 
     companion object {
