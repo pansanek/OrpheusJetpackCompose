@@ -104,4 +104,7 @@ dependencies {
     //Calendar
     implementation ("io.github.boguszpawlowski.composecalendar:composecalendar:1.2.0")
 
+    //Lottie
+    implementation("com.airbnb.android:lottie-compose:6.0.0")
+
 }

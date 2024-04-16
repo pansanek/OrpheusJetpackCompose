@@ -22,6 +22,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import ru.potemkin.orpheusjetpackcompose.presentation.components.LoadingComponent
 import ru.potemkin.orpheusjetpackcompose.presentation.components.NewsFeedDrawerBody
 import ru.potemkin.orpheusjetpackcompose.presentation.components.NewsFeedTopBar
 import ru.potemkin.orpheusjetpackcompose.presentation.main.getApplicationComponent
@@ -110,9 +111,9 @@ fun NewsFeedScreen(
         NewsFeedScreenState.Initial -> {}
         NewsFeedScreenState.Loading -> {
             Box(
-                modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+                modifier = Modifier.fillMaxSize().background(Black), contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator(color = Color.Black)
+                LoadingComponent()
             }
         }
 
