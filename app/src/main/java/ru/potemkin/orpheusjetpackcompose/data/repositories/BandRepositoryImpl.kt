@@ -54,7 +54,7 @@ class BandRepositoryImpl @Inject constructor(
         .mergeWith(refreshedListFlow)
         .stateIn(
             scope = coroutineScope,
-            started = SharingStarted.Lazily,
+            started = SharingStarted.Eagerly,
             initialValue = bandItems
         )
 

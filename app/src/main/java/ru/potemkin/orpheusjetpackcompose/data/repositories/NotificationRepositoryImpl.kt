@@ -60,7 +60,7 @@ class NotificationRepositoryImpl @Inject constructor(
         .mergeWith(refreshedListFlow)
         .stateIn(
             scope = coroutineScope,
-            started = SharingStarted.Lazily,
+            started = SharingStarted.Eagerly,
             initialValue = notificationItems
         )
 

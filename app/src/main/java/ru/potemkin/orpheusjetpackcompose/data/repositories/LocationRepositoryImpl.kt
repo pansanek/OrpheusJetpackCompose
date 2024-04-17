@@ -57,7 +57,7 @@ class LocationRepositoryImpl @Inject constructor(
         .mergeWith(refreshedListFlow)
         .stateIn(
             scope = coroutineScope,
-            started = SharingStarted.Lazily,
+            started = SharingStarted.Eagerly,
             initialValue = locationItems
         )
     override suspend fun addLocationItem(locationItem: LocationItem) {

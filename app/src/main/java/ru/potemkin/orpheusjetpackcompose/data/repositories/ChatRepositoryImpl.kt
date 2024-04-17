@@ -65,7 +65,7 @@ class ChatRepositoryImpl @Inject constructor(
         .mergeWith(refreshedChatListFlow)
         .stateIn(
             scope = coroutineScope,
-            started = SharingStarted.Lazily,
+            started = SharingStarted.Eagerly,
             initialValue = chatItems
         )
 
@@ -86,7 +86,7 @@ class ChatRepositoryImpl @Inject constructor(
         .mergeWith(refreshedMessageListFlow)
         .stateIn(
             scope = coroutineScope,
-            started = SharingStarted.Lazily,
+            started = SharingStarted.Eagerly,
             initialValue = messageItems
         )
 

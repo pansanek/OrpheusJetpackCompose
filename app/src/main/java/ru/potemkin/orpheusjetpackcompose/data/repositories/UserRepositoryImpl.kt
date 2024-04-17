@@ -62,9 +62,10 @@ class UserRepositoryImpl @Inject constructor(
     private val loadedUserListFlow = flow {
         // Проверяем, есть ли уже какие-то посты, и если есть, то их сначала отправляем
         if (userItems.isNotEmpty()) {
+            Log.d("AUTHORIZE","LOADED2")
             emit(userItems)
         } else {
-            // Если постов нет, добавляем моковые данные
+            Log.d("AUTHORIZE","LOADED")
             addMockData()
             emit(userItems)
         }
@@ -76,7 +77,7 @@ class UserRepositoryImpl @Inject constructor(
         .mergeWith(refreshedUserListFlow)
         .stateIn(
             scope = coroutineScope,
-            started = SharingStarted.Lazily,
+            started = SharingStarted.Eagerly,
             initialValue = userItems
         )
 
@@ -97,7 +98,7 @@ class UserRepositoryImpl @Inject constructor(
         .mergeWith(refreshedMusicianListFlow)
         .stateIn(
             scope = coroutineScope,
-            started = SharingStarted.Lazily,
+            started = SharingStarted.Eagerly,
             initialValue = musicianItems
         )
 
@@ -147,7 +148,6 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun editUserItem(userItem: UserItem) {
         setMyUser(userItem)
     }
-
 
 
     override fun getUsersList(): StateFlow<List<UserItem>>  = users

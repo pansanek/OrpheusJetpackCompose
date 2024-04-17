@@ -22,6 +22,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetBandListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.AddChatItemUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.AddMessageUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.EditChatItemUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.GetChatListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.chat_usecases.GetMessageListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.location_usecases.GetLocationListUseCase
@@ -45,7 +46,8 @@ class UserProfileViewModel @Inject constructor(
     private val addMessageUseCase: AddMessageUseCase,
     private val getPostListUseCase: GetPostListUseCase,
     private val getBandListUseCase: GetBandListUseCase,
-    private val getLocationListUseCase: GetLocationListUseCase
+    private val getLocationListUseCase: GetLocationListUseCase,
+    private val editChatItemUseCase: EditChatItemUseCase
 ) : ViewModel() {
 
     private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
@@ -68,11 +70,29 @@ class UserProfileViewModel @Inject constructor(
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
             val currentDate = sdf.format(Date())
             var chatExists = false
-            var chatId = getNewChatId(getMyUserUseCase.invoke())
+            var chatId = getNewChatId( getMyUserUseCase.invoke())
             for (i in getChatListUseCase.invoke().value) {
                 if (toUser in i.users && getMyUserUseCase.invoke() in i.users) {
-                    chatId = i.id
-                    chatExists = true
+                    chatExists=true
+                    addMessageUseCase.invoke(
+                        MessageItem(
+                            id = getNewMessageId(i.id),
+                            chatId = i.id,
+                            fromUser = getMyUserUseCase.invoke(),
+                            timestamp = currentDate,
+                            content = message
+                        )
+                    )
+                    editChatItemUseCase.invoke(
+                        ChatItem
+                            (
+                            id = i.id,
+                            users = i.users,
+                            lastMessage = message,
+                            picture = i.picture,
+                            name = i.name
+                        )
+                    )
                 }
             }
             if (!chatExists) {
@@ -86,15 +106,7 @@ class UserProfileViewModel @Inject constructor(
                     )
                 )
             }
-            addMessageUseCase.invoke(
-                MessageItem(
-                    id = getNewMessageId(chatId),
-                    chatId = chatId,
-                    fromUser = getMyUserUseCase.invoke(),
-                    timestamp = currentDate,
-                    content = message
-                )
-            )
+
         }
     }
 
