@@ -68,8 +68,10 @@ fun SearchScreen(
                         title = { Text("Поиск", color = White) },
                         navigationIcon = {
                             IconButton(onClick = { onBackPressed() }) {
-                                Icon(Icons.Default.ArrowBack, contentDescription = "Back",
-                                tint = White)
+                                Icon(
+                                    Icons.Default.ArrowBack, contentDescription = "Back",
+                                    tint = White
+                                )
                             }
                         },
                         actions = {
@@ -110,54 +112,55 @@ fun SearchScreen(
                     )
                 }
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(it)
-                        .background(Black)
-                ) {
-                    TextField(
-                        value = searchText,
-                        onValueChange = { searchText = it },
-                        label = { Text("Искать") },
+                Box(modifier = Modifier.padding(paddingValues)) {
+                    Column(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        colors = TextFieldDefaults.textFieldColors(
-                            containerColor = Black,
-                            unfocusedIndicatorColor = White,
-                            focusedIndicatorColor = White,
-                            focusedTextColor = White,
-                            cursorColor = White
-                        )
-                    )
-                    LazyColumn(
-                        contentPadding = PaddingValues(
-                            horizontal = 16.dp,
-                            vertical = 8.dp
-                        ),
-                        modifier = Modifier.background(Black)
+                            .fillMaxSize()
+                            .padding(it)
+                            .background(Black)
                     ) {
-                        if (isSearchingUsers) {
-                            items(currentState.musicians.filter {
-                                it.user.name.contains(searchText, ignoreCase = true)
-                            }
-                            ) { result ->
-                                MusicianListItem(result, { onUserClickListener(result.user) })
-                            }
-                        } else{
-                            items(currentState.bands.filter {
-                                it.name.contains(searchText, ignoreCase = true)
-                            }
-                            ) { result ->
-                                BandListItem(result, { onBandClickListener(result) })
+                        TextField(
+                            value = searchText,
+                            onValueChange = { searchText = it },
+                            label = { Text("Искать") },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            colors = TextFieldDefaults.textFieldColors(
+                                containerColor = Black,
+                                unfocusedIndicatorColor = White,
+                                focusedIndicatorColor = White,
+                                focusedTextColor = White,
+                                cursorColor = White
+                            )
+                        )
+                        LazyColumn(
+                            contentPadding = PaddingValues(
+                                horizontal = 16.dp,
+                                vertical = 8.dp
+                            ),
+                            modifier = Modifier.background(Black)
+                        ) {
+                            if (isSearchingUsers) {
+                                items(currentState.musicians.filter {
+                                    it.user.name.contains(searchText, ignoreCase = true)
+                                }
+                                ) { result ->
+                                    MusicianListItem(result, { onUserClickListener(result.user) })
+                                }
+                            } else {
+                                items(currentState.bands.filter {
+                                    it.name.contains(searchText, ignoreCase = true)
+                                }
+                                ) { result ->
+                                    BandListItem(result, { onBandClickListener(result) })
+                                }
                             }
                         }
                     }
                 }
             }
         }
-
 
         SearchScreenState.Initial -> {}
         SearchScreenState.Loading -> {

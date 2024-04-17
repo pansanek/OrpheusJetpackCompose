@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
@@ -28,6 +29,7 @@ import androidx.compose.material.icons.filled.VpnKey
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -72,128 +74,160 @@ fun LoginScreen(
     val component = getApplicationComponent()
     val viewModel: AuthViewModel = viewModel(factory = component.getViewModelFactory())
     val authState = viewModel.authState.observeAsState(AuthState.Initial)
-
+    var errorMessage by remember { mutableStateOf("") }
     val context = LocalContext.current
-    Box(
+    Scaffold(
         modifier = Modifier
+            .systemBarsPadding()
             .fillMaxSize()
-            .background(Black)
-    ) {
-        Column(Modifier.fillMaxSize()) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                Text(
-                    text = "Orpheus",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = White,
-                    fontSize = 48.sp,
-                    fontWeight = FontWeight.ExtraBold
-                )
-            }
-            Spacer(Modifier.height(5.dp))
-            AnimatedVisibility(
-                visible = surfaceVisible.value,
-                enter = slideInVertically(initialOffsetY = { it }),
-                exit = slideOutVertically(targetOffsetY = { it })
+    )
+    {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Black)
+        ) {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .padding(it)
             ) {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    shape = RoundedCornerShape(10, 10),
-                    color = White
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                    Text(
+                        text = "Orpheus",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = White,
+                        fontSize = 48.sp,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                }
+                Spacer(Modifier.height(5.dp))
+                AnimatedVisibility(
+                    visible = surfaceVisible.value,
+                    enter = slideInVertically(initialOffsetY = { it }),
+                    exit = slideOutVertically(targetOffsetY = { it })
                 ) {
-                    Column() {
-                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                            Text(
-                                "Добро пожаловать!",
-                                style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(top = 15.dp),
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 32.sp,
-                                textAlign = TextAlign.Center,
-                                color = Black
-                            )
-                        }
-                        TextEntryModule(
-                            textValue = username,
-                            onValueChanged = { username = it },
-                            hint =  ("Логин") ,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            cursorColor = Black,
-                            description = "Логин",
-                            leadingIcon = Icons.Default.Person,
-                            trailingIcon = null,
-                            onTrailingIconClick = null,
-                            textColor = Black
-                        )
-                        PasswordEntryModule(
-                            textValue = password,
-                            onValueChanged = { password = it },
-                            hint = ("Пароль"),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            cursorColor = Black,
-                            description = "Пароль",
-                            leadingIcon = Icons.Default.Lock,
-                            trailingIcon = Icons.Default.RemoveRedEye,
-                            onTrailingIconClick = null,
-                            textColor = Black
-                        )
-                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                            ButtonComponent(
-                                text = "Войти",
-                                backgroundColor = Black,
-                                foregroundColor = White,
-                                modifier = Modifier
-                                    .padding(40.dp)
-                                    .height(60.dp),
-                                fontSize = 16.sp
-                            ) {
-                                viewModel.authorize(username, password)
-                                when (authState.value) {
-                                    is AuthState.Authorized -> {
-                                        onNextClickListener()
-                                    }
-                                    else -> {
-
-                                    }
-                                }
-                            }
-                        }
-                        Column(verticalArrangement = Arrangement.Bottom) {
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        shape = RoundedCornerShape(10, 10),
+                        color = White
+                    ) {
+                        Column() {
                             Row(
-                                modifier = Modifier.fillMaxWidth(),
+                                Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.Center
                             ) {
                                 Text(
-                                    "Нет аккаунта?",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = Black,
-                                    modifier = Modifier.padding(bottom = 15.dp)
+                                    "Добро пожаловать!",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    modifier = Modifier.padding(top = 15.dp),
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 32.sp,
+                                    textAlign = TextAlign.Center,
+                                    color = Black
                                 )
+                            }
+
+                            TextEntryModule(
+                                textValue = username,
+                                onValueChanged = { username = it },
+                                hint = ("Логин"),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                cursorColor = Black,
+                                description = "Логин",
+                                leadingIcon = Icons.Default.Person,
+                                trailingIcon = null,
+                                onTrailingIconClick = null,
+                                textColor = Black
+                            )
+                            PasswordEntryModule(
+                                textValue = password,
+                                onValueChanged = { password = it },
+                                hint = ("Пароль"),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                cursorColor = Black,
+                                description = "Пароль",
+                                leadingIcon = Icons.Default.Lock,
+                                trailingIcon = Icons.Default.RemoveRedEye,
+                                onTrailingIconClick = null,
+                                textColor = Black
+                            )
+                            if (errorMessage.isNotBlank()) {
                                 Text(
-                                    " Зарегистрироваться!",
-                                    modifier = Modifier
-                                        .clickable {
-                                            onRegistrationClickListener()
-                                        }
-                                        .padding(bottom = 15.dp),
+                                    text = errorMessage,
                                     style = MaterialTheme.typography.bodyMedium,
-                                    color = Black,
-                                    fontWeight = FontWeight.Bold
+                                    modifier = Modifier.padding(
+                                        horizontal = 32.dp,
+                                        vertical = 0.dp
+                                    ),
+                                    color = Red
                                 )
+                            }
+                            Row(
+                                Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                ButtonComponent(
+                                    text = "Войти",
+                                    backgroundColor = Black,
+                                    foregroundColor = White,
+                                    modifier = Modifier
+                                        .padding(40.dp)
+                                        .height(60.dp),
+                                    fontSize = 16.sp
+                                ) {
+                                    if(areFieldsFilled(username, password)) {
+                                        viewModel.authorize(username, password)
+                                        when (authState.value) {
+                                            is AuthState.Authorized -> {
+                                                onNextClickListener()
+                                            }
+
+                                            else -> {
+                                                errorMessage =
+                                                    "Неправильные данные. Пожалуйста, попробуйте еще раз."
+                                            }
+                                        }
+                                    } else errorMessage ="Пожалуйста, заполните все поля."
+                                }
+                            }
+                            Column(verticalArrangement = Arrangement.Bottom) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    Text(
+                                        "Нет аккаунта?",
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = Black,
+                                        modifier = Modifier.padding(bottom = 15.dp)
+                                    )
+                                    Text(
+                                        " Зарегистрироваться!",
+                                        modifier = Modifier
+                                            .clickable {
+                                                onRegistrationClickListener()
+                                            }
+                                            .padding(bottom = 15.dp),
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = Black,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
                             }
                         }
                     }
                 }
             }
-        }
 
-        LaunchedEffect(Unit) {
-            surfaceVisible.value = true
+            LaunchedEffect(Unit) {
+                surfaceVisible.value = true
+            }
         }
-
     }
 
     @Composable
@@ -271,4 +305,9 @@ fun LoginScreen(
             }
         }
     }
+}
+
+
+fun areFieldsFilled(name: String, password: String): Boolean {
+    return name.isNotBlank()  && password.isNotBlank()
 }
