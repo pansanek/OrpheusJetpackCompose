@@ -1,5 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.main
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
+import ru.potemkin.orpheusjetpackcompose.data.preferences.AuthPreferences
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
@@ -30,11 +32,13 @@ import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
 
+    private lateinit var authPreferences: AuthPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             OrpheusJetpackComposeTheme {
                 val component = getApplicationComponent()
+                authPreferences = AuthPreferences(this)
                 val viewModel: AuthViewModel = viewModel(factory = component.getViewModelFactory())
                 var authState = viewModel.authState.observeAsState(AuthState.Initial)
                 when (authState.value) {
@@ -53,7 +57,8 @@ class MainActivity : ComponentActivity() {
                                         onRegistrationClickListener = {
                                             navigationState.navigateToRegistration()
                                         },
-                                        onNextClickListener = {navigationState.navigateToMainScreen() }
+                                        onNextClickListener = {
+                                            navigationState.navigateToMainScreen() }
                                     )
                                 },
                                 registrationScreenContent = {
@@ -95,7 +100,8 @@ class MainActivity : ComponentActivity() {
                                         onBackPressed = {
                                             navigationState.navHostController.popBackStack()
                                         },
-                                        onNextClickListener = { navigationState.navigateToMainScreen() }
+                                        onNextClickListener = { authPreferences.saveAuthState(authState.value)
+                                            navigationState.navigateToMainScreen() }
                                     )
                                 },
                                 registrationAdministratorTypeScreenContent = {
@@ -103,7 +109,8 @@ class MainActivity : ComponentActivity() {
                                         onBackPressed = {
                                             navigationState.navHostController.popBackStack()
                                         },
-                                        onNextClickListener = {navigationState.navigateToMainScreen()})
+                                        onNextClickListener = {
+                                            navigationState.navigateToMainScreen()})
                                 },
                                 startScreenContent = {
                                     StartScreen(

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
+import ru.potemkin.orpheusjetpackcompose.data.preferences.AuthPreferences
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
@@ -32,7 +33,8 @@ class AuthViewModel @Inject constructor(
     private val getUserListUseCase: GetUserListUseCase,
     private val getMusiciansListUseCase: GetMusiciansListUseCase,
     private val getLocationListUseCase: GetLocationListUseCase,
-    private val setMyUserUseCase: SetMyUserUseCase
+    private val setMyUserUseCase: SetMyUserUseCase,
+    private val authPreferences: AuthPreferences
 ) : ViewModel() {
 //    private val mapper = UsersMapper()
 //    private val adminMapper = AdministratorMapper()
@@ -47,18 +49,23 @@ class AuthViewModel @Inject constructor(
     private val _authState = MutableLiveData<AuthState>(initialState)
     var authState: LiveData<AuthState> = _authState
 
+    val userList = getUserListUseCase.invoke()
+    val musicianList = getMusiciansListUseCase.invoke()
     init {
-        _authState.value = AuthState.Authorized
+        _authState.value = authPreferences.getAuthState()
     }
-
+    fun saveAuthState() {
+        Log.d("AUTHORIZE", "saveAuthState()")
+        authPreferences.saveAuthState(_authState.value ?: AuthState.Initial)
+    }
     fun authorize(login: String, password: String) {
         viewModelScope.launch(exceptionHandler) {
-            val userList = getUserListUseCase.invoke()
             for (i in userList.value) {
                 if (login == i.login && password == i.password) {
+                    Log.d("AUTHORIZE", i.toString())
                     _authState.value = AuthState.Authorized
-                    Log.d("AUTHORIZE", _authState.value.toString())
                     setMyUserUseCase.invoke(i)
+                    saveAuthState()
                 }
             }
         }
@@ -164,7 +171,6 @@ class AuthViewModel @Inject constructor(
 
     private fun getNewUserId(): String {
 
-        var userList = getUserListUseCase.invoke()
         val indexes: MutableList<String> = ArrayList()
         var largest: Int = 0
         for (i in userList.value) {
@@ -180,7 +186,6 @@ class AuthViewModel @Inject constructor(
     }
 
     private fun getNewMusicianId(): String {
-        var musicianList = getMusiciansListUseCase.invoke()
         val indexes: MutableList<String> = ArrayList()
         var largest: Int = 0
         for (i in musicianList.value) {

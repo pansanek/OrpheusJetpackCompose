@@ -157,7 +157,7 @@ fun LoginScreen(
                                     }
 
                                     else -> {
-                                        TODO()
+
                                     }
                                 }
                             }
