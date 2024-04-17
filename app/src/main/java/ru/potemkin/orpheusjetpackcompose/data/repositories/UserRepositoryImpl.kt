@@ -62,10 +62,8 @@ class UserRepositoryImpl @Inject constructor(
     private val loadedUserListFlow = flow {
         // Проверяем, есть ли уже какие-то посты, и если есть, то их сначала отправляем
         if (userItems.isNotEmpty()) {
-            Log.d("AUTHORIZE","LOADED2")
             emit(userItems)
         } else {
-            Log.d("AUTHORIZE","LOADED")
             addMockData()
             emit(userItems)
         }

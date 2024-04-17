@@ -193,6 +193,9 @@ class UserProfileViewModel @Inject constructor(
         Log.d("GETUSERROFLS",list.toString())
         return list
     }
-
+    fun userInTheBand(bandItem: BandItem): Boolean {
+        if (user in bandItem.members) return true
+        return false
+    }
 
 }

@@ -50,23 +50,21 @@ class NewsFeedViewModel @Inject constructor(
     }
 
 
-
     val postListFlow = getPostListUseCase.invoke()
 
     val notificationListFlow = getNotificationListUseCase.invoke()
 
     val screenState = postListFlow
         .combine(notificationListFlow) { posts, notifications ->
-            NewsFeedScreenState.Posts(posts = posts, notifications = notifications)
+            NewsFeedScreenState.Posts(posts = posts, notifications = notifications.filter {
+                it.toUser.id == getMyUserUseCase.invoke().id
+            })
         }
-        .filter { it.notifications.any() {it.toUser.id == getMyUserUseCase.invoke().id} } // Фильтруем, чтобы убедиться, что у нас есть посты
         .map { it as NewsFeedScreenState } // Преобразуем к типу NewsFeedScreenState
         .onStart { emit(NewsFeedScreenState.Loading) }
 
 
     private val _likeStatusMap = mutableMapOf<String, MutableStateFlow<Boolean>>()
-
-
 
 
 //    private fun loadRecommendations() {
@@ -104,7 +102,8 @@ class NewsFeedViewModel @Inject constructor(
             throw NoSuchElementException("User with id $userId not found")
         }
     }
-    suspend fun loadBandFromCreator(bandId:String): BandItem {
+
+    suspend fun loadBandFromCreator(bandId: String): BandItem {
         val bandList = getBandListUseCase.invoke()
             .map { it.filter { band -> band.id == bandId } }
             .firstOrNull() ?: emptyList() // If flow is empty, return an empty list
@@ -117,31 +116,36 @@ class NewsFeedViewModel @Inject constructor(
         }
     }
 
-    fun getCreatorInfo():CreatorInfoItem{
+    fun getCreatorInfo(): CreatorInfoItem {
         return CreatorInfoItem(
-            creatorId =  getMyUserUseCase.invoke().id,
+            creatorId = getMyUserUseCase.invoke().id,
             creatorName = getMyUserUseCase.invoke().login,
             creatorPicture = getMyUserUseCase.invoke().profile_picture,
             creatorType = CreatorType.USER
         )
     }
 
-    fun changeLikeStatus(postId:String) {
+    fun changeLikeStatus(postId: String) {
         viewModelScope.launch(exceptionHandler) {
             val currentState = _likeStatusMap.getOrPut(postId) { MutableStateFlow(false) }.value
             _likeStatusMap[postId]?.value = !currentState
             changeLikeStatusUseCase.invoke(postId)
         }
     }
+
     fun getLikeStatus(postId: String): StateFlow<Boolean> {
         return _likeStatusMap.getOrPut(postId) { MutableStateFlow(false) }
     }
 
-    fun acceptBandInvitation(bandItem: BandItem){
+    fun acceptBandInvitation(bandItem: BandItem) {
         viewModelScope.launch(exceptionHandler) {
             addBandMemberUseCase.invoke(bandItem, getMyUserUseCase.invoke())
         }
     }
 
+    fun userInTheBand(bandItem: BandItem): Boolean {
+        if (getMyUserUseCase.invoke() in bandItem.members) return true
+        return false
+    }
 
 }

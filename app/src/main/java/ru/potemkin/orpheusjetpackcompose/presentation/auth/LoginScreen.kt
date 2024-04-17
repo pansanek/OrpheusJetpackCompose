@@ -155,7 +155,6 @@ fun LoginScreen(
                                     is AuthState.Authorized -> {
                                         onNextClickListener()
                                     }
-
                                     else -> {
 
                                     }

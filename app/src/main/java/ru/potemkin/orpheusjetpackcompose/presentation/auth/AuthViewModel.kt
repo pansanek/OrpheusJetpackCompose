@@ -55,14 +55,12 @@ class AuthViewModel @Inject constructor(
         _authState.value = authPreferences.getAuthState()
     }
     fun saveAuthState() {
-        Log.d("AUTHORIZE", "saveAuthState()")
         authPreferences.saveAuthState(_authState.value ?: AuthState.Initial)
     }
     fun authorize(login: String, password: String) {
         viewModelScope.launch(exceptionHandler) {
             for (i in userList.value) {
                 if (login == i.login && password == i.password) {
-                    Log.d("AUTHORIZE", i.toString())
                     _authState.value = AuthState.Authorized
                     setMyUserUseCase.invoke(i)
                     saveAuthState()
@@ -91,7 +89,6 @@ class AuthViewModel @Inject constructor(
                 email = email,
                 about = about,
                 user_type = UserType.valueOf(userType),
-
                 )
             Log.d("AUTHORIZAAAA", newUser.toString())
             addUserUseCase.invoke(

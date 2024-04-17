@@ -99,20 +99,20 @@ class NotificationRepositoryImpl @Inject constructor(
                     UserSettingsItem(true, true)
                 ),
                 toUser = UserItem(
-                    "11",
-                    "pansanek",
-                    "Sasha Potemkin",
+                    "12",
+                    "noahbadomens",
+                    "Noah Sebastian",
                     "12341234",
-                    "1@gmail.com",
-                    "Just a drummer, guitarist, bassist etc.",
+                    "email@gmail.com",
+                    "Vocalist",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
-                        "111",
-                        "https://sun1-88.userapi.com/impg/SsYpAAyxKG2SXIKXfY8iBvf2BTxZH9XYP2PFmA/lSVeMDXQuDM.jpg?size=1435x1435&quality=95&sign=c2dff2cc261588cb4a712c853c116199&type=album"
+                        "192",
+                        "https://i.pinimg.com/originals/7a/bd/00/7abd00f199dff4ec1364663ce0b45ea3.jpg"
                     ),
                     PhotoUrlItem(
-                        "112",
-                        "https://i.pinimg.com/originals/06/67/9c/06679c2e2ae5aee8cf25eedc4bb41b98.jpg"
+                        "1102",
+                        "https://chaoszine.net/wp-content/uploads/2023/11/bad-omens-2023.jpg"
                     ),
                     UserSettingsItem(true, true)
                 ),

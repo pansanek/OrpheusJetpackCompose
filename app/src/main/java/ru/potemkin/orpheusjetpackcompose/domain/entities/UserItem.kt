@@ -18,11 +18,11 @@ data class UserItem(
     var user_type: UserType,
     var profile_picture: PhotoUrlItem = PhotoUrlItem(
         UserItem.UNDEFINED_ID,
-        R.drawable.harp.toString()
+        "https://i.pinimg.com/originals/f0/e5/a9/f0e5a98f1731a3ca27dd942cf88d7ee8.jpg"
     ),
     var background_picture: PhotoUrlItem= PhotoUrlItem(
         UserItem.UNDEFINED_ID,
-        R.drawable.harp.toString()
+        "https://i.pinimg.com/originals/f0/e5/a9/f0e5a98f1731a3ca27dd942cf88d7ee8.jpg"
     ),
     var settings: UserSettingsItem = UserSettingsItem(
         canReceiveMessagesForNewChats = true,

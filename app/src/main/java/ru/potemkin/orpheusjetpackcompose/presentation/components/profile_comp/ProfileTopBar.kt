@@ -58,6 +58,7 @@ import kotlinx.coroutines.launch
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.presentation.components.CustomAlertDialog
+import ru.potemkin.orpheusjetpackcompose.presentation.components.ErrorAlertDialog
 import ru.potemkin.orpheusjetpackcompose.presentation.components.my_user_profile_comp.DrawerButton
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.UserProfileViewModel
 import ru.potemkin.orpheusjetpackcompose.ui.theme.Black
@@ -67,6 +68,9 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 @Composable
 fun ProfileTopBar(onBackPressed: () -> Unit, userItem: UserItem, viewModel: UserProfileViewModel) {
     var inviteUser by remember { mutableStateOf<UserItem?>(null) }
+    var showDialog by remember {
+        mutableStateOf(false)
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -100,11 +104,21 @@ fun ProfileTopBar(onBackPressed: () -> Unit, userItem: UserItem, viewModel: User
                 viewModel = viewModel,
                 onDismiss = { inviteUser = null },
                 onConfirm = {
-                    viewModel.sendBandInvitation(it, user)
-                    inviteUser = null
+                    if(!viewModel.userInTheBand(it)) {
+                        viewModel.sendBandInvitation(it, user)
+                        inviteUser = null
+                    }
+                    else showDialog = true
                 }
             )
         }
+        ErrorAlertDialog(
+            showDialog = showDialog,
+            onDismissRequest = {
+                showDialog = false
+                inviteUser = null },
+            content = "${userItem.name} уже является участником группы"
+        )
     }
 }
 

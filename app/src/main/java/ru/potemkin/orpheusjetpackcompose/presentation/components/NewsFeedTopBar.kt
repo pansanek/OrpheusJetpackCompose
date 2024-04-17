@@ -81,7 +81,7 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 fun NewsFeedTopBar(
     onPostCreateClickListener: (CreatorInfoItem) -> Unit,
     onDrawerClickListener: () -> Unit,
-    viewModel:NewsFeedViewModel
+    viewModel: NewsFeedViewModel
 ) {
     Column(
         modifier = Modifier
@@ -99,7 +99,7 @@ fun NewsFeedTopBar(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        PostCreationButton(onPostCreateClickListener,viewModel)
+                        PostCreationButton(onPostCreateClickListener, viewModel)
                         SpacerWidth()
                         DrawerButton(onDrawerClickListener)
                     }
@@ -116,7 +116,7 @@ fun NewsFeedTopBar(
 @Composable
 fun PostCreationButton(
     onPostCreateClickListener: (CreatorInfoItem) -> Unit,
-    viewModel:NewsFeedViewModel
+    viewModel: NewsFeedViewModel
 ) {
     IconButton(
         onClick = {
@@ -164,25 +164,40 @@ fun NewsFeedDrawerBody(
     modifier: Modifier = Modifier,
     onUserClickListener: (UserItem) -> Unit,
     onBandClickListener: (BandItem) -> Unit,
-    viewModel:NewsFeedViewModel
+    viewModel: NewsFeedViewModel
 ) {
     var selectedBand by remember { mutableStateOf<BandItem?>(null) }
+    var showDialog by remember {
+        mutableStateOf(false)
+    }
     if (selectedBand != null) {
         selectedBand?.let { band ->
-            CustomAlertDialog(
-                band = band,
-                onBandClickListener = {
-                    if (band != null) {
-                        onBandClickListener(band!!)
+            if (!viewModel.userInTheBand(band)) {
+                CustomAlertDialog(
+                    band = band,
+                    onBandClickListener = {
+                        if (band != null) {
+                            onBandClickListener(band!!)
+                        }
+                    },
+                    onDismiss = { selectedBand = null },
+                    onConfirm = {
+                        viewModel.acceptBandInvitation(band)
+                        selectedBand = null
                     }
-                },
-                onDismiss = { selectedBand = null },
-                onConfirm = {
-                    viewModel.acceptBandInvitation(band)
-                    selectedBand = null
-                }
-            )
+
+                )
+            } else {
+                showDialog = true
+            }
         }
+        ErrorAlertDialog(
+            showDialog = showDialog,
+            onDismissRequest = {
+                showDialog = false
+                selectedBand = null },
+            content = "Вы уже являетесь участником группы"
+        )
     }
     LazyColumn(modifier) {
         items(items) { item ->
@@ -283,8 +298,7 @@ fun CustomAlertDialog(
                                 .build(),
                             contentDescription = band.name,
                             modifier = Modifier
-                                .fillMaxWidth()
-                                ,
+                                .fillMaxWidth(),
                             contentScale = ContentScale.Crop
                         )
                     }
@@ -332,7 +346,7 @@ fun CustomAlertDialog(
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = Color.Black,
                                     contentColor = Color.White
-                                ), // Установка черного цвета фона
+                                ),
                             ) {
                                 androidx.compose.material3.Text("Принять")
                             }
