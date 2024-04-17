@@ -54,16 +54,16 @@ class AuthViewModel @Inject constructor(
     init {
         _authState.value = authPreferences.getAuthState()
     }
-    fun saveAuthState() {
-        authPreferences.saveAuthState(_authState.value ?: AuthState.Initial)
+    fun saveAuthState(id:String) {
+        authPreferences.saveAuthState(_authState.value ?: AuthState.Initial,id)
     }
     fun authorize(login: String, password: String) {
         viewModelScope.launch(exceptionHandler) {
             for (i in userList.value) {
                 if (login == i.login && password == i.password) {
                     _authState.value = AuthState.Authorized
-                    setMyUserUseCase.invoke(i)
-                    saveAuthState()
+                    setMyUserUseCase.invoke(i.id)
+                    saveAuthState(i.id)
                 }
             }
         }
@@ -102,7 +102,7 @@ class AuthViewModel @Inject constructor(
                     instrument = instrument
                 )
             )
-            setMyUserUseCase.invoke(newUser)
+            setMyUserUseCase.invoke(newUser.id)
         }
     }
 
@@ -143,7 +143,7 @@ class AuthViewModel @Inject constructor(
                     longitude = convertAddressToLatLng(locationAddress, context).second,
                 )
             )
-            setMyUserUseCase.invoke(newUser)
+            setMyUserUseCase.invoke(newUser.id)
         }
     }
 

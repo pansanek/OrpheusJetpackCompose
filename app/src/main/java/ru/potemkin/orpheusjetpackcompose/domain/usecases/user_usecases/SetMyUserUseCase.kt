@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.UserRepository
 import javax.inject.Inject
 
 class SetMyUserUseCase @Inject constructor(private val userRepository: UserRepository) {
-    suspend operator fun invoke(userItem: UserItem) {
-        return userRepository.setMyUser(userItem)
+    operator fun invoke(userId: String) {
+        return userRepository.setMyUser(userId)
     }
 }

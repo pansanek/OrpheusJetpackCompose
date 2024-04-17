@@ -32,13 +32,11 @@ import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
 
-    private lateinit var authPreferences: AuthPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             OrpheusJetpackComposeTheme {
                 val component = getApplicationComponent()
-                authPreferences = AuthPreferences(this)
                 val viewModel: AuthViewModel = viewModel(factory = component.getViewModelFactory())
                 var authState = viewModel.authState.observeAsState(AuthState.Initial)
                 when (authState.value) {
@@ -100,7 +98,7 @@ class MainActivity : ComponentActivity() {
                                         onBackPressed = {
                                             navigationState.navHostController.popBackStack()
                                         },
-                                        onNextClickListener = { authPreferences.saveAuthState(authState.value)
+                                        onNextClickListener = {
                                             navigationState.navigateToMainScreen() }
                                     )
                                 },

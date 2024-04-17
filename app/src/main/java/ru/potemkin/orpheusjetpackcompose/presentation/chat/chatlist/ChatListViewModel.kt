@@ -28,9 +28,10 @@ class ChatListViewModel @Inject constructor(
     val chatFlow = getChatListUseCase.invoke()
 
     val screenState = chatFlow
-        .map { ChatListScreenState.Chats(chats = it.filter {
-            myUser in it.users
-        }) as ChatListScreenState }
+        .map { ChatListScreenState.Chats(chats = it.filter { chat ->
+            chat.users.any { user -> user.id == myUser.id }
+        }
+        ) as ChatListScreenState }
         .onStart { emit(ChatListScreenState.Loading) }
 
 }

@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.stateIn
 import ru.potemkin.orpheusjetpackcompose.data.mappers.UsersMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
+import ru.potemkin.orpheusjetpackcompose.data.preferences.AuthPreferences
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
@@ -22,7 +23,6 @@ import ru.potemkin.orpheusjetpackcompose.extentions.mergeWith
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
-
 ) : UserRepository {
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
@@ -35,7 +35,6 @@ class UserRepositoryImpl @Inject constructor(
     private val _musicianItems = mutableListOf<MusicianItem>()
     private val musicianItems: List<MusicianItem>
         get() = _musicianItems.toList()
-
 
     private var nextFrom: String? = null
 
@@ -125,8 +124,12 @@ class UserRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun setMyUser(userItem: UserItem) {
-        _myUser.id = userItem.id
+    override fun setMyUser(userId: String) {
+        Log.d("SETMYUSER","ID: " + userId.toString())
+        var userItem = _userItems.find { it.id == userId }
+            ?: throw java.lang.RuntimeException("Element with id ${userId} not found")
+        Log.d("SETMYUSER","ITEM: " + userItem.toString())
+        _myUser.id = userId
         _myUser.login = userItem.login
         _myUser.name = userItem.name
         _myUser.password = userItem.password
@@ -136,6 +139,7 @@ class UserRepositoryImpl @Inject constructor(
         _myUser.profile_picture = userItem.profile_picture
         _myUser.background_picture = userItem.background_picture
         _myUser.settings = userItem.settings
+
     }
 
     override suspend fun deleteUserItem(userItem: UserItem) {
@@ -144,13 +148,13 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun editUserItem(userItem: UserItem) {
-        setMyUser(userItem)
+        setMyUser(userItem.id)
     }
 
 
-    override fun getUsersList(): StateFlow<List<UserItem>>  = users
+    override fun getUsersList(): StateFlow<List<UserItem>> = users
 
-    override fun getMusiciansList(): StateFlow<List<MusicianItem>> =musicians
+    override fun getMusiciansList(): StateFlow<List<MusicianItem>> = musicians
 
     override suspend fun editMusicianItem(musicianItem: MusicianItem) {
         val oldElement = _musicianItems.find {

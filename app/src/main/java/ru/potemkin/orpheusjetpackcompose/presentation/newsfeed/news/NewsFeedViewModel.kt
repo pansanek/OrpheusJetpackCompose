@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
+import ru.potemkin.orpheusjetpackcompose.data.preferences.AuthPreferences
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
@@ -30,6 +31,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetCommen
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.post_usecases.GetPostListUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetMyUserUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetUserListUseCase
+import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.SetMyUserUseCase
 import javax.inject.Inject
 
 class NewsFeedViewModel @Inject constructor(
@@ -42,7 +44,9 @@ class NewsFeedViewModel @Inject constructor(
     private val getLocationListUseCase: GetLocationListUseCase,
     private val getNotificationListUseCase: GetNotificationListUseCase,
     private val changeLikeStatusUseCase: ChangeLikeStatusUseCase,
-    private val addBandMemberUseCase: AddBandMemberUseCase
+    private val addBandMemberUseCase: AddBandMemberUseCase,
+    private val setMyUserUseCase: SetMyUserUseCase,
+    private val authPreferences: AuthPreferences
 ) : ViewModel() {
 
     private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
@@ -63,6 +67,9 @@ class NewsFeedViewModel @Inject constructor(
         .map { it as NewsFeedScreenState } // Преобразуем к типу NewsFeedScreenState
         .onStart { emit(NewsFeedScreenState.Loading) }
 
+    init {
+        setMyUserUseCase.invoke(authPreferences.getUserId())
+    }
 
     private val _likeStatusMap = mutableMapOf<String, MutableStateFlow<Boolean>>()
 

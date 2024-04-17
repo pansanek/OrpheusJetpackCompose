@@ -13,14 +13,14 @@ class AuthPreferences @Inject constructor(context: Context) {
         Context.MODE_PRIVATE
     )
 
-    fun saveAuthState(authState: AuthState) {
+    fun saveAuthState(authState: AuthState,id:String) {
         Log.d("AUTHORIZE", "save "+authState.toString())
         sharedPreferences.edit().putString("auth_state", authState.toString()).apply()
+        sharedPreferences.edit().putString("myuser_id", id).apply()
     }
 
     fun getAuthState(): AuthState {
         val authStateString = sharedPreferences.getString("auth_state", null)
-        Log.d("AUTHORIZE", "get "+authStateString)
         return if (authStateString != null) {
             when (authStateString) {
                 AuthState.Authorized.toString() -> AuthState.Authorized
@@ -30,5 +30,12 @@ class AuthPreferences @Inject constructor(context: Context) {
         } else {
             AuthState.NotAuthorized
         }
+    }
+
+    fun getUserId(): String {
+        val userIdString = sharedPreferences.getString("myuser_id", null)
+        return if (userIdString != null) {
+            userIdString
+        } else ""
     }
 }
