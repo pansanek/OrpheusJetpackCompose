@@ -209,7 +209,7 @@ private fun Statistics(
     statistics: List<StatisticItem>,
     onCommentClickListener: (StatisticItem) -> Unit,
 ) {
-    val likeStatus = viewModel.getLikeStatus(postItem.id).collectAsState()
+    val likeStatus = viewModel.getLikeStatus(postItem).collectAsState()
     Row {
         Row(
             modifier = Modifier.weight(1f),
@@ -228,7 +228,7 @@ private fun Statistics(
             IconWithText(
                 iconResId = if (likeStatus.value) R.drawable.ic_like_set else R.drawable.ic_like,
                 text = formatStatisticCount(likesItem.count),
-                onItemClickListener ={viewModel.changeLikeStatus(postItem.id)},
+                onItemClickListener ={viewModel.changeLikeStatus(postItem)},
                 tint = if (likeStatus.value) Red else White
             )
         }

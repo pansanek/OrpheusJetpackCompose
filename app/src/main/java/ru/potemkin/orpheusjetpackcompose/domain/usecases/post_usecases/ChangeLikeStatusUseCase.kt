@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.repositories.PostRepository
 import javax.inject.Inject
 
 class ChangeLikeStatusUseCase @Inject constructor(private val postRepository: PostRepository){
-    suspend operator fun invoke(postItemId: String) {
-        postRepository.changeLikeStatus(postItemId)
+    suspend operator fun invoke(postItemId: String,userId: String) {
+        postRepository.changeLikeStatus(postItemId,userId)
     }
 }

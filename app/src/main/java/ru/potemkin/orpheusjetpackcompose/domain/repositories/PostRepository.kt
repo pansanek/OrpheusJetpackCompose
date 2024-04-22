@@ -6,7 +6,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 
 interface PostRepository {
     suspend fun addPostItem(postItem: PostItem)
-    suspend fun changeLikeStatus(postItemId: String)
+    suspend fun changeLikeStatus(postItemId: String,userId: String)
     suspend fun deletePostItem(postItem: PostItem)
     suspend fun editPostItem(postItem: PostItem)
 

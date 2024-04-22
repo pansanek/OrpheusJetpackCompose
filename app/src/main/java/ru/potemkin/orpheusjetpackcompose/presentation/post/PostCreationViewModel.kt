@@ -52,6 +52,7 @@ class PostCreationViewModel @Inject constructor(
                     getNewPostPictureId(),
                     photoUrl
                 ),
+                likes= listOf<String>(),
                 statistics = mutableListOf(
                     StatisticItem(StatisticType.LIKES, 0), StatisticItem(StatisticType.COMMENTS, 0)
                 ),

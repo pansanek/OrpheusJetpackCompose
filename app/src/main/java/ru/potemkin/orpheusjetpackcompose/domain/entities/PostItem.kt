@@ -17,6 +17,7 @@ data class PostItem(
     var creatorPicture: PhotoUrlItem,
     var text: String,
     val date: String,
+    var likes: List<String>,
     var comments: List<CommentItem>,
     var attachment: PhotoUrlItem,
     var creatorType: CreatorType,

@@ -158,9 +158,10 @@ class NotificationRepositoryImpl @Inject constructor(
                         "391",
                         "https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"
                     ),
+                    likes= listOf<String>(),
                     isLiked = false,
                     statistics = mutableListOf(
-                        StatisticItem(StatisticType.LIKES, 21),
+                        StatisticItem(StatisticType.LIKES, 0),
                         StatisticItem(StatisticType.COMMENTS, 1)
                     ),
                 )

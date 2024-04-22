@@ -7,6 +7,7 @@ import ru.potemkin.orpheusjetpackcompose.data.model.PostDto
 import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreatePostRequest
 import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateUserRequest
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
+import ru.potemkin.orpheusjetpackcompose.data.repositories.UserRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
@@ -22,6 +23,8 @@ class PostMapper {
     val userMapper = UsersMapper()
     val bandMapper = BandMapper()
     val locationMapper = LocationMapper()
+    val userRepositoryImpl = UserRepositoryImpl()
+    val myUser = userRepositoryImpl.getMyUser()
     suspend fun mapPostList(postDtoList: List<PostDto>): List<PostItem> {
         val result = mutableListOf<PostItem>()
         for (postDto in postDtoList) {
@@ -49,7 +52,8 @@ class PostMapper {
                 comments = mapCommentList(postDto.comments),
                 attachment = mapAttachment(postDto.attachment),
                 creatorType = CreatorType.valueOf(postDto.creatorType),
-                isLiked = false,
+                likes = postDto.likes,
+                isLiked = checkIfPostIsLiked(postDto.likes),
                 statistics = listOf(
                     StatisticItem(type = StatisticType.LIKES, postDto.likes.size),
                     StatisticItem(type = StatisticType.COMMENTS, postDto.comments.size)
@@ -68,7 +72,8 @@ class PostMapper {
                 comments = mapCommentList(postDto.comments),
                 attachment = mapAttachment(postDto.attachment),
                 creatorType = CreatorType.valueOf(postDto.creatorType),
-                isLiked = false,
+                likes = postDto.likes,
+                isLiked = checkIfPostIsLiked(postDto.likes),
                 statistics = listOf(
                     StatisticItem(type = StatisticType.LIKES, postDto.likes.size),
                     StatisticItem(type = StatisticType.COMMENTS, postDto.comments.size)
@@ -87,7 +92,8 @@ class PostMapper {
                 comments = mapCommentList(postDto.comments),
                 attachment = mapAttachment(postDto.attachment),
                 creatorType = CreatorType.valueOf(postDto.creatorType),
-                isLiked = false,
+                likes = postDto.likes,
+                isLiked = checkIfPostIsLiked(postDto.likes),
                 statistics = listOf(
                     StatisticItem(type = StatisticType.LIKES, postDto.likes.size),
                     StatisticItem(type = StatisticType.COMMENTS, postDto.comments.size)
@@ -97,6 +103,12 @@ class PostMapper {
         }
     }
 
+    private fun checkIfPostIsLiked(likes:List<String>):Boolean{
+        for(like in likes){
+            if(like == myUser.id) return true
+        }
+        return false
+    }
     private fun mapCommentList(commentDtoList: List<CommentDto>): List<CommentItem> {
         val result = mutableListOf<CommentItem>()
         for (commentDto in commentDtoList) {

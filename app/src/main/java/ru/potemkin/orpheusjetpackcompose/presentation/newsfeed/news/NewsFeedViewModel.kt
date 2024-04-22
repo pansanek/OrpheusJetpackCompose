@@ -19,6 +19,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorInfoItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.AddBandMemberUseCase
 import ru.potemkin.orpheusjetpackcompose.domain.usecases.band_usecases.GetBandListUseCase
@@ -132,16 +133,16 @@ class NewsFeedViewModel @Inject constructor(
         )
     }
 
-    fun changeLikeStatus(postId: String) {
+    fun changeLikeStatus(postItem: PostItem) {
         viewModelScope.launch(exceptionHandler) {
-            val currentState = _likeStatusMap.getOrPut(postId) { MutableStateFlow(false) }.value
-            _likeStatusMap[postId]?.value = !currentState
-            changeLikeStatusUseCase.invoke(postId)
+            val currentState = _likeStatusMap.getOrPut(postItem.id) { MutableStateFlow(postItem.isLiked) }.value
+            _likeStatusMap[postItem.id]?.value = !currentState
+            changeLikeStatusUseCase.invoke(postItem.id,authPreferences.getUserId())
         }
     }
 
-    fun getLikeStatus(postId: String): StateFlow<Boolean> {
-        return _likeStatusMap.getOrPut(postId) { MutableStateFlow(false) }
+    fun getLikeStatus(postItem: PostItem): StateFlow<Boolean> {
+        return _likeStatusMap.getOrPut(postItem.id) { MutableStateFlow(postItem.isLiked) }
     }
 
     fun acceptBandInvitation(bandItem: BandItem) {

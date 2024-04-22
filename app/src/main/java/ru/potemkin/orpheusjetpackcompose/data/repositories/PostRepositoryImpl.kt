@@ -68,18 +68,21 @@ class PostRepositoryImpl @Inject constructor(
         refreshedListFlow.emit(postItems)
     }
 
-    override suspend fun changeLikeStatus(postItemId: String) {
+    override suspend fun changeLikeStatus(postItemId: String, userId:String) {
         val oldElement = getPostItem(postItemId)
+        var likes = mutableListOf<String>()
+        for (i in oldElement.likes) likes.add(i)
+        _postItems.remove(oldElement)
         if(oldElement.isLiked == false) {
+            likes.add(userId)
             oldElement.isLiked = true
             oldElement.statistics.get(0).count += 1
-            _postItems.remove(oldElement)
             addPostItem(oldElement)
         }
         else{
+            likes.remove(userId)
             oldElement.isLiked = false
             oldElement.statistics.get(0).count -= 1
-            _postItems.remove(oldElement)
             addPostItem(oldElement)
         }
 
@@ -164,13 +167,14 @@ class PostRepositoryImpl @Inject constructor(
                         "15/2/2024 12:37"
                     )
                 ),
+                likes= listOf<String>(),
                 attachment = PhotoUrlItem(
                     "391",
                     "https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"
                 ),
                 isLiked = false,
                 statistics = mutableListOf(
-                    StatisticItem(StatisticType.LIKES, 21), StatisticItem(StatisticType.COMMENTS, 1)
+                    StatisticItem(StatisticType.LIKES, 0), StatisticItem(StatisticType.COMMENTS, 1)
                 ),
             )
         )
@@ -240,9 +244,10 @@ class PostRepositoryImpl @Inject constructor(
                     "392",
                     "https://www.bringthenoiseuk.com/wp-content/uploads/normandie-band-2022.jpg"
                 ),
-                isLiked = false,
+                likes= listOf<String>("11","12"),
+                isLiked = true,
                 statistics = mutableListOf(
-                    StatisticItem(StatisticType.LIKES, 21), StatisticItem(StatisticType.COMMENTS, 2)
+                    StatisticItem(StatisticType.LIKES, 2), StatisticItem(StatisticType.COMMENTS, 2)
                 ),
             )
         )
@@ -265,8 +270,9 @@ class PostRepositoryImpl @Inject constructor(
                     "https://avatars.mds.yandex.net/i?id=150e8ad466d96a519c0372d21be120ebcd4beaef-5329555-images-thumbs&n=13"
                 ),
                 isLiked = false,
+                likes= listOf<String>("14","15"),
                 statistics = mutableListOf(
-                    StatisticItem(StatisticType.LIKES, 21), StatisticItem(StatisticType.COMMENTS, 1)
+                    StatisticItem(StatisticType.LIKES, 2), StatisticItem(StatisticType.COMMENTS, 1)
                 ),
             )
         )
