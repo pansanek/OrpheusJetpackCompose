@@ -4,8 +4,10 @@ import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import ru.potemkin.orpheusjetpackcompose.data.model.MessageDto
+import ru.potemkin.orpheusjetpackcompose.data.model.UserDto
 
 interface MessageApiService {
 
@@ -19,4 +21,10 @@ interface MessageApiService {
 
     @GET("/api/messages/{id}")
     suspend fun getMessageById(@Path("id") id: String): MessageDto
+
+    @PUT("/api/messages/{id}")
+    suspend fun updateMessage(
+        @Path("id") id: String,
+        @Body requestBody: RequestBody
+    ): MessageDto
 }

@@ -16,15 +16,16 @@ object ApiFactory {
     // Замените "10.0.2.2" на IP-адрес вашего Docker-хоста, если вы используете эмулятор Android.
     private val baseUrl = "http://10.0.2.2:"
 
-    val appUserApiService: UserApiService = createUserService(baseUrl, 88)
-    val appPostApiService: PostApiService = createPostService(baseUrl, 87)
-    val appMusicianApiService: MusicianApiService = createMusicianService(baseUrl, 86)
+    val appBandApiService: BandApiService = createBandService(baseUrl, 81)
     val appChatApiService: ChatApiService = createChatService(baseUrl, 82)
-    val appMessageApiService: MessageApiService = createMessageService(baseUrl, 81)
-    val appLocationApiService: LocationApiService = createLocationService(baseUrl, 85)
-    val appCommentApiService: CommentApiService = createCommentService(baseUrl, 84)
-    val appBandApiService: BandApiService = createBandService(baseUrl, 83)
-    val appAdministratorApiService: AdministratorApiService = createAdministratorService(baseUrl, 80)
+    val appCommentApiService: CommentApiService = createCommentService(baseUrl, 83)
+    val appLocationApiService: LocationApiService = createLocationService(baseUrl, 84)
+    val appMessageApiService: MessageApiService = createMessageService(baseUrl, 85)
+    val appMusicianApiService: MusicianApiService = createMusicianService(baseUrl, 86)
+    val appNotificationApiService: NotificationApiService = createNotificationService(baseUrl, 87)
+    val appPostApiService: PostApiService = createPostService(baseUrl, 88)
+    val appUserApiService: UserApiService = createUserService(baseUrl, 89)
+
 
     private fun createUserService(baseUrl: String, port: Int): UserApiService {
         val retrofit = Retrofit.Builder()
@@ -93,16 +94,6 @@ object ApiFactory {
         return retrofit.create(CommentApiService::class.java)
     }
 
-    private fun createAdministratorService(baseUrl: String, port: Int): AdministratorApiService {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("$baseUrl$port/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .build()
-
-        return retrofit.create(AdministratorApiService::class.java)
-    }
-
     private fun createChatService(baseUrl: String, port: Int): ChatApiService {
         val retrofit = Retrofit.Builder()
             .baseUrl("$baseUrl$port/")
@@ -120,5 +111,15 @@ object ApiFactory {
             .build()
 
         return retrofit.create(MessageApiService::class.java)
+    }
+
+    private fun createNotificationService(baseUrl: String, port: Int): NotificationApiService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("$baseUrl$port/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+
+        return retrofit.create(NotificationApiService::class.java)
     }
 }

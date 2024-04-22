@@ -10,6 +10,7 @@ import ru.potemkin.orpheusjetpackcompose.data.network.CommentApiService
 import ru.potemkin.orpheusjetpackcompose.data.network.LocationApiService
 import ru.potemkin.orpheusjetpackcompose.data.network.MessageApiService
 import ru.potemkin.orpheusjetpackcompose.data.network.MusicianApiService
+import ru.potemkin.orpheusjetpackcompose.data.network.NotificationApiService
 import ru.potemkin.orpheusjetpackcompose.data.network.PostApiService
 import ru.potemkin.orpheusjetpackcompose.data.network.UserApiService
 import ru.potemkin.orpheusjetpackcompose.data.repositories.BandRepositoryImpl
@@ -99,7 +100,11 @@ interface DataModule {
             return ApiFactory.appCommentApiService
         }
 
-
+        @ApplicationScope
+        @Provides
+        fun provideAppNotificationApiService(): NotificationApiService {
+            return ApiFactory.appNotificationApiService
+        }
 
     }
 }
