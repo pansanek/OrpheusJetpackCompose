@@ -8,5 +8,5 @@ data class LocationDto(
     @SerializedName("name") val name: String,
     @SerializedName("address") val address: String,
     @SerializedName("about") val about: String,
-    @SerializedName("profilePicture") val profilePicture: PhotoUrlDto
+    @SerializedName("profile_picture") val profilePicture: PhotoUrlDto
 )
