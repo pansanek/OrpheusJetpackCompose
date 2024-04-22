@@ -16,9 +16,6 @@ fun NavGraphBuilder.feedHomeNavGraph(
     newsFeedScreenContent: @Composable () -> Unit,
     commentsScreenContent: @Composable (PostItem) -> Unit,
     userProfileScreenContent: @Composable (UserItem) -> Unit,
-    bandProfileScreenContent: @Composable (BandItem) -> Unit,
-    bandCreationScreenContent: @Composable () -> Unit,
-    changeBandProfileScreenContent: @Composable (BandItem) -> Unit,
     postCreationScreenContent: @Composable (CreatorInfoItem) -> Unit
 ) {
     navigation(
@@ -53,21 +50,6 @@ fun NavGraphBuilder.feedHomeNavGraph(
             userProfileScreenContent(user)
         }
         composable(
-            route = Screen.BandProfileScreen.route,
-            arguments = listOf(
-                navArgument(Screen.KEY_BAND) {
-                    type = BandItem.NavigationType
-                }
-            )
-        ) {
-            val band = it.arguments?.getParcelable<BandItem>(Screen.KEY_BAND)
-                ?: throw RuntimeException("Args is null")
-            bandProfileScreenContent(band)
-        }
-        composable(Screen.BandCreationScreen.route) {
-            bandCreationScreenContent()
-        }
-        composable(
             route = Screen.PostCreationScreen.route,
             arguments = listOf(
                 navArgument(Screen.KEY_CREATE_POST) {
@@ -78,6 +60,9 @@ fun NavGraphBuilder.feedHomeNavGraph(
             val creatorInfoItem = it.arguments?.getParcelable<CreatorInfoItem>(Screen.KEY_CREATE_POST)
                 ?: throw RuntimeException("Args is null")
             postCreationScreenContent(creatorInfoItem)
+        }
+        composable(Screen.NewsFeedScreen.route) {
+            newsFeedScreenContent()
         }
     }
 }

@@ -41,16 +41,16 @@ fun AppNavGraph(
         startDestination = Screen.FeedHomeScreen.route
     ) {
         feedHomeNavGraph(
-            newsFeedScreenContent, commentsScreenContent, userProfileScreenContent, bandProfileScreenContent,bandCreationScreenContent,changeBandProfileScreenContent,postCreationScreenContent
+            newsFeedScreenContent, commentsScreenContent, userProfileScreenContent, postCreationScreenContent
         )
         chatHomeNavGraph(
-            chatListScreenContent, chatScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent,commentsScreenContent, changeBandProfileScreenContent,newsFeedScreenContent
+            chatListScreenContent, chatScreenContent,newsFeedScreenContent
         )
         profileHomeNavGraph(
-            profileScreenContent, commentsScreenContent, userProfileScreenContent, bandCreationScreenContent, bandProfileScreenContent, chatListScreenContent, chatScreenContent,searchScreenContent,settingsScreenContent, bandListScreenContent,changeUserProfileScreenContent,changeBandProfileScreenContent,postCreationScreenContent,newsFeedScreenContent
+            profileScreenContent,  bandCreationScreenContent,searchScreenContent,settingsScreenContent, bandListScreenContent,changeUserProfileScreenContent,bandProfileScreenContent,changeBandProfileScreenContent,newsFeedScreenContent
         )
         mapHomeNavGraph(
-            userProfileScreenContent, commentsScreenContent, chatListScreenContent, chatScreenContent, mapScreenContent, locationScreenContent,changeLocationProfileScreenContent,postCreationScreenContent,newsFeedScreenContent
+             mapScreenContent, locationScreenContent,changeLocationProfileScreenContent,newsFeedScreenContent
         )
     }
 }
