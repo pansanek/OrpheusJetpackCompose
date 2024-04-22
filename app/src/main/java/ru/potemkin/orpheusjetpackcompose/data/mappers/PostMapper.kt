@@ -25,8 +25,7 @@ class PostMapper {
     suspend fun mapPostList(postDtoList: List<PostDto>): List<PostItem> {
         val result = mutableListOf<PostItem>()
         for (postDto in postDtoList) {
-            val postItem = mapPost(postDto)
-            result.add(postItem)
+            result.add(mapPost(postDto))
         }
         return result
     }
@@ -45,8 +44,8 @@ class PostMapper {
                 creatorId = postDto.creatorId,
                 creatorName = mapCreatorToUser(postDto.creatorId).name,
                 creatorPicture = mapCreatorToUser(postDto.creatorId).profile_picture,
-                text = postDto.caption,
-                date = postDto.timestamp,
+                text = postDto.text,
+                date = postDto.date,
                 comments = mapCommentList(postDto.comments),
                 attachment = mapAttachment(postDto.attachment),
                 creatorType = CreatorType.valueOf(postDto.creatorType),
@@ -64,8 +63,8 @@ class PostMapper {
                 creatorId = postDto.creatorId,
                 creatorName = mapCreatorToBand(postDto.creatorId).name,
                 creatorPicture = mapCreatorToBand(postDto.creatorId).photo,
-                text = postDto.caption,
-                date = postDto.timestamp,
+                text = postDto.text,
+                date = postDto.date,
                 comments = mapCommentList(postDto.comments),
                 attachment = mapAttachment(postDto.attachment),
                 creatorType = CreatorType.valueOf(postDto.creatorType),
@@ -83,8 +82,8 @@ class PostMapper {
                 creatorId = postDto.creatorId,
                 creatorName = mapCreatorToLocation(postDto.creatorId).name,
                 creatorPicture = mapCreatorToLocation(postDto.creatorId).profilePicture,
-                text = postDto.caption,
-                date = postDto.timestamp,
+                text = postDto.text,
+                date = postDto.date,
                 comments = mapCommentList(postDto.comments),
                 attachment = mapAttachment(postDto.attachment),
                 creatorType = CreatorType.valueOf(postDto.creatorType),
@@ -104,7 +103,7 @@ class PostMapper {
             val commentItem = CommentItem(
                 id = commentDto.id,
                 user = userMapper.mapUser(commentDto.user),
-                post_id = commentDto.post_id,
+                post_id = commentDto.postId,
                 text = commentDto.text,
                 timestamp = commentDto.timestamp
             )

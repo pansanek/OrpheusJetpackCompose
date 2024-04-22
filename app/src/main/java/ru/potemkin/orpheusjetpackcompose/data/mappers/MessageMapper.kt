@@ -26,7 +26,8 @@ class MessageMapper {
         return CreateMessageRequest(
             chat_id= messageItem.chatId,
             from_user= userMapper.mapUserDto(messageItem.fromUser),
-            content = messageItem.content
+            content = messageItem.content,
+            timestamp = messageItem.timestamp
         )
     }
     fun mapMessage(chatDto: MessageDto): MessageItem {

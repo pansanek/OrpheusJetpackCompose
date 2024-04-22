@@ -37,16 +37,14 @@ class LocationMapper {
     }
 
     fun mapLocationToRequest(
-        userItem: UserItem,
-        name: String,
-        address: String,
-        about: String
+       locationItem: LocationItem
     ): CreateLocationRequest {
         return CreateLocationRequest(
-            user = adminMapper.mapUserDto(userItem),
-            name = name,
-            address = address,
-            about = about
+            admin = adminMapper.mapUserDto(locationItem.admin),
+            name = locationItem.name,
+            address = locationItem.address,
+            about = locationItem.about,
+            profile_picture = mapPhotoUrlItemToDto(locationItem.profilePicture)
         )
     }
 
@@ -65,6 +63,13 @@ class LocationMapper {
         return PhotoUrlItem(
             id = photoUrlDto.id,
             url = photoUrlDto.url
+        )
+    }
+
+    private fun mapPhotoUrlItemToDto(photoUrlItem: PhotoUrlItem): PhotoUrlDto {
+        return PhotoUrlDto(
+            id = photoUrlItem.id,
+            url = photoUrlItem.url
         )
     }
 

@@ -14,19 +14,7 @@ class UsersMapper {
     fun mapUsers(listUserDto: List<UserDto>): List<UserItem> {
         val result = mutableListOf<UserItem>()
         for (userDto in listUserDto) {
-            val user = UserItem(
-                id = userDto.id,
-                login = userDto.login,
-                name = userDto.name,
-                password = userDto.password,
-                email = userDto.email,
-                about = userDto.about,
-                user_type = UserType.valueOf(userDto.user_type),
-                profile_picture = mapPhotoUrlDtoToItem(userDto.profile_picture),
-                background_picture = mapPhotoUrlDtoToItem(userDto.background_picture),
-                settings = mapUserSettingsDtoToItem(userDto.settings)
-            )
-            result.add(user)
+            result.add(mapUser(userDto))
         }
         return result
     }
@@ -47,20 +35,18 @@ class UsersMapper {
     }
 
     fun mapUserToRequest(
-        about: String,
-        email: String,
-        login: String,
-        name: String,
-        password: String,
-        userType: String
+        userItem: UserItem
     ): CreateUserRequest {
         return CreateUserRequest(
-            about = about,
-            email = email,
-            login = login,
-            name = name,
-            password = password,
-            userType = userType
+            login = userItem.login,
+            name = userItem.name,
+            password = userItem.password,
+            email = userItem.email,
+            about = userItem.about,
+            userType = userItem.user_type.toString(),
+            profile_picture = mapPhotoUrlItemToDto(userItem.profile_picture),
+            background_picture = mapPhotoUrlItemToDto(userItem.background_picture),
+            settings = mapUserSettingsItemToDto(userItem.settings)
         )
     }
 

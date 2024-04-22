@@ -1,6 +1,8 @@
 package ru.potemkin.orpheusjetpackcompose.data.mappers
 
 import ru.potemkin.orpheusjetpackcompose.data.model.ChatDto
+import ru.potemkin.orpheusjetpackcompose.data.model.PhotoUrlDto
+import ru.potemkin.orpheusjetpackcompose.data.model.UserDto
 import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateChatRequest
 import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateUserRequest
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
@@ -12,23 +14,16 @@ class ChatMapper {
     fun mapChatList(listChatDto: List<ChatDto>): List<ChatItem> {
         val result = mutableListOf<ChatItem>()
         for (chatDto in listChatDto) {
-            val chatItem = ChatItem(
-                id = chatDto.id,
-                users = userMapper.mapUsers(chatDto.users),
-                lastMessage = chatDto.lastMessage,
-                picture = PhotoUrlItem(
-                    "",""
-                ),
-                name = ""
-            )
-            result.add(chatItem)
+            result.add(mapChat(chatDto))
         }
         return result
     }
-    fun mapChatToRequest(user:UserItem,secondUser:UserItem): CreateChatRequest {
+    fun mapChatToRequest(chatItem: ChatItem): CreateChatRequest {
         return CreateChatRequest(
-            user = userMapper.mapUserDto(user),
-            secondUser = userMapper.mapUserDto(secondUser),
+            users = mapUserListToDtoList(chatItem.users),
+            lastMessage = chatItem.lastMessage,
+            picture = mapPhotoUrlItemToDto(chatItem.picture),
+            name= chatItem.name
 
         )
     }
@@ -37,11 +32,28 @@ class ChatMapper {
             id = chatDto.id,
             users = userMapper.mapUsers(chatDto.users),
             lastMessage = chatDto.lastMessage,
-            picture = PhotoUrlItem(
-                "",""
-            ),
-            name = ""
+            picture = mapPhotoUrlDtoToItem(chatDto.picture),
+            name = chatDto.name
+        )
+    }
+    private fun mapUserListToDtoList(users:List<UserItem>):List<UserDto>{
+        val result = mutableListOf<UserDto>()
+        for (user in users){
+            result.add(userMapper.mapUserDto(user))
+        }
+        return result
+    }
+    private fun mapPhotoUrlDtoToItem(photoUrlDto: PhotoUrlDto): PhotoUrlItem {
+        return PhotoUrlItem(
+            id = photoUrlDto.id,
+            url = photoUrlDto.url
         )
     }
 
+    private fun mapPhotoUrlItemToDto(photoUrlItem: PhotoUrlItem): PhotoUrlDto {
+        return PhotoUrlDto(
+            id = photoUrlItem.id,
+            url = photoUrlItem.url
+        )
+    }
 }
