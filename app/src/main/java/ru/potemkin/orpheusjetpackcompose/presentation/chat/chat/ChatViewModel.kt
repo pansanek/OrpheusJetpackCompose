@@ -5,13 +5,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import ru.potemkin.orpheusjetpackcompose.data.mappers.MessageMapper
+import ru.potemkin.orpheusjetpackcompose.data.model.PhotoUrlDto
+import ru.potemkin.orpheusjetpackcompose.data.model.UserDto
+import ru.potemkin.orpheusjetpackcompose.data.model.UserSettingsDto
+import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateMessageRequest
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.data.repositories.ChatRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
@@ -27,6 +36,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.usecases.user_usecases.GetMyUser
 import ru.potemkin.orpheusjetpackcompose.presentation.map.map.MapScreenState
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.UUID
 
 import javax.inject.Inject
 
@@ -109,6 +119,49 @@ class ChatViewModel @Inject constructor(
             val messages = ApiFactory.appMessageApiService.getAllMessages()
             val messageItems = mapper.mapMessageList(messages)
             Log.d("MESSAGES",messageItems.toString())
+        }
+    }
+
+    private fun createMessages(){
+        viewModelScope.launch {
+            val request = CreateMessageRequest(
+                chat_id = UUID.randomUUID(),
+                from_user = UserDto(
+                    id="22449e1b-55c9-4eaf-b25a-324ececd2db4",
+                    login="pansanek",
+                    name="Sasha" ,
+                    password="12341234",
+                    email="1@gmail.com",
+                    about="Just a drummer, guitarist, bassist etc.",
+                    user_type="Musician",
+                    profile_picture= PhotoUrlDto(
+                        id="111",
+                        url="https://sun1-88.userapi.com/impg/SsYpAAyxKG2SXIKXfY8iBvf2BTxZH9XYP2PFmA/lSVeMDXQuDM.jpg?size=1435x1435&quality=95&sign=c2dff2cc261588cb4a712c853c116199&type=album"),
+                    background_picture=
+                    PhotoUrlDto( id="111",
+                        url="https://sun1-88.userapi.com/impg/SsYpAAyxKG2SXIKXfY8iBvf2BTxZH9XYP2PFmA/lSVeMDXQuDM.jpg?size=1435x1435&quality=95&sign=c2dff2cc261588cb4a712c853c116199&type=album"),
+                    settings = UserSettingsDto(
+                        can_receive_messages_for_new_chats=true, can_receive_band_invitations=true
+                    )
+                ),
+                timestamp = "current_timestamp",
+                content = "your_message_content"
+            )
+
+            try {
+                // Отправка запроса на сервер
+                // Конвертация объекта в RequestBody с помощью GsonConverter
+                val requestBody =
+                    Gson().toJson(request).toRequestBody("application/json".toMediaTypeOrNull())
+                Log.d("MESSAGES",requestBody.toString())
+                // Отправка запроса на сервер
+                val response = ApiFactory.appMessageApiService.createMessage(requestBody)
+
+
+                // Обработка ответа, если это необходимо
+            } catch (e: Exception) {
+                // Обработка ошибок, если это необходимо
+            }
         }
     }
 
