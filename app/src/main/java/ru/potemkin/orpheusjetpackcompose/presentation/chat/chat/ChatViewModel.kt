@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import ru.potemkin.orpheusjetpackcompose.data.mappers.MessageMapper
+import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.data.repositories.ChatRepositoryImpl
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MessageItem
@@ -36,9 +38,14 @@ class ChatViewModel @Inject constructor(
     private val editChatItemUseCase: EditChatItemUseCase
 ) : ViewModel() {
 
+    private val mapper = MessageMapper()
 
     private val exceptionHandler = CoroutineExceptionHandler { _, _ ->
         Log.d("ViewModel", "Exception caught by exception handler")
+    }
+
+    init {
+        loadMessages()
     }
 
     val messagesFlow = getMessageListUseCase.invoke()
@@ -95,6 +102,14 @@ class ChatViewModel @Inject constructor(
 
     fun getMyUserId(): String {
         return getMyUserUseCase.invoke().id
+    }
+
+    private fun loadMessages(){
+        viewModelScope.launch {
+            val messages = ApiFactory.appMessageApiService.getAllMessages()
+            val messageItems = mapper.mapMessageList(messages)
+            Log.d("MESSAGES",messageItems.toString())
+        }
     }
 
 }
