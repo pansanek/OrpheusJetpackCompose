@@ -27,13 +27,17 @@ class UsersMapper {
             password = userDto.password,
             email = userDto.email,
             about = userDto.about,
-            user_type = UserType.valueOf(userDto.user_type),
+            user_type = mapUserType(userDto.user_type),
             profile_picture = mapPhotoUrlDtoToItem(userDto.profile_picture),
             background_picture = mapPhotoUrlDtoToItem(userDto.background_picture),
             settings = mapUserSettingsDtoToItem(userDto.settings)
         )
     }
 
+    private fun mapUserType(type:String):UserType{
+        if(type == "Musician") return UserType.MUSICIAN
+        return UserType.ADMINISTRATOR
+    }
     fun mapUserToRequest(
         userItem: UserItem
     ): CreateUserRequest {

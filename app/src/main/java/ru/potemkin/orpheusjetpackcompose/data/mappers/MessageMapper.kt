@@ -5,6 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateMessag
 import ru.potemkin.orpheusjetpackcompose.data.model.create_requests.CreateUserRequest
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MessageItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
+import java.util.UUID
 
 class MessageMapper {
     val userMapper = UsersMapper()
@@ -24,7 +25,7 @@ class MessageMapper {
     }
     fun mapMessageToRequest(messageItem: MessageItem): CreateMessageRequest {
         return CreateMessageRequest(
-            chat_id= messageItem.chatId,
+            chat_id= UUID.randomUUID(),
             from_user= userMapper.mapUserDto(messageItem.fromUser),
             content = messageItem.content,
             timestamp = messageItem.timestamp

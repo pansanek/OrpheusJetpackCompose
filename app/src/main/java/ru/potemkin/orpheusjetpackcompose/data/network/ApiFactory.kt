@@ -14,13 +14,13 @@ object ApiFactory {
         .build()
 
     // Замените "10.0.2.2" на IP-адрес вашего Docker-хоста, если вы используете эмулятор Android.
-    private val baseUrl = "http://10.0.2.2:"
+    private val baseUrl = "http://192.168.1.103:"
 
     val appBandApiService: BandApiService = createBandService(baseUrl, 81)
     val appChatApiService: ChatApiService = createChatService(baseUrl, 82)
     val appCommentApiService: CommentApiService = createCommentService(baseUrl, 83)
     val appLocationApiService: LocationApiService = createLocationService(baseUrl, 84)
-    val appMessageApiService: MessageApiService = createMessageService(baseUrl, 85)
+    val appMessageApiService: MessageApiService = createMessageService(baseUrl, 81)
     val appMusicianApiService: MusicianApiService = createMusicianService(baseUrl, 86)
     val appNotificationApiService: NotificationApiService = createNotificationService(baseUrl, 87)
     val appPostApiService: PostApiService = createPostService(baseUrl, 88)
@@ -105,7 +105,7 @@ object ApiFactory {
     }
     private fun createMessageService(baseUrl: String, port: Int): MessageApiService {
         val retrofit = Retrofit.Builder()
-            .baseUrl("$baseUrl$port/")
+            .baseUrl("$baseUrl$port")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
