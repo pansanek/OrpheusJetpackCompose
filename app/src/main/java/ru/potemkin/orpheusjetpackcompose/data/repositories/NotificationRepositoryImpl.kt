@@ -69,7 +69,7 @@ class NotificationRepositoryImpl @Inject constructor(
         refreshedListFlow.emit(notificationItems)
     }
 
-    override fun getAllNotifications(): StateFlow<List<NotificationItem>> =notifications
+    override fun getAllNotifications(): StateFlow<List<NotificationItem>> = notifications
 
 
     suspend fun addMockData() {
@@ -81,38 +81,38 @@ class NotificationRepositoryImpl @Inject constructor(
                 contentDescription = " оценил вашу запись от ",
                 title = "Ваш пост оценили",
                 fromUser = UserItem(
-                    "16",
-                    "almblabalbladh",
-                    "Hakan Almbladh",
+                    "14",
+                    "dayseekerrory",
+                    "Рори Родригес",
                     "12341234",
-                    "email@gmail.com",
-                    "Guitarist for Normandie",
+                    "4@gmail.com",
+                    "Просто хороший парень",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
-                        "196",
-                        "https://sun6-23.userapi.com/s/v1/if1/Gzwvj0HYoXOEjeEzkx1zmYMRGnRDw387ol_FVX2xcHPijVR0XFMOuWPcZz09cyt32p_ne61G.jpg?size=400x400&quality=96&crop=6,0,1428,1428&ava=1"
+                        "194",
+                        "https://images.genius.com/4321352a6796b4d618f8324ccdc68181.1000x1000x1.jpg"
                     ),
                     PhotoUrlItem(
-                        "1106",
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Normandie_-_Bochum_Total_-_160716LEOKR009181510000.jpg/440px-Normandie_-_Bochum_Total_-_160716LEOKR009181510000.jpg"
+                        "1104",
+                        "https://www.bringthenoiseuk.com/wp-content/uploads/Dayseeker-2022-Credit-Amber-Paredes.jpg"
                     ),
                     UserSettingsItem(true, true)
                 ),
                 toUser = UserItem(
-                    "12",
-                    "noahbadomens",
-                    "Noah Sebastian",
+                    "15",
+                    "jessiecash5",
+                    "Джесси Кэш",
                     "12341234",
-                    "email@gmail.com",
-                    "Vocalist",
+                    "5@gmail.com",
+                    "Ghost Atlas / Erra",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
-                        "192",
-                        "https://i.pinimg.com/originals/7a/bd/00/7abd00f199dff4ec1364663ce0b45ea3.jpg"
+                        "195",
+                        "https://thenewfury.com/wp-content/uploads/2017/10/unnamed-1.jpg"
                     ),
                     PhotoUrlItem(
-                        "1102",
-                        "https://chaoszine.net/wp-content/uploads/2023/11/bad-omens-2023.jpg"
+                        "1105",
+                        "https://i.ytimg.com/vi/7VvYYohzaj0/maxresdefault.jpg"
                     ),
                     UserSettingsItem(true, true)
                 ),
@@ -126,8 +126,8 @@ class NotificationRepositoryImpl @Inject constructor(
                         "https://sun1-88.userapi.com/impg/SsYpAAyxKG2SXIKXfY8iBvf2BTxZH9XYP2PFmA/lSVeMDXQuDM.jpg?size=1435x1435&quality=95&sign=c2dff2cc261588cb4a712c853c116199&type=album"
                     ),
                     creatorType = CreatorType.USER,
-                    text = "First Post!",
-                    date = "01-07-21",
+                    text = "Первый пост!",
+                    date = "15/2/2024 10:01",
                     comments = mutableListOf<CommentItem>(
                         CommentItem(
                             "21",
@@ -135,10 +135,10 @@ class NotificationRepositoryImpl @Inject constructor(
                             UserItem(
                                 "12",
                                 "noahbadomens",
-                                "Noah Sebastian",
+                                "Ной Себастьян",
                                 "12341234",
                                 "email@gmail.com",
-                                "Vocalist",
+                                "Вокалист",
                                 UserType.MUSICIAN,
                                 PhotoUrlItem(
                                     "192",
@@ -150,22 +150,21 @@ class NotificationRepositoryImpl @Inject constructor(
                                 ),
                                 UserSettingsItem(true, true)
                             ),
-                            "Nice",
-                            "01-07-21"
+                            "Круто",
+                            "15/2/2024 12:37"
                         )
                     ),
+                    likes = listOf<String>(),
                     attachment = PhotoUrlItem(
                         "391",
                         "https://metalplanetmusic.com/wp-content/uploads/2020/10/120098107_4476121869095823_416408964908687768_n.jpg"
                     ),
-                    likes= listOf<String>(),
                     isLiked = false,
                     statistics = mutableListOf(
                         StatisticItem(StatisticType.LIKES, 0),
                         StatisticItem(StatisticType.COMMENTS, 1)
-                    ),
+                    )
                 )
-
             )
         )
         addNotificationItem(
@@ -195,7 +194,7 @@ class NotificationRepositoryImpl @Inject constructor(
                             UserSettingsItem(true, true)
                         )
                     ),
-                    "Metalcore",
+                    "Металкор",
                     PhotoUrlItem(
                         "793",
                         "https://substreammagazine.com/wp-content/uploads/2018/01/Main1-2000x1333.jpg"
@@ -206,7 +205,7 @@ class NotificationRepositoryImpl @Inject constructor(
                 fromUser = UserItem(
                     "19",
                     "landontewers",
-                    "Landon Tewers",
+                    "Лэндон Тьюерс",
                     "12341234",
                     "9@gmail.com",
                     "Много пою и кричу",
@@ -224,17 +223,17 @@ class NotificationRepositoryImpl @Inject constructor(
                 toUser = UserItem(
                     "11",
                     "pansanek",
-                    "Sasha Potemkin",
+                    "Саша Потемкин",
                     "12341234",
                     "1@gmail.com",
-                    "Just a drummer, guitarist, bassist etc.",
+                    "Просто барабанщик, гитарист, басист и так далее.",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
-                        "111",
+                        "191",
                         "https://sun1-88.userapi.com/impg/SsYpAAyxKG2SXIKXfY8iBvf2BTxZH9XYP2PFmA/lSVeMDXQuDM.jpg?size=1435x1435&quality=95&sign=c2dff2cc261588cb4a712c853c116199&type=album"
                     ),
                     PhotoUrlItem(
-                        "112",
+                        "1101",
                         "https://i.pinimg.com/originals/06/67/9c/06679c2e2ae5aee8cf25eedc4bb41b98.jpg"
                     ),
                     UserSettingsItem(true, true)

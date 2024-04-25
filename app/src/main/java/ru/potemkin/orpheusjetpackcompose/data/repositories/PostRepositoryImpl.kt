@@ -139,7 +139,7 @@ class PostRepositoryImpl @Inject constructor(
                     "https://sun1-88.userapi.com/impg/SsYpAAyxKG2SXIKXfY8iBvf2BTxZH9XYP2PFmA/lSVeMDXQuDM.jpg?size=1435x1435&quality=95&sign=c2dff2cc261588cb4a712c853c116199&type=album"
                 ),
                 creatorType = CreatorType.USER,
-                text = "First Post!",
+                text = "Первый пост!",
                 date = "15/2/2024 10:01",
                 comments = mutableListOf<CommentItem>(
                     CommentItem(
@@ -148,10 +148,10 @@ class PostRepositoryImpl @Inject constructor(
                         UserItem(
                             "12",
                             "noahbadomens",
-                            "Noah Sebastian",
+                            "Ной Себастьян",
                             "12341234",
                             "email@gmail.com",
-                            "Vocalist",
+                            "Вокалист",
                             UserType.MUSICIAN,
                             PhotoUrlItem(
                                 "192",
@@ -163,7 +163,7 @@ class PostRepositoryImpl @Inject constructor(
                             ),
                             UserSettingsItem(true, true)
                         ),
-                        "Nice",
+                        "Круто",
                         "15/2/2024 12:37"
                     )
                 ),
@@ -188,31 +188,31 @@ class PostRepositoryImpl @Inject constructor(
                     "https://www.bringthenoiseuk.com/wp-content/uploads/normandie-band-2022.jpg"
                 ),
                 creatorType = CreatorType.BAND,
-                text = "NEW ALBUM IS OUT!!!",
+                text = "ВЫШЕЛ НОВЫЙ АЛЬБОМ!!!",
                 date = "01/3/2024 19:37",
                 comments = mutableListOf<CommentItem>(
                     CommentItem(
                         "21",
                         "32",
                         UserItem(
-                            "14",
-                            "dayseekerrory",
-                            "Rory Rodriguez",
+                            "19",
+                            "landontewers",
+                            "Лэндон Тьюерс",
                             "12341234",
-                            "4@gmail.com",
-                            "Just a nice guy",
+                            "9@gmail.com",
+                            "Много пою и кричу",
                             UserType.MUSICIAN,
                             PhotoUrlItem(
-                                "194",
-                                "https://images.genius.com/4321352a6796b4d618f8324ccdc68181.1000x1000x1.jpg"
+                                "199",
+                                "https://sun9-25.userapi.com/impf/c840320/v840320259/36208/h5GVeRP9URM.jpg?size=640x640&quality=96&sign=f5307f49e081c58b7cbb3bbb4680efb6&c_uniq_tag=FbHPADgjU38jiYwFHjugwpbBeRJbDbBXfs4fCfTv3rk&type=album"
                             ),
                             PhotoUrlItem(
-                                "1104",
-                                "https://www.bringthenoiseuk.com/wp-content/uploads/Dayseeker-2022-Credit-Amber-Paredes.jpg"
+                                "1109",
+                                "https://i0.wp.com/distortedsoundmag.com/wp-content/uploads/2017/11/TPIY_Dispose_3000px_600dpi_RGB.jpg?w=3000&ssl=1"
                             ),
                             UserSettingsItem(true, true)
                         ),
-                        "Nice",
+                        "СУПЕР КРУТО!",
                         "01/3/2024 20:37"
                     ),
                     CommentItem(
@@ -221,7 +221,7 @@ class PostRepositoryImpl @Inject constructor(
                         UserItem(
                             "15",
                             "jessiecash5",
-                            "Jessie Cash",
+                            "Джесси Кэш",
                             "12341234",
                             "5@gmail.com",
                             "Ghost Atlas / Erra",
@@ -273,6 +273,32 @@ class PostRepositoryImpl @Inject constructor(
                 likes= listOf<String>("14","15"),
                 statistics = mutableListOf(
                     StatisticItem(StatisticType.LIKES, 2), StatisticItem(StatisticType.COMMENTS, 1)
+                ),
+            )
+        )
+        addPostItem(
+            PostItem(
+                id = "34",
+                creatorName = "noahbadomens",
+                creatorId = "12",
+                creatorPicture = PhotoUrlItem(
+                    "192",
+                    "https://i.pinimg.com/originals/7a/bd/00/7abd00f199dff4ec1364663ce0b45ea3.jpg"
+                ),
+                creatorType = CreatorType.USER,
+                text = "Всем привет!",
+                date = "15/2/2024 10:01",
+                comments = mutableListOf<CommentItem>(
+
+                ),
+                likes= listOf<String>(),
+                attachment = PhotoUrlItem(
+                    "391",
+                    "https://i.pinimg.com/originals/c2/63/df/c263dfd3846e856bf14f7da077808a9e.jpg"
+                ),
+                isLiked = false,
+                statistics = mutableListOf(
+                    StatisticItem(StatisticType.LIKES, 0), StatisticItem(StatisticType.COMMENTS, 1)
                 ),
             )
         )

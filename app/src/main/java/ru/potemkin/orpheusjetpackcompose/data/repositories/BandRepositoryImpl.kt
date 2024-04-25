@@ -117,10 +117,10 @@ class BandRepositoryImpl @Inject constructor(
                     UserItem(
                         "12",
                         "noahbadomens",
-                        "Noah Sebastian",
+                        "Ной Себастьян",
                         "12341234",
                         "email@gmail.com",
-                        "Vocalist",
+                        "Вокалист",
                         UserType.MUSICIAN,
                         PhotoUrlItem(
                             "192",
@@ -135,10 +135,10 @@ class BandRepositoryImpl @Inject constructor(
                     UserItem(
                         "13",
                         "nicholasriffruff",
-                        "Nicholas Ruffilo",
+                        "Николас Руффило",
                         "12341234",
                         "3@gmail.com",
-                        "Guitarist for Bad Omens",
+                        "Гитарист группы Bad Omens",
                         UserType.MUSICIAN,
                         PhotoUrlItem(
                             "193",
@@ -151,7 +151,7 @@ class BandRepositoryImpl @Inject constructor(
                         UserSettingsItem(true, true)
                     )
                 ),
-                "Metalcore",
+                "Металкор",
                 PhotoUrlItem(
                     "791",
                     "https://chaoszine.net/wp-content/uploads/2023/11/bad-omens-2023.jpg"
@@ -167,7 +167,7 @@ class BandRepositoryImpl @Inject constructor(
                     UserItem(
                         "15",
                         "jessiecash5",
-                        "Jessie Cash",
+                        "Джесси Кэш",
                         "12341234",
                         "5@gmail.com",
                         "Ghost Atlas / Erra",
@@ -183,7 +183,7 @@ class BandRepositoryImpl @Inject constructor(
                         UserSettingsItem(true, true)
                     )
                 ),
-                "Metalcore",
+                "Металкор",
                 PhotoUrlItem(
                     "792",
                     "https://audioveinentertainment.com/wp-content/uploads/2017/11/GhostAtlas-1200x640.jpg"
@@ -199,7 +199,7 @@ class BandRepositoryImpl @Inject constructor(
                     UserItem(
                         "19",
                         "landontewers",
-                        "Landon Tewers",
+                        "Лэндон Тьюерс",
                         "12341234",
                         "9@gmail.com",
                         "Много пою и кричу",
@@ -215,7 +215,7 @@ class BandRepositoryImpl @Inject constructor(
                         UserSettingsItem(true, true)
                     )
                 ),
-                "Metalcore",
+                "Металкор",
                 PhotoUrlItem(
                     "793",
                     "https://substreammagazine.com/wp-content/uploads/2018/01/Main1-2000x1333.jpg"
@@ -231,10 +231,10 @@ class BandRepositoryImpl @Inject constructor(
                     UserItem(
                         "16",
                         "almblabalbladh",
-                        "Hakan Almbladh",
+                        "Хакан Алмблад",
                         "12341234",
                         "email@gmail.com",
-                        "Guitarist for Normandie",
+                        "Гитарист группы Normandie",
                         UserType.MUSICIAN,
                         PhotoUrlItem(
                             "196",
@@ -250,10 +250,10 @@ class BandRepositoryImpl @Inject constructor(
                     UserItem(
                         "17",
                         "antonfranzon",
-                        "Anton Franzon",
+                        "Антон Францон",
                         "12341234",
                         "email@gmail.com",
-                        "Drummer for Normandie",
+                        "Барабанщик группы Normandie",
                         UserType.MUSICIAN,
                         PhotoUrlItem(
                             "197",
@@ -269,10 +269,10 @@ class BandRepositoryImpl @Inject constructor(
                     UserItem(
                         "18",
                         "strander",
-                        "Philip Strand",
+                        "Филип Стрэнд",
                         "12341234",
                         "8@gmail.com",
-                        "Vocalist for Normandie",
+                        "Вокалист группы Normandie",
                         UserType.MUSICIAN,
                         PhotoUrlItem(
                             "198",
@@ -285,7 +285,7 @@ class BandRepositoryImpl @Inject constructor(
                         UserSettingsItem(true, true)
                     ),
                 ),
-                "Metalcore",
+                "Пост-хардкор",
                 PhotoUrlItem(
                     "794",
                     "https://www.bringthenoiseuk.com/wp-content/uploads/normandie-band-2022.jpg"

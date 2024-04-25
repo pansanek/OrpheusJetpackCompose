@@ -95,7 +95,7 @@ class LocationRepositoryImpl @Inject constructor(
             admin = UserItem(
                 "110",
                 "darkmagician",
-                "Kiryll Denisov",
+                "Кирилл Денисов",
                 "12341234",
                 "10@gmail.com",
                 "А что если...",
@@ -122,10 +122,10 @@ class LocationRepositoryImpl @Inject constructor(
             admin = UserItem(
                 "111",
                 "pavell",
-                "Pavel Litvinov",
+                "Павел Литвинов",
                 "12341234",
                 "11@gmail.com",
-                "Administrator for the best Repetition base in Moscow",
+                "Администратор лучшей репетиторской базы в Москве",
                 UserType.ADMINISTRATOR,
                 PhotoUrlItem(
                     "1911",
@@ -137,7 +137,7 @@ class LocationRepositoryImpl @Inject constructor(
                 ),
                 UserSettingsItem(true, true)
             ),
-            about = "Repbase",
+            about = "Репетиционная база",
             name = "Under the Ground",
             address = "ул. Правды, 24, стр. 3",
             profilePicture = PhotoUrlItem("492","https://bogatyr.club/uploads/posts/2023-03/1678283967_bogatyr-club-p-repetitsionnaya-studiya-foni-vkontakte-37.jpg"),

@@ -203,12 +203,12 @@ fun MusicianListItem(musician: MusicianItem, onItemClick: () -> Unit) {
                         color = White
                     )
                     Text(
-                        text = "Genre: ${musician.genre}",
+                        text = "Жанр: ${musician.genre}",
                         style = MaterialTheme.typography.titleSmall,
                         color = White
                     )
                     Text(
-                        text = "Instrument: ${musician.instrument}",
+                        text = "Инструмент: ${musician.instrument}",
                         style = MaterialTheme.typography.titleSmall,
                         color = White
                     )
@@ -248,7 +248,7 @@ fun BandListItem(band: BandItem, onItemClick: () -> Unit) {
                         color = White
                     )
                     Text(
-                        text = "Genre: ${band.genre}",
+                        text = "Жанр: ${band.genre}",
                         style = MaterialTheme.typography.titleSmall,
                         color = White
                     )

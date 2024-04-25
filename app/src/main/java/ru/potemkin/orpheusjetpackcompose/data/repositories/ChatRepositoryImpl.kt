@@ -147,10 +147,10 @@ class ChatRepositoryImpl @Inject constructor(
                 UserItem(
                     "11",
                     "pansanek",
-                    "Sasha Potemkin",
+                    "Саша Потемкин",
                     "12341234",
                     "1@gmail.com",
-                    "Just a drummer, guitarist, bassist etc.",
+                    "Просто барабанщик, гитарист, басист и так далее.",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
                         "111",
@@ -164,10 +164,10 @@ class ChatRepositoryImpl @Inject constructor(
                 ), UserItem(
                     "17",
                     "antonfranzon",
-                    "Anton Franzon",
+                    "Антон Францон",
                     "12341234",
                     "email@gmail.com",
-                    "Drummer for Normandie",
+                    "Барабанщик группы Normandie",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
                         "197",
@@ -180,12 +180,12 @@ class ChatRepositoryImpl @Inject constructor(
                     UserSettingsItem(true, true)
                 )
             ),
-            "OH MY GOD",
+            "Спасибо <3",
             PhotoUrlItem(
                 "197",
                 "https://sun1-91.userapi.com/s/v1/ig2/VuGmflKD09SOOd9MeZIZzPqQmdYqbyJbu5VuHJz8ur39YTANcs4FudgMJrmrzKao6_fdj0zO3nUTymhBXrQwaW6P.jpg?size=400x400&quality=95&crop=270,705,873,873&ava=1"
             ),
-            "Anton Franzon"
+            "Антон Францон"
         ))
         addChatItem(ChatItem(
             "52",
@@ -193,10 +193,10 @@ class ChatRepositoryImpl @Inject constructor(
                 UserItem(
                     "11",
                     "pansanek",
-                    "Sasha Potemkin",
+                    "Саша Потемкин",
                     "12341234",
                     "1@gmail.com",
-                    "Just a drummer, guitarist, bassist etc.",
+                    "Просто барабанщик, гитарист, басист и так далее.",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
                         "111",
@@ -210,7 +210,7 @@ class ChatRepositoryImpl @Inject constructor(
                 ), UserItem(
                     "19",
                     "landontewers",
-                    "Landon Tewers",
+                    "Лэндон Тьюерс",
                     "12341234",
                     "9@gmail.com",
                     "Много пою и кричу",
@@ -226,12 +226,12 @@ class ChatRepositoryImpl @Inject constructor(
                     UserSettingsItem(true, true)
                 )
             ),
-            "Do you want to start a band with me?",
+            "Ты хочешь создать со мной группу?",
             PhotoUrlItem(
                 "197",
                 "https://sun9-25.userapi.com/impf/c840320/v840320259/36208/h5GVeRP9URM.jpg?size=640x640&quality=96&sign=f5307f49e081c58b7cbb3bbb4680efb6&c_uniq_tag=FbHPADgjU38jiYwFHjugwpbBeRJbDbBXfs4fCfTv3rk&type=album"
             ),
-            "Landon Tewers"
+            "Лэндон Тьюерс"
         ))
     }
 
@@ -243,23 +243,23 @@ class ChatRepositoryImpl @Inject constructor(
                 UserItem(
                     "11",
                     "pansanek",
-                    "Sasha Potemkin",
+                    "Саша Потемкин",
                     "12341234",
                     "1@gmail.com",
-                    "Just a drummer, guitarist, bassist etc.",
+                    "Просто барабанщик, гитарист, басист и так далее.",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
-                        "191",
+                        "111",
                         "https://sun1-88.userapi.com/impg/SsYpAAyxKG2SXIKXfY8iBvf2BTxZH9XYP2PFmA/lSVeMDXQuDM.jpg?size=1435x1435&quality=95&sign=c2dff2cc261588cb4a712c853c116199&type=album"
                     ),
                     PhotoUrlItem(
-                        "1101",
+                        "112",
                         "https://i.pinimg.com/originals/06/67/9c/06679c2e2ae5aee8cf25eedc4bb41b98.jpg"
                     ),
                     UserSettingsItem(true, true)
                 ),
                 "16-02-24",
-                "Hey!"
+                "Ваш последний альбом просто супер!"
             )
         )
         addMessageItem(
@@ -269,10 +269,10 @@ class ChatRepositoryImpl @Inject constructor(
                 UserItem(
                     "17",
                     "antonfranzon",
-                    "Anton Franzon",
+                    "Антон Францон",
                     "12341234",
                     "email@gmail.com",
-                    "Drummer for Normandie",
+                    "Барабанщик группы Normandie",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
                         "197",
@@ -285,7 +285,7 @@ class ChatRepositoryImpl @Inject constructor(
                     UserSettingsItem(true, true)
                 ),
                 "16-02-24",
-                "OH MY GOD"
+                "Спасибо <3"
             )
         )
         addMessageItem(
@@ -295,7 +295,7 @@ class ChatRepositoryImpl @Inject constructor(
                 UserItem(
                     "19",
                     "landontewers",
-                    "Landon Tewers",
+                    "Лэндон Тьюерс",
                     "12341234",
                     "9@gmail.com",
                     "Много пою и кричу",
@@ -311,7 +311,7 @@ class ChatRepositoryImpl @Inject constructor(
                     UserSettingsItem(true, true)
                 ),
                 "16-02-24",
-                "Do you want to start a band with me?"
+                "Ты хочешь создать со мной группу?"
             )
         )
     }

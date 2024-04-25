@@ -169,10 +169,10 @@ class UserRepositoryImpl @Inject constructor(
             UserItem(
                 "11",
                 "pansanek",
-                "Sasha Potemkin",
+                "Саша Потемкин",
                 "12341234",
                 "1@gmail.com",
-                "Just a drummer, guitarist, bassist etc.",
+                "Просто барабанщик, гитарист, басист и так далее.",
                 UserType.MUSICIAN,
                 PhotoUrlItem(
                     "191",
@@ -190,10 +190,10 @@ class UserRepositoryImpl @Inject constructor(
             UserItem(
                 "12",
                 "noahbadomens",
-                "Noah Sebastian",
+                "Ной Себастьян",
                 "12341234",
                 "email@gmail.com",
-                "Vocalist",
+                "Вокалист",
                 UserType.MUSICIAN,
                 PhotoUrlItem(
                     "192",
@@ -211,10 +211,10 @@ class UserRepositoryImpl @Inject constructor(
             UserItem(
                 "13",
                 "nicholasriffruff",
-                "Nicholas Ruffilo",
+                "Николас Руффило",
                 "12341234",
                 "3@gmail.com",
-                "Guitarist for Bad Omens",
+                "Гитарист группы Bad Omens",
                 UserType.MUSICIAN,
                 PhotoUrlItem(
                     "193",
@@ -232,10 +232,10 @@ class UserRepositoryImpl @Inject constructor(
             UserItem(
                 "14",
                 "dayseekerrory",
-                "Rory Rodriguez",
+                "Рори Родригес",
                 "12341234",
                 "4@gmail.com",
-                "Just a nice guy",
+                "Просто хороший парень",
                 UserType.MUSICIAN,
                 PhotoUrlItem(
                     "194",
@@ -253,7 +253,7 @@ class UserRepositoryImpl @Inject constructor(
             UserItem(
                 "15",
                 "jessiecash5",
-                "Jessie Cash",
+                "Джесси Кэш",
                 "12341234",
                 "5@gmail.com",
                 "Ghost Atlas / Erra",
@@ -274,10 +274,10 @@ class UserRepositoryImpl @Inject constructor(
             UserItem(
                 "16",
                 "almblabalbladh",
-                "Hakan Almbladh",
+                "Хакан Алмблад",
                 "12341234",
                 "email@gmail.com",
-                "Guitarist for Normandie",
+                "Гитарист группы Normandie",
                 UserType.MUSICIAN,
                 PhotoUrlItem(
                     "196",
@@ -295,10 +295,10 @@ class UserRepositoryImpl @Inject constructor(
             UserItem(
                 "17",
                 "antonfranzon",
-                "Anton Franzon",
+                "Антон Францон",
                 "12341234",
                 "email@gmail.com",
-                "Drummer for Normandie",
+                "Барабанщик группы Normandie",
                 UserType.MUSICIAN,
                 PhotoUrlItem(
                     "197",
@@ -316,10 +316,10 @@ class UserRepositoryImpl @Inject constructor(
             UserItem(
                 "18",
                 "strander",
-                "Philip Strand",
+                "Филип Стрэнд",
                 "12341234",
                 "8@gmail.com",
-                "Vocalist for Normandie",
+                "Вокалист группы Normandie",
                 UserType.MUSICIAN,
                 PhotoUrlItem(
                     "198",
@@ -337,7 +337,7 @@ class UserRepositoryImpl @Inject constructor(
             UserItem(
                 "19",
                 "landontewers",
-                "Landon Tewers",
+                "Лэндон Тьюерс",
                 "12341234",
                 "9@gmail.com",
                 "Много пою и кричу",
@@ -358,7 +358,7 @@ class UserRepositoryImpl @Inject constructor(
             UserItem(
                 "110",
                 "darkmagician",
-                "Kiryll Denisov",
+                "Кирилл Денисов",
                 "12341234",
                 "10@gmail.com",
                 "А что если...",
@@ -379,10 +379,10 @@ class UserRepositoryImpl @Inject constructor(
             UserItem(
                 "111",
                 "pavell",
-                "Pavel Litvinov",
+                "Павел Литвинов",
                 "12341234",
                 "11@gmail.com",
-                "Administrator for the best Repetition base in Moscow",
+                "Администратор лучшей репетиторской базы в Москве",
                 UserType.ADMINISTRATOR,
                 PhotoUrlItem(
                     "1911",
@@ -405,10 +405,10 @@ class UserRepositoryImpl @Inject constructor(
                 UserItem(
                     "11",
                     "pansanek",
-                    "Sasha Potemkin",
+                    "Саша Потемкин",
                     "12341234",
                     "1@gmail.com",
-                    "Just a drummer, guitarist, bassist etc.",
+                    "Просто барабанщик, гитарист, басист и так далее.",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
                         "111",
@@ -420,8 +420,8 @@ class UserRepositoryImpl @Inject constructor(
                     ),
                     UserSettingsItem(true, true)
                 ),
-                "Metalcore",
-                "Drums"
+                "Металкор",
+                "Барабаны"
             )
         )
         addMusicianItem(
@@ -430,10 +430,10 @@ class UserRepositoryImpl @Inject constructor(
                 UserItem(
                     "12",
                     "noahbadomens",
-                    "Noah Sebastian",
+                    "Ной Себастьян",
                     "12341234",
                     "email@gmail.com",
-                    "Vocalist",
+                    "Вокалист",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
                         "192",
@@ -445,8 +445,8 @@ class UserRepositoryImpl @Inject constructor(
                     ),
                     UserSettingsItem(true, true)
                 ),
-                "Metalcore",
-                "Vocals"
+                "Металкор",
+                "Вокал"
             )
         )
 
@@ -456,10 +456,10 @@ class UserRepositoryImpl @Inject constructor(
                 UserItem(
                     "13",
                     "nicholasriffruff",
-                    "Nicholas Ruffilo",
+                    "Николас Руффило",
                     "12341234",
                     "3@gmail.com",
-                    "Guitarist for Bad Omens",
+                    "Гитарист группы Bad Omens",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
                         "193",
@@ -471,8 +471,8 @@ class UserRepositoryImpl @Inject constructor(
                     ),
                     UserSettingsItem(true, true)
                 ),
-                "Metalcore",
-                "Guitar"
+                "Металкор",
+                "Гитара"
             )
         )
 
@@ -482,10 +482,10 @@ class UserRepositoryImpl @Inject constructor(
                 UserItem(
                     "14",
                     "dayseekerrory",
-                    "Rory Rodriguez",
+                    "Рори Родригес",
                     "12341234",
                     "4@gmail.com",
-                    "Just a nice guy",
+                    "Просто хороший парень",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
                         "194",
@@ -497,8 +497,8 @@ class UserRepositoryImpl @Inject constructor(
                     ),
                     UserSettingsItem(true, true)
                 ),
-                "Metalcore",
-                "Vocals"
+                "Металкор",
+                "Вокал"
             )
         )
 
@@ -509,7 +509,7 @@ class UserRepositoryImpl @Inject constructor(
                 UserItem(
                     "15",
                     "jessiecash5",
-                    "Jessie Cash",
+                    "Джесси Кэш",
                     "12341234",
                     "5@gmail.com",
                     "Ghost Atlas / Erra",
@@ -524,8 +524,8 @@ class UserRepositoryImpl @Inject constructor(
                     ),
                     UserSettingsItem(true, true)
                 ),
-                "Metalcore",
-                "Vocals"
+                "Металкор",
+                "Вокал"
             )
         )
 
@@ -535,10 +535,10 @@ class UserRepositoryImpl @Inject constructor(
                 UserItem(
                     "16",
                     "almblabalbladh",
-                    "Hakan Almbladh",
+                    "Хакан Алмблад",
                     "12341234",
                     "email@gmail.com",
-                    "Guitarist for Normandie",
+                    "Гитарист группы Normandie",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
                         "196",
@@ -550,8 +550,8 @@ class UserRepositoryImpl @Inject constructor(
                     ),
                     UserSettingsItem(true, true)
                 ),
-                "Metalcore",
-                "Guitar"
+                "Металкор",
+                "Гитара"
             )
         )
 
@@ -561,10 +561,10 @@ class UserRepositoryImpl @Inject constructor(
                 UserItem(
                     "17",
                     "antonfranzon",
-                    "Anton Franzon",
+                    "Антон Францон",
                     "12341234",
                     "email@gmail.com",
-                    "Drummer for Normandie",
+                    "Барабанщик группы Normandie",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
                         "197",
@@ -576,8 +576,8 @@ class UserRepositoryImpl @Inject constructor(
                     ),
                     UserSettingsItem(true, true)
                 ),
-                "Metalcore",
-                "Drums"
+                "Металкор",
+                "Барабаны"
             )
         )
 
@@ -587,10 +587,10 @@ class UserRepositoryImpl @Inject constructor(
                 UserItem(
                     "18",
                     "strander",
-                    "Philip Strand",
+                    "Филип Стрэнд",
                     "12341234",
                     "8@gmail.com",
-                    "Vocalist for Normandie",
+                    "Вокалист группы Normandie",
                     UserType.MUSICIAN,
                     PhotoUrlItem(
                         "198",
@@ -602,8 +602,8 @@ class UserRepositoryImpl @Inject constructor(
                     ),
                     UserSettingsItem(true, true)
                 ),
-                "Metalcore",
-                "Vocals"
+                "Металкор",
+                "Вокал"
             )
         )
 
@@ -613,7 +613,7 @@ class UserRepositoryImpl @Inject constructor(
                 UserItem(
                     "19",
                     "landontewers",
-                    "Landon Tewers",
+                    "Лэндон Тьюерс",
                     "12341234",
                     "9@gmail.com",
                     "Много пою и кричу",
@@ -628,8 +628,8 @@ class UserRepositoryImpl @Inject constructor(
                     ),
                     UserSettingsItem(true, true)
                 ),
-                "Metalcore",
-                "Vocals"
+                "Металкор",
+                "Вокал"
             )
         )
 

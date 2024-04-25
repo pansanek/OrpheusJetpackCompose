@@ -85,9 +85,8 @@ class NewsFeedViewModel @Inject constructor(
 
     suspend fun loadLocationFromCreator(locationId: String): LocationItem {
         val locationList = getLocationListUseCase.invoke()
-            .firstOrNull { locations ->
-                locations.any { location -> location.id == locationId }
-            } ?: emptyList() // If flow is empty, return an empty list
+            .map {it.filter{ location -> location.id == locationId }
+            } .firstOrNull() ?: emptyList() //
 
         if (locationList.isNotEmpty()) {
             return locationList.first() // Return the first location if the list is not empty
@@ -99,9 +98,8 @@ class NewsFeedViewModel @Inject constructor(
 
     suspend fun loadUserFromCreator(userId: String): UserItem {
         val userList = getUserListUseCase.invoke()
-            .firstOrNull { users ->
-                users.any { user -> user.id == userId }
-            } ?: emptyList() // If flow is empty, return an empty list
+            .map {it.filter{ user -> user.id == userId }
+            } .firstOrNull() ?: emptyList() //
 
         if (userList.isNotEmpty()) {
             return userList.first() // Return the first user if the list is not empty
