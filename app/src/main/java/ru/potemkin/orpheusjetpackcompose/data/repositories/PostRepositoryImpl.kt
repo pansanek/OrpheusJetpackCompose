@@ -15,6 +15,7 @@ import ru.potemkin.orpheusjetpackcompose.data.mappers.PostMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CreatorType
+import ru.potemkin.orpheusjetpackcompose.domain.entities.NotificationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.StatisticItem
@@ -122,6 +123,7 @@ class PostRepositoryImpl @Inject constructor(
 
     override fun getPostsList(): StateFlow<List<PostItem>>  = recommendations
 
+    fun getLocalPostList(): List<PostItem>  = _postItems
     override suspend fun loadNextData() {
         TODO("Not yet implemented")
     }

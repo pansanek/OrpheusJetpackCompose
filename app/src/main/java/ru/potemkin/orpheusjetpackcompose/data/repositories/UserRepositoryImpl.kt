@@ -1,6 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
-import android.util.Log
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -15,6 +15,7 @@ import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.data.preferences.AuthPreferences
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
+import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
@@ -125,10 +126,8 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override fun setMyUser(userId: String) {
-        Log.d("SETMYUSER","ID: " + userId.toString())
         var userItem = _userItems.find { it.id == userId }
             ?: throw java.lang.RuntimeException("Element with id ${userId} not found")
-        Log.d("SETMYUSER","ITEM: " + userItem.toString())
         _myUser.id = userId
         _myUser.login = userItem.login
         _myUser.name = userItem.name
@@ -164,6 +163,9 @@ class UserRepositoryImpl @Inject constructor(
         addMusicianItem(musicianItem)
     }
 
+    fun getLocalUserList(): List<UserItem>  = _userItems
+
+    fun getLocalMusicianList(): List<MusicianItem>  = _musicianItems
     suspend fun addMockData() {
         addUserItem(
             UserItem(

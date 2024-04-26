@@ -1,6 +1,8 @@
 package ru.potemkin.orpheusjetpackcompose.data.mappers
 
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import ru.potemkin.orpheusjetpackcompose.data.model.CommentDto
 import ru.potemkin.orpheusjetpackcompose.data.model.PhotoUrlDto
 import ru.potemkin.orpheusjetpackcompose.data.model.PostDto
@@ -20,11 +22,11 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 
 
 class PostMapper {
-    val userMapper = UsersMapper()
-    val bandMapper = BandMapper()
-    val locationMapper = LocationMapper()
-    val userRepositoryImpl = UserRepositoryImpl()
-    val myUser = userRepositoryImpl.getMyUser()
+    var userMapper = UsersMapper()
+    var bandMapper = BandMapper()
+    var locationMapper = LocationMapper()
+    var userRepositoryImpl = UserRepositoryImpl()
+    var myUser = userRepositoryImpl.getMyUser()
     suspend fun mapPostList(postDtoList: List<PostDto>): List<PostItem> {
         val result = mutableListOf<PostItem>()
         for (postDto in postDtoList) {
@@ -45,8 +47,8 @@ class PostMapper {
             val postItem = PostItem(
                 id = postDto.postId,
                 creatorId = postDto.creatorId,
-                creatorName = mapCreatorToUser(postDto.creatorId).name,
-                creatorPicture = mapCreatorToUser(postDto.creatorId).profile_picture,
+                creatorName = postDto.creatorName,
+                creatorPicture = mapAttachment(postDto.creatorPicture),
                 text = postDto.text,
                 date = postDto.date,
                 comments = mapCommentList(postDto.comments),
@@ -65,8 +67,8 @@ class PostMapper {
             val postItem = PostItem(
                 id = postDto.postId,
                 creatorId = postDto.creatorId,
-                creatorName = mapCreatorToBand(postDto.creatorId).name,
-                creatorPicture = mapCreatorToBand(postDto.creatorId).photo,
+                creatorName = postDto.creatorName,
+                creatorPicture = mapAttachment(postDto.creatorPicture),
                 text = postDto.text,
                 date = postDto.date,
                 comments = mapCommentList(postDto.comments),
@@ -85,8 +87,8 @@ class PostMapper {
             val postItem = PostItem(
                 id = postDto.postId,
                 creatorId = postDto.creatorId,
-                creatorName = mapCreatorToLocation(postDto.creatorId).name,
-                creatorPicture = mapCreatorToLocation(postDto.creatorId).profilePicture,
+                creatorName = postDto.creatorName,
+                creatorPicture = mapAttachment(postDto.creatorPicture),
                 text = postDto.text,
                 date = postDto.date,
                 comments = mapCommentList(postDto.comments),
@@ -124,18 +126,7 @@ class PostMapper {
         return result
     }
 
-    private suspend fun mapCreatorToUser(creatorId:String):UserItem{
-        return userMapper.mapUser(ApiFactory.appUserApiService.getUserById(creatorId))
 
-    }
-
-    private suspend fun mapCreatorToBand(creatorId:String):BandItem{
-        return bandMapper.mapBand(ApiFactory.appBandApiService.getBandById(creatorId))
-    }
-
-    private suspend fun mapCreatorToLocation(creatorId:String): LocationItem {
-        return locationMapper.mapLocation(ApiFactory.appLocationApiService.getLocationById(creatorId))
-    }
 
     private fun mapAttachment(photoUrlDto: PhotoUrlDto): PhotoUrlItem {
         return PhotoUrlItem(photoUrlDto.id,photoUrlDto.url)

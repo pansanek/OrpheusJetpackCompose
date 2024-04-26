@@ -10,7 +10,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 
 class LocationMapper {
-    val adminMapper = UsersMapper()
+    var adminMapper = UsersMapper()
     val apiKey = "AIzaSyBofirSsbST-S3cGV-Gcnn80dEUx-5C2BU"
     suspend fun mapLocations(listLocationDto: List<LocationDto>): List<LocationItem> {
         val result = mutableListOf<LocationItem>()
@@ -31,6 +31,18 @@ class LocationMapper {
             }
             if (locationItem != null) {
                 result.add(locationItem)
+            }
+            else{
+                result.add(LocationItem(
+                    id = locationDto.id,
+                    admin = adminMapper.mapUser(locationDto.admin),
+                    name = locationDto.name,
+                    address = locationDto.address,
+                    about = locationDto.about,
+                    profilePicture = mapPhotoUrlDtoToItem(locationDto.profilePicture),
+                    longitude = 0.0,
+                    latitude = 0.0,
+                ))
             }
         }
         return result

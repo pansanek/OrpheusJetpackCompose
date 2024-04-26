@@ -10,7 +10,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 
 class BandMapper {
-    val userMapper = UsersMapper()
+    var userMapper = UsersMapper()
     fun mapBands(listBandDto: List<BandDto>): List<BandItem> {
         val result = mutableListOf<BandItem>()
         for (bandDto in listBandDto) {

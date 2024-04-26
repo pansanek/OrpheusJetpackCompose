@@ -71,6 +71,7 @@ class NotificationRepositoryImpl @Inject constructor(
 
     override fun getAllNotifications(): StateFlow<List<NotificationItem>> = notifications
 
+    fun getLocalNotificationList(): List<NotificationItem>  = _notificationItems
 
     suspend fun addMockData() {
         addNotificationItem(

@@ -8,7 +8,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import java.util.UUID
 
 class MessageMapper {
-    val userMapper = UsersMapper()
+    var userMapper = UsersMapper()
     fun mapMessageList(listMessageDto: List<MessageDto>): List<MessageItem> {
         val result = mutableListOf<MessageItem>()
         for (chatDto in listMessageDto) {
@@ -25,7 +25,7 @@ class MessageMapper {
     }
     fun mapMessageToRequest(messageItem: MessageItem): CreateMessageRequest {
         return CreateMessageRequest(
-            chat_id= UUID.randomUUID(),
+            chat_id= messageItem.id,
             from_user= userMapper.mapUserDto(messageItem.fromUser),
             content = messageItem.content,
             timestamp = messageItem.timestamp

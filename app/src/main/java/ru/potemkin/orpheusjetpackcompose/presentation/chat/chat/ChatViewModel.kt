@@ -122,47 +122,5 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    private fun createMessages(){
-        viewModelScope.launch {
-            val request = CreateMessageRequest(
-                chat_id = UUID.randomUUID(),
-                from_user = UserDto(
-                    id="22449e1b-55c9-4eaf-b25a-324ececd2db4",
-                    login="pansanek",
-                    name="Sasha" ,
-                    password="12341234",
-                    email="1@gmail.com",
-                    about="Just a drummer, guitarist, bassist etc.",
-                    user_type="Musician",
-                    profile_picture= PhotoUrlDto(
-                        id="111",
-                        url="https://sun1-88.userapi.com/impg/SsYpAAyxKG2SXIKXfY8iBvf2BTxZH9XYP2PFmA/lSVeMDXQuDM.jpg?size=1435x1435&quality=95&sign=c2dff2cc261588cb4a712c853c116199&type=album"),
-                    background_picture=
-                    PhotoUrlDto( id="111",
-                        url="https://sun1-88.userapi.com/impg/SsYpAAyxKG2SXIKXfY8iBvf2BTxZH9XYP2PFmA/lSVeMDXQuDM.jpg?size=1435x1435&quality=95&sign=c2dff2cc261588cb4a712c853c116199&type=album"),
-                    settings = UserSettingsDto(
-                        can_receive_messages_for_new_chats=true, can_receive_band_invitations=true
-                    )
-                ),
-                timestamp = "current_timestamp",
-                content = "your_message_content"
-            )
-
-            try {
-                // Отправка запроса на сервер
-                // Конвертация объекта в RequestBody с помощью GsonConverter
-                val requestBody =
-                    Gson().toJson(request).toRequestBody("application/json".toMediaTypeOrNull())
-                Log.d("MESSAGES",requestBody.toString())
-                // Отправка запроса на сервер
-                val response = ApiFactory.appMessageApiService.createMessage(requestBody)
-
-
-                // Обработка ответа, если это необходимо
-            } catch (e: Exception) {
-                // Обработка ошибок, если это необходимо
-            }
-        }
-    }
 
 }

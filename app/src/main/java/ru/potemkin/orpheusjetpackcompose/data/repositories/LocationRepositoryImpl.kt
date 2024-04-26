@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.stateIn
 import ru.potemkin.orpheusjetpackcompose.data.mappers.LocationMapper
 import ru.potemkin.orpheusjetpackcompose.data.mappers.MessageMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
+import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PostItem
@@ -87,7 +88,7 @@ class LocationRepositoryImpl @Inject constructor(
     override fun getLocationsList(): StateFlow<List<LocationItem>> = locations
 
 
-
+    fun getLocalLocationList(): List<LocationItem>  = _locationItems
 
     suspend fun addMockData(){
         addLocationItem(LocationItem(

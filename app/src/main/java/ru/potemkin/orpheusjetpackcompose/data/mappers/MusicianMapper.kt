@@ -8,7 +8,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 
 
 class MusicianMapper {
-    val userMapper = UsersMapper()
+    var userMapper = UsersMapper()
     fun mapMusicians(listMusicianDto: List<MusicianDto>): List<MusicianItem> {
         val result = mutableListOf<MusicianItem>()
         for (musicianDto in listMusicianDto) {
@@ -23,10 +23,11 @@ class MusicianMapper {
         return result
     }
 
-    fun mapMusicianToRequest(userItem: UserItem,
-                             genre:String,
-                             instrument:String,
-                             ): CreateMusicianRequest {
+    fun mapMusicianToRequest(
+        userItem: UserItem,
+        genre: String,
+        instrument: String
+    ): CreateMusicianRequest {
         return CreateMusicianRequest(
             user = userMapper.mapUserDto(userItem),
             genre = genre,

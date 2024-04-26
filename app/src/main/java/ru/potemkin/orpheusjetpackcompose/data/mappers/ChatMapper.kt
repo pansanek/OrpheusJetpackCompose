@@ -10,7 +10,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 
 class ChatMapper {
-    val userMapper = UsersMapper()
+    var userMapper = UsersMapper()
     fun mapChatList(listChatDto: List<ChatDto>): List<ChatItem> {
         val result = mutableListOf<ChatItem>()
         for (chatDto in listChatDto) {

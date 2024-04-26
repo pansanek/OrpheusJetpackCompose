@@ -5,7 +5,7 @@ import ru.potemkin.orpheusjetpackcompose.data.model.UserDto
 import java.util.UUID
 
 data class CreateMessageRequest(
-    val chat_id: UUID,
+    val chat_id: String,
     val from_user: UserDto,
     val timestamp: String,
     val content: String,

@@ -105,7 +105,7 @@ class BandRepositoryImpl @Inject constructor(
 
     override fun getBandsList(): StateFlow<List<BandItem>>  = bands
 
-
+    fun getLocalBandsList(): List<BandItem>  = _bandItems
 
 
     suspend fun addMockData() {

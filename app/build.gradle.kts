@@ -107,4 +107,6 @@ dependencies {
     //Lottie
     implementation("com.airbnb.android:lottie-compose:6.0.0")
 
+    testImplementation("org.mockito:mockito-core:3.12.4")
+    testImplementation ("org.mockito.kotlin:mockito-kotlin:5.3.1")
 }

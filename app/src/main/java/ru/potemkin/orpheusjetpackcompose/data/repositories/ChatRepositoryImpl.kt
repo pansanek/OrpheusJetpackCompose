@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.stateIn
 import ru.potemkin.orpheusjetpackcompose.data.mappers.ChatMapper
 import ru.potemkin.orpheusjetpackcompose.data.mappers.MessageMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
+import ru.potemkin.orpheusjetpackcompose.domain.entities.BandItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.ChatItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MessageItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
@@ -91,10 +92,7 @@ class ChatRepositoryImpl @Inject constructor(
         )
 
     override suspend fun addChatItem(chatItem: ChatItem) {
-        Log.d("HEHEHEHEHEHHE",_chatItems.toString())
-        Log.d("HEHEHEHEHEHHE",chatItem.toString())
         _chatItems.add(chatItem)
-        Log.d("HEHEHEHEHEHHE",_chatItems.toString())
         refreshedChatListFlow.emit(chatItems)
     }
 
@@ -140,6 +138,8 @@ class ChatRepositoryImpl @Inject constructor(
 
     override fun getMessageList(): StateFlow<List<MessageItem>> = messages
 
+    fun getLocalChatList(): List<ChatItem>  = _chatItems
+    fun getLocalMessageList(): List<MessageItem>  = _messageItems
     suspend fun addMockChatData(){
         addChatItem(ChatItem(
             "51",

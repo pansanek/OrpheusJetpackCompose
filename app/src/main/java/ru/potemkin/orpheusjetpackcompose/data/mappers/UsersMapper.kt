@@ -35,8 +35,13 @@ class UsersMapper {
     }
 
     private fun mapUserType(type:String):UserType{
-        if(type == "Musician") return UserType.MUSICIAN
+        if(type == "MUSICIAN") return UserType.MUSICIAN
         return UserType.ADMINISTRATOR
+    }
+
+    private fun mapUserType(type:UserType):String{
+        if(type == UserType.MUSICIAN) return "MUSICIAN"
+        return "ADMINISTRATOR"
     }
     fun mapUserToRequest(
         userItem: UserItem
@@ -64,7 +69,7 @@ class UsersMapper {
             name = userItem.name,
             password = userItem.password,
             profile_picture = mapPhotoUrlItemToDto(userItem.profile_picture),
-            user_type = userItem.user_type.toString(),
+            user_type = mapUserType(userItem.user_type),
             settings = mapUserSettingsItemToDto(userItem.settings)
         )
     }
