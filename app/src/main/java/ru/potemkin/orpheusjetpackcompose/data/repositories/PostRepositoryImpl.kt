@@ -1,5 +1,7 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -11,6 +13,10 @@ import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import ru.potemkin.orpheusjetpackcompose.data.mappers.PostMapper
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
 import ru.potemkin.orpheusjetpackcompose.domain.entities.CommentItem
@@ -25,6 +31,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.PostRepository
 import ru.potemkin.orpheusjetpackcompose.extentions.mergeWith
+import java.io.File
 import javax.inject.Inject
 
 class PostRepositoryImpl @Inject constructor(
@@ -129,7 +136,23 @@ class PostRepositoryImpl @Inject constructor(
     }
 
 
+    override suspend fun uploadPhoto(file: File, mimeType:String): String {
+        return withContext(Dispatchers.IO) {
+            try {
+                val requestFile = RequestBody.create(
+                    mimeType.toMediaTypeOrNull(),
+                    file
+                )
+                val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
+                val response = apiService.uploadFile(body)
+                response.url
+            } catch (e: Exception) {
+                e.printStackTrace()
+                "Error uploading file: ${e.message}"
+            }
+        }
+    }
     suspend fun addMockData() {
         addPostItem(
             PostItem(

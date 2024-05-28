@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
                 var authState = viewModel.authState.observeAsState(AuthState.Initial)
                 when (authState.value) {
                     is AuthState.Authorized -> {
-                        MainScreen()
+                        MainScreen(this)
                     }
 
                     is AuthState.NotAuthorized -> {
@@ -118,7 +118,7 @@ class MainActivity : ComponentActivity() {
                                     )
                                 },
                                 mainScreenContent = {
-                                    MainScreen()
+                                    MainScreen(this)
                                 }
                             )
                         }

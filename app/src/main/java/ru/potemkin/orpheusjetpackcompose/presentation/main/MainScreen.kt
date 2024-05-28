@@ -1,5 +1,6 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.main
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -42,7 +43,7 @@ import ru.potemkin.orpheusjetpackcompose.presentation.profile.myprofile.Settings
 import ru.potemkin.orpheusjetpackcompose.presentation.profile.otherusers.UserProfileScreen
 
 @Composable
-fun MainScreen() {
+fun MainScreen(context:Context) {
     val navigationState = rememberNavigationState()
 
     Scaffold(
@@ -297,7 +298,8 @@ fun MainScreen() {
                 PostCreationScreen(
                     creatorInfoItem,
                     onBackPressed = { navigationState.navHostController.popBackStack() },
-                    onDonePressed = {navigationState.navHostController.popBackStack()}
+                    onDonePressed = {navigationState.navHostController.popBackStack()},
+                    context = context
                 )
             }
 

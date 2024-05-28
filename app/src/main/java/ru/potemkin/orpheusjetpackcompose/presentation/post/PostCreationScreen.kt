@@ -1,6 +1,7 @@
 package ru.potemkin.orpheusjetpackcompose.presentation.post
 
 import android.Manifest
+import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -74,7 +75,8 @@ import ru.potemkin.orpheusjetpackcompose.ui.theme.White
 fun PostCreationScreen(
     creatorInfoItem: CreatorInfoItem,
     onBackPressed: () -> Unit,
-    onDonePressed: () -> Unit
+    onDonePressed: () -> Unit,
+    context: Context
 ) {
 
     val component = getApplicationComponent()
@@ -129,7 +131,12 @@ fun PostCreationScreen(
                     )
                     SpacerWidth()
                     IconButton(onClick = {
-                        viewModel.createPost(creatorInfoItem,postContent,selectedImageUri.toString())
+
+                        selectedImageUri?.let {
+                            viewModel.createPost(creatorInfoItem,postContent,
+                                it,context
+                            )
+                        }
                         onDonePressed() }) {
                         androidx.compose.material.Icon(
                             Icons.Default.Check,

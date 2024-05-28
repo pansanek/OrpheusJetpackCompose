@@ -184,18 +184,18 @@ class UserRepositoryImpl @Inject constructor(
     fun getLocalMusicianList(): List<MusicianItem>  = _musicianItems
 
 
-    suspend fun uploadPhoto(context: Context, uri: Uri): String {
+    suspend fun uploadPhoto(mimeType: String, uri: Uri): String {
         return withContext(Dispatchers.IO) {
             try {
                 val file = File(uri.path!!)
                 val requestFile = RequestBody.create(
-                    context.contentResolver.getType(uri)?.toMediaTypeOrNull(),
+                    mimeType.toMediaTypeOrNull(),
                     file
                 )
                 val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
                 val response = apiService.uploadFile(body)
-                response.fileUrl // Или любой другой строковый параметр из вашего ответа
+                response.url
             } catch (e: Exception) {
                 e.printStackTrace()
                 "Error uploading file: ${e.message}"
