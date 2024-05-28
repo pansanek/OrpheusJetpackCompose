@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.StateFlow
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
+import java.io.File
 
 interface UserRepository {
 
@@ -26,6 +27,8 @@ interface UserRepository {
 
     fun getUserById(userId:String): UserItem
     fun setMyUser(userItem:UserItem)
+
+    suspend fun uploadPhoto(file: File, mimeType: String):String
 }
 
 

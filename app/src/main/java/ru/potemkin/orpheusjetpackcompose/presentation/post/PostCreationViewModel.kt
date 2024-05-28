@@ -48,9 +48,9 @@ class PostCreationViewModel @Inject constructor(
             val mimeType = context.contentResolver.getType(photoUri) ?: "application/octet-stream"
             val filePath = photoUri.path ?: throw IllegalArgumentException("Invalid URI")
             val file = File(filePath)
-
+            Log.d("PHOTO","MimeType: "+mimeType+", filePath: "+filePath)
             val photoUrl = uploadPhotoUseCase(file, mimeType)
-
+            Log.d("PHOTO","URL: "+photoUrl)
             val newPostItem = PostItem(
                 id = getNewPostId(),
                 creatorId = creatorInfoItem.creatorId,
@@ -62,7 +62,7 @@ class PostCreationViewModel @Inject constructor(
                 date = currentDate,
                 attachment = PhotoUrlItem(
                     getNewPostPictureId(),
-                    photoUrl
+                    photoUri.toString()
                 ),
                 likes= listOf<String>(),
                 statistics = mutableListOf(

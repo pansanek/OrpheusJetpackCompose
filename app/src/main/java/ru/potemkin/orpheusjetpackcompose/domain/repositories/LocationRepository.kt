@@ -2,6 +2,7 @@ package ru.potemkin.orpheusjetpackcompose.domain.repositories
 
 import kotlinx.coroutines.flow.StateFlow
 import ru.potemkin.orpheusjetpackcompose.domain.entities.LocationItem
+import java.io.File
 
 interface LocationRepository {
     suspend fun addLocationItem(locationItem: LocationItem)
@@ -14,6 +15,7 @@ interface LocationRepository {
 
     fun getLocationsList(): StateFlow<List<LocationItem>>
 
+    suspend fun uploadPhoto(file: File, mimeType: String):String
     //fun getMyUserLocation(userId: String): LocationItem
 
     //fun getUserLocation(userId: String): LocationItem

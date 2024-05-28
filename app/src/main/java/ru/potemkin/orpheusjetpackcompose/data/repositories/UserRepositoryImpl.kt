@@ -184,10 +184,9 @@ class UserRepositoryImpl @Inject constructor(
     fun getLocalMusicianList(): List<MusicianItem>  = _musicianItems
 
 
-    suspend fun uploadPhoto(mimeType: String, uri: Uri): String {
+    override suspend fun uploadPhoto(file: File, mimeType:String): String {
         return withContext(Dispatchers.IO) {
             try {
-                val file = File(uri.path!!)
                 val requestFile = RequestBody.create(
                     mimeType.toMediaTypeOrNull(),
                     file
