@@ -62,7 +62,7 @@ class AuthViewModel @Inject constructor(
             for (i in userList.value) {
                 if (login == i.login && password == i.password) {
                     _authState.value = AuthState.Authorized
-                    setMyUserUseCase.invoke(i.id)
+                    setMyUserUseCase.invoke(i)
                     saveAuthState(i.id)
                 }
             }
@@ -102,7 +102,7 @@ class AuthViewModel @Inject constructor(
                     instrument = instrument
                 )
             )
-            setMyUserUseCase.invoke(newUser.id)
+            setMyUserUseCase.invoke(newUser)
         }
     }
 
@@ -143,7 +143,7 @@ class AuthViewModel @Inject constructor(
                     longitude = convertAddressToLatLng(locationAddress, context).second,
                 )
             )
-            setMyUserUseCase.invoke(newUser.id)
+            setMyUserUseCase.invoke(newUser)
         }
     }
 

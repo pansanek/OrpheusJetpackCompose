@@ -13,18 +13,18 @@ object ApiFactory {
         })
         .build()
 
-    // Замените "10.0.2.2" на IP-адрес вашего Docker-хоста, если вы используете эмулятор Android.
+
     private val baseUrl = "http://192.168.1.103:"
 
-    val appBandApiService: BandApiService = createBandService(baseUrl, 81)
-    val appChatApiService: ChatApiService = createChatService(baseUrl, 82)
-    val appCommentApiService: CommentApiService = createCommentService(baseUrl, 83)
-    val appLocationApiService: LocationApiService = createLocationService(baseUrl, 84)
-    val appMessageApiService: MessageApiService = createMessageService(baseUrl, 81)
-    val appMusicianApiService: MusicianApiService = createMusicianService(baseUrl, 86)
-    val appNotificationApiService: NotificationApiService = createNotificationService(baseUrl, 87)
-    val appPostApiService: PostApiService = createPostService(baseUrl, 88)
-    val appUserApiService: UserApiService = createUserService(baseUrl, 89)
+    val appBandApiService: BandApiService = createBandService(baseUrl, 80)
+    val appChatApiService: ChatApiService = createChatService(baseUrl, 81)
+    val appCommentApiService: CommentApiService = createCommentService(baseUrl, 82)
+    val appLocationApiService: LocationApiService = createLocationService(baseUrl, 83)
+    val appMessageApiService: MessageApiService = createMessageService(baseUrl, 84)
+    val appMusicianApiService: MusicianApiService = createMusicianService(baseUrl, 85)
+    val appNotificationApiService: NotificationApiService = createNotificationService(baseUrl, 86)
+    val appPostApiService: PostApiService = createPostService(baseUrl, 87)
+    val appUserApiService: UserApiService = createUserService(baseUrl, 88)
 
 
     private fun createUserService(baseUrl: String, port: Int): UserApiService {

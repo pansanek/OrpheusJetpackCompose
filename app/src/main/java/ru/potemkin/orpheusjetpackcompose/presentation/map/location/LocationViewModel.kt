@@ -69,7 +69,7 @@ class LocationViewModel @Inject constructor(
                     ChatItem(
                         id = chatId,
                         users = listOf(getMyUserUseCase.invoke(), toUser),
-                        lastMessage = message,
+                        lastMessage = "Конечно, приходите, записал вас!",//Для видоса
                         picture = toUser.profile_picture,
                         name = toUser.name
                     )
@@ -84,6 +84,17 @@ class LocationViewModel @Inject constructor(
                     content = message
                 )
             )
+            /*Для видоса начало*/
+            addMessageUseCase.invoke(
+                MessageItem(
+                    id = getNewMessageId(),
+                    chatId = chatId,
+                    fromUser = toUser,
+                    timestamp = currentDate,
+                    content = "Конечно, приходите, записал вас!"
+                )
+            )
+            /*Для видоса конец */
         }
     }
     fun isMyUserAdmin():Boolean{

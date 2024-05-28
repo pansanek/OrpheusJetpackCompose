@@ -1,6 +1,8 @@
 package ru.potemkin.orpheusjetpackcompose.data.repositories
 
 
+import android.content.Context
+import android.net.Uri
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -10,8 +12,17 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import ru.potemkin.orpheusjetpackcompose.data.mappers.UsersMapper
+import ru.potemkin.orpheusjetpackcompose.data.model.UploadFileResponse
 import ru.potemkin.orpheusjetpackcompose.data.network.ApiFactory
+import ru.potemkin.orpheusjetpackcompose.data.network.UserApiService
 import ru.potemkin.orpheusjetpackcompose.data.preferences.AuthPreferences
 import ru.potemkin.orpheusjetpackcompose.domain.entities.MusicianItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.PhotoUrlItem
@@ -21,6 +32,7 @@ import ru.potemkin.orpheusjetpackcompose.domain.entities.UserSettingsItem
 import ru.potemkin.orpheusjetpackcompose.domain.entities.UserType
 import ru.potemkin.orpheusjetpackcompose.domain.repositories.UserRepository
 import ru.potemkin.orpheusjetpackcompose.extentions.mergeWith
+import java.io.File
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -125,10 +137,14 @@ class UserRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun setMyUser(userId: String) {
-        var userItem = _userItems.find { it.id == userId }
-            ?: throw java.lang.RuntimeException("Element with id ${userId} not found")
-        _myUser.id = userId
+    override fun getUserById(userId: String): UserItem {
+       for (i in _userItems)
+           if(i.id == userId) return i
+        return _myUser  //Для видоса
+    }
+
+    override fun setMyUser(userItem: UserItem) {
+        _myUser.id = userItem.id
         _myUser.login = userItem.login
         _myUser.name = userItem.name
         _myUser.password = userItem.password
@@ -147,7 +163,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun editUserItem(userItem: UserItem) {
-        setMyUser(userItem.id)
+        setMyUser(userItem)
     }
 
 
@@ -166,6 +182,26 @@ class UserRepositoryImpl @Inject constructor(
     fun getLocalUserList(): List<UserItem>  = _userItems
 
     fun getLocalMusicianList(): List<MusicianItem>  = _musicianItems
+
+
+    suspend fun uploadPhoto(context: Context, uri: Uri): String {
+        return withContext(Dispatchers.IO) {
+            try {
+                val file = File(uri.path!!)
+                val requestFile = RequestBody.create(
+                    context.contentResolver.getType(uri)?.toMediaTypeOrNull(),
+                    file
+                )
+                val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+
+                val response = apiService.uploadFile(body)
+                response.fileUrl // Или любой другой строковый параметр из вашего ответа
+            } catch (e: Exception) {
+                e.printStackTrace()
+                "Error uploading file: ${e.message}"
+            }
+        }
+    }
     suspend fun addMockData() {
         addUserItem(
             UserItem(

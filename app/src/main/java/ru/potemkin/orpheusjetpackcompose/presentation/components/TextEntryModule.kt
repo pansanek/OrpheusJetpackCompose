@@ -41,7 +41,7 @@ fun TextEntryModule(
     hint: String,
     leadingIcon: ImageVector?,
     textValue: String,
-    keyboardType: KeyboardType = KeyboardType.Ascii,
+    keyboardType: KeyboardType = KeyboardType.Text,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     textColor: Color,
     cursorColor: Color,

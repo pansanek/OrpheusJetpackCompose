@@ -54,9 +54,7 @@ class ChatViewModel @Inject constructor(
         Log.d("ViewModel", "Exception caught by exception handler")
     }
 
-    init {
-        loadMessages()
-    }
+
 
     val messagesFlow = getMessageListUseCase.invoke()
 

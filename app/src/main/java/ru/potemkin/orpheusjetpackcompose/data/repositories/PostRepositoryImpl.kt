@@ -274,7 +274,7 @@ class PostRepositoryImpl @Inject constructor(
                 isLiked = false,
                 likes= listOf<String>("14","15"),
                 statistics = mutableListOf(
-                    StatisticItem(StatisticType.LIKES, 2), StatisticItem(StatisticType.COMMENTS, 1)
+                    StatisticItem(StatisticType.LIKES, 2), StatisticItem(StatisticType.COMMENTS, 0)
                 ),
             )
         )
@@ -300,7 +300,7 @@ class PostRepositoryImpl @Inject constructor(
                 ),
                 isLiked = false,
                 statistics = mutableListOf(
-                    StatisticItem(StatisticType.LIKES, 0), StatisticItem(StatisticType.COMMENTS, 1)
+                    StatisticItem(StatisticType.LIKES, 0), StatisticItem(StatisticType.COMMENTS, 0)
                 ),
             )
         )

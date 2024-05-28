@@ -23,7 +23,9 @@ interface UserRepository {
     suspend fun editMusicianItem(musicianItem: MusicianItem)
     //suspend fun getOtherUser(userId: String): UserItem
     fun getMyUser(): UserItem
-    fun setMyUser(userId: String)
+
+    fun getUserById(userId:String): UserItem
+    fun setMyUser(userItem:UserItem)
 }
 
 
